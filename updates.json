@@ -4,7 +4,7 @@
             "updates": [
                 {
                     "version": "2026.8.20",
-                    "update_link": "https://raw.githubusercontent.com/VitaliyVstyle/Firefox/refs/heads/main/new_tab_page/new_tab_page.xpi",
+                    "update_link": "https://raw.githubusercontent.com/VitaliyVstyle/Firefox/refs/heads/main/newtabpage/newtabpage.xpi",
                     "applications": {
                         "gecko": {
                             "strict_min_version": "117.0"
