@@ -6,8 +6,6 @@
         --v-tabs-tab-max-width: 180px;
         --v-placeholder-post-tabs: 20px;
         --v-urlbar-searchbar-border-radius: 0px;
-        --v-urlbar-container-flex-grow: 400;
-        --v-search-container-flex-grow: 200;
         --v-focus-outline-offset: -1px;
         --v-titlebar-button-vert-padding: 5px;
         --v-titlebar-button-horizont-padding: 10px;
@@ -518,16 +516,6 @@
             background-clip: border-box !important;
             border-radius: var(--v-urlbar-searchbar-border-radius) !important;
             overflow: clip;
-        }
-    }
-    #urlbar-container, #search-container, #wrapper-urlbar-container[place="toolbar"], #wrapper-search-container[place="toolbar"] {
-        &:not([width]) {
-            width: unset !important;
-            flex-grow: var(--v-urlbar-container-flex-grow) !important;
-            flex-basis: 125px !important;
-            &[id$=search-container] {
-                flex-grow: var(--v-search-container-flex-grow) !important;
-            }
         }
     }
     #PopupAutoComplete>richlistbox {
