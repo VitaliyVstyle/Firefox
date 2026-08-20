@@ -353,7 +353,7 @@ const initLoad = () => {
     document.querySelector("#open_edit_ucf").onclick = () => openFileOrDir(getFile(UcfPrefs.manifestPath).parent, "folder_editor_path", "folder_editor_args");
     document.querySelector("#restart").onclick = () => UcfPrefs.restartApp();
     document.querySelector("#restart_no_cache").onclick = () => UcfPrefs.restartApp(true);
-    document.querySelector("#homepage").onclick = () => UcfPrefs.openHavingURI(window, "https://github.com/VitaliyVstyle/Firefox/UCF");
+    document.querySelector("#homepage").onclick = () => UcfPrefs.openHavingURI(window, "https://github.com/VitaliyVstyle/Firefox/tree/main/UCF");
     window.addEventListener("input", handleInput);
     window.addEventListener("unload", () => {
         window.removeEventListener("input", handleInput);
