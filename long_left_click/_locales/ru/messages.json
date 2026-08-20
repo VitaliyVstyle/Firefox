@@ -1,0 +1,44 @@
+{
+    "extDescription": {
+        "message": "Открывает ссылки, изображения, закладки, историю в новой вкладке \"долгим\" кликом ЛКМ"
+    },
+    "pageTitleOption": {
+        "message": "Настройки Long Left Click"
+    },
+    "saveButton": {
+        "message": "Сохранить настройки"
+    },
+    "enableContent": {
+        "message": "Включить \"долгий\" клик для ссылок"
+    },
+    "timeDelay": {
+        "message": "Время удержания в ms"
+    },
+    "background": {
+        "message": "Открывать в фоновой вкладке"
+    },
+    "nextToCurrent": {
+        "message": "Открывать рядом с текущей вкладкой"
+    },
+    "referrer": {
+        "message": "Отправлять реферер"
+    },
+    "enableImages": {
+        "message": "Обрабатывать клики по изображениям"
+    },
+    "enableChrome": {
+        "message": "Включить \"долгий\" клик для закладок, истории"
+    },
+    "closeMenus": {
+        "message": "Закрывать меню после клика"
+    },
+    "userContextId": {
+        "message": "Открывать в контейнере активной вкладки"
+    },
+    "cipLabel": {
+        "message": "Клики по изображениям"
+    },
+    "cipTooltiptext": {
+        "message": "Переключить клики по изображениям на текущей странице"
+    }
+}

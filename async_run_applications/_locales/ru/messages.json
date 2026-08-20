@@ -1,0 +1,50 @@
+{
+    "extDescription": {
+        "message": "Запуск приложений"
+    },
+    "Openin": {
+        "message": "Открыть в:"
+    },
+    "pageTitleOption": {
+        "message": "Настройки AsyncRunApp"
+    },
+    "extPath": {
+        "message": "Путь к приложению"
+    },
+    "iconsInMenu": {
+        "message": "Иконки в меню"
+    },
+    "itemsInMenu": {
+        "message": "Пункты в меню:"
+    },
+    "addItem": {
+        "message": "Добавить пункт в меню:"
+    },
+    "filePicker": {
+        "message": "Выбор папки"
+    },
+    "Prompt": {
+        "message": "Запрос"
+    },
+    "Prompt2": {
+        "message": "Введите название"
+    },
+    "ownArguments": {
+        "message": "Собственные аргументы:"
+    },
+    "ProfD": {
+        "message": " - путь к профилю"
+    },
+    "filePicker2": {
+        "message": " - выбор папки, например для скачивания"
+    },
+    "filePicker3": {
+        "message": " - ПКМ: выбор папки, например для скачивания"
+    },
+    "Prompt3": {
+        "message": " - открывает диалоговое окно для изменения текста, например имени медиа-файла"
+    },
+    "doubleQuotes": {
+        "message": " - двойные кавычки"
+    }
+}

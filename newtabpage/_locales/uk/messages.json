@@ -1,0 +1,77 @@
+{
+    "extDescription": {
+        "message": "Нова вкладка із закладками з папки NewTabPage"
+    },
+    "pageTitle": {
+        "message": "Нова вкладка"
+    },
+    "addTab": {
+        "message": "Додати папку"
+    },
+    "removeTab": {
+        "message": "Видалити папку $1 та її вміст?"
+    },
+    "addFolderPrompt": {
+        "message": "Введіть назву нової папки:"
+    },
+    "historyTab": {
+        "message": "Історія"
+    },
+    "downloadsTab": {
+        "message": "Завантаження"
+    },
+    "editButton": {
+        "message": "Налаштувати"
+    },
+    "searchPlaceholder": {
+        "message": "Пошук"
+    },
+    "searchBookmarks": {
+        "message": "Пошук у всіх закладках"
+    },
+    "searchHistory": {
+        "message": "Пошук по всій історії"
+    },
+    "searchDownloads": {
+        "message": "Пошук у всіх завантаженнях"
+    },
+    "addBookmarkIn": {
+        "message": "Додати в"
+    },
+    "pageTitleOption": {
+        "message": "Налаштування NewTabPage"
+    },
+    "saveButton": {
+        "message": "Зберегти налаштування"
+    },
+    "addCell": {
+        "message": "Додати плитку"
+    },
+    "addCellPrompt": {
+        "message": "Введіть URL-адресу нової плитки:"
+    },
+    "createMenu": {
+        "message": "Пункт в контекстному меню на сторінках і посиланнях"
+    },
+    "index": {
+        "message": "Додавати плитки в початок"
+    },
+    "openNewTab": {
+        "message": "Відкривати сайти в новій вкладці"
+    },
+    "insertNextCurrent": {
+        "message": "Відкрити поруч із поточною вкладкою"
+    },
+    "sessionTabSel": {
+        "message": "Запам'ятовувати активну вкладку (для поточного сеансу браузера)"
+    },
+    "onlineSearch": {
+        "message": "Пошук в мережі по Enter"
+    },
+    "maxResults": {
+        "message": "Макс. кількість плиток на вкладці Історія"
+    },
+    "limit": {
+        "message": "Макс. кількість плиток на вкладці Завантаження"
+    }
+}

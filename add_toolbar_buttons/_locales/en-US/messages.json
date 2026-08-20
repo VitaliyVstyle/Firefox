@@ -1,0 +1,467 @@
+{
+    "extDescription": {
+        "message": "Adds buttons to the toolbar"
+    },
+    "bImageToggleL": {
+        "message": "Toggle Images"
+    },
+    "bImageToggleT": {
+        "message": "L: Toggle image loading\nM|R: Toggle image loading on the current page"
+    },
+    "bStopAnimationL": {
+        "message": "Toggle animation"
+    },
+    "bStopAnimationT": {
+        "message": "L: Stop or Start CSS, SVG animation\nShift+L: Toggle animation - normal/none/once\nM: Toggle animation - normal/none\nR: Toggle animation on the current page"
+    },
+    "bAutoplayL": {
+        "message": "Toggle Media"
+    },
+    "bAutoplayT": {
+        "message": "L: Toggle auto-play media\nM|R: Toggle media playback on the current page"
+    },
+    "bJavascriptL": {
+        "message": "Toggle JavaScript"
+    },
+    "bJavascriptT": {
+        "message": "L: Toggle JavaScript\nM|R: Toggle JavaScript on the current page"
+    },
+    "bCookieToggleL": {
+        "message": "Toggle Cookies"
+    },
+    "bCookieToggleT": {
+        "message": "L: Toggle Cookies\nShift+L: Delete cookies from the domain of the current page\nM: Delete cookies from the domain of the current page\nR: Managing cookies"
+    },
+    "bCookieToggleNdel": {
+        "message": "Cookies for the current domain have been cleared!"
+    },
+    "bCookieToggleNnone": {
+        "message": "Missing cookies from the current domain!"
+    },
+    "bZoomToggleL": {
+        "message": "Text only"
+    },
+    "bZoomToggleT": {
+        "message": "Toggle text or page scale"
+    },
+    "bToggleProxy": {
+        "message": "Toggle proxy"
+    },
+    "bToggleProxyT": {
+        "message": "L: Proxy Menu\nR: Open the proxy settings"
+    },
+    "bToggleProxyM0": {
+        "message": "Direct connection, without proxy"
+    },
+    "bToggleProxyM1": {
+        "message": "Manual proxy configuration"
+    },
+    "bToggleProxyM2": {
+        "message": "Automatic proxy configuration"
+    },
+    "bToggleProxyM4": {
+        "message": "Automatic detection of proxy settings"
+    },
+    "bToggleProxyM5": {
+        "message": "Use the system proxy settings"
+    },
+    "bToggleProxyMS": {
+        "message": "Open the proxy settings"
+    },
+    "bUndoTabL": {
+        "message": "Restore"
+    },
+    "bUndoTabT": {
+        "message": "L: Restore a tab\nR: Restore the window"
+    },
+    "bUndoTabT0": {
+        "message": "L: Restore menu\nR: Show all history"
+    },
+    "bUndoTabM0": {
+        "message": "Show all history"
+    },
+    "bUndoTabM1": {
+        "message": "Clear recent history…"
+    },
+    "bUndoTabM2": {
+        "message": "Restore previous session"
+    },
+    "bUndoTabM3": {
+        "message": "Recently closed windows"
+    },
+    "bUndoTabM4": {
+        "message": "Forget closed windows"
+    },
+    "bUndoTabM5": {
+        "message": "Forget closed tabs"
+    },
+    "bNewtabL": {
+        "message": "New tab"
+    },
+    "bNewtabT": {
+        "message": "L: Open a new tab\nR: Menu to open a tab in the container"
+    },
+    "bCloseOtherTabsL": {
+        "message": "Close tabs"
+    },
+    "bCloseOtherTabsT": {
+        "message": "L: Close tabs before the current\nM: Close the other tabs of the current site\nR: Close tabs after the current"
+    },
+    "bCloseAllTabsL": {
+        "message": "Close tabs, windows"
+    },
+    "bCloseAllTabsT": {
+        "message": "L: Close all tabs\nShift+L: Close other tabs\nM: Close other browser windows\nR: Close all tabs of the current site"
+    },
+    "bRestartAppL": {
+        "message": "Restart"
+    },
+    "bRestartAppT": {
+        "message": "L: Restart the application\nM: Restart without add-ons\nR: Restart and re-create the quick launch cache"
+    },
+    "bAboutConfigT": {
+        "message": "L: Open about:config\nShift+L: Search from clipboard in about:config\nM: Search from clipboard in about:config\nR: Search for the highlighted in about:config"
+    },
+    "bAboutDownloadsL": {
+        "message": "Downloads"
+    },
+    "bAboutDownloadsT": {
+        "message": "L: Show downloads\nM: Open a recent downloads folder\nR: Open a recent file folder\nShift+R: Open a recent downloads folder"
+    },
+    "bAboutAboutT": {
+        "message": "Open about:about"
+    },
+    "bClearDataL": {
+        "message": "Clear data"
+    },
+    "bClearDataT": {
+        "message": "Open the window for deleting personal data"
+    },
+    "bPreferencesL": {
+        "message": "Add Toolbar Buttons Settings"
+    },
+    "bPreferencesT": {
+        "message": "L: Open the Add Toolbar Buttons Settings\nM: Open the browser settings"
+    },
+    "bBookmarkNopopL": {
+        "message": "Quick Bookmark"
+    },
+    "bBookmarkNopopT": {
+        "message": "L: Add or delete bookmarks without confirmation\nM: Add a group of tabs to bookmarks\nR: Open the Bookmarks Manager"
+    },
+    "bSnapBackL": {
+        "message": "Full back or forward"
+    },
+    "bSnapBackT": {
+        "message": "L: Go to the first page opened in this tab\nM: Go to the entered address in a new tab\nR: Go to the last page opened in this tab"
+    },
+    "bTopPageL": {
+        "message": "Up"
+    },
+    "bTopPageT": {
+        "message": "Go to the top of the page"
+    },
+    "bBottomPageL": {
+        "message": "Down"
+    },
+    "bBottomPageT": {
+        "message": "Go to the end of the page"
+    },
+    "bUpPageL": {
+        "message": "Scroll up"
+    },
+    "bUpPageT": {
+        "message": "Scroll up one page"
+    },
+    "bDownPageL": {
+        "message": "Scroll down"
+    },
+    "bDownPageT": {
+        "message": "Scroll down one page"
+    },
+    "bFindBarL": {
+        "message": "Search"
+    },
+    "bFindBarT": {
+        "message": "L: Find Text / Close the search bar\nShift+L: Search on this page from the clipboard\nM: Search this page from the clipboard\nR: Search for the highlighted on this page"
+    },
+    "bClearBarL": {
+        "message": "Clear the address and search fields"
+    },
+    "bClearBarT": {
+        "message": "L: Clear the address field\nM: Clear the address and search fields\nR: Clear the search field"
+    },
+    "bPasteAndGoL": {
+        "message": "Paste and go"
+    },
+    "bPasteAndGoT": {
+        "message": "L: Go to the address from the clipboard\nM: Go to the address from the clipboard in a new tab\nR: Search from clipboard in a new tab"
+    },
+    "bCopyAndGoL": {
+        "message": "Go for the highlighted"
+    },
+    "bCopyAndGoT": {
+        "message": "L: Go for the highlighted\nM: Go for the highlighted in new tab\nR: Copy the address of the current page\nShift+R: Copy the domain of the current page"
+    },
+    "bProfilefolderL": {
+        "message": "Open a folder"
+    },
+    "bProfilefolderT": {
+        "message": "L: Profile Folder\nM: The root folder of the disk\nR: Installation Folder"
+    },
+    "bPassWordsL": {
+        "message": "Passwords"
+    },
+    "bPassWordsT": {
+        "message": "Open the Password manager"
+    },
+    "bToggleStylesL": {
+        "message": "Toggle Styles"
+    },
+    "bToggleStylesT": {
+        "message": "Toogle styles defined by sites"
+    },
+    "bOpenConsoleL": {
+        "message": "Open the Console"
+    },
+    "bOpenConsoleT": {
+        "message": "L: Open the Browser Console\nM: Open the Web Console\nR: Open the Inspector"
+    },
+    "bTextToLinkL": {
+        "message": "URL text in clickable links"
+    },
+    "bTextToLinkT": {
+        "message": "L: Turn URL text into clickable links\nM: Copy all links on the page\nR: Disable/Enable clickable links"
+    },
+    "bAddonsManagerL": {
+        "message": "Add-ons"
+    },
+    "bAddonsManagerT": {
+        "message": "Open the Add-on Manager"
+    },
+    "bOpenFileL": {
+        "message": "Open file"
+    },
+    "bOpenFileT": {
+        "message": "L: Open file\nM: Open userContent\nR: Open userChrome"
+    },
+    "bSaveasL": {
+        "message": "Save"
+    },
+    "bSaveasT": {
+        "message": "Save the page as..."
+    },
+    "bReduceL": {
+        "message": "Reduce"
+    },
+    "bReduceT": {
+        "message": "L: Reduce the size of the text\nM: Increase the text size\nR: Reset the text size"
+    },
+    "bEnlargeL": {
+        "message": "Increase"
+    },
+    "bEnlargeT": {
+        "message": "L: Increase the text size\nM: Reduce the size of the text\nR: Reset the text size"
+    },
+    "bLoadsFaviconsL": {
+        "message": "Restore favicons"
+    },
+    "bLoadsFaviconsT": {
+        "message": "Restore bookmark favicons"
+    },
+    "bExtOptionMenuL": {
+        "message": "Add-ons"
+    },
+    "bExtOptionMenuT": {
+        "message": "Add-ons menu"
+    },
+    "bSoundMutedAllTabsL": {
+        "message": "Sound control"
+    },
+    "bSoundMutedAllTabsT": {
+        "message": "L: Toogle sound in selected tabs\nShift+L: Toogle sound in all tabs\nM: Close other tabs with audio source\nM-wheel: Adjust media audio volume level"
+    },
+    "openUChrmFiles": {
+        "message": "The file is missing!"
+    },
+    "copyCurrentURI": {
+        "message": "The address of the current page in the clipboard!"
+    },
+    "copyDomainURI": {
+        "message": "The domain of the current page in the clipboard!"
+    },
+    "copyAllLinks": {
+        "message": "Copying links"
+    },
+    "copyAllLinks0": {
+        "message": "links in the clipboard!"
+    },
+    "favComplete": {
+        "message": "Search for favicons"
+    },
+    "favComplete0": {
+        "message": "$1 - Successfully processed!\n$2 - Failed to process."
+    },
+    "locale_desc": {
+        "message": "Description:"
+    },
+    "locale_perm": {
+        "message": "Permissions:"
+    },
+    "locale_opts": {
+        "message": "L: Settings"
+    },
+    "locale_contr": {
+        "message": "R: Control"
+    },
+    "locale_copyid": {
+        "message": "L: Copy ID"
+    },
+    "locale_copyuuid": {
+        "message": "R: Copy UUID"
+    },
+    "locale_home": {
+        "message": "L: Home page"
+    },
+    "locale_author": {
+        "message": "R: Author"
+    },
+    "locale_source": {
+        "message": "L: Viewing the source"
+    },
+    "locale_sourceext": {
+        "message": "R: Viewing the source in external application"
+    },
+    "locale_toogle": {
+        "message": "L: Enable/Disable"
+    },
+    "locale_pin": {
+        "message": "R: Pin to Toolbar or unpin"
+    },
+    "locale_del": {
+        "message": "Uninstall"
+    },
+    "locale_clip": {
+        "message": "in the clipboard!"
+    },
+    "locale_am": {
+        "message": "Add-ons Manager"
+    },
+    "locale_amup": {
+        "message": "L: Add-ons Manager\nR: Check for Add-ons updates"
+    },
+    "locale_dbg": {
+        "message": "Debugging Add-ons"
+    },
+    "pageTitleOption": {
+        "message": "Add Toolbar Buttons Settings"
+    },
+    "saveButton": {
+        "message": "Save Settings"
+    },
+    "newtab": {
+        "message": "Open link buttons in a new tab"
+    },
+    "doreload": {
+        "message": "Reload the page after switching the function"
+    },
+    "animfunc": {
+        "message": "Toggle animation: Only (anima|transi)tion-timing-function"
+    },
+    "soundvolumestep": {
+        "message": "The step of adjusting the default volume level of the media sound"
+    },
+    "alerttimeout": {
+        "message": "Notification timer in seconds"
+    },
+    "toggleproxy": {
+        "message": "Proxy, toggle between selected modes:"
+    },
+    "toggleproxy0": {
+        "message": "Direct connection, without proxy"
+    },
+    "toggleproxy1": {
+        "message": "Manual proxy configuration"
+    },
+    "toggleproxy2": {
+        "message": "Automatic proxy configuration"
+    },
+    "toggleproxy4": {
+        "message": "Automatic detection of proxy settings"
+    },
+    "toggleproxy5": {
+        "message": "Use the system proxy settings"
+    },
+    "tab_win_undo": {
+        "message": "Restore tabs and windows:"
+    },
+    "max_tabs_undo": {
+        "message": "The number of closed tabs to restore (about:config)"
+    },
+    "max_windows_undo": {
+        "message": "The number of closed windows to restore (about:config)"
+    },
+    "favicons": {
+        "message": "Restore bookmark favicons:"
+    },
+    "maxrequests": {
+        "message": "Maximum number of concurrent requests"
+    },
+    "maxtimeout": {
+        "message": "The duration before the request was interrupted in seconds"
+    },
+    "alertnotification": {
+        "message": "Notification of completion of the search for favicons for bookmarks"
+    },
+    "addbookmarks": {
+        "message": "Add or delete bookmarks without confirmation:"
+    },
+    "bookmarksparentguid0": {
+        "message": "Bookmarks Menu"
+    },
+    "bookmarksparentguid1": {
+        "message": "Bookmarks Toolbar"
+    },
+    "bookmarksparentguid2": {
+        "message": "Other bookmarks"
+    },
+    "bookmarksparentguid": {
+        "message": "Folder for new bookmarks"
+    },
+    "bookmarksindex": {
+        "message": "Add to the beginning"
+    },
+    "extensions": {
+        "message": "Add-ons:"
+    },
+    "showversion": {
+        "message": "Show version"
+    },
+    "showdescription": {
+        "message": "Show description"
+    },
+    "userpermissions": {
+        "message": "Show permissions:"
+    },
+    "showhidden": {
+        "message": "Show hidden add-ons"
+    },
+    "showdisabled": {
+        "message": "Show disabled add-ons"
+    },
+    "enabledfirst": {
+        "message": "At first show enabled add-ons"
+    },
+    "maxwidthmainitem": {
+        "message": "Maximum item width"
+    },
+    "maxheightpopup": {
+        "message": "Maximum menu height, 0 - do not change"
+    },
+    "exceptionslistset": {
+        "message": "Exceptions, ID's separated by a space:"
+    },
+    "exceptionstypelistarr": {
+        "message": "Exceptions, type's (extension theme locale dictionary plugin mlmodel) separated by a space:"
+    }
+}

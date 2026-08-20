@@ -1,0 +1,20 @@
+{
+    "extDescription": {
+        "message": "Переключение вкладок при наведении мыши"
+    },
+    "pageTitleOption": {
+        "message": "Настройки Tabs Focus"
+    },
+    "saveButton": {
+        "message": "Сохранить настройки"
+    },
+    "delay": {
+        "message": "Задержка в ms"
+    },
+    "clickreloadtab": {
+        "message": "Перезагрузить страницу при клике по вкладке"
+    },
+    "previewmode": {
+        "message": "Включить предварительный просмотр"
+    }
+}

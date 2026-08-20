@@ -1,0 +1,44 @@
+{
+    "extDescription": {
+        "message": "Opens links, images, bookmarks, history in a new tab with a \"long\" left-click"
+    },
+    "pageTitleOption": {
+        "message": "Long Left Click Settings"
+    },
+    "saveButton": {
+        "message": "Save Settings"
+    },
+    "enableContent": {
+        "message": "Enable \"long\" click for links"
+    },
+    "timeDelay": {
+        "message": "Retention time in ms"
+    },
+    "background": {
+        "message": "Open in the background tab"
+    },
+    "nextToCurrent": {
+        "message": "Open next to the current tab"
+    },
+    "referrer": {
+        "message": "Send a referrer"
+    },
+    "enableImages": {
+        "message": "Process clicks on images"
+    },
+    "enableChrome": {
+        "message": "Enable \"long\" click for bookmarks, history"
+    },
+    "closeMenus": {
+        "message": "Close the menu after a click"
+    },
+    "userContextId": {
+        "message": "Open in active tab container"
+    },
+    "cipLabel": {
+        "message": "Clicks on images"
+    },
+    "cipTooltiptext": {
+        "message": "Switching clicks on images on the current page"
+    }
+}

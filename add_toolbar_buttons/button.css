@@ -1,0 +1,311 @@
+#b-find-bar {
+    list-style-image: url("resource://add_toolbar_buttons/svg/find-bar.svg") !important;
+}
+#b-clear-bar {
+    list-style-image: url("resource://add_toolbar_buttons/svg/textfield-magnify.svg") !important;
+    fill: color-mix(in srgb, currentColor 20%, #e31b5d) !important;
+}
+#b-close-other-tabs {
+    list-style-image: url("resource://add_toolbar_buttons/svg/close-other-tabs.svg") !important;
+    fill: color-mix(in srgb, currentColor 20%, #e31b5d) !important;
+}
+#b-close-all-tabs {
+    list-style-image: url("resource://add_toolbar_buttons/svg/tab-close-all.svg") !important;
+    fill: color-mix(in srgb, currentColor 20%, #e31b5d) !important;
+}
+#b-about-config {
+    list-style-image: url("resource://add_toolbar_buttons/svg/preferences.svg") !important;
+}
+#b-about-about {
+    list-style-image: url("resource://add_toolbar_buttons/svg/about-about.svg") !important;
+}
+#b-about-downloads {
+    list-style-image: url("resource://add_toolbar_buttons/svg/about-downloads.svg") !important;
+}
+#b-clear-data {
+    list-style-image: url("resource://add_toolbar_buttons/svg/clear-data.svg") !important;
+}
+#b-preferences {
+    list-style-image: url("resource://add_toolbar_buttons/svg/preferences.svg") !important;
+    fill: color-mix(in srgb, currentColor 20%, #0074e8) !important;
+}
+#b-bottom-page {
+    list-style-image: url("resource://add_toolbar_buttons/svg/bottom-page.svg") !important;
+}
+#b-image-toggle {
+    list-style-image: url("resource://add_toolbar_buttons/svg/image-toggle.svg") !important;
+}
+#b-image-toggle[activated="2"] {
+    fill: color-mix(in srgb, currentColor 20%, #e31b5d) !important;
+}
+#b-bookmark-nopop {
+    list-style-image: url("resource://add_toolbar_buttons/svg/bookmark-nopop.svg") !important;
+}
+#b-saveas {
+    list-style-image: url("resource://add_toolbar_buttons/svg/saveas.svg") !important;
+}
+#b-snap-back {
+    list-style-image: url("resource://add_toolbar_buttons/svg/snap-back.svg") !important;
+}
+#b-snap-back:-moz-locale-dir(rtl)>.toolbarbutton-icon {
+    transform: scaleX(-1) !important;
+}
+#b-top-page {
+    list-style-image: url("resource://add_toolbar_buttons/svg/top-page.svg") !important;
+}
+#b-restart-app {
+    list-style-image: url("resource://add_toolbar_buttons/svg/restart-app.svg") !important;
+    fill: color-mix(in srgb, currentColor 20%, #f38525) !important;
+}
+#b-stop-animation {
+    list-style-image: url("resource://add_toolbar_buttons/svg/stop-animation.svg") !important;
+}
+#b-stop-animation[activated="false"] {
+    list-style-image: url("resource://add_toolbar_buttons/svg/stop-animation.svg#false") !important;
+}
+#b-newtab {
+    list-style-image: url("resource://add_toolbar_buttons/svg/tab-new-background.svg") !important;
+}
+#b-paste-and-go {
+    list-style-image: url("resource://add_toolbar_buttons/svg/go-jump-locationbar.svg") !important;
+}
+#b-copy-and-go {
+    list-style-image: url("resource://add_toolbar_buttons/svg/copy-and-go.svg") !important;
+}
+#b-copy-and-go:-moz-locale-dir(rtl)>.toolbarbutton-icon {
+    transform: scaleX(-1) !important;
+}
+#b-pass-words {
+    list-style-image: url("resource://add_toolbar_buttons/svg/dialog-password.svg") !important;
+}
+#b-profilefolder {
+    list-style-image: url("resource://add_toolbar_buttons/svg/user-home.svg") !important;
+}
+#b-down-page {
+    list-style-image: url("resource://add_toolbar_buttons/svg/down-page.svg") !important;
+}
+#b-up-page {
+    list-style-image: url("resource://add_toolbar_buttons/svg/up-page.svg") !important;
+}
+#b-javascript {
+    list-style-image: url("resource://add_toolbar_buttons/svg/javascript.svg") !important;
+}
+#b-javascript[activated="false"] {
+    fill: color-mix(in srgb, currentColor 20%, #e31b5d) !important;
+}
+#b-autoplay {
+    list-style-image: url("resource://add_toolbar_buttons/svg/autoplay.svg") !important;
+}
+#b-autoplay[activated="false"],
+#b-autoplay[activated="5"] {
+    list-style-image: url("resource://add_toolbar_buttons/svg/autoplay.svg#5") !important;
+}
+#b-autoplay[activated="1"] {
+    list-style-image: url("resource://add_toolbar_buttons/svg/autoplay.svg#1") !important;
+}
+#b-cookie-toggle {
+    list-style-image: url("resource://add_toolbar_buttons/svg/cookie.svg") !important;
+}
+#b-cookie-toggle[badge="0"] {
+    list-style-image: url("resource://add_toolbar_buttons/svg/cookie.svg#0") !important;
+}
+#b-cookie-toggle[badge="2"] {
+    fill: color-mix(in srgb, currentColor 20%, #e31b5d) !important;
+}
+#b-zoom-toggle {
+    list-style-image: url("resource://add_toolbar_buttons/svg/zoom-text.svg") !important;
+}
+#b-zoom-toggle[activated="false"] {
+    list-style-image: url("resource://add_toolbar_buttons/svg/zoom-text.svg#false") !important;
+}
+#b-undo-tab {
+    list-style-image: url("resource://add_toolbar_buttons/svg/undo-tab.svg") !important;
+}
+#b-undo-tab:-moz-locale-dir(rtl)>.toolbarbutton-icon {
+    transform: scaleX(-1) !important;
+}
+#b-undo-tab-menu {
+    list-style-image: url("resource://add_toolbar_buttons/svg/buttons-for-toolbars-menu.svg") !important;
+}
+#b-toggle-proxy {
+    list-style-image: url("resource://add_toolbar_buttons/svg/world-network.svg") !important;
+}
+#b-toggle-proxy-menu {
+    list-style-image: url("resource://add_toolbar_buttons/svg/buttons-for-toolbars-menu.svg") !important;
+}
+#toolbaritem-b-toggle-proxy[activated="0"]>.toolbarbutton-1 {
+    fill: color-mix(in srgb, currentColor 20%, #e31b5d) !important;
+}
+#toolbaritem-b-toggle-proxy[activated="1"]>.toolbarbutton-1 {
+    fill: color-mix(in srgb, currentColor 20%, #0074e8) !important;
+}
+#toolbaritem-b-toggle-proxy[activated="2"]>.toolbarbutton-1 {
+    fill: color-mix(in srgb, currentColor 20%, #f38525) !important;
+}
+#toolbaritem-b-toggle-proxy[activated="4"]>.toolbarbutton-1 {
+    fill: color-mix(in srgb, currentColor 20%, #27ae81) !important;
+}
+#b-toggle-styles {
+    list-style-image: url("resource://add_toolbar_buttons/svg/css.svg") !important;
+}
+#b-open-console {
+    list-style-image: url("resource://add_toolbar_buttons/svg/console.svg") !important;
+}
+#b-text-to-link {
+    list-style-image: url("resource://add_toolbar_buttons/svg/text-to-link.svg") !important;
+}
+#b-addons-manager {
+    list-style-image: url("resource://add_toolbar_buttons/svg/addons.svg") !important;
+    fill: color-mix(in srgb, currentColor 20%, #27ae81) !important;
+}
+#b-open-file {
+    list-style-image: url("resource://add_toolbar_buttons/svg/open.svg") !important;
+}
+#b-saveas {
+    list-style-image: url("resource://add_toolbar_buttons/svg/saveas.svg") !important;
+}
+#b-reduce {
+    list-style-image: url("resource://add_toolbar_buttons/svg/zoom-out.svg") !important;
+}
+#b-enlarge {
+    list-style-image: url("resource://add_toolbar_buttons/svg/zoom-in.svg") !important;
+}
+#b-sound-muted-all-tabs,
+#b-sound-volume-tab {
+    list-style-image: url("resource://add_toolbar_buttons/svg/sound.svg") !important;
+}
+#b-loads-favicons {
+    list-style-image: url("resource://add_toolbar_buttons/svg/loads-favicons.svg") !important;
+}
+#b-loads-favicons[activated="false"] {
+    fill: color-mix(in srgb, currentColor 20%, #e31b5d) !important;
+}
+.atb-toolbaritem-combined-buttons {
+    margin-inline: 0 !important;
+    padding-inline: 0 !important;
+    toolbarpaletteitem[place="palette"] &>.atb-toolbarbutton-combined-buttons-dropmarker,
+    &>.atb-toolbarbutton-combined-buttons-dropmarker dropmarker {
+        display: none !important;
+    }
+    toolbar &>.toolbarbutton-1 {
+        padding-inline: var(--toolbarbutton-outer-padding, 1px) !important;
+    }
+    toolbar &>.atb-toolbarbutton-combined-buttons-toolbarbutton {
+        margin-inline-end: 0 !important;
+        padding-inline-end: 0 !important;
+    }
+    toolbar &>.atb-toolbarbutton-combined-buttons-dropmarker {
+        margin-inline-start: 0 !important;
+        padding-inline-start: 0 !important;
+    }
+    .widget-overflow-list &>.atb-toolbarbutton-combined-buttons-dropmarker {
+        flex-grow: 0 !important;
+    }
+    &>.atb-toolbarbutton-combined-buttons-dropmarker>.toolbarbutton-icon {
+        min-width: 0 !important;
+        max-width: none !important;
+        width: 16px !important;
+        padding-inline: 0 !important;
+    }
+    &>.atb-toolbarbutton-combined-buttons-dropmarker>.toolbarbutton-text {
+        display: none !important;
+    }
+}
+#b-ext-option-menu {
+    list-style-image: url("resource://add_toolbar_buttons/svg/addons.svg") !important;
+}
+#b-ext-option-menu-popup {
+    &>menugroup {
+        display: flex !important;
+        flex-direction: row !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        &:hover {
+            background-color: color-mix(in srgb, currentColor 10%, transparent);
+            border-radius: var(--menuitem-border-radius, calc(var(--panel-border-radius, 0px) / 2));
+        }
+        &>menuitem {
+            max-width: none !important;
+            fill: currentColor;
+            fill-opacity: .8;
+            margin-inline: 0 !important;
+            padding-inline: max(6px, .35em) !important;
+            &:not([iname=main], [iname=manager], [iname=debugging]) {
+                flex: 0 !important;
+                &>.menu-icon, &>.menu-iconic-left {
+                    margin-inline: 0 !important;
+                }
+                &>label, &>.menu-accel-container {
+                    display: none !important;
+                }
+            }
+            &[iname=manager], &[iname=debugging] {
+                max-width: 0 !important;
+                min-width: calc(100% / 2) !important;
+            }
+            &[iname=toogle]>.menu-icon {
+                display: revert !important;
+            }
+            &[iname=main] {
+                padding-inline: 0 !important;
+                flex: 1 !important;
+                max-width: var(--v-max-width-item) !important;
+                --menuitem-icon: url("resource://add_toolbar_buttons/svg/addons.svg") !important;
+                list-style-image: var(--menuitem-icon) !important;
+                &>:is(.menu-icon, .menu-iconic-left) {
+                    margin-inline-start: 0 !important;
+                }
+                &::after {
+                    display: flex !important;
+                    content: "" !important;
+                    height: 8px !important;
+                    width: 8px !important;
+                    border-radius: 4px !important;
+                    background-color: transparent !important;
+                    opacity: 1 !important;
+                }
+            }
+            &[iname=uninstall] {
+                fill: color-mix(in srgb, currentColor 20%, #e31b5d) !important;
+                &[disabled]:not([disabled=false]) {
+                    opacity: .4 !important;
+                }
+            }
+            &[disabled]:not([disabled=false]) {
+                opacity: .6 !important;
+            }
+        }
+        &.atb-type-dictionary>menuitem[iname=main]::after {
+            background-color: color-mix(in srgb, currentColor 20%, #e31b5d) !important;
+        }
+        &.atb-type-locale>menuitem[iname=main]::after {
+            background-color: color-mix(in srgb, currentColor 20%, #27ae81) !important;
+        }
+        &.atb-type-theme>menuitem[iname=main]::after {
+            background-color: color-mix(in srgb, currentColor 20%, #f38525) !important;
+        }
+        &.atb-type-plugin>menuitem[iname=main]::after {
+            background-color: color-mix(in srgb, currentColor 20%, #0074e8) !important;
+        }
+        &.atb-type-mlmodel>menuitem[iname=main]::after {
+            background-color: color-mix(in srgb, currentColor 20%, #f325e2) !important;
+        }
+        &.atb-system>menuitem[iname=main]>label {
+            text-decoration: underline !important;
+            text-decoration-style: dotted !important;
+        }
+        &.atb-warning>menuitem[iname=main]>label {
+            text-decoration: underline !important;
+            text-decoration-style: dotted !important;
+            text-decoration-color: color-mix(in srgb, currentColor 20%, #f38525) !important;
+        }
+        &.atb-error>menuitem[iname=main]>label {
+            text-decoration: line-through !important;
+            text-decoration-style: solid !important;
+            text-decoration-color: color-mix(in srgb, currentColor 20%, #e31b5d) !important;
+        }
+        &.atb-options>menuitem[iname=opts] {
+            fill: color-mix(in srgb, currentColor 20%, #0074e8) !important;
+        }
+    }
+}

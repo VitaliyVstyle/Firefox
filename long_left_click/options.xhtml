@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="utf8" />
+    <title></title>
+    <link rel="icon" href="svg/icon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="options.css" type="text/css" />
+</head>
+
+<body>
+    <div id="header">
+        <div class="controls">
+            <input type="button" id="saveform" data-locale="saveButton" value="" />
+        </div>
+    </div>
+    <div class="grid">
+        <input id="enableContent" autocomplete="off" class="gridinput" type="checkbox"
+            data-pref="extensions.long_left_click.enableContent" />
+        <label class="gridlabel" for="enableContent">
+            <span data-locale="enableContent"></span>
+        </label>
+        <fieldset class="gridfieldset">
+            <label class="text-input">
+                <input type="number" autocomplete="off" min="0" max="999999999" style="width:8em"
+                    data-pref="extensions.long_left_click.timeContent" />
+                <span data-locale="timeDelay"></span>
+            </label>
+            <label>
+                <input type="checkbox" autocomplete="off" data-pref="extensions.long_left_click.backgroundCnt" />
+                <span data-locale="background"></span>
+            </label>
+            <label>
+                <input type="checkbox" autocomplete="off" data-pref="extensions.long_left_click.nextToCurrentCnt" />
+                <span data-locale="nextToCurrent"></span>
+            </label>
+            <label>
+                <input type="checkbox" autocomplete="off" data-pref="extensions.long_left_click.referrer" />
+                <span data-locale="referrer"></span>
+            </label>
+            <label>
+                <input type="checkbox" autocomplete="off" data-pref="extensions.long_left_click.enableImages" />
+                <span data-locale="enableImages"></span>
+            </label>
+        </fieldset>
+    </div>
+    <div class="grid">
+        <input id="enableChrome" autocomplete="off" class="gridinput" type="checkbox"
+            data-pref="extensions.long_left_click.enableChrome" />
+        <label class="gridlabel" for="enableChrome">
+            <span data-locale="enableChrome"></span>
+        </label>
+        <fieldset class="gridfieldset">
+            <label class="text-input">
+                <input type="number" autocomplete="off" min="0" max="999999999" style="width:8em"
+                    data-pref="extensions.long_left_click.timeChrome" />
+                <span data-locale="timeDelay"></span>
+            </label>
+            <label>
+                <input type="checkbox" autocomplete="off" data-pref="extensions.long_left_click.backgroundCm" />
+                <span data-locale="background"></span>
+            </label>
+            <label>
+                <input type="checkbox" autocomplete="off" data-pref="extensions.long_left_click.nextToCurrentCm" />
+                <span data-locale="nextToCurrent"></span>
+            </label>
+            <label>
+                <input type="checkbox" autocomplete="off" data-pref="extensions.long_left_click.closeMenus" />
+                <span data-locale="closeMenus"></span>
+            </label>
+            <label>
+                <input type="checkbox" autocomplete="off" data-pref="extensions.long_left_click.userContextId" />
+                <span data-locale="userContextId"></span>
+            </label>
+        </fieldset>
+    </div>
+    <label>
+        <input type="checkbox" autocomplete="off" data-pref="browser.tabs.insertRelatedAfterCurrent" />
+        <span>browser.tabs.insertRelatedAfterCurrent (about:config)</span>
+    </label>
+    <label>
+        <input type="checkbox" autocomplete="off" data-pref="browser.tabs.insertAfterCurrent" />
+        <span>browser.tabs.insertAfterCurrent (about:config)</span>
+    </label>
+    <script src="options.js"></script>
+</body>
+
+</html>

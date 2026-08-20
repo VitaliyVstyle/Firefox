@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta charset="utf8"/>
+        <title></title>
+        <link href="svg/icon.svg" rel="icon" type="image/svg+xml"/>
+        <link rel="stylesheet" href="options.css" type="text/css"/>
+    </head>
+    <body>
+        <div id="header">
+            <div class="controls">
+                <input type="button" id="saveform" data-locale="saveButton" value=""/>
+            </div>
+        </div>
+        <label class="text-input">
+            <input type="number" autocomplete="off" min="10" max="999999999" style="width:8em" data-pref="extensions.tabs_focus.delay"/>
+            <span data-locale="delay"></span>
+        </label>
+        <label>
+            <input type="checkbox" autocomplete="off" data-pref="extensions.tabs_focus.clickreloadtab"/>
+            <span data-locale="clickreloadtab"></span>
+        </label>
+        <div class="grid">
+            <input  id="previewmode" autocomplete="off" class="gridinput" type="checkbox" data-pref="extensions.tabs_focus.previewmode"/>
+            <label class="gridlabel" for="previewmode"><span data-locale="previewmode"></span></label>
+            <fieldset class="gridfieldset">
+                <label class="text-input">
+                    <input type="number" autocomplete="off" min="5" max="999999999" style="width:8em" data-pref="extensions.tabs_focus.returndelay"/>
+                    <span data-locale="delay"></span>
+                </label>
+            </fieldset>
+        </div>
+        <script src="options.js"></script>
+    </body>
+</html>

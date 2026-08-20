@@ -1,0 +1,52 @@
+[
+    {
+        "namespace": "AsyncRunApp",
+        "functions": [
+            {
+                "name": "runApp",
+                "type": "function",
+                "async": true,
+                "parameters": [
+                    {
+                        "name": "pref",
+                        "type": "any"
+                    },
+                    {
+                        "name": "info",
+                        "type": "any"
+                    },
+                    {
+                        "name": "tab",
+                        "type": "any"
+                    }
+                ]
+            },
+            {
+                "name": "filePicker",
+                "type": "function",
+                "async": true,
+                "parameters": [
+                    {
+                        "name": "winInfo",
+                        "type": "any"
+                    },
+                    {
+                        "name": "str",
+                        "type": "string"
+                    }
+                ]
+            },
+            {
+                "name": "toFileURI",
+                "type": "function",
+                "async": true,
+                "parameters": [
+                    {
+                        "name": "str",
+                        "type": "string"
+                    }
+                ]
+            }
+        ]
+    }
+]

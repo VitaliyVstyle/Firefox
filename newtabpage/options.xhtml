@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="utf8"/>
+<title></title>
+<link href="icon.svg" rel="icon" type="image/svg+xml"/>
+<link rel="stylesheet" href="options.css" type="text/css"/>
+</head>
+<body>
+<div id="header">
+<div class="controls">
+<input type="button" id="saveform" data-locale="saveButton" value=""/>
+</div>
+</div>
+<div class="grid">
+<input id="createmenu" autocomplete="off" class="gridinput" type="checkbox" data-pref="createMenu"/>
+<label class="gridlabel" for="createmenu"><span data-locale="createMenu"></span></label>
+<fieldset class="gridfieldset">
+<label>
+<input type="checkbox" autocomplete="off" data-pref="index"/>
+<span data-locale="index"></span>
+</label>
+</fieldset>
+</div>
+<div class="grid">
+<input id="opennewtab" autocomplete="off" class="gridinput" type="checkbox" data-pref="openNewTab"/>
+<label class="gridlabel" for="opennewtab"><span data-locale="openNewTab"></span></label>
+<fieldset class="gridfieldset">
+<label>
+<input type="checkbox" autocomplete="off" data-pref="insertNextCurrent"/>
+<span data-locale="insertNextCurrent"></span>
+</label>
+</fieldset>
+</div>
+<label>
+<input type="checkbox" autocomplete="off" data-pref="sessionTabSel"/>
+<span data-locale="sessionTabSel"></span>
+</label>
+<label>
+<input type="checkbox" autocomplete="off" data-pref="onlineSearch"/>
+<span data-locale="onlineSearch"></span>
+</label>
+<label class="text-input">
+<input type="number" autocomplete="off" min="1" max="2000" style="width:5em" data-pref="maxResults"/>
+<span data-locale="maxResults"></span>
+</label>
+<label class="text-input">
+<input type="number" autocomplete="off" min="1" max="2000" style="width:5em" data-pref="limit"/>
+<span data-locale="limit"></span>
+</label>
+<script src="options.js"></script>
+</body>
+</html>

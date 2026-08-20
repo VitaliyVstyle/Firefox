@@ -1,0 +1,50 @@
+{
+    "extDescription": {
+        "message": "Run applications"
+    },
+    "Openin": {
+        "message": "Open in:"
+    },
+    "pageTitleOption": {
+        "message": "AsyncRunApp Settings"
+    },
+    "extPath": {
+        "message": "Application path"
+    },
+    "iconsInMenu": {
+        "message": "Icons in Menu"
+    },
+    "itemsInMenu": {
+        "message": "Items in menu:"
+    },
+    "addItem": {
+        "message": "Add Item to menu:"
+    },
+    "filePicker": {
+        "message": "Folder selection"
+    },
+    "Prompt": {
+        "message": "Request"
+    },
+    "Prompt2": {
+        "message": "Enter a name"
+    },
+    "ownArguments": {
+        "message": "Own arguments:"
+    },
+    "ProfD": {
+        "message": " - path to profile"
+    },
+    "filePicker2": {
+        "message": " - selecting a folder, for example for downloading"
+    },
+    "filePicker3": {
+        "message": " - Right-click: selecting a folder, for example for downloading"
+    },
+    "Prompt3": {
+        "message": " - opens a dialog box for changing text, for example media file name"
+    },
+    "doubleQuotes": {
+        "message": " - double quotes"
+    }
+}

@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="utf8" />
+    <title></title>
+    <link rel="icon" href="svg/icon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="options.css" type="text/css" />
+</head>
+
+<body>
+    <div id="header">
+        <div class="controls">
+            <input type="button" id="saveform" data-locale="saveButton" value="" />
+        </div>
+    </div>
+    <label>
+        <input type="checkbox" autocomplete="off" data-pref="extensions.add_toolbar_buttons.newtab" />
+        <span data-locale="newtab"></span>
+    </label>
+    <label>
+        <input type="checkbox" autocomplete="off" data-pref="extensions.add_toolbar_buttons.doreload" />
+        <span data-locale="doreload"></span>
+    </label>
+    <label>
+        <input type="checkbox" autocomplete="off" data-pref="extensions.add_toolbar_buttons.obs.animfunc" />
+        <span data-locale="animfunc"></span>
+    </label>
+    <label class="text-input">
+        <input type="number" autocomplete="off" min="1" max="50" style="width:4em"
+            data-pref="extensions.add_toolbar_buttons.obs.soundvolumestep" />
+        <span data-locale="soundvolumestep"></span>
+    </label>
+    <label class="text-input">
+        <input type="number" autocomplete="off" min="0" max="9999" style="width:4em"
+            data-pref="extensions.add_toolbar_buttons.obs.alerttimeout" />
+        <span data-locale="alerttimeout"></span>
+    </label>
+    <div class="groupbox">
+        <div class="title" data-locale="toggleproxy"></div>
+        <div class="select">
+            <select data-pref="extensions.add_toolbar_buttons.toggleproxy">
+                <option value="0" data-locale="toggleproxy0"></option>
+                <option value="1" data-locale="toggleproxy1"></option>
+                <option value="2" data-locale="toggleproxy2"></option>
+                <option value="4" data-locale="toggleproxy4"></option>
+                <option value="5" data-locale="toggleproxy5"></option>
+            </select>
+        </div>
+        <div class="select">
+            <select data-pref="extensions.add_toolbar_buttons.toggleproxy2">
+                <option value="0" data-locale="toggleproxy0"></option>
+                <option value="1" data-locale="toggleproxy1"></option>
+                <option value="2" data-locale="toggleproxy2"></option>
+                <option value="4" data-locale="toggleproxy4"></option>
+                <option value="5" data-locale="toggleproxy5"></option>
+            </select>
+        </div>
+    </div>
+    <div class="groupbox">
+        <div class="title" data-locale="tab_win_undo"></div>
+        <label class="text-input">
+            <input type="number" autocomplete="off" min="0" max="999" style="width:4em"
+                data-pref="browser.sessionstore.max_tabs_undo" />
+            <span data-locale="max_tabs_undo"></span>
+        </label>
+        <label class="text-input">
+            <input type="number" autocomplete="off" min="0" max="999" style="width:4em"
+                data-pref="browser.sessionstore.max_windows_undo" />
+            <span data-locale="max_windows_undo"></span>
+        </label>
+    </div>
+    <div class="groupbox">
+        <div class="title" data-locale="favicons"></div>
+        <label class="text-input">
+            <input type="number" autocomplete="off" min="1" max="9999" style="width:4em"
+                data-pref="extensions.add_toolbar_buttons.maxrequests" />
+            <span data-locale="maxrequests"></span>
+        </label>
+        <label class="text-input">
+            <input type="number" autocomplete="off" min="1" max="9999" style="width:4em"
+                data-pref="extensions.add_toolbar_buttons.maxtimeout" />
+            <span data-locale="maxtimeout"></span>
+        </label>
+        <label>
+            <input type="checkbox" autocomplete="off" data-pref="extensions.add_toolbar_buttons.alertnotification" />
+            <span data-locale="alertnotification"></span>
+        </label>
+    </div>
+    <div class="groupbox">
+        <div class="title" data-locale="addbookmarks"></div>
+        <div class="select">
+            <select data-pref="extensions.add_toolbar_buttons.bookmarksparentguid">
+                <option value="0" data-locale="bookmarksparentguid0"></option>
+                <option value="1" data-locale="bookmarksparentguid1"></option>
+                <option value="2" data-locale="bookmarksparentguid2"></option>
+            </select>
+            <span data-locale="bookmarksparentguid"></span>
+        </div>
+        <label>
+            <input type="checkbox" autocomplete="off" data-pref="extensions.add_toolbar_buttons.bookmarksindex" />
+            <span data-locale="bookmarksindex"></span>
+        </label>
+    </div>
+    <div class="groupbox">
+        <div class="title" data-locale="extensions"></div>
+        <label>
+            <input type="checkbox" autocomplete="off" data-pref="extensions.add_toolbar_buttons.obs.showversion" />
+            <span data-locale="showversion"></span>
+        </label>
+        <label>
+            <input type="checkbox" autocomplete="off" data-pref="extensions.add_toolbar_buttons.obs.showdescription" />
+            <span data-locale="showdescription"></span>
+        </label>
+        <label>
+            <input type="checkbox" autocomplete="off" data-pref="extensions.add_toolbar_buttons.obs.userpermissions" />
+            <span data-locale="userpermissions"></span>
+        </label>
+        <label>
+            <input type="checkbox" autocomplete="off" data-pref="extensions.add_toolbar_buttons.obs.showhidden" />
+            <span data-locale="showhidden"></span>
+        </label>
+        <label>
+            <input type="checkbox" autocomplete="off" data-pref="extensions.add_toolbar_buttons.obs.showdisabled" />
+            <span data-locale="showdisabled"></span>
+        </label>
+        <label>
+            <input type="checkbox" autocomplete="off" data-pref="extensions.add_toolbar_buttons.obs.enabledfirst" />
+            <span data-locale="enabledfirst"></span>
+        </label>
+        <label class="text-input">
+            <input type="number" autocomplete="off" min="5" max="9999" style="width:4em"
+                data-pref="extensions.add_toolbar_buttons.obs.maxwidthmainitem" />
+            <span data-locale="maxwidthmainitem"></span>
+        </label>
+        <label class="text-input">
+            <input type="number" autocomplete="off" min="0" max="9999" style="width:4em"
+                data-pref="extensions.add_toolbar_buttons.obs.maxheightpopup" />
+            <span data-locale="maxheightpopup"></span>
+        </label>
+        <div class="title" data-locale="exceptionslistset"></div>
+        <div class="textarea">
+            <textarea rows="3" autocomplete="off" spellcheck="false"
+                data-pref="extensions.add_toolbar_buttons.obs.exceptionslistset"></textarea>
+        </div>
+        <div class="title" data-locale="exceptionstypelistarr"></div>
+        <div class="textarea">
+            <input type="text" autocomplete="off" spellcheck="false"
+                data-pref="extensions.add_toolbar_buttons.obs.exceptionstypelistarr" />
+        </div>
+    </div>
+    <script src="options.js"></script>
+</body>
+
+</html>

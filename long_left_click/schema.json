@@ -1,0 +1,29 @@
+[
+    {
+        "namespace": "LongLeftClick",
+        "functions": [
+            {
+                "name": "getPref",
+                "type": "function",
+                "async": true,
+                "parameters": [
+                    {
+                        "name": "arr",
+                        "type": "any"
+                    }
+                ]
+            },
+            {
+                "name": "setPref",
+                "type": "function",
+                "async": true,
+                "parameters": [
+                    {
+                        "name": "arr",
+                        "type": "any"
+                    }
+                ]
+            }
+        ]
+    }
+]

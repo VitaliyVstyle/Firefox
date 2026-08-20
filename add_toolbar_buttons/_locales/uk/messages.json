@@ -1,0 +1,467 @@
+{
+    "extDescription": {
+        "message": "Додає кнопки на панель інструментів"
+    },
+    "bImageToggleL": {
+        "message": "Переключити зображення"
+    },
+    "bImageToggleT": {
+        "message": "Л: Переключити завантаження зображень\nС|П: Переключити завантаження зображень на поточній сторінці"
+    },
+    "bStopAnimationL": {
+        "message": "Переключити анімацію"
+    },
+    "bStopAnimationT": {
+        "message": "Л: Зупинити або запустити CSS, SVG анімацію\nShift+Л: Переключити анімацію - normal/none/once\nС: Переключити анімацію - normal/none\nП: Переключити анімацію на поточній сторінці"
+    },
+    "bAutoplayL": {
+        "message": "Переключити медіа"
+    },
+    "bAutoplayT": {
+        "message": "Л: Переключити авто-відтворення медіа\nС|П: Переключити відтворення медіа на поточній сторінці"
+    },
+    "bJavascriptL": {
+        "message": "Переключити JavaScript"
+    },
+    "bJavascriptT": {
+        "message": "Л: Переключити JavaScript\nС|П: Переключити JavaScript на поточній сторінці"
+    },
+    "bCookieToggleL": {
+        "message": "Переключити Куки"
+    },
+    "bCookieToggleT": {
+        "message": "Л: Переключити Куки\nShift+Л: Видалити куки домену поточної сторінки\nС: Видалити куки домену поточної сторінки\nП: Управління куками"
+    },
+    "bCookieToggleNdel": {
+        "message": "Куки поточного домену очищені!"
+    },
+    "bCookieToggleNnone": {
+        "message": "Немає куки поточного домену!"
+    },
+    "bZoomToggleL": {
+        "message": "Тільки текст"
+    },
+    "bZoomToggleT": {
+        "message": "Перемикання масштабування тексту і сторінки"
+    },
+    "bToggleProxy": {
+        "message": "Переключити проксі"
+    },
+    "bToggleProxyT": {
+        "message": "Л: Меню проксі\nП: Відкрити налаштування проксі"
+    },
+    "bToggleProxyM0": {
+        "message": "Пряме підключення, без проксі"
+    },
+    "bToggleProxyM1": {
+        "message": "Ручне налаштування проксі"
+    },
+    "bToggleProxyM2": {
+        "message": "Автоматичне налаштування проксі"
+    },
+    "bToggleProxyM4": {
+        "message": "Автовизначення налаштувань проксі"
+    },
+    "bToggleProxyM5": {
+        "message": "Використовувати системні налаштування проксі"
+    },
+    "bToggleProxyMS": {
+        "message": "Відкрити налаштування проксі"
+    },
+    "bUndoTabL": {
+        "message": "Відновивши"
+    },
+    "bUndoTabT": {
+        "message": "Л: Відновити вкладку\nП: Відновити вікно"
+    },
+    "bUndoTabT0": {
+        "message": "Л: Меню відновити\nП: Показати всю історію"
+    },
+    "bUndoTabM0": {
+        "message": "Показати всю історію"
+    },
+    "bUndoTabM1": {
+        "message": "Стерти недавню історію…"
+    },
+    "bUndoTabM2": {
+        "message": "Відновити попередній сеанс"
+    },
+    "bUndoTabM3": {
+        "message": "Недавно закриті вікна"
+    },
+    "bUndoTabM4": {
+        "message": "Забути закриті вікна"
+    },
+    "bUndoTabM5": {
+        "message": "Забути закриті вкладки"
+    },
+    "bNewtabL": {
+        "message": "Нова вкладка"
+    },
+    "bNewtabT": {
+        "message": "Л: Відкрити нову вкладку\nП: Меню щоб відкрити вкладку в контейнері"
+    },
+    "bCloseOtherTabsL": {
+        "message": "Закрити вкладки"
+    },
+    "bCloseOtherTabsT": {
+        "message": "Л: Закрити вкладки перед поточною\nС: Закрити інші вкладки поточного сайту\nП: Закрити вкладки після поточної"
+    },
+    "bCloseAllTabsL": {
+        "message": "Закрити вкладки, вікна"
+    },
+    "bCloseAllTabsT": {
+        "message": "Л: Закрити всі вкладки\nShift+Л: Закрити інші вкладки\nС: Закрити інші вікна браузера\nП: Закрити всі вкладки поточного сайту"
+    },
+    "bRestartAppL": {
+        "message": "Перезавантаження"
+    },
+    "bRestartAppT": {
+        "message": "Л: Перезапустити додаток\nС: Перезапустити без доповнень\nП: Перезапустити і заново створити кеш швидкого запуску"
+    },
+    "bAboutConfigT": {
+        "message": "Л: Відкрити about:config\nShift+Л: Шукати вміст буфера обміну в about:config\nС: Шукати вміст буфера обміну в about:config\nП: Шукати виділене в about:config"
+    },
+    "bAboutDownloadsL": {
+        "message": "Завантаження"
+    },
+    "bAboutDownloadsT": {
+        "message": "Л: Показати завантаження\nС: Відкрити недавню папку завантажень\nП: Відкрити недавню папку з файлом\nShift+П: Відкрити недавню папку завантажень"
+    },
+    "bAboutAboutT": {
+        "message": "Відкрити about:about"
+    },
+    "bClearDataL": {
+        "message": "Видалити дані"
+    },
+    "bClearDataT": {
+        "message": "Відкрити діалогове вікно видалення особистих даних"
+    },
+    "bPreferencesL": {
+        "message": "Налаштування Add Toolbar Buttons"
+    },
+    "bPreferencesT": {
+        "message": "Л: Відкрити налаштування Add Toolbar Buttons\nС: Відкрити налаштування браузера"
+    },
+    "bBookmarkNopopL": {
+        "message": "Швидка закладка"
+    },
+    "bBookmarkNopopT": {
+        "message": "Л: Додати або видалити закладки без підтвердження\nС: Додати групу вкладок в закладки\nП: Відкрити менеджер Закладок"
+    },
+    "bSnapBackL": {
+        "message": "Повний назад або вперед"
+    },
+    "bSnapBackT": {
+        "message": "Л: Перейти на першу сторінку, відкриту в цій вкладці\nС: Перейти по введеному адресою в новій вкладці\nП: Перейти на останню сторінку, відкриту в цій вкладці"
+    },
+    "bTopPageL": {
+        "message": "Догори"
+    },
+    "bTopPageT": {
+        "message": "Перейти на початок сторінки"
+    },
+    "bBottomPageL": {
+        "message": "Униз"
+    },
+    "bBottomPageT": {
+        "message": "Перейти до кінця сторінки"
+    },
+    "bUpPageL": {
+        "message": "Догори"
+    },
+    "bUpPageT": {
+        "message": "Прокрутка на одну сторінку вгору"
+    },
+    "bDownPageL": {
+        "message": "Униз"
+    },
+    "bDownPageT": {
+        "message": "Прокрутка на одну сторінку вниз"
+    },
+    "bFindBarL": {
+        "message": "Пошук"
+    },
+    "bFindBarT": {
+        "message": "Л: Знайти текст / закрити панель пошуку\nShift+Л: Пошук на цій сторінці з буфера обміну\nС: Пошук на цій сторінці з буфера обміну\nП: Пошук на цій сторінці виділеного"
+    },
+    "bClearBarL": {
+        "message": "Очистити поля адреси та пошуку"
+    },
+    "bClearBarT": {
+        "message": "Л: Очистити поле адреси\nС: Очистити поля адреси та пошуку\nП: Очистити поле пошуку"
+    },
+    "bPasteAndGoL": {
+        "message": "Вставити і перейти"
+    },
+    "bPasteAndGoT": {
+        "message": "Л: Перейти за адресою з буфера обміну\nС: Перейти за адресою з буфера обміну в новій вкладці\nП: Шукати вміст буфера обміну в новій вкладці"
+    },
+    "bCopyAndGoL": {
+        "message": "Перейти по виділеному"
+    },
+    "bCopyAndGoT": {
+        "message": "Л: Перейти по виділеному\nС: Перейти по виділеному в новій вкладці\nП: Скопіювати адресу поточної сторінки\nShift+П: Скопіювати домен поточної сторінки"
+    },
+    "bProfilefolderL": {
+        "message": "Відкрити папку"
+    },
+    "bProfilefolderT": {
+        "message": "Л: Папка профілю\nС: Коренева папка диска\nП: Папка встановлення"
+    },
+    "bPassWordsL": {
+        "message": "Паролі"
+    },
+    "bPassWordsT": {
+        "message": "Відкрити менеджер паролів"
+    },
+    "bToggleStylesL": {
+        "message": "Переключити стилі"
+    },
+    "bToggleStylesT": {
+        "message": "Переключити стилі, визначені сайтами"
+    },
+    "bOpenConsoleL": {
+        "message": "Відкрити Консоль"
+    },
+    "bOpenConsoleT": {
+        "message": "Л: Відкрити Консоль браузера\nС: Відкрити Веб-консоль\nП: Відкрити Інспектор"
+    },
+    "bTextToLinkL": {
+        "message": "Текст URL в Клікабельні посилання"
+    },
+    "bTextToLinkT": {
+        "message": "Л: Перетворити текст URL в Клікабельні посилання\nС: Копіювати всі посилання на сторінці\nП: Відключити / Включити клікабельні посилання"
+    },
+    "bAddonsManagerL": {
+        "message": "Доповнення"
+    },
+    "bAddonsManagerT": {
+        "message": "Відкрийте диспетчер доповнень"
+    },
+    "bOpenFileL": {
+        "message": "Відкрити"
+    },
+    "bOpenFileT": {
+        "message": "Л: Відкрити файл\nС: Відкрити userContent\nП: Відкрити userChrome"
+    },
+    "bSaveasL": {
+        "message": "Зберегти"
+    },
+    "bSaveasT": {
+        "message": "Зберегти як…"
+    },
+    "bReduceL": {
+        "message": "Зменшивши"
+    },
+    "bReduceT": {
+        "message": "Л: Зменшити розмір тексту\nС: Збільшити розмір тексту\nП: Скинути розмір тексту"
+    },
+    "bEnlargeL": {
+        "message": "Збільшувати"
+    },
+    "bEnlargeT": {
+        "message": "Л: Збільшити розмір тексту\nС: Зменшити розмір тексту\nП: Скинути розмір тексту"
+    },
+    "bLoadsFaviconsL": {
+        "message": "Відновити фавіконки"
+    },
+    "bLoadsFaviconsT": {
+        "message": "Відновити фавіконки закладок"
+    },
+    "bExtOptionMenuL": {
+        "message": "Меню доповнень"
+    },
+    "bExtOptionMenuT": {
+        "message": "Меню доповнень"
+    },
+    "bSoundMutedAllTabsL": {
+        "message": "Управління звуком"
+    },
+    "bSoundMutedAllTabsT": {
+        "message": "Л: Переключити звук у виділених вкладках\nShift+Л: Переключити звук у всіх вкладках\nС: Закрийте інші вкладки з джерелом звуку\nКМ: Регулювати рівень гучності звуку медіа"
+    },
+    "openUChrmFiles": {
+        "message": "Файл відсутній!"
+    },
+    "copyCurrentURI": {
+        "message": "Адреса поточної сторінки в буфері обміну!"
+    },
+    "copyDomainURI": {
+        "message": "Домен поточної сторінки в буфері обміну!"
+    },
+    "copyAllLinks": {
+        "message": "Копіювання посилань"
+    },
+    "copyAllLinks0": {
+        "message": "посилань в буфері обміну!"
+    },
+    "favComplete": {
+        "message": "Пошук фавіконок"
+    },
+    "favComplete0": {
+        "message": "$1 - Успішно оброблено!\n$2 - Не вдалося обробити."
+    },
+    "locale_desc": {
+        "message": "Опис:"
+    },
+    "locale_perm": {
+        "message": "Дозволи:"
+    },
+    "locale_opts": {
+        "message": "Л: Налаштування"
+    },
+    "locale_contr": {
+        "message": "П: Керувати"
+    },
+    "locale_copyid": {
+        "message": "Л: Копіювати ID"
+    },
+    "locale_copyuuid": {
+        "message": "П: Копіювати UUID"
+    },
+    "locale_home": {
+        "message": "Л: Домашня сторінка"
+    },
+    "locale_author": {
+        "message": "П: Автор"
+    },
+    "locale_source": {
+        "message": "Л: Перегляд вихідного коду"
+    },
+    "locale_sourceext": {
+        "message": "П: Перегляд вихідного коду у зовнішньому застосунку"
+    },
+    "locale_toogle": {
+        "message": "Л: Увімкнути/Вимкнути"
+    },
+    "locale_pin": {
+        "message": "П: Закріпити на панелі або відкріпити"
+    },
+    "locale_del": {
+        "message": "Видалити"
+    },
+    "locale_clip": {
+        "message": "в буфері обміну!"
+    },
+    "locale_am": {
+        "message": "Менеджер доповнень"
+    },
+    "locale_amup": {
+        "message": "Л: Менеджер доповнень\nП: Перевірити наявність оновлень доповнень"
+    },
+    "locale_dbg": {
+        "message": "Налагодження доповнень"
+    },
+    "pageTitleOption": {
+        "message": "Налаштування Add Toolbar Buttons"
+    },
+    "saveButton": {
+        "message": "Зберегти налаштування"
+    },
+    "newtab": {
+        "message": "Відкривати в новій вкладці кнопки-посилання"
+    },
+    "doreload": {
+        "message": "Перезавантажте сторінку після перемикання функції"
+    },
+    "animfunc": {
+        "message": "Переключити анімацію: тільки (anima|transi)tion-timing-function"
+    },
+    "soundvolumestep": {
+        "message": "Крок регулювання дефолтного рівня гучності звуку медіа"
+    },
+    "alerttimeout": {
+        "message": "Таймер сповіщень у секундах"
+    },
+    "toggleproxy": {
+        "message": "Проксі, перемикання між вибраними режимами:"
+    },
+    "toggleproxy0": {
+        "message": "Пряме підключення, без проксі"
+    },
+    "toggleproxy1": {
+        "message": "Ручне налаштування проксі"
+    },
+    "toggleproxy2": {
+        "message": "Автоматичне налаштування проксі"
+    },
+    "toggleproxy4": {
+        "message": "Автовизначення налаштувань проксі"
+    },
+    "toggleproxy5": {
+        "message": "Використовувати системні налаштування проксі"
+    },
+    "tab_win_undo": {
+        "message": "Відновити вкладки та вікна:"
+    },
+    "max_tabs_undo": {
+        "message": "Кількість закритих вкладок для відновлення (about:config)"
+    },
+    "max_windows_undo": {
+        "message": "Кількість закритих вікон для відновлення (about:config)"
+    },
+    "favicons": {
+        "message": "Відновити фавіконки закладок:"
+    },
+    "maxrequests": {
+        "message": "Максимальна кількість паралельних запитів"
+    },
+    "maxtimeout": {
+        "message": "Тривалість до переривання запиту в секундах"
+    },
+    "alertnotification": {
+        "message": "Повідомлення про завершення пошуку фавіконок для закладок"
+    },
+    "addbookmarks": {
+        "message": "Додати або видалити закладки без підтвердження:"
+    },
+    "bookmarksparentguid0": {
+        "message": "Меню закладок"
+    },
+    "bookmarksparentguid1": {
+        "message": "Панель закладок"
+    },
+    "bookmarksparentguid2": {
+        "message": "Інші закладки"
+    },
+    "bookmarksparentguid": {
+        "message": "Папка для нових закладок"
+    },
+    "bookmarksindex": {
+        "message": "Додавати в початок"
+    },
+    "extensions": {
+        "message": "Доповнення:"
+    },
+    "showversion": {
+        "message": "Показувати версію"
+    },
+    "showdescription": {
+        "message": "Показувати опис"
+    },
+    "userpermissions": {
+        "message": "Показувати дозволи:"
+    },
+    "showhidden": {
+        "message": "Показувати приховані"
+    },
+    "showdisabled": {
+        "message": "Показувати відключені"
+    },
+    "enabledfirst": {
+        "message": "Показати спочатку включені"
+    },
+    "maxwidthmainitem": {
+        "message": "Максимальна ширина пунктів"
+    },
+    "maxheightpopup": {
+        "message": "Максимальна висота меню, 0 - не змінювати"
+    },
+    "exceptionslistset": {
+        "message": "Винятки, ID'S через пробіл:"
+    },
+    "exceptionstypelistarr": {
+        "message": "Винятки, type's (extension theme locale dictionary plugin mlmodel) через пробіл:"
+    }
+}

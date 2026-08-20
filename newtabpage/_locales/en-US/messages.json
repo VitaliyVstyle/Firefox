@@ -1,0 +1,77 @@
+{
+    "extDescription": {
+        "message": "New tab with bookmarks from the NewTabPage folder"
+    },
+    "pageTitle": {
+        "message": "New tab"
+    },
+    "addTab": {
+        "message": "Add folder"
+    },
+    "removeTab": {
+        "message": "Delete the $1 folder and its contents?"
+    },
+    "addFolderPrompt": {
+        "message": "Enter a name for the new folder:"
+    },
+    "historyTab": {
+        "message": "History"
+    },
+    "downloadsTab": {
+        "message": "Downloads"
+    },
+    "editButton": {
+        "message": "Configure"
+    },
+    "searchPlaceholder": {
+        "message": "Search"
+    },
+    "searchBookmarks": {
+        "message": "Search all bookmarks"
+    },
+    "searchHistory": {
+        "message": "Search all browsing history"
+    },
+    "searchDownloads": {
+        "message": "Search all downloads"
+    },
+    "addBookmarkIn": {
+        "message": "Add in"
+    },
+    "pageTitleOption": {
+        "message": "NewTabPage Settings"
+    },
+    "saveButton": {
+        "message": "Save settings"
+    },
+    "addCell": {
+        "message": "Add a tile"
+    },
+    "addCellPrompt": {
+        "message": "Enter the URL of the new tile:"
+    },
+    "createMenu": {
+        "message": "Item in context menu on pages and links"
+    },
+    "index": {
+        "message": "Add tiles to beginning"
+    },
+    "openNewTab": {
+        "message": "Open sites in new tab"
+    },
+    "insertNextCurrent": {
+        "message": "Open next to the current tab"
+    },
+    "sessionTabSel": {
+        "message": "Memorize the active tab (for the current browser session)"
+    },
+    "onlineSearch": {
+        "message": "Online search by Enter"
+    },
+    "maxResults": {
+        "message": "Max. number of tiles on History tab"
+    },
+    "limit": {
+        "message": "Max. number of tiles on Download tab "
+    }
+}

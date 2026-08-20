@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta charset="utf8"/>
+        <title></title>
+        <link rel="icon" href="svg/icon.svg" type="image/svg+xml"/>
+        <link rel="stylesheet" href="options.css" type="text/css"/>
+    </head>
+    <body>
+        <div id="header">
+            <div id="addItem">
+                <div class="addItem"><p data-locale="addItem"></p><label><input id="iconsInMenu" type="checkbox"/><span data-locale="iconsInMenu"></span></label></div>
+            </div>
+        </div>
+        <div id="itemsInMenu"><p data-locale="itemsInMenu"></p></div>
+        <div>
+            <p data-locale="ownArguments"></p>
+            <ul id="ownarguments">
+                <li><pre>%OpenURL%<span class="description"> - URL</span></pre></li>
+                <li><pre>%ProfD%<span class="description" data-locale="ProfD"></span></pre></li>
+                <li><pre>%FilePicker%<span class="description" data-locale="filePicker2"></span></pre></li>
+                <li><pre>%FilePickerR%<span class="description" data-locale="filePicker3"></span></pre></li>
+                <li><pre>%Prompt(message)%<span class="description" data-locale="Prompt3"></span></pre></li>
+                <li><pre>%quot%<span class="description" data-locale="doubleQuotes"></span></pre></li>
+            </ul>
+        </div>
+        <svg xmlns="http://www.w3.org/2000/svg" width="0" height="0">
+            <filter id="fill">
+                <feComposite in="FillPaint" in2="SourceGraphic" operator="in" />
+            </filter>
+        </svg>
+        <script src="options.js"></script>
+    </body>
+</html>

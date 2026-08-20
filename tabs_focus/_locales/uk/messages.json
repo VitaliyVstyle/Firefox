@@ -1,0 +1,20 @@
+{
+    "extDescription": {
+        "message": "Перемикання вкладок при наведенні миші"
+    },
+    "pageTitleOption": {
+        "message": "Налаштування Tabs Focus"
+    },
+    "saveButton": {
+        "message": "Зберегти налаштування"
+    },
+    "delay": {
+        "message": "Затримка в ms"
+    },
+    "clickreloadtab": {
+        "message": "Перезавантажити сторінку при кліці по вкладці"
+    },
+    "previewmode": {
+        "message": "Увімкнути режим попереднього перегляду"
+    }
+}

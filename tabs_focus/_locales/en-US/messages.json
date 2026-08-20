@@ -1,0 +1,20 @@
+{
+    "extDescription": {
+        "message": "Switching tabs on mouse hover"
+    },
+    "pageTitleOption": {
+        "message": "Tabs Focus Settings"
+    },
+    "saveButton": {
+        "message": "Save Settings"
+    },
+    "delay": {
+        "message": "Delay in ms"
+    },
+    "clickreloadtab": {
+        "message": "Reload page when clicking on tab"
+    },
+    "previewmode": {
+        "message": "Enable preview mode"
+    }
+}

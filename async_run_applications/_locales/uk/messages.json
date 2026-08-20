@@ -1,0 +1,50 @@
+{
+    "extDescription": {
+        "message": "Запуск додатків"
+    },
+    "Openin": {
+        "message": "Відкрити в:"
+    },
+    "pageTitleOption": {
+        "message": "Налаштування AsyncRunApp"
+    },
+    "extPath": {
+        "message": "Шлях до додатка"
+    },
+    "iconsInMenu": {
+        "message": "Іконки у меню"
+    },
+    "itemsInMenu": {
+        "message": "Пункти у меню:"
+    },
+    "addItem": {
+        "message": "Додати пункт у меню:"
+    },
+    "filePicker": {
+        "message": "Вибір папки"
+    },
+    "Prompt": {
+        "message": "Запит"
+    },
+    "Prompt2": {
+        "message": "Введіть назву"
+    },
+    "ownArguments": {
+        "message": "Власні аргументи:"
+    },
+    "ProfD": {
+        "message": " - шлях до профілю"
+    },
+    "filePicker2": {
+        "message": " - вибір папки, наприклад, для скачування"
+    },
+    "filePicker3": {
+        "message": " - ПКМ: вибір папки, наприклад, для скачування"
+    },
+    "Prompt3": {
+        "message": " - відкриває діалогове вікно для зміни тексту, наприклад імені медіафайлу"
+    },
+    "doubleQuotes": {
+        "message": " - подвійні лапки"
+    }
+}
