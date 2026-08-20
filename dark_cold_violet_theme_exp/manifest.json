@@ -4,14 +4,14 @@
         "gecko": {
             "id": "__dark_cold_violet_theme_exp@vitaliy.com",
             "strict_min_version": "117.0",
-            "update_url": "https://vitaliyvstyle.github.io/WebExtExperiments/updates.json"
+            "update_url": "https://raw.githubusercontent.com/VitaliyVstyle/Firefox/refs/heads/main/updates.json"
         }
     },
     "name": "Dark Cold Violet",
     "author": "Vitaliy",
-    "version": "2026.3.3",
+    "version": "2026.8.20",
     "description": "Dark Cold Violet - VitaliyVstyle Theme",
-    "homepage_url": "https://github.com/VitaliyVstyle/VitaliyVstyle.github.io",
+    "homepage_url": "https://github.com/VitaliyVstyle/Firefox/tree/main/dark_cold_violet_theme_exp",
     "icons": {
         "16": "icon.svg",
         "32": "icon.svg",
