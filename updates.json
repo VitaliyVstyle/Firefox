@@ -3,7 +3,7 @@
         "__newtabpage@vitaliy.com": {
             "updates": [
                 {
-                    "version": "2026.8.20",
+                    "version": "2026.8.20.16",
                     "update_link": "https://raw.githubusercontent.com/VitaliyVstyle/Firefox/refs/heads/main/newtabpage/newtabpage.xpi",
                     "applications": {
                         "gecko": {

@@ -3,14 +3,19 @@
     "browser_specific_settings": {
         "gecko": {
             "id": "__newtabpage@vitaliy.com",
-            "strict_min_version": "117.0",
-            "update_url": "https://raw.githubusercontent.com/VitaliyVstyle/Firefox/refs/heads/main/updates.json"
+            "strict_min_version": "142.0",
+            "update_url": "https://raw.githubusercontent.com/VitaliyVstyle/Firefox/refs/heads/main/updates.json",
+            "data_collection_permissions": {
+                "required": [
+                    "none"
+                ]
+            }
         }
     },
     "name": "New Tab Page",
     "short_name": "NewTabPage",
     "author": "Vitaliy",
-    "version": "2026.8.20",
+    "version": "2026.8.20.16",
     "description": "__MSG_extDescription__",
     "homepage_url": "https://github.com/VitaliyVstyle/Firefox/tree/main/newtabpage",
     "default_locale": "en-US",
@@ -36,12 +41,14 @@
         "page": "options.xhtml"
     },
     "chrome_url_overrides": {
-    	"newtab": "new_tab_page.html"
+        "newtab": "new_tab_page.html"
     },
     "chrome_settings_overrides": {
-    	"homepage": "new_tab_page.html"
+        "homepage": "new_tab_page.html"
     },
     "background": {
-        "scripts": ["background.js"]
+        "scripts": [
+            "background.js"
+        ]
     }
 }
