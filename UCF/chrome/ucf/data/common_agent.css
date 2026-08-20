@@ -1,0 +1,112 @@
+/**
+@UCF @param {"prop":"CssAllChrome","type":"AGENT_SHEET","disable":true} @UCF
+@UCF @param {"prop":"CssContent","type":"AGENT_SHEET","disable":true} @UCF
+*/
+@namespace xul url("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul");
+
+xul|scrollbar, xul|scrollcorner {
+    --v-scrollbar-color: rgb(255, 255, 255);
+    --v-scrollbar-background-color: rgb(0, 116, 232);
+    --v-scrollbar-background-color-hover: color-mix(in srgb, rgb(255, 255, 255) 15%, var(--v-scrollbar-background-color));
+    --v-scrollbar-background-color-active: color-mix(in srgb, rgb(0, 0, 0) 10%, var(--v-scrollbar-background-color));
+    --v-scrollbar-border-radius: 0px;
+    --v-scrollbar-thumb-min: 10px;
+}
+xul|tooltip {
+    --v-tooltip-color: InfoText;
+    --v-tooltip-background-color: InfoBackground;
+    --v-tooltip-border-color: color-mix(in srgb, currentColor 25%, transparent);
+    @media (prefers-color-scheme: light) {
+        --v-tooltip-color: rgb(12, 12, 22);
+        --v-tooltip-background-color: rgb(245, 245, 255);
+    }
+    @media (prefers-color-scheme: dark) {
+        --v-tooltip-color: rgb(177, 177, 187);
+        --v-tooltip-background-color: rgb(27, 27, 37);
+    }
+}
+:root {
+    --v-highlight-color: #0074e8;
+    --v-highlight-text-color: #ffffff;
+}
+/* ************************************************ */
+
+xul|scrollcorner {
+    appearance: none !important;
+    background: none !important;
+    border: none !important;
+}
+xul|scrollbar {
+    &>xul|slider {
+        appearance: none !important;
+        background: none !important;
+        border: none !important;
+    }
+    &>xul|slider>xul|thumb,
+    &>xul|scrollbarbutton {
+        appearance: none !important;
+        border: none !important;
+        border-radius: var(--v-scrollbar-border-radius) !important;
+        background-color: var(--v-scrollbar-background-color) !important;
+        &:not([disabled]):hover {
+            background-color: var(--v-scrollbar-background-color-hover) !important;
+        }
+        &:not([disabled]):active {
+            background-color: var(--v-scrollbar-background-color-active) !important;
+        }
+    }
+    &[vertical]>xul|slider>xul|thumb {
+        min-height: var(--v-scrollbar-thumb-min) !important;
+    }
+    &:not([vertical])>xul|slider>xul|thumb {
+        min-width: var(--v-scrollbar-thumb-min) !important;
+    }
+}
+xul|tooltip {
+    appearance: none !important;
+    border-radius: 0px !important;
+    &[hasbeenopened=true] {
+        color: var(--v-tooltip-color) !important;
+        background: var(--v-tooltip-background-color) !important;
+        border: 1px solid var(--v-tooltip-border-color) !important;
+        padding: 2px !important;
+        xul|description, xul|label {
+            color: inherit !important;
+        }
+    }
+}
+xul|resizer {
+    appearance: none !important;
+}
+@-moz-document regexp("^(?:https?|ftp|file|view-source):.*") {
+    :any-link:focus {
+        outline: 1px dotted currentColor !important;
+    }
+    input, textarea, select, button, ::file-selector-button {
+        border-width: 1px !important;
+    }
+    ::selection {
+        background-color: var(--v-highlight-color) !important;
+        color: var(--v-highlight-text-color) !important;
+    }
+    :focus-visible {
+        outline: 1px solid var(--v-highlight-color);
+        outline-offset: -1px;
+    }
+}
+@-moz-document url-prefix("chrome:") {
+    toolbar, findbar {
+        input {
+            mask-image: none !important;
+        }
+        input:not(:focus-visible)::placeholder,
+        input:not(:focus-visible)::-moz-text-control-editing-root {
+            mask-image: linear-gradient(to left, transparent, black 3ch) !important;
+            mask-repeat: no-repeat !important;
+        }
+        input:not(:focus-visible):-moz-locale-dir(rtl)::placeholder,
+        input:not(:focus-visible):-moz-locale-dir(rtl)::-moz-text-control-editing-root {
+            mask-image: linear-gradient(to right, transparent, black 3ch) !important;
+        }
+    }
+}

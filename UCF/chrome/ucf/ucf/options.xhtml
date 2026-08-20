@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="utf8"/>
+<title data-l10n-id="title_opt"></title>
+<link rel="icon" href="chrome://user_chrome_files/content/ucf/svg/prefs.svg" type="image/svg+xml"/>
+<link rel="stylesheet" href="chrome://user_chrome_files/content/ucf/options.css" type="text/css"/>
+</head>
+<body>
+<div id="header">
+<div class="controls">
+<input type="button" id="open_ucf" data-l10n-id="open_ucf"/>
+<input type="button" id="open_edit_ucf" data-l10n-id="open_edit_ucf"/>
+<input type="button" id="restart" data-l10n-id="restart"/>
+<input type="button" id="restart_no_cache" data-l10n-args='{"lineBreak":"\n"}' data-l10n-id="restart_no_cache"/>
+</div>
+<div class="controls">
+<input type="button" id="homepage"  data-l10n-id="homepage"/>
+</div></div>
+<div id="CssAllChrome" class="css"><span>CssAllChrome</span></div>
+<div id="CssAllFrame" class="css"><span>CssAllFrame</span></div>
+<div id="CssContent" class="css"><span>CssContent</span></div>
+<div id="JsBackground" class="js mjs"><span>JsBackground</span></div>
+<div id="JsChrome_DOMContentLoaded" class="js"><span>JsChrome.DOMContentLoaded</span></div>
+<div id="JsChrome_load" class="js"><span>JsChrome.load</span></div>
+<div id="JsAllChrome_DOMContentLoaded" class="js"><span>JsAllChrome.DOMContentLoaded</span></div>
+<div id="JsAllChrome_load" class="js"><span>JsAllChrome.load</span></div>
+<div id="JsContent_DOMWindowCreated" class="js"><span>JsContent.DOMWindowCreated</span></div>
+<div id="JsContent_DOMContentLoaded" class="js"><span>JsContent.DOMContentLoaded</span></div>
+<div id="JsContent_pageshow" class="js"><span>JsContent.pageshow</span></div>
+<div id="addFile" class="css js mjs"><span data-l10n-id="addFile"></span></div>
+<div id="allFiles" class="css js mjs"><span data-l10n-id="allFiles"></span></div>
+<div>
+<p data-l10n-id="stylessettings"></p>
+<ul class="ucfsettings">
+<li><pre>"prop":<span class="description" data-l10n-id="styles1"></span></pre></li>
+<pre>  "CssAllChrome"<span class="description" data-l10n-id="styles2"></span>
+  "CssAllFrame"<span class="description" data-l10n-id="styles3"></span>
+  "CssContent"<span class="description" data-l10n-id="styles4"></span></pre>
+<li><pre>"type":<span class="description" data-l10n-id="styles5"></span></pre></li>
+<pre>  "USER_SHEET"
+  "AUTHOR_SHEET"
+  "AGENT_SHEET"</pre>
+<li><pre>"isos":<span class="description" data-l10n-id="styles6"></span></pre></li>
+<pre>  ["linux","windows","macos"]</pre>
+<li><pre>"ver":<span class="description" data-l10n-id="styles7"></span></pre></li>
+<pre>  {"min":128,"max":140}</pre>
+</ul>
+<p data-l10n-id="scriptssettings"></p>
+<ul class="ucfsettings">
+<li><pre>"prop":<span class="description" data-l10n-id="scripts1"></span></pre></li>
+<pre>  "JsBackground"<span class="description" data-l10n-id="scripts2"></span>
+  "JsChrome.DOMContentLoaded"<span class="description" data-l10n-id="scripts3"></span>
+  "JsChrome.load"<span class="description" data-l10n-id="scripts4"></span>
+  "JsAllChrome.DOMContentLoaded"<span class="description" data-l10n-id="scripts5"></span>
+  "JsAllChrome.load"<span class="description" data-l10n-id="scripts6"></span>
+  "JsContent.DOMWindowCreated"<span class="description" data-l10n-id="scripts7"></span>
+  "JsContent.DOMContentLoaded"<span class="description" data-l10n-id="scripts8"></span>
+  "JsContent.pageshow"<span class="description" data-l10n-id="scripts9"></span></pre>
+<li><pre>"ucfobj":<span class="description" data-l10n-id="scripts10"></span></pre></li>
+<pre>  true</pre>
+<li><pre>"urlregxp":<span class="description" data-l10n-id="scripts11"></span></pre></li>
+<pre>  "^about:downloads"</pre>
+<pre>  "^chrome:\\/\\/browser\\/content\\/(?:browser|places\\/(?:bookmarksSidebar|places))\\.xhtml"</pre>
+<li><pre>"module":<span class="description" data-l10n-id="scripts12"></span></pre></li>
+<pre>  {"name":"actorName","child":{"events":{"pageshow":{}}},"allFrames":true,"messageManagerGroups":["browsers"]}</pre>
+<pre>  ["importSymbol.initFunction","importSymbol.Object.initFunction"]</pre>
+<pre>  true</pre>
+<li><pre>"force":<span class="description" data-l10n-id="scripts13"></span></pre></li>
+<pre>  true</pre>
+<li><pre>"isos":<span class="description" data-l10n-id="scripts14"></span></pre></li>
+<pre>  ["linux","windows","macos"]</pre>
+<li><pre>"ver":<span class="description" data-l10n-id="scripts15"></span></pre></li>
+<pre>  {"min":128,"max":140}</pre>
+</ul>
+<p data-l10n-id="decoration"></p>
+<div class="row" error="true">
+<input type="text" class="path demo" autocomplete="off" readonly="" value="File.js"/>
+<input type="text" class="pref demo" autocomplete="off" readonly="" value='{"prop":"JsChrome.load"}'/>
+<pre><span class="description" data-l10n-id="decoration1"></span></pre>
+</div>
+<div class="row" unconnected="true">
+<input type="text" class="path demo" autocomplete="off" readonly="" value="File.js"/>
+<input type="text" class="pref demo" autocomplete="off" readonly="" value='{"prop":"JsChrome.load"}'/>
+<pre><span class="description" data-l10n-id="decoration2"></span></pre>
+</div>
+<div class="row" noprefinfile="true">
+<input type="text" class="path demo" autocomplete="off" readonly="" value="File.js"/>
+<input type="text" class="pref demo" autocomplete="off" readonly="" value='{"prop":"JsChrome.load"}'/>
+<pre><span class="description" data-l10n-id="decoration3"></span></pre>
+</div>
+<div class="row" prefdifferent="true">
+<input type="text" class="path demo" autocomplete="off" readonly="" value="File.js"/>
+<input type="text" class="pref demo" autocomplete="off" readonly="" value='{"prop":"JsChrome.load"}'/>
+<pre><span class="description" data-l10n-id="decoration4"></span></pre>
+</div>
+<div class="row" rebootrequired="true">
+<input type="text" class="path demo" autocomplete="off" readonly="" value="File.js"/>
+<input type="text" class="pref demo" autocomplete="off" readonly="" value='{"prop":"JsChrome.load"}'/>
+<pre><span class="description" data-l10n-id="decoration5"></span></pre>
+</div>
+</div>
+<script src="chrome://user_chrome_files/content/ucf/options.js"></script>
+</body>
+</html>

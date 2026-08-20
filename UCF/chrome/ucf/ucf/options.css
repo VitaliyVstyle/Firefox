@@ -1,0 +1,326 @@
+:root {
+    font: message-box !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    min-height: 100% !important;
+    width: 100% !important;
+    --v-background-color-root: #f4f4f7;
+    --v-color-root: #18181b;
+    --v-border-color: rgba(0, 0, 0, 0.25);
+    --v-decoration-color-warn: color-mix(in srgb, currentColor 10%, #f38725);
+    --v-decoration-color-error: color-mix(in srgb, currentColor 10%, #e31b5d);
+    --v-input-background-color: #ffffff;
+    --v-input-background-color-focus: #ffffff;
+    --v-button-background-color-hover: rgba(0, 0, 0, 0.1);
+    --v-button-background-color-active: rgba(0, 0, 0, 0.15);
+    --v-highlight-background-color: #0074e8;
+    --v-highlight-background-color-hover: #178bff;
+    --v-highlight-background-color-active: #0059e8;
+    --v-highlight-color: #ffffff;
+    --v-scrollbar-color: var(--v-highlight-background-color) #ffffff;
+    background: var(--v-background-color-root) !important;
+    color: var(--v-color-root) !important;
+    @media (prefers-color-scheme: dark) {
+        --v-background-color-root: #23232d;
+        --v-color-root: #f7f7fa;
+        --v-border-color: rgba(100, 100, 110, 0.5);
+        --v-input-background-color: #1b1b25;
+        --v-input-background-color-focus: #1b1b25;
+        --v-button-background-color-hover: rgba(255, 255, 255, 0.15);
+        --v-button-background-color-active: rgba(255, 255, 255, 0.1);
+        --v-scrollbar-color: var(--v-highlight-background-color) #000000;
+    }
+}
+body {
+    font: inherit !important;
+    margin: 0 !important;
+    padding-inline: 10px !important;
+    padding-block-start: 0 !important;
+    padding-block-end: 10px !important;
+    width: 100% !important;
+    background: none !important;
+    color: inherit !important;
+    box-sizing: border-box !important;
+}
+:root, body {
+    scrollbar-width: thin !important;
+    scrollbar-color: var(--v-scrollbar-color) !important;
+}
+::selection {
+    background-color: var(--v-highlight-background-color) !important;
+    color: var(--v-highlight-color) !important;
+}
+#header {
+    display: flex !important;
+    align-items: end !important;
+    justify-content: space-between !important;
+    flex-wrap: nowrap !important;
+    position: sticky !important;
+    z-index: 7 !important;
+    inset-inline: 0 !important;
+    top: 0 !important;
+    background: var(--v-background-color-root, Field) !important;
+    color: var(--v-color-root, FieldText) !important;
+    padding-block: 10px !important;
+    padding-inline: 5px !important;
+    margin-inline: -10px !important;
+}
+.css, .js {
+    display: flex !important;
+    flex-direction: column !important;
+    &>span {
+        font-weight: bold !important;
+        min-height: 24px !important;
+        flex-grow: 1 !important;
+    }
+}
+.ucfsettings {
+    font-weight: bold !important;
+}
+.description {
+    font-weight: normal !important;
+    opacity: .8 !important;
+    padding-inline-start: .25em !important;
+}
+pre {
+    font: inherit !important;
+    margin-block: 2px !important;
+    padding: 0 !important;
+}
+p {
+    font-weight: bold !important;
+}
+input, textarea, button {
+    font: inherit !important;
+    box-sizing: border-box !important;
+    appearance: none !important;
+    border: 1px solid var(--v-border-color) !important;
+    background-color: var(--v-input-background-color) !important;
+    background-clip: border-box !important;
+    color: inherit !important;
+    padding-block: 0 !important;
+    padding-inline: 2px !important;
+    margin: 0 !important;
+    height: auto !important;
+    min-height: 24px !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+    outline: none !important;
+    outline-width: 0 !important;
+    &:focus {
+        border-color: var(--v-highlight-background-color) !important;
+        background-color: var(--v-input-background-color-focus) !important;
+    }
+    &:is(textarea) {
+        resize: none !important;
+        white-space: pre !important;
+        scrollbar-width: none !important;
+        line-height: max(22px, 1.5em) !important;
+    }
+    &[type="text"] {
+        white-space: pre !important;
+        line-height: max(22px, 1.5em) !important;
+    }
+    &:is(button[type="button"]) {
+        width: 24px !important;
+        height: 24px !important;
+        padding: 0 !important;
+        cursor: default !important;
+        background-color: transparent !important;
+        display: flex !important;
+        align-items: stretch !important;
+        &::before {
+            content: "";
+            display: flex;
+            flex-grow: 1;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: 16px;
+            -moz-context-properties: fill, fill-opacity, stroke;
+            fill: currentColor;
+        }
+        &.open::before {
+            background-image: url("svg/open.svg");
+        }
+        &.up::before {
+            background-image: url("svg/up.svg");
+        }
+        &.down::before {
+            background-image: url("svg/down.svg");
+        }
+        &.reload::before {
+            background-image: url("svg/reload.svg");
+            fill: var(--v-decoration-color-error);
+        }
+        &.save::before {
+            background-image: url("svg/save.svg");
+        }
+        &.expand::before {
+            background-image: url("svg/expand.svg");
+        }
+        &:hover {
+            background-color: var(--v-button-background-color-hover) !important;
+        }
+        &:hover:active {
+            background-color: var(--v-button-background-color-active) !important;
+        }
+    }
+    &[type="checkbox"] {
+        min-height: 16px !important;
+        height: 16px !important;
+        min-width: 16px !important;
+        width: 16px !important;
+        padding: 0 !important;
+        margin-inline-end: 3px !important;
+        background-repeat: no-repeat !important;
+        background-position: center !important;
+        background-size: 16px !important;
+        &:checked {
+            border-color: var(--v-highlight-background-color) !important;
+            background-color: var(--v-highlight-background-color) !important;
+            background-image: url("svg/checkbox.svg") !important;
+        }
+    }
+}
+.row {
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: stretch !important;
+    align-items: start !important;
+    .disable {
+        margin-block: 4px !important;
+    }
+    input[type="text"], textarea {
+        overflow: clip !important;
+        text-overflow: ellipsis !important;
+    }
+    .path {
+        min-width: 20rem !important;
+    }
+    .pref {
+        flex-grow: 1 !important;
+    }
+    .demo {
+        min-width: 0 !important;
+        flex-grow: 0 !important;
+        width: 12rem !important;
+        margin-inline-start: 19px !important;
+        &.path {
+            width: 5rem !important;
+        }
+    }
+    &[unconnected] .path,
+    &[unconnected] .pref,
+    &[noprefinfile] .path,
+    &[noprefinfile] .pref,
+    &[prefdifferent] .path,
+    &[prefdifferent] .pref {
+        text-decoration-line: underline !important;
+        text-decoration-style: solid !important;
+        text-decoration-color: var(--v-decoration-color-warn) !important;
+        text-decoration-thickness: 2px !important;
+        text-decoration-skip-ink: none !important;
+        text-underline-offset: .2em !important;
+        &.pref[rows]:where(:not([rows="1"])) {
+            text-decoration-line: none !important;
+        }
+    }
+    &[unconnected] .path,
+    &[unconnected] .pref {
+        text-decoration-line: line-through !important;
+    }
+    &[prefdifferent] .path,
+    &[prefdifferent] .pref {
+        text-decoration-style: dashed !important;
+    }
+    &[rebootrequired] .path,
+    &[rebootrequired] .pref {
+        border-style: dashed !important;
+        border-color: var(--v-highlight-background-color) !important;
+        &:focus {
+            border-style: solid !important;
+        }
+    }
+    &[error] .path,
+    &[error] .pref {
+        color: var(--v-decoration-color-error) !important;
+        text-decoration-line: line-through !important;
+        text-decoration-style: solid !important;
+        text-decoration-color: var(--v-decoration-color-error) !important;
+        text-decoration-thickness: 2px !important;
+    }
+    &[expand] {
+        .expand::before {
+            transform: rotate(90deg) !important;
+        }
+        textarea {
+            white-space: normal !important;
+            overflow-y: auto !important;
+            text-overflow: clip !important;
+        }
+    }
+    #addFile & {
+        .open, .up, .down, &:not(:first-of-type) .reload {
+            pointer-events: none !important;
+            border-inline: none !important;
+            &::before {
+                display: none !important;
+            }
+        }
+        .path {
+            pointer-events: auto !important;
+        }
+        .disable,
+        &:not(:first-of-type)> :not(.expand, .pref) {
+            pointer-events: none !important;
+            opacity: 0 !important;
+        }
+        &:first-of-type .reload::before {
+            background-image: url("svg/add.svg");
+            fill: currentColor;
+        }
+    }
+    #allFiles & {
+        .disable {
+            pointer-events: none !important;
+            opacity: 0 !important;
+        }
+        .up, .down, .reload {
+            pointer-events: none !important;
+            border-inline: none !important;
+            &::before {
+                display: none !important;
+            }
+        }
+    }
+}
+.controls {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    user-select: none !important;
+    align-items: center !important;
+    input[type="button"] {
+        color: var(--v-highlight-background-color-hover) !important;
+        font-weight: bold !important;
+        background: none !important;
+        border: none !important;
+        border-bottom: 1px dotted !important;
+        margin-inline: 5px !important;
+        margin-block: 0 !important;
+        padding: 0 !important;
+        height: auto !important;
+        min-height: 1.5em !important;
+        line-height: 1.5em !important;
+        outline: none !important;
+        outline-width: 0 !important;
+        &:focus, &:hover {
+            border-bottom-style: solid !important;
+            background: none !important;
+        }
+        &:hover:active {
+            color: var(--v-highlight-background-color-active) !important;
+            border-bottom-style: solid !important;
+            background: none !important;
+        }
+    }
+}
