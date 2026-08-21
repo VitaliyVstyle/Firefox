@@ -17,7 +17,7 @@ async function createMenus() {
         folderTabs.push(folder.id);
         browser.storage.session.set({folderTabs});
         createRootMenu(folder.id);
-        browser.bookmarks.create({parentId: folder.id, title: "VitaliyVstyle.github.io", type: "bookmark", url: "https://github.com/VitaliyVstyle/VitaliyVstyle.github.io"});
+        browser.bookmarks.create({parentId: folder.id, title: "VitaliyVstyle/Firefox", type: "bookmark", url: "https://github.com/VitaliyVstyle/Firefox"});
         return;
     }
     folderTabs.push(res.id);

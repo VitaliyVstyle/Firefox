@@ -15,7 +15,7 @@
     "name": "New Tab Page",
     "short_name": "NewTabPage",
     "author": "Vitaliy",
-    "version": "2026.8.20.16",
+    "version": "2026.8.21",
     "description": "__MSG_extDescription__",
     "homepage_url": "https://github.com/VitaliyVstyle/Firefox/tree/main/newtabpage",
     "default_locale": "en-US",

@@ -3,11 +3,11 @@
         "__newtabpage@vitaliy.com": {
             "updates": [
                 {
-                    "version": "2026.8.20.16",
+                    "version": "2026.8.21",
                     "update_link": "https://raw.githubusercontent.com/VitaliyVstyle/Firefox/refs/heads/main/newtabpage/newtabpage.xpi",
                     "applications": {
                         "gecko": {
-                            "strict_min_version": "117.0"
+                            "strict_min_version": "142.0"
                         }
                     }
                 }
@@ -16,7 +16,7 @@
         "add_toolbar_buttons@vitaliy.com": {
             "updates": [
                 {
-                    "version": "2026.8.20",
+                    "version": "2026.8.21",
                     "update_link": "https://raw.githubusercontent.com/VitaliyVstyle/Firefox/refs/heads/main/add_toolbar_buttons/add_toolbar_buttons.xpi",
                     "applications": {
                         "gecko": {

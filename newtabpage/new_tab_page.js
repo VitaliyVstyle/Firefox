@@ -543,7 +543,7 @@ async function initNTP(ntpforce = false) {
     if (!(res = (res.length && res[0]))) {
         let folder = await browser.bookmarks.create({index: 0, parentId: "toolbar_____", title: "NewTabPage", type: "folder"});
         folderTabs.push(folder);
-        let book = await browser.bookmarks.create({parentId: folder.id, title: "VitaliyVstyle.github.io", type: "bookmark", url: "https://github.com/VitaliyVstyle/VitaliyVstyle.github.io"});
+        let book = await browser.bookmarks.create({parentId: folder.id, title: "VitaliyVstyle/Firefox", type: "bookmark", url: "https://github.com/VitaliyVstyle/Firefox"});
         gridNode["innerHTML"] = getItemGrid(book);
         tabsCount = 0;
         tabsNode["innerHTML"] = `${getfolderTabs(folder)}${getotherTabs()}`;
