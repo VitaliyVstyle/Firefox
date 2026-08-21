@@ -43,12 +43,6 @@ const ucf = {
             AppConstants: "resource://gre/modules/AppConstants.sys.mjs",
             E10SUtils: "resource://gre/modules/E10SUtils.sys.mjs",
             FileUtils: "resource://gre/modules/FileUtils.sys.mjs",
-            setTimeout: "resource://gre/modules/Timer.sys.mjs",
-            setTimeoutWithTarget: "resource://gre/modules/Timer.sys.mjs",
-            clearTimeout: "resource://gre/modules/Timer.sys.mjs",
-            setInterval: "resource://gre/modules/Timer.sys.mjs",
-            setIntervalWithTarget: "resource://gre/modules/Timer.sys.mjs",
-            clearInterval: "resource://gre/modules/Timer.sys.mjs",
             PlacesUtils: "resource://gre/modules/PlacesUtils.sys.mjs",
         });
         ChromeUtils.defineLazyGetter(scope, "CustomizableUI", () => {

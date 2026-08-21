@@ -49,6 +49,7 @@
         --bookmark-block-padding: 0px !important;
         --toolbar-padding-inline: var(--toolbarbutton-padding-outer) !important;
         --urlbar-min-height: max(26px, 1.4em) !important;
+        --urlbar-height: max(26px, 1.4em) !important;
         --urlbar-container-padding: 0px !important;
         --urlbar-icon-border-radius: 0px !important;
         --urlbar-inner-border-radius: 0px !important;
@@ -57,6 +58,8 @@
         --urlbarView-results-padding: 0px !important;
         --urlbarView-row-gutter: 0px !important;
         --focus-outline-width: 1px !important;
+        --chrome-window-gap: 0px !important;
+        --chrome-block-radius: 0px !important;
         &[uidensity="touch"] {
             --v-tabs-tab-max-width: 225px;
             --v-titlebar-button-vert-padding: 7px;
@@ -67,6 +70,7 @@
             --toolbarbutton-padding-inner: 12px !important;
             --bookmark-block-padding: 0px !important;
             --urlbar-min-height: max(40px, 1.4em) !important;
+            --urlbar-height: max(40px, 1.4em) !important;
             --urlbar-padding-block: 0px !important;
             --urlbar-margin-inline: 0px !important;
         }
