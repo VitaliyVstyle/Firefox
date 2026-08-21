@@ -196,9 +196,10 @@ input, textarea, button {
     }
     .path {
         min-width: 20rem !important;
+        flex-grow: 1 !important;
     }
     .pref {
-        flex-grow: 1 !important;
+        flex-grow: 3 !important;
     }
     .demo {
         min-width: 0 !important;
