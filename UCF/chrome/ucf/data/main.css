@@ -311,6 +311,9 @@
             &[splitview] .split-view-splitter {
                 opacity: 0 !important;
             }
+            .browserContainer {
+                border-top: none !important;
+            }
         }
         #sidebar-splitter {
             appearance: none !important;
