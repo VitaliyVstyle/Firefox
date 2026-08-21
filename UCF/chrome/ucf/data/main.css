@@ -52,14 +52,25 @@
         --urlbar-height: max(26px, 1.4em) !important;
         --urlbar-container-padding: 0px !important;
         --urlbar-icon-border-radius: 0px !important;
+        --urlbar-icon-padding: 4px !important;
         --urlbar-inner-border-radius: 0px !important;
         --urlbar-padding-block: 0px !important;
         --urlbar-margin-inline: 0px !important;
+        --urlbar-border-radius: 0px !important;
+        --urlbar-input-container-border-width: 1px !important;
+        --urlbar-input-container-border-width-breakout: 1px !important;
+        --urlbarView-padding: 0px !important;
         --urlbarView-results-padding: 0px !important;
         --urlbarView-row-gutter: 0px !important;
         --focus-outline-width: 1px !important;
         --chrome-window-gap: 0px !important;
         --chrome-block-radius: 0px !important;
+        --popup-border-radius: 0px !important;
+        --button-background-color-muted: var(--button-background-color) !important;
+        --button-background-color-muted-hover: var(--button-background-color-hover) !important;
+        --button-background-color-muted-active: var(--button-background-color-active) !important;
+        --button-background-color-muted-disabled: var(--button-background-color-disabled) !important;
+        --button-background-color-muted-selected: var(--button-background-color-muted-active) !important;
         &[uidensity="touch"] {
             --v-tabs-tab-max-width: 225px;
             --v-titlebar-button-vert-padding: 7px;
@@ -69,6 +80,7 @@
             --toolbarbutton-padding-outer: 0px !important;
             --toolbarbutton-padding-inner: 12px !important;
             --bookmark-block-padding: 0px !important;
+            --urlbar-icon-padding: 6px !important;
             --urlbar-min-height: max(40px, 1.4em) !important;
             --urlbar-height: max(40px, 1.4em) !important;
             --urlbar-padding-block: 0px !important;
@@ -445,13 +457,22 @@
                     align-self: stretch !important;
                 }
             }
-            .urlbar-page-action {
-                align-items: center !important;
-                justify-content: center !important;
-            }
             .urlbar-go-button,
             .search-go-button {
                 margin-inline: 0 !important;
+            }
+            #urlbar-revert-button-container,
+            .urlbar-page-action,
+            .urlbar-go-button,
+            .search-go-button,
+            .searchbar-textbox::-moz-search-clear-button,
+            .urlbar-input::-moz-search-clear-button {
+                width: auto !important;
+                height: auto !important;
+                align-items: center !important;
+                justify-content: center !important;
+                align-self: stretch !important;
+                padding-inline: var(--urlbar-icon-padding) !important;
             }
             &> :is(.urlbar-background, #urlbar-background) {
                 display: flex !important;
@@ -571,6 +592,7 @@
         align-items: start !important;
         flex-wrap: wrap !important;
         padding-block: 0 !important;
+        margin-inline: 0 !important;
         .search-panel-one-offs-container {
             min-width: calc(5 * 28px) !important;
         }
