@@ -4,73 +4,75 @@
 */
 (async () => {
     var
-    // -- Sidebar Tabs Settings -->
-    ID = "ucf_sidebar_tabs",
-    [
-        st_bookmarks,
-        st_history,
-        st_downloads,
-        st_addons,
-        st_sites,
-        st_open_sites,
-        st_name,
-        st_tooltip,
-        st_tooltip_button,
-    ] = await UcfPrefs.l10nFormatMessages("data/sidebar_tabs/locales", "sidebar_tabs.ftl", [
-        "st-bookmarks",
-        "st-history",
-        "st-downloads",
-        "st-addons",
-        "st-sites",
-        "st-open-sites",
-        "st-name",
-        "st-tooltip",
-        "st-tooltip-button",
-    ]),
-    TABS = [
-        {
-            label: st_bookmarks.value,
-            src: "chrome://browser/content/places/bookmarksSidebar.xhtml",
-        },
-        {
-            label: st_history.value,
-            src: "chrome://browser/content/places/historySidebar.xhtml",
-        },
-        {
-            label: st_downloads.value,
-            src: "about:downloads",
-        },
-        {
-            label: st_addons.value,
-            src: "about:addons",
-            attributes: 'type="content" disableglobalhistory="true" context="contentAreaContextMenu" tooltip="aHTMLTooltip" autocompletepopup="PopupAutoComplete" remote="false" maychangeremoteness="true" ',
-        },
-        {
-            label: st_sites.value,
-            src: "https://github.com/VitaliyVstyle/Firefox",
-            attributes: 'messagemanagergroup="webext-browsers" type="content" disableglobalhistory="true" context="contentAreaContextMenu" tooltip="aHTMLTooltip" autocompletepopup="PopupAutoComplete" remote="true" maychangeremoteness="true" ',
-            menu: {
-                label: st_open_sites.value,
-                icon: `resource://${ID}`,
-            }
-        },
-    ],
-    NAME = st_name.value,
-    TOOLTIP = st_tooltip.value,
-    TOOLTIP_BUTTON = st_tooltip_button.value,
-    START = true, // Placement
-    WIDTH = 350,
-    AUTO_HIDE = true, // Auto hide
-    SHOWDELAY = 300,
-    HIDEDELAY = 2000,
-    MIN_WIDTH = 10,
-    SHOW_HIDE = true,
-    HIDE_FULLSCREEN = true, // Hide in full screen mode
-    HIDE_HEADER = false,
-    PADDING_FOR_VBAR = true,
-    KEY = "KeyB_true_true_false", // Keyboard shortcut for to switch Sidebar Tabs - code_ctrlKey_altKey_shiftKey
-    SELECTOR = "#context-sep-open",
-    IMAGE = "data:image/svg+xml;charset=utf-8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'><g style='fill:context-fill rgb(142, 142, 152);fill-opacity:context-fill-opacity;'><path d='M2 2C.892 2 0 2.89 0 4v9.1a2 2 0 0 0 2 2h12c1.1 0 2-.9 2-2V4a2 2 0 0 0-2-2Zm0 1h12c.6 0 1 .45 1 1v9.1c0 .5-.5.9-1 .9H1.99c-.55 0-.99-.4-.99-.9V4c0-.55.45-1 1-1Z'/> <rect width='14' height='1' x='1' y='6'/> <rect width='1' height='7' x='5' y='7'/></g></svg>";
+        // -- Sidebar Tabs Settings -->
+        ID = "ucf_sidebar_tabs",
+        [
+            st_bookmarks,
+            st_history,
+            st_downloads,
+            st_addons,
+            st_sites,
+            st_open_sites,
+            st_name,
+            st_tooltip,
+            st_tooltip_button,
+        ] = await UcfPrefs.l10nFormatMessages("data/sidebar_tabs/locales", "sidebar_tabs.ftl", [
+            "st-bookmarks",
+            "st-history",
+            "st-downloads",
+            "st-addons",
+            "st-sites",
+            "st-open-sites",
+            "st-name",
+            "st-tooltip",
+            "st-tooltip-button",
+        ]),
+        TABS = [
+            {
+                label: st_bookmarks.value,
+                src: "chrome://browser/content/places/bookmarksSidebar.xhtml",
+            },
+            {
+                label: st_history.value,
+                src: "chrome://browser/content/places/historySidebar.xhtml",
+            },
+            {
+                label: st_downloads.value,
+                src: "about:downloads",
+            },
+            {
+                label: st_addons.value,
+                src: "about:addons",
+                attributes: 'type="content" disableglobalhistory="true" context="contentAreaContextMenu" tooltip="aHTMLTooltip" autocompletepopup="PopupAutoComplete" remote="false" maychangeremoteness="true" ',
+            },
+            {
+                label: st_sites.value,
+                src: "https://github.com/VitaliyVstyle/Firefox",
+                attributes: 'messagemanagergroup="webext-browsers" type="content" disableglobalhistory="true" context="contentAreaContextMenu" tooltip="aHTMLTooltip" autocompletepopup="PopupAutoComplete" remote="true" maychangeremoteness="true" ',
+                menu: {
+                    label: st_open_sites.value,
+                    icon: `resource://${ID}`,
+                }
+            },
+        ],
+        NAME = st_name.value,
+        TOOLTIP = st_tooltip.value,
+        TOOLTIP_BUTTON = st_tooltip_button.value,
+        START = true, // Placement
+        WIDTH = 350,
+        AUTO_HIDE = true, // Auto hide
+        SHOW_DELAY = 300,
+        HIDE_DELAY = 2000,
+        MIN_WIDTH = 10,
+        SHOW_HIDE = true,
+        HIDE_FULLSCREEN = true, // Hide in full screen mode
+        HIDE_HEADER = false,
+        PADDING_FOR_VBAR = true,
+        KEY = "KeyB_true_true_false", // Keyboard shortcut for to switch Sidebar Tabs - code_ctrlKey_altKey_shiftKey
+        SELECTOR = "#context-sep-open",
+        TABS_FOCUS = true,
+        FOCUS_DELAY = 150,
+        IMAGE = "data:image/svg+xml;charset=utf-8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'><g style='fill:context-fill rgb(142, 142, 152);fill-opacity:context-fill-opacity;'><path d='M2 2C.892 2 0 2.89 0 4v9.1a2 2 0 0 0 2 2h12c1.1 0 2-.9 2-2V4a2 2 0 0 0-2-2Zm0 1h12c.6 0 1 .45 1 1v9.1c0 .5-.5.9-1 .9H1.99c-.55 0-.99-.4-.99-.9V4c0-.55.45-1 1-1Z'/> <rect width='14' height='1' x='1' y='6'/> <rect width='1' height='7' x='5' y='7'/></g></svg>";
     // <-- Sidebar Tabs Settings --
     (this[ID] = {
         last_open: "sidebar_tabs_last_open",
@@ -84,6 +86,7 @@
         timer: null,
         showTimer: null,
         hideTimer: null,
+        tid: null,
         isVisible: false,
         isMouseOver: false,
         isPanel: false,
@@ -309,11 +312,16 @@ order: 100 !important;
             this.st_tabbox.handleEvent = function () { };
             this.st_tabbox.selectedIndex = this.st_index = UcfPrefs.getPref(this.last_index, 0);
             delete this.panels_str;
+            setUnloadMap(ID, this.destructor, this);
             if (open) this.open();
             this.addListener("window_keydown", window, "keydown", this);
             if (this.menus.length) this.addListener("popup_popupshowing", this.popup = document.querySelector("#contentAreaContextMenu"), "popupshowing", this);
             this.show_hide = AUTO_HIDE && SHOW_HIDE;
-            setUnloadMap(ID, this.destructor, this);
+            if (!TABS_FOCUS) return;
+            var st_tabs = this.st_tabs = this.st_tabbox.querySelector("#st_tabs");
+            this.addListener("st_tabs_mouseover", st_tabs, "mouseover", this);
+            this.addListener("st_tabs_mouseout", st_tabs, "mouseout", this);
+            this.addListener("st_tabs_mousedown", st_tabs, "mousedown", this);
         },
         get image() {
             Services.io.getProtocolHandler("resource")
@@ -513,6 +521,15 @@ order: 100 !important;
                     this.hideBar();
             }
         },
+        mouseover(e) {
+            this.tid = setTimeout(() => e.target.closest?.("tab:not([selected])")?.on_mousedown({ button: 0 }), FOCUS_DELAY);
+        },
+        mouseout(e) {
+            clearTimeout(this.tid);
+        },
+        mousedown(e) {
+            clearTimeout(this.tid);
+        },
         dragenter(e) {
             switch (e.currentTarget) {
                 case this.st_vbox_container:
@@ -546,7 +563,7 @@ order: 100 !important;
                 this.addListener("tabpanels_dragenter", tabpanels, "dragenter", this);
                 this.addListener("tabpanels_mouseup", tabpanels, "mouseup", this);
             };
-            if (!nodelay) this.showTimer = setTimeout(onTimeout, SHOWDELAY);
+            if (!nodelay) this.showTimer = setTimeout(onTimeout, SHOW_DELAY);
             else onTimeout();
         },
         hideBar(nodelay) {
@@ -564,7 +581,7 @@ order: 100 !important;
                 docElm.setAttribute("sidebar_tabs_visible", "hidden");
                 this.isVisible = false;
             };
-            if (!nodelay) this.hideTimer = setTimeout(onTimeout, HIDEDELAY);
+            if (!nodelay) this.hideTimer = setTimeout(onTimeout, HIDE_DELAY);
             else onTimeout();
         },
         addListener(key, elm, type, listener) {
