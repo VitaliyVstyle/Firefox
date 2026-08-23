@@ -1,1 +1,0 @@
-version, date year-month-day: 2026.8.21

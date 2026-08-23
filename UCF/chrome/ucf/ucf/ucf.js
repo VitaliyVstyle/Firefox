@@ -408,7 +408,7 @@ const ucf = {
                         var dir;
                         if (e.button == 0) {
                             dir = Services.dirsvc.get("UChrm", Ci.nsIFile);
-                            dir.append("user_chrome_files");
+                            dir.append("ucf");
                             if (dir.exists()) dir.launch();
                         } else if (e.button == 1) {
                             dir = Services.dirsvc.get("ProfD", Ci.nsIFile);

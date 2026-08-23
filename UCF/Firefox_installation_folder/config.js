@@ -1,4 +1,4 @@
-// version, date year-month-day: 2026.8.21
+//
 (async (file = Services.dirsvc.get("UChrm", Ci.nsIFile), filename) => {
     file.append("ucf");
     file.append("ucf.manifest");
