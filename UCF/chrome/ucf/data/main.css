@@ -511,15 +511,15 @@
                 outline-color: var(--toolbar-field-border-color, transparent) !important;
             }
             &[focused]> :is(.urlbar-background, #urlbar-background) {
-                outline-color: var(--toolbar-field-focus-border-color, Highlight) !important;
+                outline-color: var(--toolbar-field-border-color-focus, var(--toolbar-field-focus-border-color, Highlight)) !important;
             }
             &>.urlbarView {
                 margin: 0 !important;
                 width: 100% !important;
                 box-sizing: border-box !important;
                 border-radius: var(--v-urlbar-searchbar-border-radius) !important;
-                background: var(--toolbar-field-focus-background-color, Field) !important;
-                border: 1px solid var(--urlbarView-separator-color, ThreeDShadow) !important;
+                background: var(--toolbar-field-background-color-focus, var(--toolbar-field-focus-background-color, Field)) !important;
+                border: 1px solid var(--panel-border-color, ThreeDShadow) !important;
                 border-top: none !important;
                 position: absolute !important;
                 z-index: 7 !important;
@@ -590,9 +590,9 @@
         }
     }
     #PopupSearchAutoComplete {
-        --panel-color: var(--toolbar-field-focus-color, FieldText) !important;
-        --panel-background: var(--toolbar-field-focus-background-color, Field) !important;
-        --panel-border-color: var(--urlbarView-separator-color, ThreeDShadow) !important;
+        --panel-color: var(--toolbar-field-color-focus, var(--toolbar-field-focus-color, FieldText)) !important;
+        --panel-background: var(--toolbar-field-background-color-focus, var(--toolbar-field-focus-background-color, Field)) !important;
+        --panel-border-color: inherit !important;
         --panel-border-radius: var(--v-urlbar-searchbar-border-radius) !important;
         &>.search-panel-current-engine {
             margin-top: 0px !important;
@@ -606,7 +606,7 @@
         }
     }
     .search-one-offs {
-        border-top: 1px solid var(--urlbarView-separator-color);
+        border-top: 1px solid var(--panel-border-color);
         display: flex !important;
         align-items: start !important;
         flex-wrap: wrap !important;
