@@ -421,12 +421,24 @@
         }
     }
     toolbarbutton.close-icon,
-    toolbarbutton.findbar-find-previous, toolbarbutton.findbar-find-next,
-    input.findbar-textbox {
+    toolbarbutton.findbar-find-previous, toolbarbutton.findbar-find-next {
         border-radius: 0 !important;
     }
-    findbar>.findbar-container {
-        overflow: hidden;
+    findbar {
+        .findbar-container {
+            overflow: hidden;
+        }
+        .findbar-textbox {
+            border-radius: 0 !important;
+            &[status="notfound"] {
+                background-color: rgba(226, 40, 80, 0.3) !important;
+                color: inherit !important;
+            }
+            &[flash="true"] {
+                background-color: rgba(255, 233, 0, 0.3) !important;
+                color: inherit !important;
+            }
+        }
     }
 
     #urlbar-container, #search-container {

@@ -117,7 +117,7 @@
         "message": "Restart"
     },
     "bRestartAppT": {
-        "message": "L: Restart the application\nM: Restart without add-ons\nR: Restart and re-create the quick launch cache"
+        "message": "L: Restart the application\nM: Restart without add-ons\nR: Restart with clearing the Quick Launch cache"
     },
     "bAboutConfigT": {
         "message": "L: Open about:config\nShift+L: Search from clipboard in about:config\nM: Search from clipboard in about:config\nR: Search for the highlighted in about:config"

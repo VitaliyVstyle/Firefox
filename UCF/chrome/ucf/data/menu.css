@@ -92,6 +92,9 @@
             --panel-text-color: var(--button-text-color-primary) !important;
             --panel-padding: var(--panel-padding-block) 4px !important;
         }
+        &#editBookmarkPanel {
+            --panel-subview-body-padding: var(--panel-subview-body-padding-block) 4px !important;
+        }
     }
     menupopup {
         menuseparator {
