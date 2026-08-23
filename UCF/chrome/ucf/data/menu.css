@@ -97,6 +97,9 @@
         }
     }
     menupopup {
+        --panel-padding-block: 0px !important;
+        --panel-padding-inline: 0px !important;
+        --panel-padding: 0px !important;
         menuseparator {
             appearance: none !important;
             height: 5px !important;
