@@ -52,6 +52,33 @@ const RestoreDefaults = () => {
     }
     UcfPrefs.setPrefs(prefs);
 };
+const getFile = path => {
+    var file = Cc["@mozilla.org/file/local;1"].createInstance(Ci.nsIFile);
+    file.initWithPath(path);
+    return file;
+};
+const openFileOrDir = async (file, ppath, pargs) => {
+    let editor = UcfPrefs.getPref(ppath, "").trim();
+    if (editor) {
+        let itwp = getFile(editor);
+        let process = Cc["@mozilla.org/process/util;1"].createInstance(Ci.nsIProcess);
+        process.init(itwp);
+        let args = UcfPrefs.getPref(pargs, "").trim();
+        let quot = /^"/.test(args) ? true : false;
+        args = args.split(/\s*"\s*/);
+        let temp = [];
+        for (let frag of args) {
+            if (!frag) continue;
+            if (!quot) frag = frag.split(/\s+/);
+            else frag = [frag];
+            quot = !quot;
+            temp = temp.concat(frag);
+        }
+        args = temp;
+        args.push(file.path);
+        process.runwAsync(args, args.length);
+    } else file.launch();
+};
 const initOptions = () => {
     var l10n = UcfPrefs.l10nDoMLocalization("ucf/locales", "prefs.ftl");
     l10n.connectRoot(document.documentElement);
@@ -60,10 +87,11 @@ const initOptions = () => {
         FillForm(i.dataset.pref, i);
     document.querySelector("#btn_browse").onclick = e => filePicker(e.currentTarget.parentElement.firstElementChild);
     document.querySelector("#btn_folder_browse").onclick = e => filePicker(e.currentTarget.parentElement.firstElementChild);
+    document.querySelector("#open_ucf").onclick = () => getFile(UcfPrefs.manifestPath).parent.launch();
+    document.querySelector("#open_edit_ucf").onclick = () => openFileOrDir(getFile(UcfPrefs.manifestPath).parent, "folder_editor_path", "folder_editor_args");
     document.querySelector("#restore").onclick = () => RestoreDefaults();
     document.querySelector("#restart").onclick = () => UcfPrefs.restartApp();
     document.querySelector("#restart_no_cache").onclick = () => UcfPrefs.restartApp(true);
-    document.querySelector("#homepage").onclick = () => UcfPrefs.openHavingURI(window, "https://github.com/VitaliyVstyle/Firefox/tree/main/UCF");
     document.querySelector("#open_options").onclick = () => UcfPrefs.openHavingURI(window, "about:user-chrome-files-options", true);
     window.addEventListener("change", Change);
     Services.obs.addObserver(Change, UcfPrefs.TOPIC_PREFS);

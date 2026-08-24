@@ -167,9 +167,6 @@ label {
 .grow {
     flex-grow: 1 !important;
     padding-inline-end: 0 !important;
-    &.path {
-        flex-grow: 5 !important;
-    }
 }
 span {
     line-height: 1.5em;

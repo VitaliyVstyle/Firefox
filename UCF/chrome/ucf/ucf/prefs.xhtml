@@ -1,170 +1,155 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <html xmlns="http://www.w3.org/1999/xhtml">
-
 <head>
-    <meta charset="utf8" />
-    <title data-l10n-id="title"></title>
-    <link href="chrome://user_chrome_files/content/ucf/svg/prefs.svg" rel="icon" type="image/svg+xml" />
-    <link rel="stylesheet" href="chrome://user_chrome_files/content/ucf/prefs.css" type="text/css" />
+<meta charset="utf8" />
+<title data-l10n-id="title"></title>
+<link href="chrome://user_chrome_files/content/ucf/svg/prefs.svg" rel="icon" type="image/svg+xml" />
+<link rel="stylesheet" href="chrome://user_chrome_files/content/ucf/prefs.css" type="text/css" />
 </head>
-
 <body>
-    <div id="header">
-        <div class="controls">
-            <input type="button" id="restore" data-l10n-id="restore" />
-            <input type="button" id="restart" data-l10n-id="restart" />
-            <input type="button" id="restart_no_cache" data-l10n-args='{"lineBreak":"\n"}'
-                data-l10n-id="restart_no_cache" />
-        </div>
-        <div class="controls">
-            <input type="button" id="homepage" data-l10n-id="homepage" />
-        </div>
-    </div>
-    <label>
-        <input type="checkbox" autocomplete="off" data-pref="toolbars_enable" />
-        <span data-l10n-id="toolbars_enable"></span>
-    </label>
-    <fieldset>
-        <div class="columns">
-            <div>
-                <label>
-                    <input type="checkbox" autocomplete="off" data-pref="t_enable" />
-                    <span data-l10n-id="top_enable"></span>
-                </label>
-                <fieldset>
-                    <label>
-                        <input type="checkbox" autocomplete="off" data-pref="t_next_navbar" />
-                        <span data-l10n-id="top_next_navbar"></span>
-                    </label>
-                    <label>
-                        <input type="checkbox" autocomplete="off" data-pref="t_autohide" />
-                        <span data-l10n-id="autohide"></span>
-                    </label>
-                    <fieldset>
-                        <label class="text-input">
-                            <input type="number" autocomplete="off" min="0" max="999999" style="width:5em"
-                                data-pref="t_showdelay" />
-                            <span data-l10n-id="showdelay"></span>
-                        </label>
-                        <label class="text-input">
-                            <input type="number" autocomplete="off" min="0" max="999999" style="width:5em"
-                                data-pref="t_hidedelay" />
-                            <span data-l10n-id="hidedelay"></span>
-                        </label>
-                        <div class="textarea">
-                            <input type="text" autocomplete="off" data-pref="t_hoversel" />
-                            <span data-l10n-id="top_hover_sel"></span>
-                        </div>
-                    </fieldset>
-                </fieldset>
-            </div>
-            <div>
-                <label>
-                    <input type="checkbox" autocomplete="off" data-pref="v_enable" />
-                    <span data-l10n-id="vertical_enable"></span>
-                </label>
-                <fieldset>
-                    <label>
-                        <input type="checkbox" autocomplete="off" data-pref="v_bar_start" />
-                        <span data-l10n-id="vertical_bar_start"></span>
-                    </label>
-                    <label>
-                        <input type="checkbox" autocomplete="off" data-pref="v_fullscreen" />
-                        <span data-l10n-id="vertical_fullscreen"></span>
-                    </label>
-                    <label>
-                        <input type="checkbox" autocomplete="off" data-pref="v_autohide" />
-                        <span data-l10n-id="autohide"></span>
-                    </label>
-                    <fieldset>
-                        <label class="text-input">
-                            <input type="number" autocomplete="off" min="0" max="999999" style="width:5em"
-                                data-pref="v_showdelay" />
-                            <span data-l10n-id="showdelay"></span>
-                        </label>
-                        <label class="text-input">
-                            <input type="number" autocomplete="off" min="0" max="999999" style="width:5em"
-                                data-pref="v_hidedelay" />
-                            <span data-l10n-id="hidedelay"></span>
-                        </label>
-                        <label>
-                            <input type="checkbox" autocomplete="off" data-pref="v_mouseenter_sidebar" />
-                            <span data-l10n-id="vertical_mouseenter_sidebar"></span>
-                        </label>
-                    </fieldset>
-                </fieldset>
-            </div>
-        </div>
-        <label>
-            <input type="checkbox" autocomplete="off" data-pref="b_enable" />
-            <span data-l10n-id="bottom_enable"></span>
-        </label>
-    </fieldset>
-    <div class="columns">
-        <div>
-            <label>
-                <input type="checkbox" autocomplete="off" data-pref="css_all_chrome" />
-                <span>CssAllChrome</span>
-            </label>
-            <label>
-                <input type="checkbox" autocomplete="off" data-pref="css_all_frame" />
-                <span>CssAllFrame</span>
-            </label>
-        </div>
-        <div>
-            <label>
-                <input type="checkbox" autocomplete="off" data-pref="js_background" />
-                <span>JsBackground</span>
-            </label>
-            <label>
-                <input type="checkbox" autocomplete="off" data-pref="js_chrome" />
-                <span>JsChrome</span>
-            </label>
-            <label>
-                <input type="checkbox" autocomplete="off" data-pref="js_all_chrome" />
-                <span>JsAllChrome</span>
-            </label>
-        </div>
-        <div class="grow">
-            <label>
-                <input type="checkbox" autocomplete="off" data-pref="css_js_content" />
-                <span>CssContent, JsContent</span>
-            </label>
-            <fieldset>
-                <div class="textarea">
-                    <input type="text" autocomplete="off" data-pref="css_js_content_groups" />
-                    <span>messageManagerGroups</span>
-                </div>
-                <div class="textarea">
-                    <input type="text" autocomplete="off" data-pref="css_js_content_matches" />
-                    <span>matches</span>
-                </div>
-            </fieldset>
-        </div>
-    </div>
-    <div class="columns">
-        <div class="controls">
-            <input type="button" id="open_options" data-l10n-id="open_options" />
-        </div>
-        <div class="grow">
-            <span data-l10n-id="editor_path"></span>
-            <div class="row">
-                <input type="text" autocomplete="off" class="grow path" data-l10n-id="editor_title"
-                    data-pref="editor_path" />
-                <button id="btn_browse" type="button"></button>
-                <input type="text" autocomplete="off" class="grow" data-l10n-id="editor_args_title"
-                    data-pref="editor_args" />
-            </div>
-            <div class="row">
-                <input type="text" autocomplete="off" class="grow path" data-l10n-id="folder_editor_title"
-                    data-pref="folder_editor_path" />
-                <button id="btn_folder_browse" type="button"></button>
-                <input type="text" autocomplete="off" class="grow" data-l10n-id="editor_args_title"
-                    data-pref="folder_editor_args" />
-            </div>
-        </div>
-    </div>
-    <script src="chrome://user_chrome_files/content/ucf/prefs.js"></script>
+<div id="header">
+<div class="controls">
+<input type="button" id="open_ucf" data-l10n-id="open_ucf"/>
+<input type="button" id="open_edit_ucf" data-l10n-id="open_edit_ucf"/>
+<input type="button" id="open_options" data-l10n-id="open_options" />
+<input type="button" id="restart" data-l10n-id="restart" />
+<input type="button" id="restart_no_cache" data-l10n-id="restart_no_cache" data-l10n-args='{"lineBreak":"\n"}' />
+</div>
+<div class="controls">
+<input type="button" id="restore" data-l10n-id="restore" />
+</div>
+</div>
+<label>
+<input type="checkbox" autocomplete="off" data-pref="toolbars_enable" />
+<span data-l10n-id="toolbars_enable"></span>
+</label>
+<fieldset>
+<div class="columns">
+<div>
+<label>
+<input type="checkbox" autocomplete="off" data-pref="t_enable" />
+<span data-l10n-id="top_enable"></span>
+</label>
+<fieldset>
+<label>
+<input type="checkbox" autocomplete="off" data-pref="t_next_navbar" />
+<span data-l10n-id="top_next_navbar"></span>
+</label>
+<label>
+<input type="checkbox" autocomplete="off" data-pref="t_autohide" />
+<span data-l10n-id="autohide"></span>
+</label>
+<fieldset>
+<label class="text-input">
+<input type="number" autocomplete="off" min="0" max="999999" style="width:5em" data-pref="t_showdelay" />
+<span data-l10n-id="showdelay"></span>
+</label>
+<label class="text-input">
+<input type="number" autocomplete="off" min="0" max="999999" style="width:5em" data-pref="t_hidedelay" />
+<span data-l10n-id="hidedelay"></span>
+</label>
+<div class="textarea">
+<input type="text" autocomplete="off" data-pref="t_hoversel" />
+<span data-l10n-id="top_hover_sel"></span>
+</div>
+</fieldset>
+</fieldset>
+</div>
+<div>
+<label>
+<input type="checkbox" autocomplete="off" data-pref="v_enable" />
+<span data-l10n-id="vertical_enable"></span>
+</label>
+<fieldset>
+<label>
+<input type="checkbox" autocomplete="off" data-pref="v_bar_start" />
+<span data-l10n-id="vertical_bar_start"></span>
+</label>
+<label>
+<input type="checkbox" autocomplete="off" data-pref="v_fullscreen" />
+<span data-l10n-id="vertical_fullscreen"></span>
+</label>
+<label>
+<input type="checkbox" autocomplete="off" data-pref="v_autohide" />
+<span data-l10n-id="autohide"></span>
+</label>
+<fieldset>
+<label class="text-input">
+<input type="number" autocomplete="off" min="0" max="999999" style="width:5em" data-pref="v_showdelay" />
+<span data-l10n-id="showdelay"></span>
+</label>
+<label class="text-input">
+<input type="number" autocomplete="off" min="0" max="999999" style="width:5em" data-pref="v_hidedelay" />
+<span data-l10n-id="hidedelay"></span>
+</label>
+<label>
+<input type="checkbox" autocomplete="off" data-pref="v_mouseenter_sidebar" />
+<span data-l10n-id="vertical_mouseenter_sidebar"></span>
+</label>
+</fieldset>
+</fieldset>
+</div>
+</div>
+<label>
+<input type="checkbox" autocomplete="off" data-pref="b_enable" />
+<span data-l10n-id="bottom_enable"></span>
+</label>
+</fieldset>
+<div class="columns">
+<div>
+<label>
+<input type="checkbox" autocomplete="off" data-pref="css_all_chrome" />
+<span>CssAllChrome</span>
+</label>
+<label>
+<input type="checkbox" autocomplete="off" data-pref="css_all_frame" />
+<span>CssAllFrame</span>
+</label>
+</div>
+<div>
+<label>
+<input type="checkbox" autocomplete="off" data-pref="js_background" />
+<span>JsBackground</span>
+</label>
+<label>
+<input type="checkbox" autocomplete="off" data-pref="js_chrome" />
+<span>JsChrome</span>
+</label>
+<label>
+<input type="checkbox" autocomplete="off" data-pref="js_all_chrome" />
+<span>JsAllChrome</span>
+</label>
+</div>
+<div class="grow">
+<label>
+<input type="checkbox" autocomplete="off" data-pref="css_js_content" />
+<span>CssContent, JsContent</span>
+</label>
+<fieldset>
+<div class="textarea">
+<input type="text" autocomplete="off" data-pref="css_js_content_groups" />
+<span>messageManagerGroups</span>
+</div>
+<div class="textarea">
+<input type="text" autocomplete="off" data-pref="css_js_content_matches" />
+<span>matches</span>
+</div>
+</fieldset>
+</div>
+</div>
+<div class="grow">
+<span data-l10n-id="editor_path"></span>
+<div class="row">
+<input type="text" autocomplete="off" class="grow path" data-l10n-id="editor_title" data-pref="editor_path" />
+<button id="btn_browse" type="button"></button>
+<input type="text" autocomplete="off" class="grow" data-l10n-id="editor_args_title" data-pref="editor_args" />
+</div>
+<div class="row">
+<input type="text" autocomplete="off" class="grow path" data-l10n-id="folder_editor_title" data-pref="folder_editor_path" />
+<button id="btn_folder_browse" type="button"></button>
+<input type="text" autocomplete="off" class="grow" data-l10n-id="editor_args_title" data-pref="folder_editor_args" />
+</div>
+</div>
+<script src="chrome://user_chrome_files/content/ucf/prefs.js"></script>
 </body>
-
 </html>

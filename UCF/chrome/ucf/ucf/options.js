@@ -349,11 +349,10 @@ const initLoad = () => {
     var l10n = UcfPrefs.l10nDoMLocalization("ucf/locales", "prefs.ftl");
     l10n.connectRoot(document.documentElement);
     l10n.translateRoots();
-    document.querySelector("#open_ucf").onclick = () => getFile(UcfPrefs.manifestPath).parent.launch();
-    document.querySelector("#open_edit_ucf").onclick = () => openFileOrDir(getFile(UcfPrefs.manifestPath).parent, "folder_editor_path", "folder_editor_args");
+    document.querySelector("#open_data").onclick = () => getFile(UcfPrefs.manifestPath.replace(/ucf\.manifest$/, "data")).launch();
+    document.querySelector("#open_edit_data").onclick = () => openFileOrDir(getFile(UcfPrefs.manifestPath.replace(/ucf\.manifest$/, "data")), "folder_editor_path", "folder_editor_args");
     document.querySelector("#restart").onclick = () => UcfPrefs.restartApp();
     document.querySelector("#restart_no_cache").onclick = () => UcfPrefs.restartApp(true);
-    document.querySelector("#homepage").onclick = () => UcfPrefs.openHavingURI(window, "https://github.com/VitaliyVstyle/Firefox/tree/main/UCF");
     window.addEventListener("input", handleInput);
     window.addEventListener("unload", () => {
         window.removeEventListener("input", handleInput);
