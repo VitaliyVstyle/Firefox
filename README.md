@@ -1,1 +1,1 @@
-# Firefox
+# Firefox - Scripts, Styles, Addons

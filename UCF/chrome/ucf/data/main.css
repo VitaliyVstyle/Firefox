@@ -59,9 +59,12 @@
         --urlbar-border-radius: 0px !important;
         --urlbar-input-container-border-width: 1px !important;
         --urlbar-input-container-border-width-breakout: 1px !important;
+        --identity-box-margin-inline: 4px !important;
         --urlbarView-padding: 0px !important;
         --urlbarView-results-padding: 0px !important;
         --urlbarView-row-gutter: 0px !important;
+        --urlbarView-icon-margin-start: 0px !important;
+        --urlbarView-icon-margin-end: calc(var(--urlbar-icon-padding) + var(--identity-box-margin-inline)) !important;
         --focus-outline-width: 1px !important;
         --chrome-window-gap: 0px !important;
         --chrome-block-radius: 0px !important;
@@ -543,6 +546,10 @@
                 }
                 .urlbarView-results {
                     padding-block: 0 !important;
+                }
+                .urlbarView-row {
+                    --urlbarView-icon-margin-start: inherit !important;
+                    --urlbarView-icon-margin-end: inherit !important;
                 }
             }
             .searchmode-switcher {
