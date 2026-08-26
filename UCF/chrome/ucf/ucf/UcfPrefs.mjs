@@ -195,7 +195,7 @@ export var UcfPrefs = {
         delete this._initPrefs;
         Object.assign(this.prefs, this.default);
         try {
-            Object.assign(this.prefs, JSON.parse(Cu.readUTF8URI(Services.io.newURI("chrome://user_chrome_files/content/prefs.json"))));
+            Object.assign(this.prefs, JSON.parse(Cu.readUTF8URI(Services.io.newURI("chrome://ucf-url/content/prefs.json"))));
         } catch {
             this.writeJSON(this.default);
         }
@@ -296,7 +296,7 @@ export var UcfPrefs = {
                         path,
                         "app",
                         _l10nLocales,
-                        `chrome://user_chrome_files/content/${path}/{locale}/`
+                        `chrome://ucf-url/content/${path}/{locale}/`
                     ),
                 ]);
                 return this.l10nRegistry = reg;
@@ -347,7 +347,7 @@ export var UcfPrefs = {
 };
 class AboutPrefs {
     constructor(file, description, hide) {
-        this.newuri = Services.io.newURI(`chrome://user_chrome_files/content/ucf/${file}`);
+        this.newuri = Services.io.newURI(`chrome://ucf-url/content/ucf/${file}`);
         this.classDescription = `about:${description}`;
         this.classID = Components.ID(Services.uuid.generateUUID().toString());
         this.contractID = `@mozilla.org/network/protocol/about;1?what=${description}`;

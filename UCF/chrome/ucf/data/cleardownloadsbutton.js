@@ -2,7 +2,7 @@
 @UCF @param {"prop":"JsChrome.load","ucfobj":true,"disable":true} @UCF
 */
 (async (
-    icon = "chrome://user_chrome_files/content/data/svg/edit-delete.svg",
+    icon = "chrome://ucf-url/content/data/svg/edit-delete.svg",
 ) => ({
     init() {
         var panel = this.panel = DownloadsPanel.panel;

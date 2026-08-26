@@ -1,10 +1,10 @@
 var _write = false;
-const { UcfPrefs } = ChromeUtils.importESModule("chrome://user_chrome_files/content/ucf/UcfPrefs.mjs");
+const { UcfPrefs } = ChromeUtils.importESModule("chrome://ucf-url/content/ucf/UcfPrefs.mjs");
 const filesMap = new Map(), prefsMap = new Map(), filesSet = new Set();
 const baseCSS = { prop: "CssChrome", type: "USER_SHEET", disable: true };
 const baseJS = { prop: "JsChrome.load", disable: true };
 const baseMJS = { prop: "JsBackground", module: true, disable: true };
-const chromeUrl = "chrome://user_chrome_files/content/ucf/";
+const chromeUrl = "chrome://ucf-url/content/ucf/";
 const pathInd = 1, prefInd = 8;
 const getFile = path => {
     var file = Cc["@mozilla.org/file/local;1"].createInstance(Ci.nsIFile);

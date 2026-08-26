@@ -20,7 +20,7 @@
         wantGlobalProperties: ["ChromeUtils"],
     });
     sandbox.manifestPath = file.path;
-    Services.scriptloader.loadSubScript(`chrome://user_chrome_files/content/ucf/${filename}`, sandbox);
+    Services.scriptloader.loadSubScript(`chrome://ucf-url/content/ucf/${filename}`, sandbox);
 })();
 
 lockPref("xpinstall.signatures.required", false);

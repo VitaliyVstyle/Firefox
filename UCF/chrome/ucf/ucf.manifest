@@ -1,2 +1,2 @@
-content user_chrome_files ./
-override chrome://global/skin/media/imagedoc-darknoise.png chrome://user_chrome_files/content/styles/png/imagedoc-darknoise.png
+content ucf-url ./
+override chrome://global/skin/media/imagedoc-darknoise.png chrome://ucf-url/content/styles/png/imagedoc-darknoise.png

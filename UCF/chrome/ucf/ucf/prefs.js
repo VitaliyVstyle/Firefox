@@ -1,4 +1,4 @@
-const { UcfPrefs } = ChromeUtils.importESModule("chrome://user_chrome_files/content/ucf/UcfPrefs.mjs");
+const { UcfPrefs } = ChromeUtils.importESModule("chrome://ucf-url/content/ucf/UcfPrefs.mjs");
 const controlSet = new Set([
     "toolbars_enable",
     "t_enable",
@@ -92,7 +92,7 @@ const initOptions = () => {
     document.querySelector("#restore").onclick = () => RestoreDefaults();
     document.querySelector("#restart").onclick = () => UcfPrefs.restartApp();
     document.querySelector("#restart_no_cache").onclick = () => UcfPrefs.restartApp(true);
-    document.querySelector("#open_options").onclick = () => UcfPrefs.openHavingURI(window, "about:user-chrome-files-options", true);
+    document.querySelector("#open_options").onclick = () => UcfPrefs.openHavingURI(window, "about:ucf-url-options", true);
     window.addEventListener("change", Change);
     Services.obs.addObserver(Change, UcfPrefs.TOPIC_PREFS);
     window.addEventListener("unload", () => {

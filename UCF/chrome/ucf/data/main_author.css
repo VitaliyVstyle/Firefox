@@ -1,11 +1,9 @@
 /**
-@UCF @param {"prop":"CssAllChrome","type":"AUTHOR_SHEET","disable":true} @UCF
+@UCF @param {"prop":"CssChrome","type":"AUTHOR_SHEET","disable":true} @UCF
 */
-@-moz-document url("chrome://browser/content/browser.xhtml") {
-    #tabbrowser-tabs[orient="horizontal"] .tabbrowser-tab[fadein]:not([pinned]) {
-        max-width: var(--tab-max-width, 200px);
-    }
-    menupopup::part(drop-indicator) {
-        background-color: var(--color-accent-primary, Highlight) !important;
-    }
+#tabbrowser-tabs[orient="horizontal"] .tabbrowser-tab[fadein]:not([pinned]) {
+    max-width: var(--tab-max-width, 200px);
+}
+menupopup::part(drop-indicator) {
+    background-color: var(--color-accent-primary, Highlight) !important;
 }

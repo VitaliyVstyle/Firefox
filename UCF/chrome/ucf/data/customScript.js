@@ -17,7 +17,7 @@
     id = "ucf-read-mail",
     label = "Mail",
     tooltiptext = "Open the Mail app",
-    image = "chrome://user_chrome_files/content/data/svg/email.svg",
+    image = "chrome://ucf-url/content/data/svg/email.svg",
 ) => CustomizableUI.createWidget({
     id,
     label,

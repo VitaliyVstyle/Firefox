@@ -1,8 +1,8 @@
-ucf-open-about-config-button = UserChromeFiles settings
-    .left = L: Open UserChromeFiles settings in tab
+ucf-open-about-config-button = UCF settings
+    .left = L: Open UCF settings in tab
     .shiftleft = Shift+L: Connect styles and scripts
     .midle = M: Open about:config
-    .right = R: Open UserChromeFiles settings in window
+    .right = R: Open UCF settings in window
 ucf-additional-vertical-toggle-button = Switch Vertical toolbar
     .tooltiptext = Hide / Show Vertical toolbar
 ucf-additional-top-toggle-button = Switch Additional toolbar

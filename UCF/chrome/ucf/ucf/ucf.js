@@ -1,6 +1,6 @@
 
-const chromeUrl = "chrome://user_chrome_files/content/ucf/";
-const dataUrl = "chrome://user_chrome_files/content/data/";
+const chromeUrl = "chrome://ucf-url/content/ucf/";
+const dataUrl = "chrome://ucf-url/content/data/";
 const { UcfPrefs } = ChromeUtils.importESModule(`${chromeUrl}UcfPrefs.mjs`);
 ChromeUtils.defineLazyGetter(this, "CustomizableUI", () => {
     try {
@@ -33,8 +33,8 @@ const ucf = {
     },
     get css_all_chrome() {
         this.initCustom();
-        UcfPrefs.initAboutPrefs("prefs.xhtml", "user-chrome-files");
-        UcfPrefs.initAboutPrefs("options.xhtml", "user-chrome-files-options", true);
+        UcfPrefs.initAboutPrefs("prefs.xhtml", "ucf-url");
+        UcfPrefs.initAboutPrefs("options.xhtml", "ucf-url-options", true);
         delete this.css_all_chrome;
         return this.css_all_chrome = UcfPrefs.prefs.css_all_chrome;
     },
@@ -290,7 +290,7 @@ const ucf = {
                 localized: false,
                 onBuild(doc) {
                     var win = doc.defaultView;
-                    var prefsInfo = "about:user-chrome-files";
+                    var prefsInfo = "about:ucf-url";
                     if (!win.gInitialPages?.includes(prefsInfo)) win.gInitialPages?.push(prefsInfo);
                     var btn = doc.createXULElement("toolbarbutton");
                     btn.id = "ucf-open-about-config-button";
@@ -299,7 +299,7 @@ const ucf = {
                     btn.toggleAttribute("context", true);
                     btn.setAttribute("tooltiptext", this.tooltiptext);
                     btn.addEventListener("click", e => {
-                        if (e.button == 0) UcfPrefs.openHavingURI(win, !e.shiftKey ? prefsInfo : "about:user-chrome-files-options", true);
+                        if (e.button == 0) UcfPrefs.openHavingURI(win, !e.shiftKey ? prefsInfo : "about:ucf-url-options", true);
                         else if (e.button == 1) UcfPrefs.openHavingURI(win, "about:config", true);
                         else if (e.button == 2) {
                             let prefwin = Services.wm.getMostRecentWindow("ucf_prefs:window");

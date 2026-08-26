@@ -1,6 +1,6 @@
 
-const chromeUrl = "chrome://user_chrome_files/content/ucf/";
-const dataUrl = "chrome://user_chrome_files/content/data/";
+const chromeUrl = "chrome://ucf-url/content/ucf/";
+const dataUrl = "chrome://ucf-url/content/data/";
 const { UcfPrefs } = ChromeUtils.importESModule(`${chromeUrl}UcfPrefs.mjs`);
 ChromeUtils.defineLazyGetter(this, "UcfSSS", () => Cc["@mozilla.org/content/style-sheet-service;1"].getService(Ci.nsIStyleSheetService));
 ChromeUtils.defineLazyGetter(this, "VER", () => parseInt(Services.appinfo.platformVersion));
@@ -20,8 +20,8 @@ ChromeUtils.defineLazyGetter(this, "OS", () => {
 const ucf = {
     get css_all_chrome() {
         this.initCustom();
-        UcfPrefs.initAboutPrefs("prefs_tb.xhtml", "user-chrome-files");
-        UcfPrefs.initAboutPrefs("options.xhtml", "user-chrome-files-options", true);
+        UcfPrefs.initAboutPrefs("prefs_tb.xhtml", "ucf-url");
+        UcfPrefs.initAboutPrefs("options.xhtml", "ucf-url-options", true);
         delete this.css_all_chrome;
         return this.css_all_chrome = UcfPrefs.prefs.css_all_chrome;
     },
@@ -288,7 +288,7 @@ class InitWin {
                     mitem.id = "ucf-open-about-config-mitem";
                     mitem.className = "menuitem-iconic";
                     mitem.style.cssText = `--menuitem-icon:url("${icon}");list-style-image:url("${icon}");-moz-context-properties:fill,stroke,fill-opacity;stroke:currentColor;fill-opacity:var(--toolbarbutton-icon-fill-opacity,.8);`;
-                    mitem.addEventListener("command", e => UcfPrefs.openHavingURI(e.view, "about:user-chrome-files", true));
+                    mitem.addEventListener("command", e => UcfPrefs.openHavingURI(e.view, "about:ucf-url", true));
                     return mitem;
                 })());
                 win.document.querySelector("toolbarbutton#appmenu_addons")?.after((() => {
@@ -297,7 +297,7 @@ class InitWin {
                     btn.id = "ucf-open-about-config-btn";
                     btn.className = "subviewbutton subviewbutton-iconic";
                     btn.style.cssText = `list-style-image:url("${icon}");`;
-                    btn.addEventListener("command", e => UcfPrefs.openHavingURI(e.view, "about:user-chrome-files", true));
+                    btn.addEventListener("command", e => UcfPrefs.openHavingURI(e.view, "about:ucf-url", true));
                     return btn;
                 })());
             }, { once: true });

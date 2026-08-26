@@ -1,5 +1,5 @@
-title = UserChromeFiles
-title_opt = UserChromeFiles підключити стилі та скрипти
+title = UCF
+title_opt = UCF підключити стилі та скрипти
 restore =
     .title = Відновити налаштування за замовчуванням
     .value = За замовчуванням

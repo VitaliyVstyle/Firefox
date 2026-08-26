@@ -6,7 +6,7 @@
     var
         // -- Sidebar Tabs Settings -->
         ID = "ucf_sidebar_tabs",
-        ICON = "chrome://user_chrome_files/content/data/sidebar_tabs/icon.svg",
+        ICON = "chrome://ucf-url/content/data/sidebar_tabs/icon.svg",
         [
             st_bookmarks,
             st_history,

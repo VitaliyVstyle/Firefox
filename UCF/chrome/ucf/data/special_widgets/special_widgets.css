@@ -1,100 +1,98 @@
 /**
 @UCF @param {"prop":"CssChrome","type":"USER_SHEET","disable":true} @UCF
 */
-@-moz-document url("chrome://browser/content/browser.xhtml") {
-    toolbarseparator[id^="customizableui-special-separator"] {
-        appearance: none !important;
-        padding-block: var(--toolbarbutton-padding-inner, 0) !important;
-        padding-inline: 2px !important;
-        margin: 0 !important;
+toolbarseparator[id^="customizableui-special-separator"] {
+    appearance: none !important;
+    padding-block: var(--toolbarbutton-padding-inner, 0) !important;
+    padding-inline: 2px !important;
+    margin: 0 !important;
+    border: none !important;
+    min-width: 0 !important;
+    width: auto !important;
+    &::before {
+        content: "" !important;
+        flex: 1 !important;
+        display: block !important;
+        border-inline-start: 1px solid var(--toolbarseparator-color, color-mix(in srgb, currentColor 60%, transparent)) !important;
+    }
+}
+toolbarpaletteitem {
+    &[place="palette"][id^="wrapper-customizableui-special-spring"],
+    &[place="palette"][id^="wrapper-customizableui-special-spacer"],
+    &[place="palette"][id^="wrapper-customizableui-special-separator"] {
+        align-items: center !important;
+    }
+    &>toolbarspring[id^="customizableui-special-spring"],
+    &>toolbarspacer[id^="customizableui-special-spacer"],
+    &>toolbarseparator[id^="customizableui-special-separator"] {
+        -moz-window-dragging: no-drag !important;
         border: none !important;
-        min-width: 0 !important;
-        width: auto !important;
-        &::before {
-            content: "" !important;
-            flex: 1 !important;
-            display: block !important;
-            border-inline-start: 1px solid var(--toolbarseparator-color, color-mix(in srgb, currentColor 60%, transparent)) !important;
+        outline: 1px solid color-mix(in srgb, currentColor 80%, black) !important;
+        outline-offset: -1px !important;
+        flex: 1 !important;
+        min-height: 16px !important;
+        max-height: 37px !important;
+        margin: 0 !important;
+        background-color: white !important;
+        background-repeat: no-repeat !important;
+        background-position: center !important;
+        opacity: .3 !important;
+    }
+    &[place="palette"] {
+        &>toolbarspring[id^="customizableui-special-spring"] {
+            background-image: url("./spring.svg") !important;
+            min-width: 34px !important;
+        }
+        &>toolbarspacer[id^="customizableui-special-spacer"] {
+            width: 15px !important;
+            max-width: 15px !important;
+        }
+        &>toolbarseparator[id^="customizableui-special-separator"] {
+            background-color: transparent !important;
+            outline: none !important;
+            padding-block: 0 !important;
+            opacity: 1 !important;
         }
     }
-    toolbarpaletteitem {
-        &[place="palette"][id^="wrapper-customizableui-special-spring"],
-        &[place="palette"][id^="wrapper-customizableui-special-spacer"],
-        &[place="palette"][id^="wrapper-customizableui-special-separator"] {
-            align-items: center !important;
-        }
-        &>toolbarspring[id^="customizableui-special-spring"],
-        &>toolbarspacer[id^="customizableui-special-spacer"],
-        &>toolbarseparator[id^="customizableui-special-separator"] {
-            -moz-window-dragging: no-drag !important;
-            border: none !important;
-            outline: 1px solid color-mix(in srgb, currentColor 80%, black) !important;
-            outline-offset: -1px !important;
-            flex: 1 !important;
-            min-height: 16px !important;
-            max-height: 37px !important;
-            margin: 0 !important;
-            background-color: white !important;
-            background-repeat: no-repeat !important;
-            background-position: center !important;
-            opacity: .3 !important;
-        }
-        &[place="palette"] {
-            &>toolbarspring[id^="customizableui-special-spring"] {
+    &[place="toolbar"] {
+        &[id^="wrapper-customizableui-special-spring"] {
+            min-width: unset !important;
+            &>toolbarspring {
+                margin-block: var(--toolbarbutton-padding-inner, 0) !important;
                 background-image: url("./spring.svg") !important;
                 min-width: 34px !important;
             }
-            &>toolbarspacer[id^="customizableui-special-spacer"] {
-                width: 15px !important;
-                max-width: 15px !important;
-            }
-            &>toolbarseparator[id^="customizableui-special-separator"] {
-                background-color: transparent !important;
-                outline: none !important;
-                padding-block: 0 !important;
-                opacity: 1 !important;
-            }
         }
-        &[place="toolbar"] {
-            &[id^="wrapper-customizableui-special-spring"] {
-                min-width: unset !important;
-                &>toolbarspring {
-                    margin-block: var(--toolbarbutton-padding-inner, 0) !important;
-                    background-image: url("./spring.svg") !important;
-                    min-width: 34px !important;
-                }
-            }
-            &>toolbarspacer[id^="customizableui-special-spacer"] {
-                margin-block: var(--toolbarbutton-padding-inner, 0) !important;
-                width: 15px !important;
-            }
-            &>toolbarseparator[id^="customizableui-special-separator"] {
-                background-color: transparent !important;
-                outline: none !important;
-                opacity: 1 !important;
+        &>toolbarspacer[id^="customizableui-special-spacer"] {
+            margin-block: var(--toolbarbutton-padding-inner, 0) !important;
+            width: 15px !important;
+        }
+        &>toolbarseparator[id^="customizableui-special-separator"] {
+            background-color: transparent !important;
+            outline: none !important;
+            opacity: 1 !important;
+        }
+    }
+}
+toolbar {
+    &[orient="vertical"] {
+        &>toolbarspacer[id^="customizableui-special-spacer"] {
+            width: auto !important;
+            height: 15px !important;
+        }
+        toolbarseparator[id^="customizableui-special-separator"] {
+            padding-block: 2px !important;
+            padding-inline: var(--toolbarbutton-padding-inner, 0) !important;
+            &::before {
+                border: none !important;
+                border-block-start: 1px solid var(--toolbarseparator-color, color-mix(in srgb, currentColor 60%, transparent)) !important;
             }
         }
     }
-    toolbar {
-        &[orient="vertical"] {
-            &>toolbarspacer[id^="customizableui-special-spacer"] {
-                width: auto !important;
-                height: 15px !important;
-            }
-            toolbarseparator[id^="customizableui-special-separator"] {
-                padding-block: 2px !important;
-                padding-inline: var(--toolbarbutton-padding-inner, 0) !important;
-                &::before {
-                    border: none !important;
-                    border-block-start: 1px solid var(--toolbarseparator-color, color-mix(in srgb, currentColor 60%, transparent)) !important;
-                }
-            }
-        }
-        &:not(#nav-bar) {
-            toolbarpaletteitem[place="toolbar"][id^="wrapper-customizableui-special-spring"],
-            toolbarspring[id^="customizableui-special-spring"] {
-                max-width: none !important;
-            }
+    &:not(#nav-bar) {
+        toolbarpaletteitem[place="toolbar"][id^="wrapper-customizableui-special-spring"],
+        toolbarspring[id^="customizableui-special-spring"] {
+            max-width: none !important;
         }
     }
 }

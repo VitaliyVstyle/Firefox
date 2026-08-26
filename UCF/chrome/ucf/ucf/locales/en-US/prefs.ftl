@@ -1,5 +1,5 @@
-title = UserChromeFiles
-title_opt = UserChromeFiles connect styles and scripts
+title = UCF
+title_opt = UCF connect styles and scripts
 restore =
     .title = Restore default settings
     .value = Default
