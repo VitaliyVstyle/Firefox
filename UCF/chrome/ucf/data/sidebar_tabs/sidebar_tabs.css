@@ -1,0 +1,211 @@
+/**
+@UCF @param {"prop":"CssChrome","type":"USER_SHEET","disable":true} @UCF
+*/
+
+:root {
+    #st_toolbox {
+        background-color: Field !important;
+        --v-toolbar-bgcolor: var(--toolbar-background-color, var(--toolbar-bgcolor, Field));
+        background-image: linear-gradient(var(--v-toolbar-bgcolor), var(--v-toolbar-bgcolor)) !important;
+        color: var(--toolbar-text-color, var(--toolbar-color, FieldText)) !important;
+        overflow: hidden !important;
+        border-inline-end: 1px solid var(--chrome-content-separator-color, ThreeDShadow) !important;
+        order: 0 !important;
+        transition-property: margin-top, padding-inline !important;
+        transition-timing-function: linear !important;
+        transition-duration: .2s !important;
+        transition-delay: 0s !important;
+        #st_header {
+            padding: 6px !important;
+            padding-bottom: 3px !important;
+            flex-direction: row !important;
+            &>label {
+                white-space: nowrap !important;
+            }
+        }
+        [flex="1"] {
+            flex: 1 !important;
+        }
+        tabs>spacer {
+            display: none !important;
+        }
+        tabs, tabpanels, tab, label {
+            appearance: none !important;
+            background-color: transparent !important;
+            color: inherit !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            border: none !important;
+        }
+        tabs {
+            justify-content: start !important;
+        }
+        browser[id^=st_browser_] {
+            color-scheme: light dark;
+            background-color: Field !important;
+            color: FieldText !important;
+        }
+        tab {
+            margin: 0 !important;
+            padding-inline: 6px !important;
+            padding-block: 3px !important;
+            outline: none !important;
+            border-block: 2px solid transparent !important;
+            --default-focusring: none !important;
+        }
+        tab:hover {
+            border-bottom-color: color-mix(in srgb, currentColor 30%, transparent) !important;
+        }
+        tab[selected] {
+            border-bottom-color: color-mix(in srgb, currentColor 80%, transparent) !important;
+        }
+        &[hide_header=true] #st_header {
+            display: none !important;
+        }
+    }
+    #st_splitter {
+        appearance: none !important;
+        cursor: ew-resize;
+        width: 6px !important;
+        position: relative !important;
+        z-index: calc(var(--browser-area-z-index-tabbox, 2) + 2) !important;
+        background-color: transparent !important;
+        border: none !important;
+        margin: 0 !important;
+        opacity: 0 !important;
+        margin-inline-start: -6px !important;
+        order: 0 !important;
+        transition-property: margin-top !important;
+        transition-timing-function: linear !important;
+        transition-duration: .2s !important;
+        transition-delay: 0s !important;
+    }
+    &[sidebar_tabs_start=false] {
+        #st_toolbox {
+            border-inline-start: 1px solid var(--chrome-content-separator-color, ThreeDShadow) !important;
+            border-inline-end: none !important;
+            order: 101 !important;
+            #st_header {
+                flex-direction: row-reverse !important;
+            }
+            tabs {
+                justify-content: end !important;
+            }
+        }
+        #st_splitter {
+            margin-inline-start: 0 !important;
+            margin-inline-end: -6px !important;
+            order: 100 !important;
+        }
+    }
+    #ucf-additional-vertical-container {
+        &[v_vertical_bar_start=true] {
+            order: 0 !important;
+        }
+        &[v_vertical_bar_start=false] {
+            order: 102 !important;
+        }
+    }
+    &[sidebar_tabs_auto_hide=true] {
+        #st_vbox_container {
+            position: relative !important;
+            width: 0 !important;
+            overflow: visible !important;
+            transition-property: margin-top !important;
+            transition-timing-function: linear !important;
+            transition-duration: .2s !important;
+            transition-delay: 0s !important;
+            order: 0 !important;
+            #st_hbox_container {
+                position: absolute !important;
+                z-index: calc(var(--browser-area-z-index-tabbox, 2) + 2) !important;
+                pointer-events: none !important;
+                top: 0 !important;
+                bottom: 0 !important;
+                inset-inline-start: 0 !important;
+                justify-content: start !important;
+                margin-inline-start: calc(-1 * (var(--v-sidebar-tabs-width) - var(--v-sidebar-min-width))) !important;
+                opacity: 0 !important;
+                transition-property: margin-inline, opacity !important;
+                transition-timing-function: linear, step-start !important;
+                transition-duration: .2s, 0s !important;
+                transition-delay: 0s, .2s !important;
+                #st_toolbox {
+                    transition-property: width !important;
+                    transition-timing-function: linear !important;
+                    transition-duration: .2s !important;
+                    transition-delay: 0s !important;
+                }
+                &>:is(vbox, splitter) {
+                    pointer-events: auto !important;
+                }
+            }
+        }
+        #st_splitter {
+            cursor: default !important;
+        }
+        &[sidebar_tabs_start=false] #st_vbox_container {
+            order: 100 !important;
+            #st_hbox_container {
+                inset-inline-start: auto !important;
+                inset-inline-end: 0 !important;
+                justify-content: end !important;
+                margin-inline-start: 0 !important;
+                margin-inline-end: calc(-1 * (var(--v-sidebar-tabs-width) - var(--v-sidebar-min-width))) !important;
+            }
+        }
+        #st_vbox_container[sidebar_tabs_visible^=visible] {
+            #st_hbox_container {
+                width: var(--v-sidebar-tabs-tabpanels-width, 80vw) !important;
+                margin-inline: 0 !important;
+                opacity: 1 !important;
+                transition-delay: 0s !important;
+            }
+            #st_splitter {
+                cursor: ew-resize !important;
+            }
+        }
+        &[v_vertical_bar_start=true][sidebar_tabs_start=true]:is([v_vertical_bar_visible^="visible"], [v_vertical_bar_visible^="visible"][sidebar_tabs_visible=visible]) #st_vbox_container #st_hbox_container {
+            width: calc(var(--v-sidebar-tabs-tabpanels-width, 80vw) - var(--v-vertical-bar-width, 0px)) !important;
+            margin-inline-start: var(--v-vertical-bar-width, 0px) !important;
+            opacity: 1 !important;
+            transition-delay: 0s !important;
+        }
+        &[v_vertical_bar_start=false][sidebar_tabs_start=false]:is([v_vertical_bar_visible^="visible"], [v_vertical_bar_visible^="visible"][sidebar_tabs_visible=visible]) #st_vbox_container #st_hbox_container {
+            width: calc(var(--v-sidebar-tabs-tabpanels-width, 80vw) - var(--v-vertical-bar-width, 0px)) !important;
+            margin-inline-end: var(--v-vertical-bar-width, 0px) !important;
+            opacity: 1 !important;
+            transition-delay: 0s !important;
+        }
+        &[BookmarksToolbarOverlapsBrowser] #st_vbox_container {
+            margin-top: var(--bookmarks-toolbar-overlapping-browser-height, var(--bookmarks-toolbar-height)) !important;
+        }
+        &[v_top_bar_overlaps=true] #st_vbox_container {
+            margin-top: var(--v-top-bar-overlaps) !important;
+        }
+        &[BookmarksToolbarOverlapsBrowser][v_top_bar_overlaps=true] #st_vbox_container {
+            margin-top: calc(var(--bookmarks-toolbar-overlapping-browser-height, var(--bookmarks-toolbar-height)) + var(--v-top-bar-overlaps)) !important;
+        }
+    }
+    &[sidebar_tabs_auto_hide=false] {
+        &[BookmarksToolbarOverlapsBrowser] :is(#st_toolbox, #st_splitter) {
+            margin-top: var(--bookmarks-toolbar-overlapping-browser-height, var(--bookmarks-toolbar-height)) !important;
+        }
+        &[v_top_bar_overlaps=true] :is(#st_toolbox, #st_splitter) {
+            margin-top: var(--v-top-bar-overlaps) !important;
+        }
+        &[BookmarksToolbarOverlapsBrowser][v_top_bar_overlaps=true] :is(#st_toolbox, #st_splitter) {
+            margin-top: calc(var(--bookmarks-toolbar-overlapping-browser-height, var(--bookmarks-toolbar-height)) + var(--v-top-bar-overlaps)) !important;
+        }
+        &[v_vertical_bar_start=true][sidebar_tabs_start=true][v_vertical_bar_visible^="visible"] #st_toolbox[padding_for_vbar=true] {
+            padding-inline-start: var(--v-vertical-bar-width, 0px) !important;
+        }
+        &[v_vertical_bar_start=false][sidebar_tabs_start=false][v_vertical_bar_visible^="visible"] #st_toolbox[padding_for_vbar=true] {
+            padding-inline-end: var(--v-vertical-bar-width, 0px) !important;
+        }
+    }
+    &:is([inDOMFullscreen], [chromehidden~="extrachrome"]) :is(#st_vbox_container, #st_toolbox, #st_splitter),
+    &[inFullscreen] :is(#st_vbox_container, #st_toolbox, #st_splitter)[hide_fullscreen=true] {
+        visibility: collapse !important;
+    }
+}

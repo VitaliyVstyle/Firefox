@@ -38,6 +38,10 @@ const ucf = {
         delete this.css_all_chrome;
         return this.css_all_chrome = UcfPrefs.prefs.css_all_chrome;
     },
+    get css_chrome() {
+        delete this.css_chrome;
+        return this.css_chrome = UcfPrefs.prefs.css_chrome;
+    },
     get customSandbox() {
         delete this.customSandbox;
         var scope = this.customSandbox = Cu.Sandbox(Services.scriptSecurityManager.getSystemPrincipal(), {
@@ -65,8 +69,18 @@ const ucf = {
         }));
         return scope;
     },
+    async _CssAllChrome(prefs) {
+        UcfPrefs._CssAllChrome = UcfPrefs.global.structuredClone(prefs.CssAllChrome).filter(p => {
+            var { disable, path, isos, ver } = p;
+            if (!disable && (!isos || isos.includes(OS)) && (!ver || (!ver.min || ver.min <= VER) && (!ver.max || ver.max >= VER))) {
+                p.path = `${dataUrl}${path}`;
+                this.preloadSheet(p);
+                return true;
+            }
+        });
+    },
     async _CssChrome(prefs) {
-        UcfPrefs._CssChrome = UcfPrefs.global.structuredClone(prefs.CssAllChrome).filter(p => {
+        UcfPrefs._CssChrome = UcfPrefs.global.structuredClone(prefs.CssChrome).filter(p => {
             var { disable, path, isos, ver } = p;
             if (!disable && (!isos || isos.includes(OS)) && (!ver || (!ver.min || ver.min <= VER) && (!ver.max || ver.max >= VER))) {
                 p.path = `${dataUrl}${path}`;
@@ -124,12 +138,13 @@ const ucf = {
         delete this.init;
         this._addObs();
         UcfPrefs.manifestPath = manifestPath;
-        UcfPrefs.initPrefs;
+        UcfPrefs._initPrefs;
         var { prefs } = UcfPrefs;
         if (prefs.toolbars_enable) this._CssBars();
         if (prefs.safemode || !Services.appinfo.inSafeMode) {
             UcfPrefs._ucf = this;
-            if (prefs.css_all_chrome) this._CssChrome(prefs);
+            if (prefs.css_chrome) this._CssChrome(prefs);
+            if (prefs.css_all_chrome) this._CssAllChrome(prefs);
             if (prefs.css_all_frame) this._CssAllFrame(prefs);
             if (prefs.js_chrome) this._JsChrome(prefs);
             if (prefs.js_all_chrome) this._JsAllChrome(prefs);
@@ -483,10 +498,11 @@ class UCF {
 }
 class InitWin {
     constructor(win, href) {
-        if (ucf.css_all_chrome) this.addCssAllChrome(win.windowUtils.addSheet);
         if ((this.principal = win.document.nodePrincipal).isSystemPrincipal) win.UcfPrefs = UcfPrefs;
         this.win = win;
+        if (ucf.css_all_chrome) this.addCssAllChrome(win.windowUtils.addSheet);
         if (href === "chrome://browser/content/browser.xhtml") {
+            if (ucf.css_chrome) this.addCssChrome(win.windowUtils.addSheet);
             if (ucf.toolbars_enable) {
                 UcfPrefs._CssBars.sheet(win.windowUtils.addSheet);
                 win.addEventListener("MozBeforeInitialXULLayout", e => Services.scriptloader.loadSubScript(`${chromeUrl}toolbars.js`, (new CreateObj(win, this.principal, "ucf_toolbars_win", "UCF:Toolbars")).obj), { once: true });
@@ -524,6 +540,10 @@ class InitWin {
         return ob;
     }
     async addCssAllChrome(func) {
+        for (let p of UcfPrefs._CssAllChrome)
+            p.sheet(func);
+    }
+    async addCssChrome(func) {
         for (let p of UcfPrefs._CssChrome)
             p.sheet(func);
     }

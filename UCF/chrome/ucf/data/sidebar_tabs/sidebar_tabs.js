@@ -6,6 +6,7 @@
     var
         // -- Sidebar Tabs Settings -->
         ID = "ucf_sidebar_tabs",
+        ICON = "chrome://user_chrome_files/content/data/sidebar_tabs/icon.svg",
         [
             st_bookmarks,
             st_history,
@@ -51,7 +52,7 @@
                 attributes: 'messagemanagergroup="webext-browsers" type="content" disableglobalhistory="true" context="contentAreaContextMenu" tooltip="aHTMLTooltip" autocompletepopup="PopupAutoComplete" remote="true" maychangeremoteness="true" ',
                 menu: {
                     label: st_open_sites.value,
-                    icon: `resource://${ID}`,
+                    icon: ICON,
                 }
             },
         ],
@@ -65,14 +66,14 @@
         HIDE_DELAY = 2000,
         MIN_WIDTH = 10,
         SHOW_HIDE = true,
+
         HIDE_FULLSCREEN = true, // Hide in full screen mode
         HIDE_HEADER = false,
         PADDING_FOR_VBAR = true,
         KEY = "KeyB_true_true_false", // Keyboard shortcut for to switch Sidebar Tabs - code_ctrlKey_altKey_shiftKey
         SELECTOR = "#context-sep-open",
         TABS_FOCUS = true,
-        FOCUS_DELAY = 150,
-        IMAGE = "data:image/svg+xml;charset=utf-8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'><g style='fill:context-fill rgb(142, 142, 152);fill-opacity:context-fill-opacity;'><path d='M2 2C.892 2 0 2.89 0 4v9.1a2 2 0 0 0 2 2h12c1.1 0 2-.9 2-2V4a2 2 0 0 0-2-2Zm0 1h12c.6 0 1 .45 1 1v9.1c0 .5-.5.9-1 .9H1.99c-.55 0-.99-.4-.99-.9V4c0-.55.45-1 1-1Z'/> <rect width='14' height='1' x='1' y='6'/> <rect width='1' height='7' x='5' y='7'/></g></svg>";
+        FOCUS_DELAY = 150;
     // <-- Sidebar Tabs Settings --
     (this[ID] = {
         last_open: "sidebar_tabs_last_open",
@@ -98,185 +99,7 @@
             var docElm = document.documentElement;
             docElm.setAttribute("sidebar_tabs_start", START);
             docElm.setAttribute("sidebar_tabs_auto_hide", AUTO_HIDE);
-            windowUtils.loadSheetUsingURIString(`data:text/css;charset=utf-8,${encodeURIComponent(`
-#st_toolbox {
-background-color: Field !important;
---v-toolbar-bgcolor: var(--toolbar-background-color, var(--toolbar-bgcolor, Field));
-background-image: linear-gradient(var(--v-toolbar-bgcolor), var(--v-toolbar-bgcolor)) !important;
-color: var(--toolbar-text-color, var(--toolbar-color, FieldText)) !important;
-overflow: hidden !important;
-border-inline-${START ? "end" : "start"}: 1px solid var(--chrome-content-separator-color, ThreeDShadow) !important;
-#st_header {
-padding: 6px !important;
-padding-bottom: 3px !important;
-flex-direction: ${START ? "row" : "row-reverse"} !important;
-${HIDE_HEADER ? "display: none !important;" : ""}
-& > label {
-white-space: nowrap !important;
-}
-}
-[flex="1"] {
-flex: 1 !important;
-}
-tabs > spacer {
-display: none !important;
-}
-tabs, tabpanels, tab, label {
-appearance: none !important;
-background-color: transparent !important;
-color: inherit !important;
-margin: 0 !important;
-padding: 0 !important;
-border: none !important;
-}
-tabs {
-justify-content: ${START ? "start" : "end"} !important;
-}
-browser[id^=st_browser_] {
-color-scheme: light dark;
-background-color: Field !important;
-color: FieldText !important;
-}
-tab {
-margin: 0 !important;
-padding-inline: 6px !important;
-padding-block: 3px !important;
-outline: none !important;
-border-block: 2px solid transparent !important;
---default-focusring: none !important;
-}
-tab:hover {
-border-bottom-color: color-mix(in srgb, currentColor 30%, transparent) !important;
-}
-tab[selected] {
-border-bottom-color: color-mix(in srgb, currentColor 80%, transparent) !important;
-}
-}
-#st_splitter {
-appearance: none !important;
-cursor: ew-resize;
-width: 6px !important;
-position: relative !important;
-z-index: calc(var(--browser-area-z-index-tabbox, 2) + 2) !important;
-background-color: transparent !important;
-border: none !important;
-margin: 0 !important;
-opacity: 0 !important;
-margin-inline-${START ? "start" : "end"}: -6px !important;
-}
-#ucf-additional-vertical-container[v_vertical_bar_start=true] {
-order: 0 !important;
-}
-#ucf-additional-vertical-container[v_vertical_bar_start=false] {
-order: 102 !important;
-}
-:root:is(${HIDE_FULLSCREEN ? "[inFullscreen]," : ""}[inDOMFullscreen],[chromehidden~="extrachrome"]) :is(#st_vbox_container,#st_toolbox,#st_splitter) {
-visibility: collapse !important;
-}
-${AUTO_HIDE ? `#st_vbox_container {
-position: relative !important;
-width: 0 !important;
-overflow: visible !important;
-transition-property: margin-top !important;
-transition-timing-function: linear !important;
-transition-duration: .2s !important;
-transition-delay: 0s !important;
-order: ${START ? "0" : "100"} !important;
-}
-#st_hbox_container {
-position: absolute !important;
-z-index: calc(var(--browser-area-z-index-tabbox, 2) + 2) !important;
-pointer-events: none !important;
-top: 0 !important;
-bottom: 0 !important;
-${START ? `inset-inline-start: 0 !important;
-justify-content: start !important;
-margin-inline-start: calc(-1 * (var(--v-sidebar-tabs-width) - ${MIN_WIDTH}px)) !important;`
-                        : `inset-inline-end: 0 !important;
-flex-direction: row-reverse !important;
-justify-content: end !important;
-margin-inline-end: calc(-1 * (var(--v-sidebar-tabs-width) - ${MIN_WIDTH}px)) !important;`}
-opacity: 0 !important;
-transition-property: margin-inline, opacity !important;
-transition-timing-function: linear, step-start !important;
-transition-duration: .2s, 0s !important;
-transition-delay: 0s, .2s !important;
-}
-#st_toolbox {
-transition-property: width !important;
-transition-timing-function: linear !important;
-transition-duration: .2s !important;
-transition-delay: 0s !important;
-}
-#st_splitter {
-cursor: default !important;
-}
-#st_vbox_container[sidebar_tabs_visible^=visible] #st_hbox_container {
-width: var(--v-sidebar-tabs-tabpanels-width, 80vw) !important;
-margin-inline: 0 !important;
-opacity: 1 !important;
-transition-delay: 0s !important;
-}
-#st_vbox_container[sidebar_tabs_visible^=visible] #st_splitter {
-cursor: ew-resize !important;
-}
-:root[v_vertical_bar_start=true][sidebar_tabs_start=true]:is([v_vertical_bar_visible^="visible"],[v_vertical_bar_visible^="visible"][sidebar_tabs_visible=visible]) #st_vbox_container #st_hbox_container {
-width: calc(var(--v-sidebar-tabs-tabpanels-width, 80vw) - var(--v-vertical-bar-width, 0px)) !important;
-margin-inline-start: var(--v-vertical-bar-width, 0px) !important;
-opacity: 1 !important;
-transition-delay: 0s !important;
-}
-:root[v_vertical_bar_start=false][sidebar_tabs_start=false]:is([v_vertical_bar_visible^="visible"],[v_vertical_bar_visible^="visible"][sidebar_tabs_visible=visible]) #st_vbox_container #st_hbox_container {
-width: calc(var(--v-sidebar-tabs-tabpanels-width, 80vw) - var(--v-vertical-bar-width, 0px)) !important;
-margin-inline-end: var(--v-vertical-bar-width, 0px) !important;
-opacity: 1 !important;
-transition-delay: 0s !important;
-}
-#st_hbox_container > * {
-pointer-events: auto !important;
-}
-:root[BookmarksToolbarOverlapsBrowser] #st_vbox_container {
-margin-top: var(--bookmarks-toolbar-overlapping-browser-height, var(--bookmarks-toolbar-height)) !important;
-}
-:root[v_top_bar_overlaps=true] #st_vbox_container {
-margin-top: var(--v-top-bar-overlaps) !important;
-}
-:root[BookmarksToolbarOverlapsBrowser][v_top_bar_overlaps=true] #st_vbox_container {
-margin-top: calc(var(--bookmarks-toolbar-overlapping-browser-height, var(--bookmarks-toolbar-height)) + var(--v-top-bar-overlaps)) !important;
-}`
-                    : `:root[BookmarksToolbarOverlapsBrowser] :is(#st_toolbox,#st_splitter) {
-margin-top: var(--bookmarks-toolbar-overlapping-browser-height, var(--bookmarks-toolbar-height)) !important;
-}
-:root[v_top_bar_overlaps=true] :is(#st_toolbox,#st_splitter) {
-margin-top: var(--v-top-bar-overlaps) !important;
-}
-:root[BookmarksToolbarOverlapsBrowser][v_top_bar_overlaps=true] :is(#st_toolbox,#st_splitter) {
-margin-top: calc(var(--bookmarks-toolbar-overlapping-browser-height, var(--bookmarks-toolbar-height)) + var(--v-top-bar-overlaps)) !important;
-}
-${PADDING_FOR_VBAR ? `:root[v_vertical_bar_start=true][sidebar_tabs_start=true][v_vertical_bar_visible^="visible"] #st_toolbox {
-padding-inline-start: var(--v-vertical-bar-width, 0px) !important;
-}
-:root[v_vertical_bar_start=false][sidebar_tabs_start=false][v_vertical_bar_visible^="visible"] #st_toolbox {
-padding-inline-end: var(--v-vertical-bar-width, 0px) !important;
-}` : ""}
-#st_toolbox, #st_splitter {
-order: 0 !important;
-transition-property: margin-top !important;
-transition-timing-function: linear !important;
-transition-duration: .2s !important;
-transition-delay: 0s !important;
-}
-#st_toolbox {
-transition-property: margin-top, padding-inline !important;
-}
-${START ? ""
-                        : `#st_toolbox {
-order: 101 !important;
-}
-#st_splitter {
-order: 100 !important;
-}`}`}`)}`, windowUtils.USER_SHEET);
-            var str = `<vbox id="st_toolbox" class="chromeclass-extrachrome" hidden="true">
+            var str = `<vbox id="st_toolbox" class="chromeclass-extrachrome" hidden="true" hide_header="${HIDE_HEADER}" hide_fullscreen="${HIDE_FULLSCREEN}" padding_for_vbar="${PADDING_FOR_VBAR}">
                 <hbox id="st_header" align="center">
                     <label>${NAME}</label>
                     <spacer flex="1"/>
@@ -291,10 +114,10 @@ order: 100 !important;
                     </tabpanels>
                 </tabbox>
             </vbox>
-            <splitter id="st_splitter" class="chromeclass-extrachrome" resizebefore="sibling" resizeafter="none" hidden="true"/>`;
+            <splitter id="st_splitter" class="chromeclass-extrachrome" resizebefore="sibling" resizeafter="none" hidden="true" hide_fullscreen="${HIDE_FULLSCREEN}"/>`;
             if (AUTO_HIDE)
-                str = `<vbox id="st_vbox_container" class="chromeclass-extrachrome" hidden="true">
-                    <hbox id="st_hbox_container" flex="1">
+                str = `<vbox id="st_vbox_container" class="chromeclass-extrachrome" hidden="true" hide_fullscreen="${HIDE_FULLSCREEN}">
+                    <hbox id="st_hbox_container" flex="1" style="--v-sidebar-min-width:${MIN_WIDTH}px">
                         ${str}
                         <vbox id="st_uncontrolled"></vbox>
                     </hbox>
@@ -318,17 +141,10 @@ order: 100 !important;
             if (this.menus.length) this.addListener("popup_popupshowing", this.popup = document.querySelector("#contentAreaContextMenu"), "popupshowing", this);
             this.show_hide = AUTO_HIDE && SHOW_HIDE;
             if (!TABS_FOCUS) return;
-            var st_tabs = this.st_tabs = this.st_tabbox.querySelector("#st_tabs");
+            var st_tabs = this.st_tabbox.querySelector("#st_tabs");
             this.addListener("st_tabs_mouseover", st_tabs, "mouseover", this);
             this.addListener("st_tabs_mouseout", st_tabs, "mouseout", this);
             this.addListener("st_tabs_mousedown", st_tabs, "mousedown", this);
-        },
-        get image() {
-            Services.io.getProtocolHandler("resource")
-                .QueryInterface(Ci.nsIResProtocolHandler)
-                .setSubstitution(ID, Services.io.newURI(IMAGE));
-            delete this.image;
-            return this.image = `resource://${ID}`;
         },
         id: ID,
         label: NAME,
@@ -336,7 +152,7 @@ order: 100 !important;
         defaultArea: "nav-bar",
         localized: false,
         onCreated(btn) {
-            btn.style.setProperty("list-style-image", `url("${this.image}")`);
+            btn.style.setProperty("list-style-image", `url("${ICON}")`);
             btn.checked = UcfPrefs.getPref(this.last_open, true);
         },
         onCommand(e) {

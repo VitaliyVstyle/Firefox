@@ -1,5 +1,5 @@
 /**
-@UCF @param {"prop":"CssAllChrome","type":"USER_SHEET","disable":true} @UCF
+@UCF @param {"prop":"CssChrome","type":"USER_SHEET","disable":true} @UCF
 */
 @-moz-document url("chrome://browser/content/browser.xhtml") {
     toolbarseparator[id^="customizableui-special-separator"] {
@@ -41,7 +41,7 @@
         }
         &[place="palette"] {
             &>toolbarspring[id^="customizableui-special-spring"] {
-                background-image: url("./svg/spring.svg") !important;
+                background-image: url("./spring.svg") !important;
                 min-width: 34px !important;
             }
             &>toolbarspacer[id^="customizableui-special-spacer"] {
@@ -60,7 +60,7 @@
                 min-width: unset !important;
                 &>toolbarspring {
                     margin-block: var(--toolbarbutton-padding-inner, 0) !important;
-                    background-image: url("./svg/spring.svg") !important;
+                    background-image: url("./spring.svg") !important;
                     min-width: 34px !important;
                 }
             }

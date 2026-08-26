@@ -1,7 +1,7 @@
 var _write = false;
 const { UcfPrefs } = ChromeUtils.importESModule("chrome://user_chrome_files/content/ucf/UcfPrefs.mjs");
 const filesMap = new Map(), prefsMap = new Map(), filesSet = new Set();
-const baseCSS = { prop: "CssAllChrome", type: "USER_SHEET", disable: true };
+const baseCSS = { prop: "CssChrome", type: "USER_SHEET", disable: true };
 const baseJS = { prop: "JsChrome.load", disable: true };
 const baseMJS = { prop: "JsBackground", module: true, disable: true };
 const chromeUrl = "chrome://user_chrome_files/content/ucf/";
@@ -307,6 +307,7 @@ const initOptions = async () => {
     rootpath = dir.path;
     search(dir);
     await createSection(UcfPrefs.prefs.CssAllChrome, "CssAllChrome");
+    await createSection(UcfPrefs.prefs.CssChrome, "CssChrome");
     await createSection(UcfPrefs.prefs.CssAllFrame, "CssAllFrame");
     await createSection(UcfPrefs.prefs.CssContent, "CssContent");
     await createSection(UcfPrefs.prefs.JsBackground, "JsBackground");
@@ -347,6 +348,9 @@ const initLoad = () => {
     }
     UcfPrefs._options_open = true;
     var l10n = UcfPrefs.l10nDoMLocalization("ucf/locales", "prefs.ftl");
+    var max = parseInt(Services.appinfo.platformVersion), min = max - 10;
+    for (let elm of document.querySelectorAll("[data-l10n-id=verminmax]"))
+        l10n.setArgs(elm, {"min":`${min}`,"max":`${max}`});
     l10n.connectRoot(document.documentElement);
     l10n.translateRoots();
     document.querySelector("#open_data").onclick = () => getFile(UcfPrefs.manifestPath.replace(/ucf\.manifest$/, "data")).launch();

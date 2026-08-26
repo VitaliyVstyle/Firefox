@@ -24,7 +24,8 @@ export var UcfPrefs = {
         css_js_content: false,
         css_js_content_groups: ["browsers"],
         css_js_content_matches: ["about:*", "moz-extension://*", "chrome://*"],
-        css_all_chrome: true,
+        css_chrome: true,
+        css_all_chrome: false,
         css_all_frame: false,
         js_background: false,
         js_chrome: true,
@@ -33,6 +34,7 @@ export var UcfPrefs = {
         editor_args: "",
         folder_editor_path: "",
         folder_editor_args: "",
+        CssChrome: [],
         CssAllChrome: [],
         CssAllFrame: [],
         CssContent: [],
@@ -189,8 +191,8 @@ export var UcfPrefs = {
         var { alertsService } = this;
         return this.closeAlert = (...args) => alertsService.closeAlert(...args);
     },
-    get initPrefs() {
-        delete this.initPrefs;
+    get _initPrefs() {
+        delete this._initPrefs;
         Object.assign(this.prefs, this.default);
         try {
             Object.assign(this.prefs, JSON.parse(Cu.readUTF8URI(Services.io.newURI("chrome://user_chrome_files/content/prefs.json"))));
