@@ -1,1 +1,1 @@
-# Firefox - Scripts, Styles, Addons
+# Firefox - UCF, Addons
