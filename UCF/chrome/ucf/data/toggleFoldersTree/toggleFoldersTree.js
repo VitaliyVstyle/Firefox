@@ -1,21 +1,15 @@
 /**
-@UCF @param {"prop":"JsBackground","force":true,"disable":true} @UCF
 @UCF @param {"prop":"JsAllChrome.load","ucfobj":true,"urlregxp":"^chrome:\\/\\/browser\\/content\\/places\\/(?:bookmarksSidebar|historySidebar|places)\\.xhtml","disable":true} @UCF
 @UCF @param {"prop":"JsContent.pageshow","ucfobj":true,"urlregxp":"^chrome:\\/\\/browser\\/content\\/places\\/(?:bookmarksSidebar|historySidebar|places)\\.xhtml","disable":true} @UCF
 */
 (async (
     id = "ucf-toggle-folders-scroll-position-tree",
     tooltipText = "L: Close all top level folders\n(Ctrl|Shift)+L|M: Close all folders\nR: Open all folders",
-    image = "data:image/svg+xml;charset=utf-8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'><path style='fill:none;stroke:context-fill rgb(142, 142, 152);stroke-opacity:context-fill-opacity;stroke-width:1.2;stroke-linecap:round;stroke-linejoin:round;' d='m 1.5,3.5 0,10 c 0,0 0,1 1,1 h 11 c 0,0 1,0 1,-1 v -8 c 0,-1 -1,-1 -1,-1 h -5 l -2,-2 h -4 c 0,0 -1,0 -1,1 z'/></svg>",
+    image = "chrome://ucf-url/content/data/toggleFoldersTree/icon.svg",
     scrollPosition = true,
     scrollPositionPref = "ucf.toggle_folders.position",
 ) => ({
     timer: null,
-    JsBackground() {
-        Services.io.getProtocolHandler("resource")
-            .QueryInterface(Ci.nsIResProtocolHandler)
-            .setSubstitution(id, Services.io.newURI(image));
-    },
     JsAllChrome_load() {
         var toolbar = document.querySelector("hbox#sidebar-search-container, toolbar#placesToolbar");
         var tree = this.tree = document.querySelector("tree.sidebar-placesTree, tree.placesTree");
@@ -39,7 +33,7 @@
                 appearance: none !important;
                 background: none !important;
                 align-self: center !important;
-                list-style-image: url("resource://${id}") !important;
+                list-style-image: url("${image}") !important;
                 -moz-context-properties: fill, stroke, fill-opacity;
                 fill: currentColor;
                 fill-opacity: .8;

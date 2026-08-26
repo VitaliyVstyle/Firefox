@@ -5,7 +5,7 @@ const lazy = {
     id: "ucf-auto-copy-button",
     label: "autoCopyButton",
     tooltiptext: "L: Toggle auto-copy\nM|R: Toggle auto-copy on the current page",
-    image: "data:image/svg+xml;charset=utf-8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'><path style='fill:none;stroke:context-fill rgb(142, 142, 152);stroke-opacity:context-fill-opacity;stroke-width:1.2;stroke-linecap:round;stroke-linejoin:round;' d='M6 .5h6c.8 0 1.5.7 1.5 1.5v10c0 .8-.7 1.5-1.5 1.5H6c-.8 0-1.5-.7-1.5-1.5V2c0-.8.7-1.5 1.5-1.5m5.5 15H5c-1.5 0-2.5-1-2.5-2.5V2.5'/></svg>",
+    image: "chrome://ucf-url/content/data/autoCopyButton/icon.svg",
     pref: "ucf.auto_copy.disabled",
     copyToClipboard: true,
     copyToSearchbar: false,
@@ -34,17 +34,10 @@ export class autoCopyButtonChild extends JSWindowActorChild {
             id, label, tooltiptext,
             defaultArea: CustomizableUI.AREA_NAVBAR,
             localized: false,
-            get imageURL() {
-                Services.io.getProtocolHandler("resource")
-                    .QueryInterface(Ci.nsIResProtocolHandler)
-                    .setSubstitution(this.id, Services.io.newURI(image));
-                delete this.imageURL;
-                return this.imageURL = `resource://${this.id}`;
-            },
             onCreated(btn) {
                 btn.toggleAttribute("context", true);
                 this.setFill(btn, lazy.disabled);
-                btn.style.setProperty("list-style-image", `url("${this.imageURL}")`);
+                btn.style.setProperty("list-style-image", `url("${image}")`);
             },
             onClick({ view, button }) {
                 switch (button) {
