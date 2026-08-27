@@ -478,6 +478,7 @@
     #appMenu-settings-button {
         list-style-image: url("./svg/settings.svg");
     }
+    #appmenu-abouttranslations-button,
     #appMenu-translate-button {
         list-style-image: url("./svg/translations.svg");
     }
@@ -532,6 +533,9 @@
     }
     #appmenu-moreTools-button {
         list-style-image: url("./svg/draw-brush.svg");
+    }
+    #appmenu-edit-pdf-button {
+        list-style-image: url("./svg/pdf.svg");
     }
     toolbarbutton.subviewbutton[key="key_aboutProcesses"] {
         list-style-image: url("./svg/tool-profiler.svg");
@@ -588,6 +592,7 @@
         list-style-image: url("./svg/popup.svg");
     }
     #PanelUI-fxa-menu-empty-profiles-button,
+    #appMenu-create-profile-button,
     #appMenu-empty-profiles-button {
         list-style-image: url("./svg/profiles.svg");
     }
@@ -654,6 +659,10 @@
             visibility: visible !important;
             content: url("./svg/printer.svg");
         }
+    }
+    #menu_editPDF>.menu-icon {
+        visibility: visible !important;
+        content: url("./svg/pdf.svg");
     }
     #menu_importFromAnotherBrowser,
     #help_importFromAnotherBrowser,
@@ -1137,6 +1146,8 @@
         }
     }
     #sync-enable,
+    #bookmarksRemoteTabsPromo,
+    #historyRemoteTabsPromo,
     #sync-syncnowitem,
     #syncedTabsRefresh,
     #syncedTabsRefreshFilter,
