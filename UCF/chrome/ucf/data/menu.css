@@ -69,6 +69,7 @@
         --panel-padding: inherit !important;
         --panel-shadow-margin: inherit !important;
         --panel-shadow: inherit !important;
+        --panel-header-min-height: var(--panel-header-back-icon-full-width, 0px) !important;
         --menuitem-border-radius: inherit !important;
         --menuitem-padding: inherit !important;
         --menuitem-max-width: inherit !important;
