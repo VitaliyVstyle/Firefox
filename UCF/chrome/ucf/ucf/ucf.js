@@ -34,7 +34,7 @@ const ucf = {
     get css_all_chrome() {
         this.initCustom();
         UcfPrefs.initAboutPrefs("prefs.xhtml", "ucf-url");
-        UcfPrefs.initAboutPrefs("options.xhtml", "ucf-url-options", true);
+        UcfPrefs.initAboutPrefs("data.xhtml", "ucf-url-data", true);
         delete this.css_all_chrome;
         return this.css_all_chrome = UcfPrefs.prefs.css_all_chrome;
     },
@@ -299,7 +299,7 @@ const ucf = {
                     btn.toggleAttribute("context", true);
                     btn.setAttribute("tooltiptext", this.tooltiptext);
                     btn.addEventListener("click", e => {
-                        if (e.button == 0) UcfPrefs.openHavingURI(win, !e.shiftKey ? prefsInfo : "about:ucf-url-options", true);
+                        if (e.button == 0) UcfPrefs.openHavingURI(win, !e.shiftKey ? prefsInfo : "about:ucf-url-data", true);
                         else if (e.button == 1) UcfPrefs.openHavingURI(win, "about:config", true);
                         else if (e.button == 2) {
                             let prefwin = Services.wm.getMostRecentWindow("ucf_prefs:window");

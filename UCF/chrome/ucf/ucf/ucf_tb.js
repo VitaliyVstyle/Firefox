@@ -21,7 +21,7 @@ const ucf = {
     get css_all_chrome() {
         this.initCustom();
         UcfPrefs.initAboutPrefs("prefs_tb.xhtml", "ucf-url");
-        UcfPrefs.initAboutPrefs("options.xhtml", "ucf-url-options", true);
+        UcfPrefs.initAboutPrefs("data.xhtml", "ucf-url-data", true);
         delete this.css_all_chrome;
         return this.css_all_chrome = UcfPrefs.prefs.css_all_chrome;
     },
