@@ -10,9 +10,9 @@
     "name": "Tabs Focus",
     "short_name": "TabsFocus",
     "author": "Vitaliy",
-    "version": "2026.8.20",
+    "version": "2026.8.28",
     "description": "__MSG_extDescription__",
-    "homepage_url": "https://github.com/VitaliyVstyle/Firefox/tree/main/tabs_focus",
+    "homepage_url": "https://github.com/VitaliyVstyle/Firefox/tree/main/Addons/tabs_focus",
     "default_locale": "en-US",
     "icons": {
         "16": "svg/icon.svg",

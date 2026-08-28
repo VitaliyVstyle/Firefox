@@ -1655,7 +1655,7 @@ animation-timing-function: step-start !important;`}
     },
     addTab(win, url, params = {}) {
         params.triggeringPrincipal = Services.scriptSecurityManager.getSystemPrincipal();
-        params.index = params.tabIndex = win.gBrowser.selectedTab._tPos + 1;
+        params.index = params.tabIndex = (win.gBrowser.selectedTab.index ?? win.gBrowser.selectedTab._tPos) + 1;
         return win.gBrowser.addTab(url, params);
     },
     closeAllTabs(win) {
@@ -1784,7 +1784,7 @@ animation-timing-function: step-start !important;`}
     },
     clearSearchBar(win, nofocus) {
         for (let bar of win.document.querySelectorAll("#search-container > [id^=searchbar]")) {
-            if (bar._copyCutController || bar._initialized) {
+            if (bar._observer || bar._initialized) {
                 bar.value = "";
                 if (!nofocus) bar.focus();
                 return;
