@@ -12,7 +12,8 @@
         #pageActionButton,
         #unified-extensions-button,
         #downloads-button,
-        #alltabs-button
+        #alltabs-button,
+        moz-button[menuid="searchmode-switcher-panel-list-searchbar"]
     `,
     excludeBtnSelectors = `
         #back-button,
@@ -41,7 +42,7 @@
         this.timer = setTimeout(() => {
             var btn = e.target.closest?.("toolbarbutton:is(.toolbarbutton-1,.bookmark-item),#main-menubar > menu,hbox.urlbar-page-action,moz-button"), id;
             if (btn && !btn.matches(`[open],[disabled]:not([disabled=false]),${excludeBtnSelectors}`)
-                && (btn.matches(`toolbarbutton:is([type=menu],[widget-type=view],.toolbarbutton-combined-buttons-dropmarker),menu,moz-button[menuid],${btnSelectors}`)
+                && (btn.matches(`toolbarbutton:is([type=menu],[widget-type=view],.toolbarbutton-combined-buttons-dropmarker),menu,${btnSelectors}`)
                     || (btn.matches("toolbarbutton") && (id = btn.dataset?.extensionid)
                         && UcfPrefs.customSandbox.ExtensionParent.apiManager.global.browserActionFor(WebExtensionPolicy.getByID(id).extension).action.tabContext.get(gBrowser.selectedTab).popup))) {
                 for (let p of document.querySelectorAll(":is(menupopup,panel)[panelopen],:is(toolbarbutton,#main-menubar > menu)[open] > menupopup,.urlbar[breakout-extend]")) {
