@@ -446,7 +446,7 @@ fill: color-mix(in srgb, currentColor 20%, #0074e8) !important;
     },
     addTab(win, url, params = {}) {
         params.triggeringPrincipal = Services.scriptSecurityManager.getSystemPrincipal();
-        params.index = params.tabIndex = win.gBrowser.selectedTab._tPos + 1;
+        params.index = params.tabIndex = (win.gBrowser.selectedTab.index ?? win.gBrowser.selectedTab._tPos) + 1;
         return win.gBrowser.addTab(url, params);
     },
 }))();

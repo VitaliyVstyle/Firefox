@@ -76,7 +76,7 @@ ${propertiesPending ? `:root[windowtype="navigator:browser"] .tabbrowser-tab:not
             skipAnimation: multi || newWin,
             bulkOrderedOpen: multi
         };
-        if (insertAfterCurrent) params.index = params.tabIndex = gb.selectedTab._tPos;
+        if (insertAfterCurrent) params.index = params.tabIndex = (gb.selectedTab.index ?? gb.selectedTab._tPos);
         var first = true;
         var getFavicon = ("getFaviconForPage" in PlacesUtils.favicons)
             ? url => PlacesUtils.favicons.getFaviconForPage(url, 32)
@@ -102,7 +102,7 @@ ${propertiesPending ? `:root[windowtype="navigator:browser"] .tabbrowser-tab:not
             if (first) {
                 first = false;
                 if (newWin) continue;
-                if (multi && insertAfterCurrent) params.index = params.tabIndex = tab._tPos
+                if (multi && insertAfterCurrent) params.index = params.tabIndex = (tab.index ?? tab._tPos);
                 if (where === "tabshifted") gb.selectedTab = tab;
             }
         }

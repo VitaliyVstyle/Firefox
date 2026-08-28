@@ -266,7 +266,7 @@ export var UcfPrefs = {
                     if (having) win.switchToTabHavingURI(url, true, { relatedToCurrent: true, triggeringPrincipal });
                     else {
                         let params = { triggeringPrincipal };
-                        params.index = params.tabIndex = win.gBrowser.selectedTab._tPos + 1;
+                        params.index = params.tabIndex = (win.gBrowser.selectedTab.index ?? win.gBrowser.selectedTab._tPos) + 1;
                         win.gBrowser.selectedTab = win.gBrowser.addTab(url, params);
                     }
                 }
