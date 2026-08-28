@@ -10,7 +10,7 @@ export class LLCWinActorParent extends JSWindowActorParent {
         var browser = this.browsingContext.top.embedderElement;
         if (!browser) return;
         var { link, ref, next, principal, backg } = data;
-        var { gBrowser } = browser.documentGlobal;
+        var { gBrowser } = browser.documentGlobal || browser.ownerGlobal;
         var params = {
             referrerInfo: ref ? lazy.E10SUtils.deserializeReferrerInfo(ref) : null,
             triggeringPrincipal: principal ? lazy.E10SUtils.deserializePrincipal(principal) : Services.scriptSecurityManager.getSystemPrincipal(),

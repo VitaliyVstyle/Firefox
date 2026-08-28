@@ -1,6 +1,6 @@
 const lazy = {}
 export class UcfWinActorParent extends JSWindowActorParent {
     receiveMessage() {
-        return lazy.prefs ??= this.browsingContext.top.embedderElement.documentGlobal.UcfPrefs._CssJsContent;
+        return lazy.prefs ??= (this.browsingContext.top.embedderElement.documentGlobal || this.browsingContext.top.embedderElement.ownerGlobal).UcfPrefs._CssJsContent;
     }
 }
