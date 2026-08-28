@@ -244,7 +244,7 @@ class longLClick {
             triggeringPrincipal: Services.scriptSecurityManager.getSystemPrincipal(),
             userContextId: lgltck.userContextId ? selectedTab.userContextId : 0,
         };
-        params.index = params.tabIndex = lgltck.nextToCurrentCm ? (selectedTab._tPos + 1) : null;
+        params.index = params.tabIndex = lgltck.nextToCurrentCm ? ((selectedTab.index ?? selectedTab._tPos) + 1) : null;
         var tab = gBrowser.addTab(link, params);
         if (!lgltck.backgroundCm) gBrowser.selectedTab = tab;
     }

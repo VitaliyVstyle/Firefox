@@ -15,7 +15,7 @@ export class LLCWinActorParent extends JSWindowActorParent {
             referrerInfo: ref ? lazy.E10SUtils.deserializeReferrerInfo(ref) : null,
             triggeringPrincipal: principal ? lazy.E10SUtils.deserializePrincipal(principal) : Services.scriptSecurityManager.getSystemPrincipal(),
         };
-        params.index = params.tabIndex = next ? (gBrowser.selectedTab._tPos + 1) : null;
+        params.index = params.tabIndex = next ? ((gBrowser.selectedTab.index ?? gBrowser.selectedTab._tPos) + 1) : null;
         var tab = gBrowser.addTab(link, params);
         if (!backg) gBrowser.selectedTab = tab;
     }
