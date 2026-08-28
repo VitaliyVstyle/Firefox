@@ -8,12 +8,12 @@
 ) => ({
     get dps() {
         delete this.dps;
-        return this.dps = windowRoot.documentGlobal.DownloadPaths || ChromeUtils.importESModule("resource://gre/modules/DownloadPaths.sys.mjs").DownloadPaths;
+        return this.dps = (windowRoot.window || windowRoot.documentGlobal).DownloadPaths || ChromeUtils.importESModule("resource://gre/modules/DownloadPaths.sys.mjs").DownloadPaths;
     },
     get exporter() {
         delete this.exporter;
-        return this.exporter = windowRoot.documentGlobal.UcfPrefs.dbg.ref("BookmarkExporter",
-            (windowRoot.documentGlobal.BookmarkHTMLUtils || ChromeUtils.importESModule("resource://gre/modules/BookmarkHTMLUtils.sys.mjs").BookmarkHTMLUtils).exportToFile);
+        return this.exporter = (windowRoot.window || windowRoot.documentGlobal).UcfPrefs.dbg.ref("BookmarkExporter",
+            ((windowRoot.window || windowRoot.documentGlobal).BookmarkHTMLUtils || ChromeUtils.importESModule("resource://gre/modules/BookmarkHTMLUtils.sys.mjs").BookmarkHTMLUtils).exportToFile);
     },
     init() {
         var sep = document.querySelector("#placesContext > #placesContext_openSeparator");

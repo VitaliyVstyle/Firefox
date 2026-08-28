@@ -4,7 +4,7 @@
 */
 (async (
     label = "Open in Sidebar Tabs",
-    image = "resource://ucf_sidebar_tabs",
+    image = "chrome://ucf-url/content/data/sidebar_tabs/icon.svg",
     index = 4, // Sidebar Tabs index
 ) => ({
     init() {
