@@ -324,7 +324,7 @@ export var UcfPrefs = {
             var func = ovtps.apply(obj, arguments);
             var popup = arguments[0].target;
             if (/toolbar-context-menu|view-menu-popup|customization-toolbar-menu/.test(popup.id)) {
-                let win = popup.documentGlobal || popup.ownerGlobal;
+                let win = popup.documentGlobal;
                 let Item = arguments[1] || popup.querySelector(":scope > :nth-last-child(1 of [toolbarId])")?.nextElementSibling;
                 for (let toolbar of win.ucf_toolbars_win.toolbars.externalToolbars) {
                     if (toolbar.id === "ucf-additional-vertical-bar" && popup.id === "customization-toolbar-menu") continue;

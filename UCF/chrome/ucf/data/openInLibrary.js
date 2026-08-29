@@ -35,7 +35,7 @@
         ];
         var win = Services.wm.getMostRecentWindow("Places:Organizer");
         if (win) return win.focus(this.onLibrary(win, data));
-        win = (windowRoot.window || windowRoot.ownerGlobal).openDialog("chrome://browser/content/places/places.xhtml", "", "chrome,toolbar=yes,dialog=no,resizable");
+        win = windowRoot.window.openDialog("chrome://browser/content/places/places.xhtml", "", "chrome,toolbar=yes,dialog=no,resizable");
         win.addEventListener("pageshow", () => this.onLibrary(win, data), { once: true });
     },
     async onLibrary(win, data) {

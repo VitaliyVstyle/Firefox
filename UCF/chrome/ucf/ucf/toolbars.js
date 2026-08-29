@@ -42,12 +42,14 @@ var toolbars = {
                     let tcontainer = document.createXULElement("vbox");
                     tcontainer.id = "ucf-additional-top-container";
                     tcontainer.setAttribute("topautohide", "true");
-                    let topbox = document.createXULElement("vbox");
+                    let topbox = document.createElementNS("http://www.w3.org/1999/xhtml", "html:div");
                     topbox.id = "ucf-additional-top-box";
                     topbox.setAttribute("topautohide", "true");
+                    topbox.setAttribute("popover", "manual");
                     topbox.append(topbar);
                     tcontainer.append(topbox);
                     navtoolbox.querySelector(sel).after(tcontainer);
+                    topbox.showPopover();
                     this.topbox = topbox;
                     this.topbar = topbar;
                     document.documentElement.setAttribute("v_top_bar_autohide", "true");
@@ -67,7 +69,7 @@ var toolbars = {
                 vcontainer.setAttribute("vertautohide", `${prefs.v_autohide}`);
                 vcontainer.setAttribute("v_vertical_bar_start", `${prefs.v_bar_start}`);
                 vcontainer.hidden = true;
-                let verticalbox = document.createXULElement("vbox");
+                let verticalbox = document.createElementNS("http://www.w3.org/1999/xhtml", "html:div");
                 verticalbox.id = "ucf-additional-vertical-box";
                 verticalbox.setAttribute("vertautohide", `${prefs.v_autohide}`);
                 verticalbox.setAttribute("v_vertical_bar_start", `${prefs.v_bar_start}`);
@@ -101,6 +103,8 @@ var toolbars = {
                 this.verticalbar = verticalbar;
                 this.verticalbox = verticalbox;
                 if (prefs.v_autohide) {
+                    verticalbox.setAttribute("popover", "manual");
+                    verticalbox.showPopover();
                     document.documentElement.setAttribute("v_vertical_bar_autohide", "true");
                     v_autohide = true;
                 }

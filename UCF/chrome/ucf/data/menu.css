@@ -1165,6 +1165,7 @@
             content: url("./svg/device-phone.svg");
         }
     }
+    menu.share-tab-url-item,
     #context_sendTabToDevice,
     #context-sendpagetodevice,
     #context-sendlinktodevice {

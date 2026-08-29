@@ -110,19 +110,29 @@ toolbar:not(#nav-bar) {
         width: 0px !important;
         max-width: 0px !important;
         overflow: visible !important;
+        anchor-name: --ucf-additional-vertical-container !important;
     }
     #ucf-additional-vertical-box {
         background: none !important;
+        color: inherit !important;
         border: none !important;
         box-shadow: none !important;
         margin-inline: 0 !important;
         margin-block: -1px !important;
+        padding: 0 !important;
         position: relative !important;
         z-index: calc(var(--browser-area-z-index-tabbox, 2) + 3) !important;
         transition-property: margin-top !important;
         transition-timing-function: linear !important;
         transition-duration: .2s !important;
         transition-delay: 0s !important;
+        &[vertautohide=false] {
+            display: flex !important;
+            flex-grow: 1 !important;
+            &>#ucf-additional-vertical-bar {
+                flex-grow: 1 !important;
+            }
+        }
         :root[BookmarksToolbarOverlapsBrowser] & {
             margin-top: calc(var(--bookmarks-toolbar-overlapping-browser-height, var(--bookmarks-toolbar-height)) - 1px) !important;
         }
@@ -138,7 +148,6 @@ toolbar:not(#nav-bar) {
             margin: 0 !important;
             min-width: 20px !important;
             width: auto !important;
-            flex-grow: 1 !important;
             align-items: stretch !important;
             justify-content: start !important;
             flex-direction: column !important;
@@ -208,10 +217,11 @@ toolbar:not(#nav-bar) {
         }
         &[vertautohide=true] {
             position: absolute !important;
-            top: 0 !important;
-            bottom: 0 !important;
-            inset-inline-start: 0 !important;
-            inset-inline-end: auto !important;
+            position-anchor: --ucf-additional-vertical-container !important;
+            inset-block: anchor(start) anchor(end) !important;
+            inset-inline: anchor(start) auto !important;
+            height: auto !important;
+            width: auto !important;
             overflow: clip !important;
             pointer-events: none !important;
             &[v_vertical_bar_start=false] {
@@ -264,22 +274,28 @@ toolbar:not(#nav-bar) {
     }
 }
 :root[v_top_bar_autohide=true]:where(:not([customizing])) {
-    --browser-area-z-index-toolbox: auto !important;
     #ucf-additional-top-container {
         position: relative !important;
         min-height: 0px !important;
         height: 0px !important;
         max-height: 0px !important;
         overflow: visible !important;
+        anchor-name: --ucf-additional-top-container !important;
         #ucf-additional-top-box {
             position: absolute !important;
+            position-anchor: --ucf-additional-top-container !important;
+            inset-block: anchor(start) auto !important;
+            inset-inline: anchor(start) anchor(end) !important;
             z-index: calc(var(--browser-area-z-index-tabbox, 2) + 2) !important;
-            top: 0 !important;
-            bottom: auto !important;
-            inset-inline-start: 0 !important;
-            inset-inline-end: 0 !important;
             overflow: clip !important;
             pointer-events: none !important;
+            padding: 0 !important;
+            border: none !important;
+            margin: 0 !important;
+            width: auto !important;
+            height: auto !important;
+            background: none !important;
+            color: inherit !important;
             &>#ucf-additional-top-bar {
                 position: relative !important;
                 border-bottom: 1px solid var(--chrome-content-separator-color, ThreeDShadow) !important;
