@@ -41,6 +41,7 @@
     --space-above-tabbar: 0px !important;
     --border-radius-medium: 0px !important;
     --border-radius-small: 0px !important;
+    --border-radius-large: 0px !important;
     --button-border-radius: 0px !important;
     --toolbarbutton-border-radius: 0px !important;
     --toolbarbutton-padding-outer: 0px !important;
@@ -571,6 +572,9 @@ findbar {
         }
     }
     #searchbar {
+        position-anchor: unset !important;
+        inset: unset !important;
+        align-self: stretch !important;
         outline-offset: var(--v-focus-outline-offset) !important;
         .searchbar-search-icon {
             margin-inline-start: 6px !important;
@@ -612,7 +616,9 @@ findbar {
 }
 #PopupSearchAutoComplete {
     --panel-color: var(--toolbar-field-color-focus, var(--toolbar-field-focus-color, FieldText)) !important;
+    --panel-text-color: var(--panel-color) !important;
     --panel-background: var(--toolbar-field-background-color-focus, var(--toolbar-field-focus-background-color, Field)) !important;
+    --panel-background-color: var(--panel-background) !important;
     --panel-border-color: inherit !important;
     --panel-border-radius: var(--v-urlbar-searchbar-border-radius) !important;
     &>.search-panel-current-engine {
