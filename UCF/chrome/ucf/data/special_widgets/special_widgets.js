@@ -1,5 +1,5 @@
 /**
-@UCF @param {"prop":"JsChrome.load","ucfobj":true,"disable":true} @UCF
+@UCF @param {"prop":"JsChrome.load","ucfobj":true} @UCF
 */
 (async () => ({
     timer: null,

@@ -25,7 +25,7 @@
     }
     :root, dialog, .dialogBox, menu-button, login-filter, login-item, login-intro, login-list, fxaccounts-button, remove-logins-dialog,
     import-error-dialog, import-summary-dialog, confirmation-dialog, info-item, message-bar, addon-updates-message,
-    moz-box-link, moz-box-button {
+    moz-box-link, moz-box-button, moz-page-nav-button {
         --in-content-icon-color: #5b5b65 !important;
         --in-content-primary-button-text-color: #ffffff !important;
         --in-content-primary-button-text-color-hover: var(--in-content-primary-button-text-color) !important;
@@ -88,6 +88,8 @@
         --panel-disabled-color: GrayText !important;
         --panel-border-radius: 0px !important;
         --card-border-radius: 0px !important;
+        --page-nav-button-border-radius: 0px !important;
+        --page-nav-button-border-radius-focused: 0px !important;
         --color-accent-primary: var(--blue-60) !important;
         --color-accent-primary-hover: color-mix(in srgb, rgb(255, 255, 255) 15%, var(--color-accent-primary)) !important;
         --color-accent-primary-active: color-mix(in srgb, rgb(0, 0, 0) 10%, var(--color-accent-primary)) !important;

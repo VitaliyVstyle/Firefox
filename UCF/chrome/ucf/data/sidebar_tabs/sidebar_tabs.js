@@ -1,6 +1,6 @@
 /**
-@UCF @param {"prop":"JsBackground","force":true,"disable":true} @UCF
-@UCF @param {"prop":"JsChrome.DOMContentLoaded","ucfobj":true,"disable":true} @UCF
+@UCF @param {"prop":"JsBackground","force":true} @UCF
+@UCF @param {"prop":"JsChrome.DOMContentLoaded","ucfobj":true} @UCF
 */
 (async () => {
     var

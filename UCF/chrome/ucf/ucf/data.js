@@ -306,15 +306,15 @@ const initOptions = async () => {
     dir.append("data");
     rootpath = dir.path;
     search(dir);
-    await createSection(UcfPrefs.prefs.CssAllChrome, "CssAllChrome");
     await createSection(UcfPrefs.prefs.CssChrome, "CssChrome");
+    await createSection(UcfPrefs.prefs.CssAllChrome, "CssAllChrome");
     await createSection(UcfPrefs.prefs.CssAllFrame, "CssAllFrame");
     await createSection(UcfPrefs.prefs.CssContent, "CssContent");
-    await createSection(UcfPrefs.prefs.JsBackground, "JsBackground");
     await createSection(UcfPrefs.prefs.JsChrome.DOMContentLoaded, "JsChrome.DOMContentLoaded");
     await createSection(UcfPrefs.prefs.JsChrome.load, "JsChrome.load");
     await createSection(UcfPrefs.prefs.JsAllChrome.DOMContentLoaded, "JsAllChrome.DOMContentLoaded");
     await createSection(UcfPrefs.prefs.JsAllChrome.load, "JsAllChrome.load");
+    await createSection(UcfPrefs.prefs.JsBackground, "JsBackground");
     await createSection(UcfPrefs.prefs.JsContent.DOMWindowCreated, "JsContent.DOMWindowCreated");
     await createSection(UcfPrefs.prefs.JsContent.DOMContentLoaded, "JsContent.DOMContentLoaded");
     await createSection(UcfPrefs.prefs.JsContent.pageshow, "JsContent.pageshow");
@@ -350,7 +350,7 @@ const initLoad = () => {
     var l10n = UcfPrefs.l10nDoMLocalization("ucf/locales", "prefs.ftl");
     var max = parseInt(Services.appinfo.platformVersion), min = max - 10;
     for (let elm of document.querySelectorAll("[data-l10n-id=verminmax]"))
-        l10n.setArgs(elm, {"min":`${min}`,"max":`${max}`});
+        l10n.setArgs(elm, { "min": `${min}`, "max": `${max}` });
     l10n.connectRoot(document.documentElement);
     l10n.translateRoots();
     document.querySelector("#open_data").onclick = () => getFile(UcfPrefs.manifestPath.replace(/ucf\.manifest$/, "data")).launch();

@@ -445,7 +445,18 @@ findbar {
         }
     }
 }
-
+#urlbar-container {
+    anchor-name: --v-urlbar-container !important;
+    #urlbar {
+        position-anchor: --v-urlbar-container !important;
+    }
+}
+#search-container {
+    anchor-name: --v-search-container !important;
+    [id^=searchbar] {
+        position-anchor: --v-search-container !important;
+    }
+}
 #urlbar-container, #search-container {
     padding: var(--urlbar-padding-block) 0 !important;
     margin: 0 var(--urlbar-margin-inline) !important;
@@ -453,11 +464,14 @@ findbar {
     align-items: center !important;
     #urlbar, [id^=searchbar] {
         --urlbar-margin-inline: 0;
-        width: var(--urlbar-width, 100%) !important;
+        position: relative !important;
+        inset-block: anchor(start) anchor(end) !important;
+        inset-inline: anchor(start) anchor(end) !important;
+        width: auto !important;
+        height: auto !important;
+        min-height: 0 !important;
         margin: 0 !important;
         padding: 0 !important;
-        position: relative !important;
-        min-height: var(--urlbar-min-height) !important;
         font-size: 1em !important;
         box-shadow: none !important;
         #identity-icon-box,
@@ -470,7 +484,8 @@ findbar {
         &>.urlbar-input-container {
             margin: 0 !important;
             padding: var(--urlbar-container-padding) !important;
-            height: var(--urlbar-height) !important;
+            width: auto !important;
+            height: auto !important;
             align-items: stretch !important;
             border: 1px solid transparent;
             &>:is(box, hbox) {
@@ -495,29 +510,29 @@ findbar {
             align-self: stretch !important;
             padding-inline: var(--urlbar-icon-padding) !important;
         }
-        &> :is(.urlbar-background, #urlbar-background) {
-            display: flex !important;
+        &>.urlbar-background {
             position: absolute !important;
             animation: none !important;
             inset: 0 !important;
             box-shadow: none !important;
-            height: var(--urlbar-height) !important;
-            bottom: auto !important;
+            width: auto !important;
+            height: auto !important;
             box-sizing: border-box !important;
         }
-        &:is([open], [focused])> :is(.urlbar-background, #urlbar-background) {
+        &:is([open], [focused])>.urlbar-background {
             border-color: transparent !important;
             outline-style: solid !important;
             outline-offset: var(--v-focus-outline-offset) !important;
             outline-width: var(--focus-outline-width) !important;
             outline-color: var(--toolbar-field-border-color, transparent) !important;
         }
-        &[focused]> :is(.urlbar-background, #urlbar-background) {
+        &[focused]>.urlbar-background {
             outline-color: var(--toolbar-field-border-color-focus, var(--toolbar-field-focus-border-color, Highlight)) !important;
         }
         &>.urlbarView {
             margin: 0 !important;
-            width: 100% !important;
+            width: auto !important;
+            height: auto !important;
             box-sizing: border-box !important;
             border-radius: var(--v-urlbar-searchbar-border-radius) !important;
             background: var(--toolbar-field-background-color-focus, var(--toolbar-field-focus-background-color, Field)) !important;
@@ -526,7 +541,7 @@ findbar {
             position: absolute !important;
             z-index: 7 !important;
             inset-inline: 0 !important;
-            inset-block: var(--urlbar-height) auto !important;
+            inset-block: auto !important;
             box-shadow: 0 0 var(--panel-shadow-margin, 10px) rgba(0, 0, 0, .2) !important;
             .searchbar-engine-one-off-item {
                 margin: 0 !important;

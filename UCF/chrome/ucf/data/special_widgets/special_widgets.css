@@ -1,5 +1,5 @@
 /**
-@UCF @param {"prop":"CssChrome","type":"USER_SHEET","disable":true} @UCF
+@UCF @param {"prop":"CssChrome","type":"USER_SHEET"} @UCF
 */
 toolbarseparator[id^="customizableui-special-separator"] {
     appearance: none !important;
