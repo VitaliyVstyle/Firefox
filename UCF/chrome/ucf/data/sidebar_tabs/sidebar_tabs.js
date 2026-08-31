@@ -60,7 +60,7 @@
         TOOLTIP = st_tooltip.value,
         TOOLTIP_BUTTON = st_tooltip_button.value,
         START = true, // Placement
-        WIDTH = 350,
+        WIDTH = 370,
         AUTO_HIDE = true, // Auto hide
         SHOW_DELAY = 300,
         HIDE_DELAY = 2000,
