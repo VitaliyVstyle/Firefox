@@ -1,5 +1,5 @@
 /**
-@UCF @param {"prop":"JsBackground","module":["autoCopyButtonChild.init"],"disable":true} @UCF
+@UCF @param {"prop":"JsBackground","module":["autoCopyButtonParent.init"],"disable":true} @UCF
 */
 const lazy = {
     id: "ucf-auto-copy-button",
@@ -28,6 +28,50 @@ const lazy = {
     },
 };
 export class autoCopyButtonChild extends JSWindowActorChild {
+    actorCreated() {
+        this.disabled = lazy.disabled;
+    }
+    handleEvent(e) {
+        this[e.type](e);
+    }
+    receiveMessage({ name, data }) {
+        switch (name) {
+            case "autoCopyButton:getToggle":
+                return this.disabled;
+            case "autoCopyButton:Toggle":
+                if (!data.selected) lazy.disabled = data.disabled;
+                this.disabled = data.disabled;
+        }
+    }
+    selectstart() {
+        if (this.disabled) return;
+        this.selectstart = () => { };
+        this.tid = null;
+        this.win = this.contentWindow;
+        (this.sel = this.document.getSelection())?.addSelectionListener(this.listener = { notifySelectionChanged: this.changed.bind(this) });
+    }
+    pagehide() {
+        this.sel?.removeSelectionListener(this.listener);
+    }
+    changed(doc, sel, reason) {
+        if (this.disabled || this.win.clearTimeout(this.tid) || !lazy.reasons.has(reason) || !(sel = sel.toString().trim())) return;
+        this.tid = this.win.setTimeout(() => {
+            if (lazy.copyToClipboard) lazy.clipboard.copyStringToClipboard(sel, Ci.nsIClipboard.kGlobalClipboard);
+            if (lazy.copyToSearchbar) this.sendAsyncMessage("autoCopyButton:setSearch", { sel });
+            if (!lazy.blink) return;
+            var sc = this.docShell.QueryInterface(Ci.nsIInterfaceRequestor)
+                .getInterface(Ci.nsISelectionDisplay)
+                .QueryInterface(Ci.nsISelectionController);
+            this.repaint(sc, sc.SELECTION_OFF);
+            this.win.setTimeout(() => this.repaint(sc, sc.SELECTION_ON), lazy.blinkDuration);
+        }, lazy.copyStart);
+    }
+    repaint(sc, disp) {
+        sc.setDisplaySelection(disp);
+        sc.repaintSelection(sc.SELECTION_NORMAL);
+    }
+}
+export class autoCopyButtonParent extends JSWindowActorParent {
     static async init({ CustomizableUI }, esModuleURI) {
         var { id, label, tooltiptext, image } = lazy;
         var widget = CustomizableUI.createWidget({
@@ -102,55 +146,11 @@ export class autoCopyButtonChild extends JSWindowActorChild {
             safeForUntrustedWebProcess: true,
         });
     }
-    actorCreated() {
-        this.disabled = lazy.disabled;
-    }
-    handleEvent(e) {
-        this[e.type](e);
-    }
-    receiveMessage({ name, data }) {
-        switch (name) {
-            case "autoCopyButton:getToggle":
-                return this.disabled;
-            case "autoCopyButton:Toggle":
-                if (!data.selected) lazy.disabled = data.disabled;
-                this.disabled = data.disabled;
-        }
-    }
-    selectstart() {
-        if (this.disabled) return;
-        this.selectstart = () => { };
-        this.tid = null;
-        this.win = this.contentWindow;
-        (this.sel = this.document.getSelection())?.addSelectionListener(this.listener = { notifySelectionChanged: this.changed.bind(this) });
-    }
-    pagehide() {
-        this.sel?.removeSelectionListener(this.listener);
-    }
-    changed(doc, sel, reason) {
-        if (this.disabled || this.win.clearTimeout(this.tid) || !lazy.reasons.has(reason) || !(sel = sel.toString().trim())) return;
-        this.tid = this.win.setTimeout(() => {
-            if (lazy.copyToClipboard) lazy.clipboard.copyStringToClipboard(sel, Ci.nsIClipboard.kGlobalClipboard);
-            if (lazy.copyToSearchbar) this.sendAsyncMessage("autoCopyButton:setSearch", { sel });
-            if (!lazy.blink) return;
-            var sc = this.docShell.QueryInterface(Ci.nsIInterfaceRequestor)
-                .getInterface(Ci.nsISelectionDisplay)
-                .QueryInterface(Ci.nsISelectionController);
-            this.repaint(sc, sc.SELECTION_OFF);
-            this.win.setTimeout(() => this.repaint(sc, sc.SELECTION_ON), lazy.blinkDuration);
-        }, lazy.copyStart);
-    }
-    repaint(sc, disp) {
-        sc.setDisplaySelection(disp);
-        sc.repaintSelection(sc.SELECTION_NORMAL);
-    }
-}
-export class autoCopyButtonParent extends JSWindowActorParent {
     receiveMessage({ name, data }) {
         if (name !== "autoCopyButton:setSearch") return
         var doc = this.browsingContext.top.embedderElement.ownerDocument;
         for (let bar of doc.querySelectorAll("#search-container > [id^=searchbar]")) {
-            if (bar._copyCutController && bar.search) bar.search(`? ${data.sel}`, { startQuery: lazy.startQuery });
+            if (bar._observer && bar.search) bar.search(`? ${data.sel}`, { startQuery: lazy.startQuery });
             else if (bar._initialized && bar.openSuggestionsPanel) {
                 bar.value = data.sel;
                 if (lazy.startQuery) bar.openSuggestionsPanel();
