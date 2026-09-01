@@ -117,7 +117,7 @@ const handleClick = async ({ target, currentTarget }) => {
                 let item = row.children[prefInd];
                 if (item.rows === 1) {
                     let val = item.value ? JSON.stringify(JSON.parse(item.value), null, 4) : "";
-                    item.rows = 20;
+                    item.rows = val ? val.split("\n").length : 10;
                     item.value = val;
                     row.setAttribute("expand", "true");
                 } else {
