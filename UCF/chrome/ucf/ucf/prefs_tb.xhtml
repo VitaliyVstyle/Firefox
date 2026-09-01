@@ -9,77 +9,76 @@
 </head>
 
 <body>
-  <div id="header">
-    <div class="controls">
-      <input type="button" id="open_ucf" data-l10n-id="open_ucf" />
-      <input type="button" id="open_edit_ucf" data-l10n-id="open_edit_ucf" />
-      <input type="button" id="open_options" data-l10n-id="open_options" />
-      <input type="button" id="restart" data-l10n-id="restart" />
-      <input type="button" id="restart_no_cache" data-l10n-id="restart_no_cache" data-l10n-args='{"lineBreak":"\n"}' />
+  <div id="content">
+    <div id="header">
+      <div class="controls">
+        <input type="button" id="open_ucf" data-l10n-id="open_ucf" />
+        <input type="button" id="open_edit_ucf" data-l10n-id="open_edit_ucf" />
+        <input type="button" id="open_options" data-l10n-id="open_options" />
+        <input type="button" id="restart" data-l10n-id="restart" />
+        <input type="button" id="restart_no_cache" data-l10n-id="restart_no_cache"
+          data-l10n-args='{"lineBreak":"\n"}' />
+      </div>
+      <div class="controls">
+        <input type="button" id="restore" data-l10n-id="restore" />
+      </div>
     </div>
-    <div class="controls">
-      <input type="button" id="restore" data-l10n-id="restore" />
+    <div id="version">
+      <pre><span data-l10n-id="ucf_version"></span><span> 2026.9.1</span></pre>
     </div>
-  </div>
-  <div class="columns">
-    <div>
-      <label>
-        <input type="checkbox" autocomplete="off" data-pref="css_chrome" />
-        <span>CssChrome</span>
-      </label>
-      <label>
-        <input type="checkbox" autocomplete="off" data-pref="css_all_chrome" />
-        <span>CssAllChrome</span>
-      </label>
-      <label>
-        <input type="checkbox" autocomplete="off" data-pref="css_all_frame" />
-        <span>CssAllFrame</span>
-      </label>
-    </div>
-    <div>
-      <label>
-        <input type="checkbox" autocomplete="off" data-pref="js_chrome" />
-        <span>JsChrome</span>
-      </label>
-      <label>
-        <input type="checkbox" autocomplete="off" data-pref="js_all_chrome" />
-        <span>JsAllChrome</span>
-      </label>
-      <label>
-        <input type="checkbox" autocomplete="off" data-pref="js_background" />
-        <span>JsBackground</span>
-      </label>
+    <div class="rows">
+      <div>
+        <label>
+          <input type="checkbox" autocomplete="off" data-pref="css_chrome" />
+          <span>CssChrome</span>
+        </label>
+        <label>
+          <input type="checkbox" autocomplete="off" data-pref="css_all_chrome" />
+          <span>CssAllChrome</span>
+        </label>
+        <label>
+          <input type="checkbox" autocomplete="off" data-pref="css_all_frame" />
+          <span>CssAllFrame</span>
+        </label>
+      </div>
+      <div>
+        <label>
+          <input type="checkbox" autocomplete="off" data-pref="js_chrome" />
+          <span>JsChrome</span>
+        </label>
+        <label>
+          <input type="checkbox" autocomplete="off" data-pref="js_all_chrome" />
+          <span>JsAllChrome</span>
+        </label>
+        <label>
+          <input type="checkbox" autocomplete="off" data-pref="js_background" />
+          <span>JsBackground</span>
+        </label>
+      </div>
+      <div class="grow">
+        <label>
+          <input type="checkbox" autocomplete="off" data-pref="css_js_content" />
+          <span>CssContent, JsContent</span>
+        </label>
+        <fieldset>
+          <input type="text" autocomplete="off" data-pref="css_js_content_groups" title="messageManagerGroups" />
+          <input type="text" autocomplete="off" data-pref="css_js_content_matches" title="matches" />
+        </fieldset>
+      </div>
     </div>
     <div class="grow">
-      <label>
-        <input type="checkbox" autocomplete="off" data-pref="css_js_content" />
-        <span>CssContent, JsContent</span>
-      </label>
-      <fieldset>
-        <div class="textarea">
-          <input type="text" autocomplete="off" data-pref="css_js_content_groups" />
-          <span>messageManagerGroups</span>
-        </div>
-        <div class="textarea">
-          <input type="text" autocomplete="off" data-pref="css_js_content_matches" />
-          <span>matches</span>
-        </div>
-      </fieldset>
-    </div>
-  </div>
-  <div class="grow">
-    <span data-l10n-id="editor_path"></span>
-    <div class="row">
-      <input type="text" autocomplete="off" class="grow path" data-l10n-id="editor_title" data-pref="editor_path" />
-      <button id="btn_browse" type="button"></button>
-      <input type="text" autocomplete="off" class="grow" data-l10n-id="editor_args_title" data-pref="editor_args" />
-    </div>
-    <div class="row">
-      <input type="text" autocomplete="off" class="grow path" data-l10n-id="folder_editor_title"
-        data-pref="folder_editor_path" />
-      <button id="btn_folder_browse" type="button"></button>
-      <input type="text" autocomplete="off" class="grow" data-l10n-id="editor_args_title"
-        data-pref="folder_editor_args" />
+      <div class="row">
+        <input type="text" autocomplete="off" class="grow path" data-l10n-id="editor_title" data-pref="editor_path" />
+        <button id="btn_browse" type="button"></button>
+        <input type="text" autocomplete="off" class="grow" data-l10n-id="editor_args_title" data-pref="editor_args" />
+      </div>
+      <div class="row">
+        <input type="text" autocomplete="off" class="grow path" data-l10n-id="folder_editor_title"
+          data-pref="folder_editor_path" />
+        <button id="btn_folder_browse" type="button"></button>
+        <input type="text" autocomplete="off" class="grow" data-l10n-id="editor_args_title"
+          data-pref="folder_editor_args" />
+      </div>
     </div>
   </div>
   <script src="chrome://ucf-url/content/ucf/prefs.js"></script>

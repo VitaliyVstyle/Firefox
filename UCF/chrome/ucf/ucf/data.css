@@ -32,12 +32,12 @@
     }
 }
 body {
+    display: flex !important;
+    flex-direction: column !important;
     font: inherit !important;
     margin: 0 !important;
     padding-inline: 10px !important;
-    padding-block-start: 0 !important;
-    padding-block-end: 10px !important;
-    width: 100% !important;
+    padding-block: 0 10px !important;
     background: none !important;
     color: inherit !important;
     box-sizing: border-box !important;
@@ -50,20 +50,13 @@ body {
     background-color: var(--v-highlight-background-color) !important;
     color: var(--v-highlight-color) !important;
 }
-#header {
+div {
     display: flex !important;
-    align-items: end !important;
-    justify-content: space-between !important;
-    flex-wrap: nowrap !important;
-    position: sticky !important;
-    z-index: 7 !important;
-    inset-inline: 0 !important;
-    top: 0 !important;
-    background: var(--v-background-color-root, Field) !important;
-    color: var(--v-color-root, FieldText) !important;
-    padding-block: 10px !important;
-    padding-inline: 5px !important;
-    margin-inline: -10px !important;
+    flex-direction: column !important;
+}
+span {
+    min-height: max(22px, 1.5em) !important;
+    line-height: max(22px, 1.5em) !important;
 }
 .css, .js {
     display: flex !important;
@@ -76,6 +69,7 @@ body {
 }
 .ucfsettings {
     font-weight: bold !important;
+    margin: 0 !important;
 }
 .description {
     font-weight: normal !important;
@@ -102,28 +96,21 @@ input, textarea, button {
     padding-inline: 2px !important;
     margin: 0 !important;
     height: auto !important;
-    min-height: 24px !important;
+    min-height: calc(max(22px, 1.5em) + 2px) !important;
+    line-height: max(22px, 1.5em) !important;
     box-shadow: none !important;
     border-radius: 0 !important;
     outline: none !important;
     outline-width: 0 !important;
+    resize: none !important;
+    white-space: pre !important;
+    scrollbar-width: none !important;
     &:focus {
         border-color: var(--v-highlight-background-color) !important;
         background-color: var(--v-input-background-color-focus) !important;
     }
-    &:is(textarea) {
-        resize: none !important;
-        white-space: pre !important;
-        scrollbar-width: none !important;
-        line-height: max(22px, 1.5em) !important;
-    }
-    &[type="text"] {
-        white-space: pre !important;
-        line-height: max(22px, 1.5em) !important;
-    }
     &:is(button[type="button"]) {
         width: 24px !important;
-        height: 24px !important;
         padding: 0 !important;
         cursor: default !important;
         background-color: transparent !important;
@@ -171,7 +158,7 @@ input, textarea, button {
         min-width: 16px !important;
         width: 16px !important;
         padding: 0 !important;
-        margin-inline-end: 3px !important;
+        margin-inline-end: 4px !important;
         background-repeat: no-repeat !important;
         background-position: center !important;
         background-size: 16px !important;
@@ -188,7 +175,7 @@ input, textarea, button {
     justify-content: stretch !important;
     align-items: start !important;
     .disable {
-        margin-block: 4px !important;
+        margin-block: calc((max(22px, 1.5em) - 14px) / 2) !important;
     }
     input[type="text"], textarea {
         overflow: clip !important;
@@ -295,25 +282,47 @@ input, textarea, button {
         }
     }
 }
-.controls {
+#header {
     display: flex !important;
+    flex-direction: row !important;
+    align-items: end !important;
+    justify-content: space-between !important;
+    flex-wrap: nowrap !important;
+    position: sticky !important;
+    z-index: 7 !important;
+    inset-inline: 0 !important;
+    inset-block-start: 0 !important;
+    background: var(--v-background-color-root, Field) !important;
+    color: var(--v-color-root, FieldText) !important;
+    padding-block: 10px !important;
+    padding-inline: 10px !important;
+    margin-inline: -10px !important;
+}
+div.controls {
+    display: flex !important;
+    flex-direction: row !important;
     flex-wrap: nowrap !important;
     user-select: none !important;
     align-items: center !important;
+    &:not(:last-of-type) {
+        margin-inline-end: 16px !important;
+    }
     input[type="button"] {
         color: var(--v-highlight-background-color-hover) !important;
         font-weight: bold !important;
         background: none !important;
         border: none !important;
         border-bottom: 1px dotted !important;
-        margin-inline: 5px !important;
-        margin-block: 0 !important;
+        margin: 0 !important;
         padding: 0 !important;
         height: auto !important;
-        min-height: 1.5em !important;
-        line-height: 1.5em !important;
+        min-height: max(22px, 1.5em) !important;
+        line-height: max(22px, 1.5em) !important;
         outline: none !important;
         outline-width: 0 !important;
+        &:not(:last-of-type) {
+            margin-inline-end: 8px !important;
+        }
         &:focus, &:hover {
             border-bottom-style: solid !important;
             background: none !important;
