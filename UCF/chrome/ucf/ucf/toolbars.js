@@ -1,10 +1,4 @@
 var toolbars = {
-    navtoolbox: null,
-    verticalbox: null,
-    verticalbar: null,
-    topbox: null,
-    topbar: null,
-    bottombar: null,
     externalToolbars: [],
     eventListeners: new Map(),
     get main_popup() {
@@ -23,7 +17,7 @@ var toolbars = {
         ];
         if (prefs.t_enable) {
             try {
-                let topbar = document.createXULElement("toolbar");
+                let topbar = this.topbar = document.createXULElement("toolbar");
                 UcfPrefs.l10nFormatMessages(l10nPath, l10nFile, l10nKeys).then(attr => {
                     topbar.setAttribute("toolbarname", attr[0].value);
                 });
@@ -39,10 +33,10 @@ var toolbars = {
                 if (prefs.t_collapsed) topbar.collapsed = true;
                 let sel = prefs.t_next_navbar ? "#nav-bar" : ":scope > :nth-last-child(1 of toolbar:not(#notifications-toolbar))";
                 if (prefs.t_autohide) {
-                    let tcontainer = document.createXULElement("vbox");
+                    let tcontainer = this.tcontainer = document.createXULElement("vbox");
                     tcontainer.id = "ucf-additional-top-container";
                     tcontainer.setAttribute("topautohide", "true");
-                    let topbox = document.createElementNS("http://www.w3.org/1999/xhtml", "html:div");
+                    let topbox = this.topbox = document.createElementNS("http://www.w3.org/1999/xhtml", "html:div");
                     topbox.id = "ucf-additional-top-box";
                     topbox.setAttribute("topautohide", "true");
                     topbox.setAttribute("popover", "manual");
@@ -50,31 +44,26 @@ var toolbars = {
                     tcontainer.append(topbox);
                     navtoolbox.querySelector(sel).after(tcontainer);
                     topbox.showPopover();
-                    this.topbox = topbox;
-                    this.topbar = topbar;
                     document.documentElement.setAttribute("v_top_bar_autohide", "true");
                     t_autohide = true;
-                } else {
-                    navtoolbox.querySelector(sel).after(topbar);
-                    this.topbar = topbar;
-                }
+                } else navtoolbox.querySelector(sel).after(topbar);
                 toolbarcreate = true;
             } catch { }
         }
         var externalToolbars = false;
         if (prefs.v_enable) {
             try {
-                let vcontainer = document.createXULElement("vbox");
+                let vcontainer = this.vcontainer = document.createXULElement("vbox");
                 vcontainer.id = "ucf-additional-vertical-container";
                 vcontainer.setAttribute("vertautohide", `${prefs.v_autohide}`);
                 vcontainer.setAttribute("v_vertical_bar_start", `${prefs.v_bar_start}`);
                 vcontainer.hidden = true;
-                let verticalbox = document.createElementNS("http://www.w3.org/1999/xhtml", "html:div");
+                let verticalbox = this.verticalbox = document.createElementNS("http://www.w3.org/1999/xhtml", "html:div");
                 verticalbox.id = "ucf-additional-vertical-box";
                 verticalbox.setAttribute("vertautohide", `${prefs.v_autohide}`);
                 verticalbox.setAttribute("v_vertical_bar_start", `${prefs.v_bar_start}`);
                 verticalbox.setAttribute("flex", "1");
-                let verticalbar = document.createXULElement("toolbar");
+                let verticalbar = this.verticalbar = document.createXULElement("toolbar");
                 UcfPrefs.l10nFormatMessages(l10nPath, l10nFile, l10nKeys).then(attr => {
                     verticalbar.setAttribute("toolbarname", attr[1].value);
                 });
@@ -100,8 +89,6 @@ var toolbars = {
                     browser.append(vcontainer);
                     document.documentElement.setAttribute("v_vertical_bar_start", "false");
                 }
-                this.verticalbar = verticalbar;
-                this.verticalbox = verticalbox;
                 if (prefs.v_autohide) {
                     verticalbox.setAttribute("popover", "manual");
                     verticalbox.showPopover();
@@ -116,7 +103,7 @@ var toolbars = {
         }
         if (prefs.b_enable) {
             try {
-                let bottombar = document.createXULElement("toolbar");
+                let bottombar = this.bottombar = document.createXULElement("toolbar");
                 bottombar.id = "ucf-additional-bottom-bar";
                 bottombar.className = "toolbar-primary chromeclass-toolbar customization-target browser-toolbar";
                 bottombar.setAttribute("toolboxid", "navigator-toolbox");
@@ -137,14 +124,10 @@ var toolbars = {
                 closebutton.setAttribute("removable", "false");
                 this.addListener("closebutton_command", closebutton, "command", e => CustomizableUI.setToolbarVisibility("ucf-additional-bottom-bar", false));
                 bottombar.append(closebutton);
-                let bottombox = document.querySelector("#browser-bottombox");
-                if (!bottombox) {
-                    bottombox = document.createXULElement("vbox");
-                    bottombox.id = "browser-bottombox";
-                    document.body.append(bottombox);
-                }
+                let bottombox = document.createXULElement("vbox");
+                bottombox.id = "browser-bottombox";
+                document.body.append(bottombox);
                 bottombox.append(bottombar);
-                this.bottombar = bottombar;
                 this.externalToolbars.push(bottombar);
                 externalToolbars = true;
                 toolbarcreate = true;
@@ -218,7 +201,6 @@ var toolbars = {
         isPopupOpen: false,
         showTimer: null,
         hideTimer: null,
-        tabpanels: null,
         init() {
             var tabpanels = this.tabpanels = gBrowser.tabpanels;
             if (!tabpanels) return;
@@ -230,6 +212,7 @@ var toolbars = {
             this.addListener("hoverbox_dragenter", hoverbox, "dragenter", this);
             this.addListener("navtoolbox_popupshown", navtoolbox, "popupshown", this);
             this.addListener("navtoolbox_popuphidden", navtoolbox, "popuphidden", this);
+            this.addListener("navtoolbox_beforecustomization", navtoolbox, "beforecustomization", this);
             setTimeout(() => {
                 document.documentElement.style.setProperty("--v-top-bar-height", `${Math.round(topbar.getBoundingClientRect().height)}px`);
             }, 0);
@@ -252,6 +235,16 @@ var toolbars = {
             this.eventListeners.forEach(({ elm, type, listener }) => {
                 elm.removeEventListener(type, listener);
             });
+        },
+        beforecustomization() {
+            var { navtoolbox, tcontainer, topbar } = toolbars;
+            tcontainer.after(topbar);
+            this.addListener("navtoolbox_aftercustomization", navtoolbox, "aftercustomization", this);
+        },
+        aftercustomization() {
+            var { topbox, topbar } = toolbars;
+            topbox.append(topbar);
+            this.delListener("navtoolbox_aftercustomization");
         },
         popupshown(e) {
             if (e.target.localName === "tooltip" || ((e.currentTarget == toolbars.main_popup) && e.target.id !== "customizationui-widget-panel")) return;
@@ -352,7 +345,6 @@ var toolbars = {
         isPopupOpen: false,
         showTimer: null,
         hideTimer: null,
-        tabpanels: null,
         init() {
             var tabpanels = this.tabpanels = gBrowser.tabpanels;
             var sidebarbox = this.sidebarbox = document.querySelector("#sidebar-box");

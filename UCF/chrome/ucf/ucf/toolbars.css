@@ -273,51 +273,58 @@ toolbar:not(#nav-bar) {
         display: none !important;
     }
 }
-:root[v_top_bar_autohide=true]:where(:not([customizing])) {
-    #ucf-additional-top-container {
-        position: relative !important;
-        min-height: 0px !important;
-        height: 0px !important;
-        max-height: 0px !important;
-        overflow: visible !important;
-        anchor-name: --ucf-additional-top-container !important;
-        #ucf-additional-top-box {
-            position: absolute !important;
-            position-anchor: --ucf-additional-top-container !important;
-            inset-block: anchor(start) auto !important;
-            inset-inline: anchor(start) anchor(end) !important;
-            z-index: calc(var(--browser-area-z-index-tabbox, 2) + 2) !important;
-            overflow: clip !important;
-            pointer-events: none !important;
-            padding: 0 !important;
-            border: none !important;
-            margin: 0 !important;
-            width: auto !important;
-            height: auto !important;
-            background: none !important;
-            color: inherit !important;
-            &>#ucf-additional-top-bar {
+:root {
+    &[v_top_bar_autohide=true] {
+        &:where(:not([customizing])) {
+            #ucf-additional-top-container {
                 position: relative !important;
-                border-bottom: 1px solid var(--chrome-content-separator-color, ThreeDShadow) !important;
-                pointer-events: auto !important;
-                opacity: 0 !important;
-                margin-top: calc(-1 * var(--v-top-bar-height, 34px)) !important;
-            }
-            &[v_top_bar_visible]>#ucf-additional-top-bar {
-                transition-property: margin-top, opacity !important;
-                transition-timing-function: linear, step-start !important;
-                transition-duration: .2s, 0s !important;
-                transition-delay: 0s, .2s !important;
-            }
-            &[v_top_bar_visible=true]>#ucf-additional-top-bar {
-                margin-top: 0 !important;
-                opacity: 1 !important;
-                transition-delay: 0s !important;
+                min-height: 0px !important;
+                height: 0px !important;
+                max-height: 0px !important;
+                overflow: visible !important;
+                anchor-name: --ucf-additional-top-container !important;
+                #ucf-additional-top-box {
+                    position: absolute !important;
+                    position-anchor: --ucf-additional-top-container !important;
+                    inset-block: anchor(start) auto !important;
+                    inset-inline: anchor(start) anchor(end) !important;
+                    z-index: calc(var(--browser-area-z-index-tabbox, 2) + 2) !important;
+                    overflow: clip !important;
+                    pointer-events: none !important;
+                    padding: 0 !important;
+                    border: none !important;
+                    margin: 0 !important;
+                    width: auto !important;
+                    height: auto !important;
+                    background: none !important;
+                    color: inherit !important;
+                    &>#ucf-additional-top-bar {
+                        position: relative !important;
+                        border-bottom: 1px solid var(--chrome-content-separator-color, ThreeDShadow) !important;
+                        pointer-events: auto !important;
+                        opacity: 0 !important;
+                        margin-top: calc(-1 * var(--v-top-bar-height, 34px)) !important;
+                    }
+                    &[v_top_bar_visible]>#ucf-additional-top-bar {
+                        transition-property: margin-top, opacity !important;
+                        transition-timing-function: linear, step-start !important;
+                        transition-duration: .2s, 0s !important;
+                        transition-delay: 0s, .2s !important;
+                    }
+                    &[v_top_bar_visible=true]>#ucf-additional-top-bar {
+                        margin-top: 0 !important;
+                        opacity: 1 !important;
+                        transition-delay: 0s !important;
+                    }
+                }
             }
         }
+        &[customizing] #ucf-additional-top-container {
+            display: none !important;
+        }
     }
-}
-:root #ucf-additional-top-bar[collapsed]:not([collapsed=false]) {
-    all: unset !important;
-    visibility: collapse !important;
+    #ucf-additional-top-bar[collapsed]:not([collapsed=false]) {
+        all: unset !important;
+        visibility: collapse !important;
+    }
 }
