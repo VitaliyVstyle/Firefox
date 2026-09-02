@@ -588,7 +588,6 @@ findbar {
     }
 }
 #PopupAutoComplete>richlistbox {
-    margin: 0 !important;
     background-color: transparent !important;
     color: inherit !important;
     &>richlistitem.autocomplete-richlistitem {
@@ -627,9 +626,6 @@ findbar {
     }
     &>menuseparator.searchbar-separator {
         display: none !important;
-    }
-    &>richlistbox {
-        margin: 0 !important;
     }
 }
 .search-one-offs {

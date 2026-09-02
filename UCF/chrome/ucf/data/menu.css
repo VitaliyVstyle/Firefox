@@ -33,8 +33,8 @@
         --panel-menuitem-padding-block: 0px !important;
         --panel-menuitem-padding-inline: 8px !important;
         --panel-menuitem-padding: var(--panel-menuitem-padding-block) var(--panel-menuitem-padding-inline) !important;
-        --panel-padding-block: 4px !important;
-        --panel-padding-inline: 4px !important;
+        --panel-padding-block: 0px !important;
+        --panel-padding-inline: 0px !important;
         --panel-padding: var(--panel-padding-block) var(--panel-padding-inline) !important;
         --panel-shadow-margin: 10px !important;
         --panel-shadow: 0 0 var(--panel-shadow-margin) rgba(0, 0, 0, .2) !important;
@@ -95,6 +95,10 @@
         }
         &#editBookmarkPanel {
             --panel-subview-body-padding: var(--panel-subview-body-padding-block) 4px !important;
+        }
+        &>richlistbox {
+            margin: 0 !important;
+            padding: 0 !important;
         }
     }
     menupopup {

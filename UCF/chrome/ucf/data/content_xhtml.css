@@ -853,9 +853,7 @@
     link[href$="panel-item.css"]~button::-moz-focus-inner {
         border: none !important;
     }
-    addon-card message-bar[type="warning"], addon-card moz-message-bar[type="warning"] {
-        display: none !important;
-    }
+    addon-card message-bar[type="warning"], addon-card moz-message-bar[type="warning"],
     #sidebar::after {
         display: none !important;
     }
