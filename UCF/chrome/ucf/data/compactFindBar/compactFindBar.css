@@ -35,10 +35,8 @@
             min-height: 0 !important;
             max-height: none !important;
             padding: 0 !important;
-            margin-inline-start: 0 !important;
-            margin-inline-end: var(--v-findbar-margin-end) !important;
-            margin-block-start: -1px !important;
-            margin-block-end: 0 !important;
+            margin-inline: 0 var(--v-findbar-margin-end) !important;
+            margin-block: -1px 0 !important;
             transition: none !important;
             visibility: hidden !important;
             box-shadow: none !important;
@@ -46,8 +44,7 @@
             align-items: center !important;
             @container style(--v-findbar-inset-block-start: 0) {
                 inset-block: auto anchor(end) !important;
-                margin-block-start: 0 !important;
-                margin-block-end: -1px !important;
+                margin-block: 0 -1px !important;
             }
             @container style(--v-findbar-flex-row-reverse: 0) {
                 flex-direction: row-reverse !important;
@@ -101,8 +98,7 @@
                 min-width: 0 !important;
                 max-width: fit-content !important;
                 width: auto !important;
-                padding-inline-start: calc(2 * (var(--toolbarbutton-padding-inner) + var(--toolbarbutton-padding-outer)) + 16px) !important;
-                padding-inline-end: 0 !important;
+                padding-inline: calc(2 * (var(--toolbarbutton-padding-inner) + var(--toolbarbutton-padding-outer)) + 16px) 0 !important;
                 padding-block: 0 !important;
                 overflow: hidden !important;
                 background: inherit !important;
@@ -111,9 +107,9 @@
                 flex: unset !important;
                 border: 1px solid var(--chrome-content-separator-color, color-mix(in srgb, currentColor 20%, transparent)) !important;
                 border-top-color: transparent !important;
-                --v-border-radius: var(--toolbarbutton-border-radius);
-                @container not style(--v-findbar-border-radius: 0) {
-                    --v-border-radius: var(--v-findbar-border-radius);
+                --v-border-radius: var(--v-findbar-border-radius);
+                @container style(--v-findbar-border-radius: 0) {
+                    --v-border-radius: var(--toolbarbutton-border-radius);
                 }
                 border-radius: 0 0 var(--v-border-radius) var(--v-border-radius) !important;
                 @container style(--v-findbar-inset-block-start: 0) {
@@ -123,8 +119,7 @@
                 }
                 @container style(--v-findbar-flex-row-reverse: 1) {
                     flex-direction: row-reverse !important;
-                    padding-inline-start: 0 !important;
-                    padding-inline-end: calc(2 * (var(--toolbarbutton-padding-inner) + var(--toolbarbutton-padding-outer)) + 16px) !important;
+                    padding-inline: 0 calc(2 * (var(--toolbarbutton-padding-inner) + var(--toolbarbutton-padding-outer)) + 16px) !important;
                 }
                 &>* {
                     outline: none !important;
@@ -142,11 +137,11 @@
                     min-height: calc(2 * var(--toolbarbutton-padding-inner) + 16px) !important;
                     height: auto !important;
                     width: var(--v-findbar-textbox-width) !important;
-                    border-radius: var(--toolbarbutton-border-radius) !important;
+                    border-radius: var(--v-findbar-textbox-radius) !important;
                     box-sizing: border-box !important;
                     margin-block: var(--toolbarbutton-padding-outer) !important;
-                    @container not style(--v-findbar-textbox-radius: 0) {
-                        border-radius: var(--v-findbar-textbox-radius) !important;
+                    @container style(--v-findbar-textbox-radius: 0) {
+                        border-radius: var(--toolbarbutton-border-radius) !important;
                     }
                 }
                 &>hbox>.findbar-textbox,
