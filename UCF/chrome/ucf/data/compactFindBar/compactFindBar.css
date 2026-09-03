@@ -1,0 +1,242 @@
+/**
+@UCF @param {"prop":"CssChrome","type":"USER_SHEET","disable":true} @UCF
+*/
+:root {
+    --v-findbar-flex-row-reverse: 1; /* 0 or 1 - findbar on the right */
+    --v-findbar-margin-end: 15px; /* scrollbar indent */
+    --v-findbar-duration: 150ms; /* animation duration */
+    --v-findbar-toolbarbutton-padding-inner: 0; /* 0 or for example 3px - button size and input field */
+    --v-findbar-toolbarbutton-padding-outer: 0; /* 0 or for example 1px - indentation for buttons */
+    --v-findbar-toolbarbutton-border-radius: 0; /* 0 or for example 3px - button rounding radius */
+    --v-findbar-border-radius: 0; /* 0 or for example 3px - findbar rounding radius */
+    --v-findbar-textbox-radius: 0; /* 0 or for example 3px - input field rounding radius */
+    --v-findbar-textbox-width: 15em; /* input field width */
+    --v-findbar-toolbarbutton-icon-display: 1; /* 0 or 1 - icons on buttons */
+    --v-findbar-toolbarbutton-text-display: 0; /* 0 or 1 - text on buttons */
+    --v-findbar-highlight-icon: url("./findbar-highlight.svg");
+    --v-findbar-case-sensitive-icon: url("./findbar-case-sensitive.svg");
+    --v-findbar-match-diacritics-icon: url("./findbar-match-diacritics.svg");
+    --v-findbar-entire-word-icon: url("./findbar-entire-word.svg");
+    .browserContainer {
+        &>.browserStack {
+            anchor-name: --v-browser-stack !important;
+        }
+        &>findbar {
+            display: flex !important;
+            flex-wrap: nowrap !important;
+            position: fixed !important;
+            position-anchor: --v-browser-stack !important;
+            inset-block: anchor(start) auto !important;
+            inset-inline: anchor(start) anchor(end) !important;
+            border: none !important;
+            justify-content: end !important;
+            height: auto !important;
+            min-height: 0 !important;
+            max-height: none !important;
+            padding: 0 !important;
+            margin-inline-start: 0 !important;
+            margin-inline-end: var(--v-findbar-margin-end) !important;
+            margin-block-start: -1px !important;
+            margin-block-end: 0 !important;
+            transition: none !important;
+            visibility: hidden !important;
+            box-shadow: none !important;
+            overflow: hidden !important;
+            align-items: center !important;
+            @container style(--v-findbar-flex-row-reverse: 0) {
+                flex-direction: row-reverse !important;
+                justify-content: start !important;
+                margin-inline-end: 0 !important;
+            }
+            @container not style(--v-findbar-toolbarbutton-padding-inner: 0) {
+                --toolbarbutton-padding-inner: var(--v-findbar-toolbarbutton-padding-inner);
+            }
+            @container not style(--v-findbar-toolbarbutton-padding-outer: 0) {
+                --toolbarbutton-padding-outer: var(--v-findbar-toolbarbutton-padding-outer);
+            }
+            @container not style(--v-findbar-toolbarbutton-border-radius: 0) {
+                --toolbarbutton-border-radius: var(--v-findbar-toolbarbutton-border-radius);
+            }
+            checkbox, toolbarbutton {
+                appearance: none !important;
+                margin: var(--toolbarbutton-padding-outer) !important;
+                padding: var(--toolbarbutton-padding-inner) !important;
+                border-radius: var(--toolbarbutton-border-radius) !important;
+                height: auto !important;
+                width: auto !important;
+                border: none !important;
+                &>image {
+                    appearance: none !important;
+                    margin: 0 !important;
+                    padding: 0 !important;
+                    border: none !important;
+                    height: 16px !important;
+                    width: 16px !important;
+                }
+            }
+            :is(checkbox, toolbarbutton):not([disabled="true"]):hover {
+                background-color: var(--toolbarbutton-hover-background, color-mix(in srgb, currentColor 17%, transparent)) !important;
+            }
+            :is(checkbox, toolbarbutton):not([disabled="true"]):is([checked], :hover:active) {
+                background-color: var(--toolbarbutton-active-background, color-mix(in srgb, currentColor 30%, transparent)) !important;
+            }
+            &>* {
+                visibility: visible !important;
+            }
+            &>.findbar-container {
+                display: flex !important;
+                flex-wrap: nowrap !important;
+                align-items: center !important;
+                align-self: normal !important;
+                margin: 0 !important;
+                height: auto !important;
+                min-height: 0 !important;
+                max-height: none !important;
+                min-width: 0 !important;
+                max-width: fit-content !important;
+                width: auto !important;
+                padding-inline-start: calc(2 * (var(--toolbarbutton-padding-inner) + var(--toolbarbutton-padding-outer)) + 16px) !important;
+                padding-inline-end: 0 !important;
+                padding-block: 0 !important;
+                overflow: hidden !important;
+                background: inherit !important;
+                background-origin: border-box !important;
+                background-clip: border-box !important;
+                flex: unset !important;
+                border: 1px solid var(--chrome-content-separator-color, rgba(0, 0, 0, .25)) !important;
+                border-top-color: transparent !important;
+                border-radius: 0 0 var(--toolbarbutton-border-radius) var(--toolbarbutton-border-radius) !important;
+                @container not style(--v-findbar-border-radius: 0) {
+                    border-radius: 0 0 var(--v-findbar-border-radius) var(--v-findbar-border-radius) !important;
+                }
+                @container style(--v-findbar-flex-row-reverse: 1) {
+                    flex-direction: row-reverse !important;
+                    padding-inline-start: 0 !important;
+                    padding-inline-end: calc(2 * (var(--toolbarbutton-padding-inner) + var(--toolbarbutton-padding-outer)) + 16px) !important;
+                }
+                &>* {
+                    outline: none !important;
+                }
+                &>hbox {
+                    display: flex !important;
+                    flex-direction: row !important;
+                    align-items: center !important;
+                }
+                &>description:empty {
+                    margin: 0 !important;
+                    padding: 0 !important;
+                }
+                &>hbox>.findbar-textbox {
+                    min-height: calc(2 * var(--toolbarbutton-padding-inner) + 16px) !important;
+                    height: auto !important;
+                    width: var(--v-findbar-textbox-width) !important;
+                    border-radius: var(--toolbarbutton-border-radius) !important;
+                    box-sizing: border-box !important;
+                    margin-block: var(--toolbarbutton-padding-outer) !important;
+                    @container not style(--v-findbar-textbox-radius: 0) {
+                        border-radius: var(--v-findbar-textbox-radius) !important;
+                    }
+                }
+                &>hbox>.findbar-textbox,
+                &>description,
+                &>label {
+                    padding-block: 0 !important;
+                }
+                &>checkbox>.checkbox-label-box>.checkbox-icon,
+                &>hbox>toolbarbutton.tabbable>.toolbarbutton-text,
+                &>.find-status-icon {
+                    display: none !important;
+                }
+                &>checkbox>.checkbox-label-box {
+                    margin-inline: 2px !important;
+                    display: flex !important;
+                    @container style(--v-findbar-toolbarbutton-text-display: 0) {
+                        display: none !important;
+                    }
+                }
+                &>checkbox>.checkbox-check {
+                    background: none !important;
+                    color: inherit !important;
+                    -moz-context-properties: fill, fill-opacity;
+                    fill: currentColor;
+                    display: flex !important;
+                    @container style(--v-findbar-toolbarbutton-icon-display: 0) {
+                        display: none !important;
+                    }
+                }
+                &>.findbar-highlight {
+                    list-style-image: var(--v-findbar-highlight-icon) !important;
+                }
+                &>.findbar-case-sensitive {
+                    list-style-image: var(--v-findbar-case-sensitive-icon) !important;
+                }
+                &>.findbar-match-diacritics {
+                    list-style-image: var(--v-findbar-match-diacritics-icon) !important;
+                }
+                &>.findbar-entire-word {
+                    list-style-image: var(--v-findbar-entire-word-icon) !important;
+                }
+            }
+            &>toolbarbutton.findbar-closebutton {
+                position: relative !important;
+                margin: calc(var(--toolbarbutton-padding-outer) + 1px) !important;
+                @container style(--v-findbar-flex-row-reverse: 1) {
+                    margin-inline-start: calc(-1 * (2 * var(--toolbarbutton-padding-inner) + var(--toolbarbutton-padding-outer) + 17px)) !important;
+                }
+                @container style(--v-findbar-flex-row-reverse: 0) {
+                    margin-inline-end: calc(-1 * (2 * var(--toolbarbutton-padding-inner) + var(--toolbarbutton-padding-outer) + 17px)) !important;
+                }
+            }
+            &>:is(.findbar-container, toolbarbutton.findbar-closebutton) {
+                opacity: 1;
+                animation-name: findbar-animation, findbar-animation-opacity !important;
+                animation-delay: 0s !important;
+                animation-duration: var(--v-findbar-duration) !important;
+                animation-timing-function: linear, ease-out !important;
+                animation-iteration-count: 1 !important;
+                animation-fill-mode: none !important;
+            }
+            &[hidden]>:is(.findbar-container, toolbarbutton.findbar-closebutton) {
+                transform: translateY(-100%);
+                animation-name: findbar-animation-hide, findbar-animation-opacity-hide !important;
+                animation-timing-function: linear, ease-in !important;
+                pointer-events: none !important;
+                opacity: 0;
+            }
+        }
+    }
+}
+@keyframes findbar-animation {
+    from {
+        transform: translateY(-100%);
+        pointer-events: none;
+    }
+    to {
+        transform: translateY(0%);
+        pointer-events: none;
+    }
+}
+@keyframes findbar-animation-opacity {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+@keyframes findbar-animation-hide {
+    from {
+        transform: translateY(0%);
+    }
+    to {
+        transform: translateY(-100%);
+    }
+}
+@keyframes findbar-animation-opacity-hide {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
