@@ -201,19 +201,27 @@
             }
             &>:is(.findbar-container, toolbarbutton.findbar-closebutton) {
                 opacity: 1;
+                transition: none !important;
                 animation-name: findbar-animation, findbar-animation-opacity !important;
                 animation-delay: 0s !important;
                 animation-duration: var(--v-findbar-duration) !important;
                 animation-timing-function: linear, ease-out !important;
                 animation-iteration-count: 1 !important;
                 animation-fill-mode: none !important;
+                @container style(--v-findbar-inset-block-start: 0) {
+                    animation-name: findbar-animation-bottom, findbar-animation-opacity !important;
+                }
             }
             &[hidden]>:is(.findbar-container, toolbarbutton.findbar-closebutton) {
-                transform: translateY(-100%);
                 animation-name: findbar-animation-hide, findbar-animation-opacity-hide !important;
                 animation-timing-function: linear, ease-in !important;
                 pointer-events: none !important;
                 opacity: 0;
+                transform: translateY(-100%);
+                @container style(--v-findbar-inset-block-start: 0) {
+                    transform: translateY(100%);
+                    animation-name: findbar-animation-bottom-hide, findbar-animation-opacity-hide !important;
+                }
             }
         }
     }
@@ -221,19 +229,9 @@
 @keyframes findbar-animation {
     from {
         transform: translateY(-100%);
-        pointer-events: none;
     }
     to {
         transform: translateY(0%);
-        pointer-events: none;
-    }
-}
-@keyframes findbar-animation-opacity {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
     }
 }
 @keyframes findbar-animation-hide {
@@ -242,6 +240,30 @@
     }
     to {
         transform: translateY(-100%);
+    }
+}
+@keyframes findbar-animation-bottom {
+    from {
+        transform: translateY(100%);
+    }
+    to {
+        transform: translateY(0%);
+    }
+}
+@keyframes findbar-animation-bottom-hide {
+    from {
+        transform: translateY(0%);
+    }
+    to {
+        transform: translateY(100%);
+    }
+}
+@keyframes findbar-animation-opacity {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
     }
 }
 @keyframes findbar-animation-opacity-hide {
