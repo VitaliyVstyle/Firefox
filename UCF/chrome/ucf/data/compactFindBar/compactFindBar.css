@@ -83,11 +83,9 @@
             :is(checkbox, toolbarbutton):not([disabled="true"]):is([checked], :hover:active) {
                 background-color: var(--toolbarbutton-active-background, color-mix(in srgb, currentColor 30%, transparent)) !important;
             }
-            &>* {
-                visibility: visible !important;
-            }
             &>.findbar-container {
                 display: flex !important;
+                visibility: visible !important;
                 flex-wrap: nowrap !important;
                 align-items: center !important;
                 align-self: normal !important;
@@ -121,9 +119,6 @@
                     flex-direction: row-reverse !important;
                     padding-inline: 0 calc(2 * (var(--toolbarbutton-padding-inner) + var(--toolbarbutton-padding-outer)) + 16px) !important;
                 }
-                &>* {
-                    outline: none !important;
-                }
                 &>hbox {
                     display: flex !important;
                     flex-direction: row !important;
@@ -140,14 +135,15 @@
                     border-radius: var(--v-findbar-textbox-radius) !important;
                     box-sizing: border-box !important;
                     margin-block: var(--toolbarbutton-padding-outer) !important;
+                    padding-block: 0 !important;
                     @container style(--v-findbar-textbox-radius: 0) {
                         border-radius: var(--toolbarbutton-border-radius) !important;
                     }
                 }
-                &>hbox>.findbar-textbox,
                 &>description,
                 &>label {
                     padding-block: 0 !important;
+                    outline: none !important;
                 }
                 &>checkbox>.checkbox-label-box>.checkbox-icon,
                 &>hbox>toolbarbutton.tabbable>.toolbarbutton-text,
@@ -186,6 +182,7 @@
             }
             &>toolbarbutton.findbar-closebutton {
                 position: relative !important;
+                visibility: visible !important;
                 margin: calc(var(--toolbarbutton-padding-outer) + 1px) !important;
                 @container style(--v-findbar-flex-row-reverse: 1) {
                     margin-inline-start: calc(-1 * (2 * var(--toolbarbutton-padding-inner) + var(--toolbarbutton-padding-outer) + 17px)) !important;
@@ -195,27 +192,27 @@
                 }
             }
             &>:is(.findbar-container, toolbarbutton.findbar-closebutton) {
-                opacity: 1;
+                opacity: 1 !important;
                 transition: none !important;
-                animation-name: findbar-animation, findbar-animation-opacity !important;
+                animation-name: findbar-animation !important;
                 animation-delay: 0s !important;
                 animation-duration: var(--v-findbar-duration) !important;
-                animation-timing-function: linear, ease-out !important;
+                animation-timing-function: linear !important;
                 animation-iteration-count: 1 !important;
                 animation-fill-mode: none !important;
                 @container style(--v-findbar-inset-block-start: 0) {
-                    animation-name: findbar-animation-bottom, findbar-animation-opacity !important;
+                    animation-name: findbar-animation-bottom !important;
                 }
             }
             &[hidden]>:is(.findbar-container, toolbarbutton.findbar-closebutton) {
-                animation-name: findbar-animation-hide, findbar-animation-opacity-hide !important;
-                animation-timing-function: linear, ease-in !important;
+                animation-name: findbar-animation-hide !important;
+                animation-timing-function: linear !important;
+                animation-duration: var(--v-findbar-duration) !important;
                 pointer-events: none !important;
-                opacity: 0;
                 transform: translateY(-100%);
                 @container style(--v-findbar-inset-block-start: 0) {
                     transform: translateY(100%);
-                    animation-name: findbar-animation-bottom-hide, findbar-animation-opacity-hide !important;
+                    animation-name: findbar-animation-bottom-hide !important;
                 }
             }
         }
@@ -251,21 +248,5 @@
     }
     to {
         transform: translateY(100%);
-    }
-}
-@keyframes findbar-animation-opacity {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
-}
-@keyframes findbar-animation-opacity-hide {
-    from {
-        opacity: 1;
-    }
-    to {
-        opacity: 0;
     }
 }

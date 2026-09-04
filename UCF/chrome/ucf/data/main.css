@@ -586,6 +586,9 @@ findbar {
         border-radius: var(--v-urlbar-searchbar-border-radius) !important;
         overflow: clip;
     }
+    #trust-icon-tracker-count-shortform-wrapper {
+        padding: 0 !important;
+    }
 }
 #PopupAutoComplete>richlistbox {
     background-color: transparent !important;

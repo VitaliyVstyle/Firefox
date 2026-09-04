@@ -96,6 +96,9 @@
         &#editBookmarkPanel {
             --panel-subview-body-padding: var(--panel-subview-body-padding-block) 4px !important;
         }
+        .popup-notification-body-container {
+            padding: 4px !important;
+        }
         &>richlistbox {
             margin: 0 !important;
             padding: 0 !important;
