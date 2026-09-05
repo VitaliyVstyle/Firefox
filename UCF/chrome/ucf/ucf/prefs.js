@@ -80,7 +80,7 @@ const openFileOrDir = async (file, ppath, pargs) => {
     } else file.launch();
 };
 const initOptions = () => {
-    var l10n = UcfPrefs.l10nDoMLocalization("ucf/locales", "prefs.ftl");
+    var l10n = UcfPrefs.getDOMLocalization("ucf/locales", "prefs.ftl");
     l10n.connectRoot(document.documentElement);
     l10n.translateRoots();
     for (let i of document.querySelectorAll("[data-pref]"))

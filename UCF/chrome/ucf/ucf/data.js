@@ -347,7 +347,7 @@ const initLoad = () => {
         return;
     }
     UcfPrefs._options_open = true;
-    var l10n = UcfPrefs.l10nDoMLocalization("ucf/locales", "prefs.ftl");
+    var l10n = UcfPrefs.getDOMLocalization("ucf/locales", "prefs.ftl");
     var max = parseInt(Services.appinfo.platformVersion), min = max - 10;
     for (let elm of document.querySelectorAll("[data-l10n-id=verminmax]"))
         l10n.setArgs(elm, { "min": `${min}`, "max": `${max}` });

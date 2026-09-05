@@ -1,0 +1,2 @@
+override chrome://global/skin/media/imagedoc-darknoise.png chrome://ucf-url/content/data/fullTheme/png/imagedoc-darknoise.png
+override chrome://global/skin/media/imagedoc-lightnoise.png chrome://ucf-url/content/data/fullTheme/png/imagedoc-darknoise.png

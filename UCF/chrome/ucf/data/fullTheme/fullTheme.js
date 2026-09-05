@@ -1,7 +1,15 @@
 /**
 @UCF @param {"prop":"JsBackground","disable":true} @UCF
 */
-(async ({ UrlbarSearchOneOffs } = ChromeUtils.importESModule("moz-src:///browser/components/urlbar/UrlbarSearchOneOffs.sys.mjs")) => {
+// Register fullTheme.manifest
+(async () => Components.manager.QueryInterface(Ci.nsIComponentRegistrar).autoRegister(
+    Cc["@mozilla.org/chrome/chrome-registry;1"].getService(Ci.nsIChromeRegistry)
+        .convertChromeURL(Services.io.newURI("chrome://ucf-url/content/data/fullTheme/fullTheme.manifest"))
+        .QueryInterface(Ci.nsIFileURL).file
+))();
+// Quick search
+(async () => {
+    var { UrlbarSearchOneOffs } = ChromeUtils.importESModule("moz-src:///browser/components/urlbar/UrlbarSearchOneOffs.sys.mjs");
     var orig = UrlbarSearchOneOffs.prototype.handleSearchCommand;
     UrlbarSearchOneOffs.prototype.handleSearchCommand = function handleSearchCommand(e) {
         Object.defineProperty(e, "shiftKey", {
@@ -12,12 +20,12 @@
         return orig.apply(this, arguments);
     };
 })();
-
+// Buttons
 (async (
     id = "ucf-read-mail",
     label = "Mail",
     tooltiptext = "Open the Mail app",
-    image = "chrome://ucf-url/content/data/svg/email.svg",
+    image = "chrome://ucf-url/content/data/fullTheme/svg/email.svg",
 ) => CustomizableUI.createWidget({
     id,
     label,

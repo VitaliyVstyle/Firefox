@@ -1,6 +1,6 @@
 /**
-@UCF @param {"prop":"CssAllChrome","type":"USER_SHEET","ver":{"min":151},"disable":true} @UCF
-@UCF @param {"prop":"CssContent","type":"USER_SHEET","ver":{"min":151},"disable":true} @UCF
+@UCF @param {"prop":"CssAllChrome","type":"USER_SHEET","disable":true} @UCF
+@UCF @param {"prop":"CssContent","type":"USER_SHEET","disable":true} @UCF
 */
 @-moz-document url-prefix("chrome:"), url-prefix("about:") {
     /* menu --> */
@@ -33,8 +33,8 @@
         --panel-menuitem-padding-block: 0px !important;
         --panel-menuitem-padding-inline: 8px !important;
         --panel-menuitem-padding: var(--panel-menuitem-padding-block) var(--panel-menuitem-padding-inline) !important;
-        --panel-padding-block: 0px !important;
-        --panel-padding-inline: 0px !important;
+        --panel-padding-block: 4px !important;
+        --panel-padding-inline: 4px !important;
         --panel-padding: var(--panel-padding-block) var(--panel-padding-inline) !important;
         --panel-shadow-margin: 10px !important;
         --panel-shadow: 0 0 var(--panel-shadow-margin) rgba(0, 0, 0, .2) !important;
@@ -91,17 +91,23 @@
             --panel-border-color: var(--color-accent-primary) !important;
             --panel-color: var(--button-text-color-primary) !important;
             --panel-text-color: var(--button-text-color-primary) !important;
-            --panel-padding: var(--panel-padding-block) 4px !important;
         }
         &#editBookmarkPanel {
-            --panel-subview-body-padding: var(--panel-subview-body-padding-block) 4px !important;
+            --panel-subview-body-padding: var(--panel-padding) !important;
         }
-        .popup-notification-body-container {
-            padding: 4px !important;
+        &:is(#PopupAutoComplete, #PopupSearchAutoComplete) {
+            --panel-padding: var(--panel-subview-body-padding) !important;
+            autocomplete-row-item {
+                --icon-height: 16px !important;
+                --icon-width: 16px !important;
+            }
         }
         &>richlistbox {
             margin: 0 !important;
             padding: 0 !important;
+        }
+        #trustpanel-header-section {
+            padding-block-end: 0 !important;
         }
     }
     menupopup {

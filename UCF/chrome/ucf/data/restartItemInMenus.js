@@ -8,7 +8,7 @@
 ) => ({
     async init() {
         var abtn = document.querySelector("template#appMenu-viewCache")?.content.querySelector("#appMenu-quit-button2");
-        var ura = (await UcfPrefs._l10nMap.get("ucf/locales").l10nMap.get("main.ftl").l10n())[4];
+        var [ura] = await UcfPrefs.getLocalization("ucf/locales", "main.ftl").formatMessages(["ucf-restart-app"]);
         setUnloadMap(Symbol("menusrestartitems"), this.destructor, this);
         if (abtn) {
             let frag = MozXULElement.parseXULToFragment(`<toolbarbutton/>`);

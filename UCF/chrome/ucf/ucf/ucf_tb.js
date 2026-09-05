@@ -280,7 +280,7 @@ class InitWin {
         if (href === "chrome://messenger/content/messenger.xhtml") {
             if (ucf.css_chrome) this.addCssChrome(win.windowUtils.addSheet);
             win.addEventListener("DOMContentLoaded", async e => {
-                var [{ value }] = await UcfPrefs.l10nFormatMessages("ucf/locales", "main.ftl", ["ucf-open-about-config-button"]);
+                var value = await UcfPrefs.getLocalization("ucf/locales", "main.ftl").formatValue("ucf-open-about-config-button");
                 var icon = `${chromeUrl}svg/prefs.svg`;
                 win.document.querySelector("menuitem#addonsManager")?.after((() => {
                     var mitem = win.document.createXULElement("menuitem");

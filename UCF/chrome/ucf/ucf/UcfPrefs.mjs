@@ -235,19 +235,25 @@ export var UcfPrefs = {
         if (!mwrite) return;
         await this.writeJSON();
     },
-    l10nDoMLocalization(path, file) {
+    getDOMLocalization(path, file) {
         var { l10nDMap, l10nRegistry } = this._l10nRegistry(path);
-        return l10nDMap.get(file) || l10nDMap.set(file, new DOMLocalization([file], false, l10nRegistry)).get(file);
+        return (l10nDMap.get(file) || ({
+            get l10n() {
+                l10nDMap.set(file, this);
+                delete this.l10n;
+                return this.l10n = new DOMLocalization([file], false, l10nRegistry);
+            },
+        })).l10n;
     },
-    l10nFormatMessages(path, file, keys) {
+    getLocalization(path, file) {
         var { l10nMap, l10nRegistry } = this._l10nRegistry(path);
         return (l10nMap.get(file) || ({
-            async l10n() {
+            get l10n() {
                 l10nMap.set(file, this);
-                this.l10n = async () => this._l10n;
-                return this._l10n = (async () => this._l10n = await (new Localization([file], false, l10nRegistry)).formatMessages(keys))();
+                delete this.l10n;
+                return this.l10n = new Localization([file], false, l10nRegistry);
             },
-        })).l10n();
+        })).l10n;
     },
     restartApp(nocache = false) {
         var cancelQuit = Cc["@mozilla.org/supports-PRBool;1"].createInstance(Ci.nsISupportsPRBool);

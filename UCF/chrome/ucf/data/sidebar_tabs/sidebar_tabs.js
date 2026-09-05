@@ -17,7 +17,7 @@
             st_name,
             st_tooltip,
             st_tooltip_button,
-        ] = await UcfPrefs.l10nFormatMessages("data/sidebar_tabs/locales", "sidebar_tabs.ftl", [
+        ] = await UcfPrefs.getLocalization("data/sidebar_tabs/locales", "sidebar_tabs.ftl").formatValues([
             "st-bookmarks",
             "st-history",
             "st-downloads",
@@ -30,35 +30,35 @@
         ]),
         TABS = [
             {
-                label: st_bookmarks.value,
+                label: st_bookmarks,
                 src: "chrome://browser/content/places/bookmarksSidebar.xhtml",
             },
             {
-                label: st_history.value,
+                label: st_history,
                 src: "chrome://browser/content/places/historySidebar.xhtml",
             },
             {
-                label: st_downloads.value,
+                label: st_downloads,
                 src: "about:downloads",
             },
             {
-                label: st_addons.value,
+                label: st_addons,
                 src: "about:addons",
                 attributes: 'type="content" disableglobalhistory="true" context="contentAreaContextMenu" tooltip="aHTMLTooltip" autocompletepopup="PopupAutoComplete" remote="false" maychangeremoteness="true" ',
             },
             {
-                label: st_sites.value,
+                label: st_sites,
                 src: "https://github.com/VitaliyVstyle/Firefox",
                 attributes: 'messagemanagergroup="webext-browsers" type="content" disableglobalhistory="true" context="contentAreaContextMenu" tooltip="aHTMLTooltip" autocompletepopup="PopupAutoComplete" remote="true" maychangeremoteness="true" ',
                 menu: {
-                    label: st_open_sites.value,
+                    label: st_open_sites,
                     icon: ICON,
                 }
             },
         ],
-        NAME = st_name.value,
-        TOOLTIP = st_tooltip.value,
-        TOOLTIP_BUTTON = st_tooltip_button.value,
+        NAME = st_name,
+        TOOLTIP = st_tooltip,
+        TOOLTIP_BUTTON = st_tooltip_button,
         START = true, // Placement
         WIDTH = 370,
         AUTO_HIDE = true, // Auto hide

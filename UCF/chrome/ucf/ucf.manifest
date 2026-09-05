@@ -1,5 +1,1 @@
 content ucf-url ./
-
-# Below are optional lines for UCF
-override chrome://global/skin/media/imagedoc-darknoise.png chrome://ucf-url/content/data/png/imagedoc-darknoise.png
-override chrome://global/skin/media/imagedoc-lightnoise.png chrome://ucf-url/content/data/png/imagedoc-darknoise.png

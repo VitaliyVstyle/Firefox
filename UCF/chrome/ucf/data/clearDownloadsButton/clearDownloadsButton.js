@@ -1,9 +1,7 @@
 /**
 @UCF @param {"prop":"JsChrome.load","ucfobj":true,"disable":true} @UCF
 */
-(async (
-    icon = "chrome://ucf-url/content/data/svg/edit-delete.svg",
-) => ({
+(async () => ({
     init() {
         var panel = this.panel = DownloadsPanel.panel;
         if (!panel) return;
@@ -17,46 +15,8 @@
     },
     handleEvent(e) {
         var dh = DownloadsView.downloadsHistory;
-        var style = `data:text/css;charset=utf-8,${encodeURIComponent(`
-vbox#downloadsFooterButtons {
-display: grid !important;
-grid-template-columns: repeat(2, 1fr);
-grid-auto-rows: auto 1fr;
-align-items: stretch !important;
-grid-template-areas: "a a" "b c";
-& > toolbarseparator:first-of-type {
-grid-area: a;
-align-self: start !important;
-}
-& > #downloadsHistory {
-grid-area: b;
-}
-& > #ucf-cleardownloads-btn {
-grid-area: c;
-border: none !important;
-}
-& > button {
-margin: 0 !important;
-flex-grow: 1 !important;
-justify-content: center !important;
-align-items: center !important;
-}
-&.panel-footer.panel-footer-menulike > button {
-margin-top: 4px !important;
-}
-& > #ucf-cleardownloads-btn {
-list-style-image: url("${icon}") !important;
--moz-context-properties: fill, stroke, fill-opacity !important;
-fill: color-mix(in srgb, currentColor 20%, #e31b5d) !important;
-&[disabled] {
-pointer-events: none !important;
-}
-}
-}
-`)}`;
-        windowUtils.loadSheetUsingURIString(style, windowUtils.USER_SHEET);
         var btn = this.btn = document.createXULElement("button");
-        btn.id = "ucf-cleardownloads-btn";
+        btn.id = "ucf-clear-downloads-btn";
         btn.className = "downloadsPanelFooterButton subviewbutton panel-subview-footer-button toolbarbutton-1";
         btn.disabled = true;
         dh.after(btn);

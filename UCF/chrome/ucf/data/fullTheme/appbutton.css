@@ -3,7 +3,7 @@
 */
 :root {
     --v-main-menubar-content: "";
-    --v-main-menubar-background-image: url("./firefox.svg");
+    --v-main-menubar-background-image: url("./svg/firefox.svg");
     --v-main-menubar-background-size: 18px;
     --v-main-menubar-background-opacity: .8;
     --v-main-menubar-width: max(30px, 2rem);

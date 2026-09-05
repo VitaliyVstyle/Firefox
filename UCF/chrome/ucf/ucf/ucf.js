@@ -271,7 +271,7 @@ const ucf = {
             uvhsb,
             uvbsb,
             uodb,
-        ] = await UcfPrefs.l10nFormatMessages("ucf/locales", "main.ftl", [
+        ] = await UcfPrefs.getLocalization("ucf/locales", "main.ftl").formatMessages([
             "ucf-open-about-config-button",
             "ucf-additional-vertical-toggle-button",
             "ucf-additional-top-toggle-button",

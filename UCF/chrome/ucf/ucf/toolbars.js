@@ -9,17 +9,12 @@ var toolbars = {
         var navtoolbox = this.navtoolbox = window.gNavToolbox || document.querySelector("#navigator-toolbox");
         if (!navtoolbox) return;
         var { prefs } = UcfPrefs, toolbarcreate = false, t_autohide = false, v_autohide = false;
-        var l10nPath = "ucf/locales", l10nFile = "toolbars.ftl", l10nKeys = [
-            "ucf-additional-top-bar",
-            "ucf-additional-vertical-bar",
-            "ucf-additional-bottom-bar",
-            "ucf-additional-bottom-closebutton",
-        ];
+        var l10nPath = "ucf/locales", l10nFile = "toolbars.ftl";
         if (prefs.t_enable) {
             try {
                 let topbar = this.topbar = document.createXULElement("toolbar");
-                UcfPrefs.l10nFormatMessages(l10nPath, l10nFile, l10nKeys).then(attr => {
-                    topbar.setAttribute("toolbarname", attr[0].value);
+                UcfPrefs.getLocalization(l10nPath, l10nFile).formatValue("ucf-additional-top-bar").then(val => {
+                    topbar.setAttribute("toolbarname", val);
                 });
                 topbar.id = "ucf-additional-top-bar";
                 topbar.className = "toolbar-primary chromeclass-toolbar customization-target browser-toolbar";
@@ -64,8 +59,8 @@ var toolbars = {
                 verticalbox.setAttribute("v_vertical_bar_start", `${prefs.v_bar_start}`);
                 verticalbox.setAttribute("flex", "1");
                 let verticalbar = this.verticalbar = document.createXULElement("toolbar");
-                UcfPrefs.l10nFormatMessages(l10nPath, l10nFile, l10nKeys).then(attr => {
-                    verticalbar.setAttribute("toolbarname", attr[1].value);
+                UcfPrefs.getLocalization(l10nPath, l10nFile).formatValue("ucf-additional-vertical-bar").then(val => {
+                    verticalbar.setAttribute("toolbarname", val);
                 });
                 verticalbar.id = "ucf-additional-vertical-bar";
                 verticalbar.className = "toolbar-primary chromeclass-toolbar customization-target browser-toolbar";
@@ -115,9 +110,9 @@ var toolbars = {
                 bottombar.setAttribute("customizable", "true");
                 if (prefs.b_collapsed) bottombar.collapsed = true;
                 let closebutton = document.createXULElement("toolbarbutton");
-                UcfPrefs.l10nFormatMessages(l10nPath, l10nFile, l10nKeys).then(attr => {
-                    bottombar.setAttribute("toolbarname", attr[2].value);
-                    closebutton.setAttribute("tooltiptext", attr[3].value);
+                UcfPrefs.getLocalization(l10nPath, l10nFile).formatValues(["ucf-additional-bottom-bar", "ucf-additional-bottom-closebutton"]).then(arr => {
+                    bottombar.setAttribute("toolbarname", arr[0]);
+                    closebutton.setAttribute("tooltiptext", arr[1]);
                 });
                 closebutton.id = "ucf-additional-bottom-closebutton";
                 closebutton.className = "close-icon closebutton";
