@@ -69,6 +69,10 @@
     --chrome-window-gap: 0px !important;
     --chrome-block-radius: 0px !important;
     --popup-border-radius: 0px !important;
+    --button-background-color: color-mix(in srgb, currentColor 12%, transparent) !important;
+    --button-background-color-hover: color-mix(in srgb, currentColor 20%, transparent) !important;
+    --button-background-color-active: color-mix(in srgb, currentColor 10%, transparent) !important;
+    --button-background-color-disabled: transparent !important;
     --button-background-color-muted: var(--button-background-color) !important;
     --button-background-color-muted-hover: var(--button-background-color-hover) !important;
     --button-background-color-muted-active: var(--button-background-color-active) !important;
