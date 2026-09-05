@@ -288,7 +288,7 @@ const initOptions = async () => {
         if (file.isDirectory())
             for (let f of file.directoryEntries)
                 search(f);
-        else if (/\.css$/.test(file.leafName) || /\.js$/.test(file.leafName) || /\.mjs$/.test(file.leafName)) {
+        else if (/\.(?:css|js|mjs)$/.test(file.leafName)) {
             let path = file.path.replace(rootpath, "").replace(/\\/g, "/").replace(/^\//, "");
             let str = Cu.readUTF8File(file);
             if (str = str.match(/@UCF\s@param\s{.+?}\s@UCF/gs))
