@@ -5,7 +5,7 @@
 (async (
     id = "ucf-toggle-folders-scroll-position-tree",
     tooltipText = "L: Close all top level folders\n(Ctrl|Shift)+L|M: Close all folders\nR: Open all folders",
-    image = "chrome://ucf-url/content/data/toggleFoldersTree/icon.svg",
+    image = "chrome://global/skin/icons/folder.svg",
     scrollPosition = true,
     scrollPositionPref = "ucf.toggle_folders.position",
 ) => ({
