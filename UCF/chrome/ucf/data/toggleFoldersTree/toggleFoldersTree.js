@@ -14,47 +14,27 @@
         var toolbar = document.querySelector("hbox#sidebar-search-container, toolbar#placesToolbar");
         var tree = this.tree = document.querySelector("tree.sidebar-placesTree, tree.placesTree");
         if (!toolbar || !tree) return;
-        var btn = document.createXULElement("toolbarbutton");
+        var btn = document.createElementNS("http://www.w3.org/1999/xhtml", "html:moz-button");
         btn.id = id;
-        btn.onclick = this.toggle.bind(this);
+        btn.type = "icon";
+        btn.size = "default";
+        btn.iconSrc = image;
         btn.tooltipText = tooltipText;
+        btn.style.setProperty("--button-outer-padding-inline-end", "4px");
+        btn.style.setProperty("--button-border", "none");
+        btn.onclick = btn.onauxclick = this.toggle.bind(this);
         Object.defineProperty(btn, "hidden", {});
         Object.defineProperty(btn, "disabled", {});
         toolbar.prepend(btn);
-        var sheet = new CSSStyleSheet();
-        sheet.replaceSync(`
-            #${id} {
-                margin-inline: 0 2px !important;
-                margin-block: 0 !important;
-                padding: 4px !important;
-                border: none !important;
-                border-radius: var(--border-radius-small, 0) !important;
-                min-width: 0 !important;
-                appearance: none !important;
-                background: none !important;
-                align-self: center !important;
-                list-style-image: url("${image}") !important;
-                -moz-context-properties: fill, stroke, fill-opacity;
-                fill: currentColor;
-                fill-opacity: .8;
-                &:hover {
-                    background: light-dark(rgba(0, 0, 0, .1), rgba(255, 255, 255, .15)) !important;
-                }
-                &:hover:active {
-                    background: light-dark(rgba(0, 0, 0, .15), rgba(255, 255, 255, .1)) !important;
-                }
-            }
-        `);
-        document.adoptedStyleSheets.push(sheet);
         if (!scrollPosition || !(this.searchbox = document.querySelector("#search-box, #searchFilter"))) return scrollPosition = false;
         setUnloadMap(Symbol(id), this.destructor, this);
         this.treeId = tree.id;
+        tree.addEventListener("TreeViewChanged", this);
         var treeBody = this.treeBody = tree.treeBody;
         treeBody.addEventListener("scroll", this);
         treeBody.addEventListener("underflow", this);
         treeBody.addEventListener("overflow", this);
         this.searchbox.addEventListener("MozInputSearch:search", this);
-        this.scrollPosition();
     },
     JsContent_pageshow() {
         this.JsAllChrome_load();
@@ -78,6 +58,9 @@
     },
     select(e) {
         e.stopImmediatePropagation();
+    },
+    TreeViewChanged() {
+        this.scrollPosition();
     },
     "MozInputSearch:search"() {
         this.scrollPosition();
@@ -135,10 +118,11 @@
         this.start = false;
     },
     destructor() {
-        var { treeBody } = this;
+        var { tree, treeBody, searchbox } = this;
+        tree.removeEventListener("TreeViewChanged", this);
         treeBody.removeEventListener("scroll", this);
         treeBody.removeEventListener("underflow", this);
         treeBody.removeEventListener("overflow", this);
-        this.searchbox.removeEventListener("MozInputSearch:search", this);
+        searchbox.removeEventListener("MozInputSearch:search", this);
     },
 })[getProp]())();
