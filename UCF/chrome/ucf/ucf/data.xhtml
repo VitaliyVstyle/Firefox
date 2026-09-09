@@ -17,6 +17,8 @@
       <input type="button" id="restart_no_cache" data-l10n-id="restart_no_cache" data-l10n-args='{"lineBreak":"\n"}' />
     </div>
   </div>
+  <div id="addFile" class="css js mjs"><span data-l10n-id="addFile"></span></div>
+  <div id="allFiles" class="css js mjs"><span data-l10n-id="allFiles"></span></div>
   <div id="CssChrome" class="css"><span>CssChrome</span></div>
   <div id="CssAllChrome" class="css"><span>CssAllChrome</span></div>
   <div id="CssAllFrame" class="css"><span>CssAllFrame</span></div>
@@ -29,9 +31,44 @@
   <div id="JsContent_DOMWindowCreated" class="js"><span>JsContent.DOMWindowCreated</span></div>
   <div id="JsContent_DOMContentLoaded" class="js"><span>JsContent.DOMContentLoaded</span></div>
   <div id="JsContent_pageshow" class="js"><span>JsContent.pageshow</span></div>
-  <div id="addFile" class="css js mjs"><span data-l10n-id="addFile"></span></div>
-  <div id="allFiles" class="css js mjs"><span data-l10n-id="allFiles"></span></div>
   <div>
+    <p data-l10n-id="decoration"></p>
+    <div class="row" minonedisabled="true">
+      <input type="checkbox" class="disable demo" autocomplete="off" readonly="" checked="" />
+      <input type="text" class="path demo" autocomplete="off" readonly="" value="File.js" />
+      <input type="text" class="pref demo" autocomplete="off" readonly="" value='{"prop":"JsChrome.load"}' />
+      <pre><span class="description" data-l10n-id="decoration0"></span></pre>
+    </div>
+    <div class="row" error="true">
+      <input type="checkbox" class="disable demo" autocomplete="off" readonly="" checked="" />
+      <input type="text" class="path demo" autocomplete="off" readonly="" value="File.js" />
+      <input type="text" class="pref demo" autocomplete="off" readonly="" value='{"prop":"JsChrome.load"}' />
+      <pre><span class="description" data-l10n-id="decoration1"></span></pre>
+    </div>
+    <div class="row" unconnected="true">
+      <input type="checkbox" class="disable demo" autocomplete="off" checked="" />
+      <input type="text" class="path demo" autocomplete="off" readonly="" value="File.js" />
+      <input type="text" class="pref demo" autocomplete="off" readonly="" value='{"prop":"JsChrome.load"}' />
+      <pre><span class="description" data-l10n-id="decoration2"></span></pre>
+    </div>
+    <div class="row" noprefinfile="true">
+      <input type="checkbox" class="disable demo" autocomplete="off" checked="" />
+      <input type="text" class="path demo" autocomplete="off" readonly="" value="File.js" />
+      <input type="text" class="pref demo" autocomplete="off" readonly="" value='{"prop":"JsChrome.load"}' />
+      <pre><span class="description" data-l10n-id="decoration3"></span></pre>
+    </div>
+    <div class="row" prefdifferent="true">
+      <input type="checkbox" class="disable demo" autocomplete="off" checked="" />
+      <input type="text" class="path demo" autocomplete="off" readonly="" value="File.js" />
+      <input type="text" class="pref demo" autocomplete="off" readonly="" value='{"prop":"JsChrome.load"}' />
+      <pre><span class="description" data-l10n-id="decoration4"></span></pre>
+    </div>
+    <div class="row" rebootrequired="true">
+      <input type="checkbox" class="disable demo" autocomplete="off" checked="" />
+      <input type="text" class="path demo" autocomplete="off" readonly="" value="File.js" />
+      <input type="text" class="pref demo" autocomplete="off" readonly="" value='{"prop":"JsChrome.load"}' />
+      <pre><span class="description" data-l10n-id="decoration5"></span></pre>
+    </div>
     <p data-l10n-id="stylessettings"></p>
     <ul class="ucfsettings">
       <li>
@@ -97,32 +134,6 @@
       </li>
       <pre>  {<span data-l10n-id="verminmax"></span>}</pre>
     </ul>
-    <p data-l10n-id="decoration"></p>
-    <div class="row" error="true">
-      <input type="text" class="path demo" autocomplete="off" readonly="" value="File.js" />
-      <input type="text" class="pref demo" autocomplete="off" readonly="" value='{"prop":"JsChrome.load"}' />
-      <pre><span class="description" data-l10n-id="decoration1"></span></pre>
-    </div>
-    <div class="row" unconnected="true">
-      <input type="text" class="path demo" autocomplete="off" readonly="" value="File.js" />
-      <input type="text" class="pref demo" autocomplete="off" readonly="" value='{"prop":"JsChrome.load"}' />
-      <pre><span class="description" data-l10n-id="decoration2"></span></pre>
-    </div>
-    <div class="row" noprefinfile="true">
-      <input type="text" class="path demo" autocomplete="off" readonly="" value="File.js" />
-      <input type="text" class="pref demo" autocomplete="off" readonly="" value='{"prop":"JsChrome.load"}' />
-      <pre><span class="description" data-l10n-id="decoration3"></span></pre>
-    </div>
-    <div class="row" prefdifferent="true">
-      <input type="text" class="path demo" autocomplete="off" readonly="" value="File.js" />
-      <input type="text" class="pref demo" autocomplete="off" readonly="" value='{"prop":"JsChrome.load"}' />
-      <pre><span class="description" data-l10n-id="decoration4"></span></pre>
-    </div>
-    <div class="row" rebootrequired="true">
-      <input type="text" class="path demo" autocomplete="off" readonly="" value="File.js" />
-      <input type="text" class="pref demo" autocomplete="off" readonly="" value='{"prop":"JsChrome.load"}' />
-      <pre><span class="description" data-l10n-id="decoration5"></span></pre>
-    </div>
   </div>
   <script src="chrome://ucf-url/content/ucf/data.js"></script>
 </body>

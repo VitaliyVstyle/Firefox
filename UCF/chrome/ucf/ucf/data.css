@@ -109,7 +109,7 @@ input, textarea, button {
         border-color: var(--v-highlight-background-color) !important;
         background-color: var(--v-input-background-color-focus) !important;
     }
-    &:is(button[type="button"]) {
+    &:is(button[type=button]) {
         width: 24px !important;
         padding: 0 !important;
         cursor: default !important;
@@ -127,23 +127,23 @@ input, textarea, button {
             fill: currentColor;
         }
         &.open::before {
-            background-image: url("svg/open.svg");
+            background-image: url("./svg/open.svg");
         }
         &.up::before {
-            background-image: url("svg/up.svg");
+            background-image: url("./svg/up.svg");
         }
         &.down::before {
-            background-image: url("svg/down.svg");
+            background-image: url("./svg/down.svg");
         }
         &.reload::before {
-            background-image: url("svg/reload.svg");
+            background-image: url("./svg/reload.svg");
             fill: var(--v-decoration-color-error);
         }
         &.save::before {
-            background-image: url("svg/save.svg");
+            background-image: url("./svg/save.svg");
         }
         &.expand::before {
-            background-image: url("svg/expand.svg");
+            background-image: url("./svg/expand.svg");
         }
         &:hover {
             background-color: var(--v-button-background-color-hover) !important;
@@ -152,7 +152,7 @@ input, textarea, button {
             background-color: var(--v-button-background-color-active) !important;
         }
     }
-    &[type="checkbox"] {
+    &[type=checkbox] {
         min-height: 16px !important;
         height: 16px !important;
         min-width: 16px !important;
@@ -165,7 +165,7 @@ input, textarea, button {
         &:checked {
             border-color: var(--v-highlight-background-color) !important;
             background-color: var(--v-highlight-background-color) !important;
-            background-image: url("svg/checkbox.svg") !important;
+            background-image: url("./svg/checkbox.svg") !important;
         }
     }
 }
@@ -177,7 +177,7 @@ input, textarea, button {
     .disable {
         margin-block: calc((max(22px, 1.5em) - 14px) / 2) !important;
     }
-    input[type="text"], textarea {
+    input[type=text], textarea {
         overflow: clip !important;
         text-overflow: ellipsis !important;
     }
@@ -191,8 +191,12 @@ input, textarea, button {
     .demo {
         min-width: 0 !important;
         flex-grow: 0 !important;
-        width: 12rem !important;
-        margin-inline-start: 19px !important;
+        &.disable {
+            pointer-events: none !important;
+        }
+        &.pref {
+            width: 12rem !important;
+        }
         &.path {
             width: 5rem !important;
         }
@@ -209,7 +213,7 @@ input, textarea, button {
         text-decoration-thickness: 2px !important;
         text-decoration-skip-ink: none !important;
         text-underline-offset: .2em !important;
-        &.pref[rows]:where(:not([rows="1"])) {
+        &.pref[rows]:where(:not([rows=1])) {
             text-decoration-line: none !important;
         }
     }
@@ -247,6 +251,9 @@ input, textarea, button {
             text-overflow: clip !important;
         }
     }
+    &[minonedisabled=true] .disable:checked {
+        background-color: transparent !important;
+    }
     #addFile & {
         .open, .up, .down, &:not(:first-of-type) .reload {
             pointer-events: none !important;
@@ -264,21 +271,21 @@ input, textarea, button {
             opacity: 0 !important;
         }
         &:first-of-type .reload::before {
-            background-image: url("svg/add.svg");
+            background-image: url("./svg/add.svg");
             fill: currentColor;
         }
     }
     #allFiles & {
-        .disable {
-            pointer-events: none !important;
-            opacity: 0 !important;
-        }
         .up, .down, .reload {
             pointer-events: none !important;
             border-inline: none !important;
             &::before {
                 display: none !important;
             }
+        }
+        &[unconnected=true] .disable {
+            pointer-events: none !important;
+            opacity: 0 !important;
         }
     }
 }
@@ -307,7 +314,7 @@ div.controls {
     &:not(:last-of-type) {
         margin-inline-end: 16px !important;
     }
-    input[type="button"] {
+    input[type=button] {
         color: var(--v-highlight-background-color-hover) !important;
         font-weight: bold !important;
         background: none !important;

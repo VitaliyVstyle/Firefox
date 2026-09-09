@@ -84,11 +84,11 @@ input, button {
         opacity: .5 !important;
         pointer-events: none !important;
     }
-    &[type="number"] {
+    &[type=number] {
         appearance: textfield !important;
         width: 5em !important;
     }
-    &:is(button[type="button"]) {
+    &:is(button[type=button]) {
         width: 24px !important;
         padding: 0 !important;
         cursor: default !important;
@@ -99,7 +99,7 @@ input, button {
             content: "";
             display: flex;
             flex-grow: 1;
-            background-image: url("svg/choose.svg");
+            background-image: url("./svg/choose.svg");
             background-repeat: no-repeat;
             background-position: center;
             background-size: 16px;
@@ -113,16 +113,16 @@ input, button {
             background-color: var(--v-button-background-color-active) !important;
         }
     }
-    &[type="text"]:focus,
-    &[type="number"]:focus,
-    &[type="checkbox"]:focus {
+    &[type=text]:focus,
+    &[type=number]:focus,
+    &[type=checkbox]:focus {
         border-color: var(--v-highlight-background-color) !important;
         background-color: var(--v-input-background-color-focus) !important;
     }
-    &[type="number"]:-moz-ui-invalid {
+    &[type=number]:-moz-ui-invalid {
         border-color: var(--v-decoration-color-error) !important;
     }
-    &[type="checkbox"] {
+    &[type=checkbox] {
         min-height: 16px !important;
         height: 16px !important;
         min-width: 16px !important;
@@ -135,7 +135,7 @@ input, button {
         &:checked {
             border-color: var(--v-highlight-background-color) !important;
             background-color: var(--v-highlight-background-color) !important;
-            background-image: url("svg/checkbox.svg") !important;
+            background-image: url("./svg/checkbox.svg") !important;
         }
     }
 }
@@ -201,7 +201,7 @@ div.controls {
     &:not(:last-of-type) {
         margin-inline-end: 16px !important;
     }
-    input[type="button"] {
+    input[type=button] {
         color: var(--v-highlight-background-color-hover) !important;
         font-weight: bold !important;
         background: none !important;

@@ -1,6 +1,6 @@
 var _write = false;
 const { UcfPrefs } = ChromeUtils.importESModule("chrome://ucf-url/content/ucf/UcfPrefs.mjs");
-const filesMap = new Map(), prefsMap = new Map(), filesSet = new Set();
+const filesMap = new Map(), prefsMap = new Map(), filesSet = new Set(), allFilesMap = new Map();
 const baseCSS = { prop: "CssChrome", type: "USER_SHEET", disable: true };
 const baseJS = { prop: "JsChrome.load", disable: true };
 const baseMJS = { prop: "JsBackground", module: true, disable: true };
@@ -51,16 +51,15 @@ const handleClick = async ({ target, currentTarget }) => {
     var path = row.children[pathInd].value;
     switch (target.className) {
         case "disable":
-            getPrefs(currentTarget.id.split("_")).findIndex(pref => {
-                if (pref.path !== path) return false;
-                if (!target.checked) pref.disable = true;
-                else if ("disable" in pref) delete pref.disable;
-                row.children[prefInd].value = getJsonStr(pref, !row.hasAttribute("expand") ? undefined : 4);
-                UcfPrefs._rebootSet.add(`${pref.path}?${pref.prop}`);
-                row.setAttribute("rebootrequired", "true");
-                return true;
-            });
+            for (let [id] of (row.matches("#allFiles > :scope") ? (allFilesMap.get(path) || []) : [[currentTarget.id.replace("_", ".")]]))
+                for (let pref of getPrefs(id.split("."))) {
+                    if (pref.path !== path) continue;
+                    if (!target.checked) pref.disable = true;
+                    else if ("disable" in pref) delete pref.disable;
+                    UcfPrefs._rebootSet.add(`${pref.path}?${pref.prop}`);
+                }
             await UcfPrefs.writeJSON();
+            initOptions();
             break;
         case "open":
             try {
@@ -236,7 +235,9 @@ const createSection = async (prefs, id) => {
             delprefs.push(path);
             continue;
         }
-        createRow(_id, path, getJsonStr(pref), pref.disable, true, attrs);
+        let dis = pref.disable || false;
+        allFilesMap.get(path)?.set(id, dis) || allFilesMap.set(path, new Map([[id, dis]]));
+        createRow(_id, path, getJsonStr(pref), dis, true, attrs);
     }
     var del = false;
     for (let path of delprefs) {
@@ -282,6 +283,7 @@ const initOptions = async () => {
     filesMap.clear();
     prefsMap.clear();
     filesSet.clear();
+    allFilesMap.clear();
     var dir = getFile(UcfPrefs.manifestPath).parent;
     var rootpath = "";
     var search = file => {
@@ -337,7 +339,15 @@ const initOptions = async () => {
         } catch (e) { Cu.reportError(e); }
     for (let path of filesSet)
         try {
-            if (!filesMap.has(path)) createRow("allFiles", path, "", true, true);
+            if (!filesMap.has(path)) {
+                let attrs = {}, dis = true;
+                for (let [p, d] of allFilesMap.get(path) || []) {
+                    if (d) attrs.minonedisabled = true;
+                    else dis = false;
+                    if (UcfPrefs._rebootSet.has(`${path}?${p}`)) attrs.rebootrequired = true;
+                }
+                createRow("allFiles", path, "", dis, true, attrs);
+            }
         } catch (e) { Cu.reportError(e); }
     if (addpref) await UcfPrefs.writeJSON();
 };
