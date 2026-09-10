@@ -17,7 +17,7 @@ var toolbars = {
                     topbar.setAttribute("toolbarname", val);
                 });
                 topbar.id = "ucf-additional-top-bar";
-                topbar.className = "toolbar-primary chromeclass-toolbar customization-target browser-toolbar";
+                topbar.className = "chromeclass-toolbar-additional chromeclass-toolbar customization-target browser-toolbar";
                 topbar.setAttribute("context", "toolbar-context-menu");
                 topbar.setAttribute("mode", "icons");
                 topbar.setAttribute("accesskey", "");
@@ -30,6 +30,7 @@ var toolbars = {
                 if (prefs.t_autohide) {
                     let tcontainer = this.tcontainer = document.createXULElement("vbox");
                     tcontainer.id = "ucf-additional-top-container";
+                    tcontainer.className = "chromeclass-toolbar-additional chromeclass-toolbar";
                     tcontainer.setAttribute("topautohide", "true");
                     let topbox = this.topbox = document.createElementNS("http://www.w3.org/1999/xhtml", "html:div");
                     topbox.id = "ucf-additional-top-box";
@@ -50,6 +51,7 @@ var toolbars = {
             try {
                 let vcontainer = this.vcontainer = document.createXULElement("vbox");
                 vcontainer.id = "ucf-additional-vertical-container";
+                vcontainer.className = "chromeclass-toolbar-additional chromeclass-toolbar";
                 vcontainer.setAttribute("vertautohide", `${prefs.v_autohide}`);
                 vcontainer.setAttribute("v_vertical_bar_start", `${prefs.v_bar_start}`);
                 vcontainer.hidden = true;
@@ -63,7 +65,7 @@ var toolbars = {
                     verticalbar.setAttribute("toolbarname", val);
                 });
                 verticalbar.id = "ucf-additional-vertical-bar";
-                verticalbar.className = "toolbar-primary chromeclass-toolbar customization-target browser-toolbar";
+                verticalbar.className = "chromeclass-toolbar-additional chromeclass-toolbar customization-target browser-toolbar";
                 verticalbar.setAttribute("toolboxid", "navigator-toolbox");
                 verticalbar.setAttribute("context", "toolbar-context-menu");
                 verticalbar.setAttribute("mode", "icons");
@@ -100,7 +102,7 @@ var toolbars = {
             try {
                 let bottombar = this.bottombar = document.createXULElement("toolbar");
                 bottombar.id = "ucf-additional-bottom-bar";
-                bottombar.className = "toolbar-primary chromeclass-toolbar customization-target browser-toolbar";
+                bottombar.className = "chromeclass-toolbar-additional chromeclass-toolbar customization-target browser-toolbar";
                 bottombar.setAttribute("toolboxid", "navigator-toolbox");
                 bottombar.setAttribute("context", "toolbar-context-menu");
                 bottombar.setAttribute("mode", "icons");

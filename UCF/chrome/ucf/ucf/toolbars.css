@@ -269,7 +269,7 @@ toolbar:not(#nav-bar) {
             visibility: collapse !important;
         }
     }
-    :root[chromehidden~=location][chromehidden~=toolbar] & {
+    :root:is([chromehidden~=toolbar], [popup-window]) & {
         display: none !important;
     }
 }
