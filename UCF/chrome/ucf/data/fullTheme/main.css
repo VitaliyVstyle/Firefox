@@ -485,7 +485,8 @@ findbar {
             height: auto !important;
             align-items: stretch !important;
             border: 1px solid transparent;
-            &>:is(box, hbox) {
+            outline: none !important;
+            &>:is(box, hbox, moz-button, div, img) {
                 height: auto !important;
                 align-self: stretch !important;
             }
@@ -515,15 +516,18 @@ findbar {
             width: auto !important;
             height: auto !important;
             box-sizing: border-box !important;
+            outline: none !important;
+            clip-path: none !important;
+            border: none !important;
         }
-        &:is([open], [focused])>.urlbar-background {
+        &:is([open], [focused])>.urlbar-input-container {
             border-color: transparent !important;
             outline-style: solid !important;
             outline-offset: var(--v-focus-outline-offset) !important;
             outline-width: var(--focus-outline-width) !important;
             outline-color: var(--toolbar-field-border-color, transparent) !important;
         }
-        &[focused]>.urlbar-background {
+        &[focused]>.urlbar-input-container {
             outline-color: var(--toolbar-field-border-color-focus, var(--toolbar-field-focus-border-color, Highlight)) !important;
         }
         &>.urlbarView {
@@ -562,9 +566,9 @@ findbar {
                 --urlbarView-icon-margin-start: inherit !important;
                 --urlbarView-icon-margin-end: inherit !important;
             }
-        }
-        .searchmode-switcher {
-            height: auto !important;
+            .urlbarView-background {
+                display: none !important;
+            }
         }
     }
     #searchbar {
