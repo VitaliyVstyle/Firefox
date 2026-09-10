@@ -76,6 +76,15 @@ const handleClick = async ({ target, currentTarget }) => {
             break;
         case "reload":
             if (row.matches("#addFile > :scope")) createRow("addFile", "", "", true);
+            else if (row.matches("#allFiles > :scope"))
+                try {
+                    let file = getFile(UcfPrefs.manifestPath.replace(/ucf\.manifest$/, `data/${path}`));
+                    let val = await UcfPrefs.getLocalization("ucf/locales", "prefs.ftl").formatValue("deletefile");
+                    if (file.exists() && file.isFile() && Services.prompt.confirm(window, null, `${val} ${path} ?`)) {
+                        file.remove(false);
+                        initOptions();
+                    }
+                } catch { }
             else {
                 let pref = prefsMap.get(`${path}?${currentTarget.id.replace("_", ".")}`);
                 if (pref) await setPref(pref, true);

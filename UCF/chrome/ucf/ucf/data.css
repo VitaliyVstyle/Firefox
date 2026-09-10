@@ -61,15 +61,29 @@ span {
 .css, .js {
     display: flex !important;
     flex-direction: column !important;
+    margin-block-end: 16px !important;
     &>span {
         font-weight: bold !important;
         min-height: 24px !important;
         flex-grow: 1 !important;
     }
 }
-.ucfsettings {
-    font-weight: bold !important;
+.ucfinfo {
     margin: 0 !important;
+    margin-block-end: 16px !important;
+    &>pre {
+        font-weight: bold !important;
+    }
+    &>span {
+        font-weight: bold !important;
+        min-height: 24px !important;
+        flex-grow: 1 !important;
+    }
+}
+.listitem {
+    display: list-item !important;
+    list-style-type: square !important;
+    list-style-position: inside !important;
 }
 .description {
     font-weight: normal !important;
@@ -80,9 +94,6 @@ pre {
     font: inherit !important;
     margin-block: 2px !important;
     padding: 0 !important;
-}
-p {
-    font-weight: bold !important;
 }
 input, textarea, button {
     font: inherit !important;
@@ -254,6 +265,10 @@ input, textarea, button {
     &[minonedisabled=true] .disable:checked {
         background-color: transparent !important;
     }
+    &[unconnected=true] .disable {
+        pointer-events: none !important;
+        opacity: 0 !important;
+    }
     #addFile & {
         .open, .up, .down, &:not(:first-of-type) .reload {
             pointer-events: none !important;
@@ -276,16 +291,15 @@ input, textarea, button {
         }
     }
     #allFiles & {
-        .up, .down, .reload {
+        .up, .down {
             pointer-events: none !important;
             border-inline: none !important;
             &::before {
                 display: none !important;
             }
         }
-        &[unconnected=true] .disable {
-            pointer-events: none !important;
-            opacity: 0 !important;
+        .reload::before {
+            background-image: url("./svg/del.svg");
         }
     }
 }
