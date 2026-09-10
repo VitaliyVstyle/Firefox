@@ -224,7 +224,7 @@ input, textarea, button {
         text-decoration-thickness: 2px !important;
         text-decoration-skip-ink: none !important;
         text-underline-offset: .2em !important;
-        &.pref[rows]:where(:not([rows=1])) {
+        &.pref[rows]:where(:not([rows="1"])) {
             text-decoration-line: none !important;
         }
     }
