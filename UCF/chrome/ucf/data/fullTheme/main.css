@@ -688,10 +688,6 @@ toolbar toolbaritem:is(.toolbaritem-combined-buttons, .toolbaritem-menu-buttons)
 menuseparator.searchbar-separator {
     appearance: none !important;
 }
-input::selection {
-    background-color: var(--lwt-toolbar-field-highlight, Highlight) !important;
-    color: var(--lwt-toolbar-field-highlight-text, HighlightText) !important;
-}
 #editBookmarkPanel {
     tree,
     richlistbox {

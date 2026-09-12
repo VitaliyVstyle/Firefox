@@ -1,3 +1,3 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
-<path style="fill:none;stroke:context-fill #8e8e98;stroke-opacity:context-fill-opacity;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;" d="m 1.5,3.5 0,10 c 0,0 0,1 1,1 h 11 c 0,0 1,0 1,-1 v -8 c 0,-1 -1,-1 -1,-1 h -5 l -2,-2 h -4 c 0,0 -1,0 -1,1 z"/>
+<path d="M1.5 3.5v10s0 1 1 1h11s1 0 1-1v-8c0-1-1-1-1-1h-5l-2-2h-4s-1 0-1 1" style="fill:none;stroke:context-fill #8e8e98;stroke-opacity:context-fill-opacity;stroke-width:1.1;stroke-linecap:round;stroke-linejoin:round"/>
 </svg>

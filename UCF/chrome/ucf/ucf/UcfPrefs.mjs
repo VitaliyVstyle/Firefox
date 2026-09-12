@@ -34,6 +34,8 @@ export var UcfPrefs = {
         editor_args: "",
         folder_editor_path: "",
         folder_editor_args: "",
+        addfile_savedetails_open: true,
+        allfiles_savedetails_open: true,
         CssChrome: [],
         CssAllChrome: [],
         CssAllFrame: [],

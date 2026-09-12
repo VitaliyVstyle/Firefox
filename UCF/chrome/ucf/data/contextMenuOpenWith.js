@@ -30,7 +30,7 @@
     // -- Settings -->
     attrimage = true,
     submenu = true,
-    rootmenuicon = "data:image/svg+xml;charset=utf-8,<svg xmlns='http://www.w3.org/2000/svg' height='16' width='16' viewBox='0 0 16 16'><rect x='0' y='0' width='16' height='16' rx='3' ry='3' style='fill:rgb(64, 64, 72);'/><path style='fill:none;stroke:white;stroke-width:1.2;stroke-linecap:round;stroke-linejoin:round;' d='M 2.6,3.6 7,8 2.6,12.4 m 5,0 h 5.8'/></svg>",
+    rootmenuicon = "data:image/svg+xml;charset=utf-8,<svg xmlns='http://www.w3.org/2000/svg' height='16' width='16' viewBox='0 0 16 16'><rect x='0' y='0' width='16' height='16' rx='3' ry='3' style='fill:rgb(64, 64, 72);'/><path style='fill:none;stroke:white;stroke-width:1.1;stroke-linecap:round;stroke-linejoin:round;' d='M 2.6,3.6 7,8 2.6,12.4 m 5,0 h 5.8'/></svg>",
     preitem = "",
     menuname = "Open in...",
     selector = "#context-sep-open",

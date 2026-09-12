@@ -4,12 +4,12 @@
     padding: 0 !important;
     min-height: 100% !important;
     width: 100% !important;
-    --v-background-color-root: #f4f4f7;
-    --v-color-root: #18181b;
-    --v-border-color: rgba(0, 0, 0, 0.25);
-    --v-decoration-color-warn: color-mix(in srgb, currentColor 10%, #f38725);
-    --v-decoration-color-error: color-mix(in srgb, currentColor 10%, #e31b5d);
-    --v-input-background-color: #ffffff;
+    --v-root-background-color: #f4f4f7;
+    --v-root-color: #18181b;
+    --v-border-color: rgba(0, 0, 0, 0.3);
+    --v-warn-color: color-mix(in srgb, currentColor 10%, #f38725);
+    --v-error-color: color-mix(in srgb, currentColor 10%, #e31b5d);
+    --v-input-background-color: #ececee;
     --v-input-background-color-focus: #ffffff;
     --v-button-background-color-hover: rgba(0, 0, 0, 0.1);
     --v-button-background-color-active: rgba(0, 0, 0, 0.15);
@@ -18,11 +18,11 @@
     --v-highlight-background-color-active: #0059e8;
     --v-highlight-color: #ffffff;
     --v-scrollbar-color: var(--v-highlight-background-color) #ffffff;
-    background: var(--v-background-color-root) !important;
-    color: var(--v-color-root) !important;
+    background: var(--v-root-background-color) !important;
+    color: var(--v-root-color) !important;
     @media (prefers-color-scheme: dark) {
-        --v-background-color-root: #23232d;
-        --v-color-root: #f7f7fa;
+        --v-root-background-color: #23232d;
+        --v-root-color: #f7f7fa;
         --v-border-color: rgba(100, 100, 110, 0.5);
         --v-input-background-color: #1b1b25;
         --v-input-background-color-focus: #1b1b25;
@@ -41,6 +41,43 @@ body {
     background: none !important;
     color: inherit !important;
     box-sizing: border-box !important;
+    &>details {
+        display: flex !important;
+        flex-direction: column !important;
+        summary {
+            display: flex !important;
+            margin-inline: -10px !important;
+            padding-inline: 10px !important;
+            &:hover {
+                background-color: var(--v-button-background-color-hover) !important;
+            }
+            &:hover:active {
+                background-color: var(--v-button-background-color-active) !important;
+            }
+            &>span {
+                font-weight: bold !important;
+                display: flex !important;
+                flex: 1 !important;
+                align-items: stretch !important;
+                cursor: default !important;
+                user-select: none !important;
+                &::after {
+                    content: "";
+                    display: flex;
+                    width: 24px !important;
+                    background-repeat: no-repeat;
+                    background-position: center;
+                    background-size: 16px;
+                    -moz-context-properties: fill, fill-opacity, stroke;
+                    fill: currentColor;
+                    background-image: url("./svg/expand.svg");
+                }
+            }
+        }
+        &[open]>summary>span::after {
+            background-image: url("./svg/down.svg");
+        }
+    }
 }
 :root, body {
     scrollbar-width: thin !important;
@@ -55,17 +92,17 @@ div {
     flex-direction: column !important;
 }
 span {
-    min-height: max(22px, 1.5em) !important;
-    line-height: max(22px, 1.5em) !important;
+    min-height: max(24px, 1.5em) !important;
+    line-height: max(24px, 1.5em) !important;
 }
 .css, .js {
     display: flex !important;
     flex-direction: column !important;
     margin-block-end: 16px !important;
     &>span {
+        display: flex !important;
         font-weight: bold !important;
-        min-height: 24px !important;
-        flex-grow: 1 !important;
+        flex: 1 !important;
     }
 }
 .ucfinfo {
@@ -76,8 +113,7 @@ span {
     }
     &>span {
         font-weight: bold !important;
-        min-height: 24px !important;
-        flex-grow: 1 !important;
+        flex: 1 !important;
     }
 }
 .listitem {
@@ -130,7 +166,7 @@ input, textarea, button {
         &::before {
             content: "";
             display: flex;
-            flex-grow: 1;
+            flex: 1;
             background-repeat: no-repeat;
             background-position: center;
             background-size: 16px;
@@ -148,8 +184,9 @@ input, textarea, button {
         }
         &.reload::before {
             background-image: url("./svg/reload.svg");
-            fill: var(--v-decoration-color-error);
+            fill: var(--v-error-color);
         }
+        &.savedetails::before,
         &.save::before {
             background-image: url("./svg/save.svg");
         }
@@ -173,6 +210,8 @@ input, textarea, button {
         background-repeat: no-repeat !important;
         background-position: center !important;
         background-size: 16px !important;
+        -moz-context-properties: fill, fill-opacity, stroke;
+        fill: var(--v-highlight-color);
         &:checked {
             border-color: var(--v-highlight-background-color) !important;
             background-color: var(--v-highlight-background-color) !important;
@@ -194,14 +233,14 @@ input, textarea, button {
     }
     .path {
         min-width: 20rem !important;
-        flex-grow: 1 !important;
+        flex: 1 !important;
     }
     .pref {
-        flex-grow: 3 !important;
+        flex: 3 !important;
     }
     .demo {
         min-width: 0 !important;
-        flex-grow: 0 !important;
+        flex: unset !important;
         &.disable {
             pointer-events: none !important;
         }
@@ -220,7 +259,7 @@ input, textarea, button {
     &[prefdifferent] .pref {
         text-decoration-line: underline !important;
         text-decoration-style: solid !important;
-        text-decoration-color: var(--v-decoration-color-warn) !important;
+        text-decoration-color: var(--v-warn-color) !important;
         text-decoration-thickness: 2px !important;
         text-decoration-skip-ink: none !important;
         text-underline-offset: .2em !important;
@@ -246,15 +285,15 @@ input, textarea, button {
     }
     &[error] .path,
     &[error] .pref {
-        color: var(--v-decoration-color-error) !important;
+        color: var(--v-error-color) !important;
         text-decoration-line: line-through !important;
         text-decoration-style: solid !important;
-        text-decoration-color: var(--v-decoration-color-error) !important;
+        text-decoration-color: var(--v-error-color) !important;
         text-decoration-thickness: 2px !important;
     }
     &[expand] {
         .expand::before {
-            transform: rotate(90deg) !important;
+            background-image: url("./svg/down.svg");
         }
         textarea {
             white-space: normal !important;
@@ -264,6 +303,7 @@ input, textarea, button {
     }
     &[minonedisabled=true] .disable:checked {
         background-color: transparent !important;
+        fill: currentColor !important;
     }
     &[unconnected=true] .disable {
         pointer-events: none !important;
@@ -313,8 +353,8 @@ input, textarea, button {
     z-index: 7 !important;
     inset-inline: 0 !important;
     inset-block-start: 0 !important;
-    background: var(--v-background-color-root, Field) !important;
-    color: var(--v-color-root, FieldText) !important;
+    background: var(--v-root-background-color, Field) !important;
+    color: var(--v-root-color, FieldText) !important;
     padding-block: 10px !important;
     padding-inline: 10px !important;
     margin-inline: -10px !important;

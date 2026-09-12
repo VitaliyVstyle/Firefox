@@ -407,10 +407,6 @@
     .toggle-button {
         --toggle-dot-background-color-on-pressed: var(--white-100) !important;
     }
-    ::selection {
-        background-color: var(--in-content-item-selected) !important;
-        color: var(--in-content-selected-text) !important;
-    }
     .pane-container>.sticky-container {
         background-color: var(--in-content-page-background) !important;
         background-image: var(--v-content-page-background-image) !important;

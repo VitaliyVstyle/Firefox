@@ -130,7 +130,7 @@
                 padding: 0 !important;
                 margin-inline: 0 !important;
                 margin-block: 2px !important;
-                flex-grow: 1 !important;
+                flex: 1 !important;
                 border: none !important;
                 border-top: 1px solid var(--panel-separator-color) !important;
             }
@@ -227,7 +227,7 @@
             }
             &>.menuitem-iconic {
                 width: auto !important;
-                flex-grow: 1 !important;
+                flex: 1 !important;
                 justify-content: center !important;
             }
             &>.menuitem-iconic>.menu-icon {

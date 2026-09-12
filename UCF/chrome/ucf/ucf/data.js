@@ -138,6 +138,11 @@ const handleClick = async ({ target, currentTarget }) => {
                 row.setAttribute("error", "true");
             }
             break;
+        case "savedetails": {
+            let details = row.parentElement;
+            await UcfPrefs.setPrefs(`${details.id.toLowerCase()}_savedetails_open`, details.open);
+            break;
+        }
     }
     _write = false;
 };
@@ -372,16 +377,18 @@ const initLoad = () => {
         l10n.setArgs(elm, { "min": `${min}`, "max": `${max}` });
     l10n.connectRoot(document.documentElement);
     l10n.translateRoots();
+    initOptions();
+    (window.addFile ||= document.querySelector("#addFile")).open = UcfPrefs.getPref("addfile_savedetails_open", true);
+    (window.allFiles ||= document.querySelector("#allFiles")).open = UcfPrefs.getPref("allfiles_savedetails_open", true);
+    window.addEventListener("input", handleInput);
     document.querySelector("#open_data").onclick = () => getFile(UcfPrefs.manifestPath.replace(/ucf\.manifest$/, "data")).launch();
     document.querySelector("#open_edit_data").onclick = () => openFileOrDir(getFile(UcfPrefs.manifestPath.replace(/ucf\.manifest$/, "data")), "folder_editor_path", "folder_editor_args");
     document.querySelector("#restart").onclick = () => UcfPrefs.restartApp();
     document.querySelector("#restart_no_cache").onclick = () => UcfPrefs.restartApp(true);
-    window.addEventListener("input", handleInput);
     window.addEventListener("unload", () => {
         window.removeEventListener("input", handleInput);
         l10n.disconnectRoot(document.documentElement);
         UcfPrefs._options_open = false;
     }, { once: true });
-    initOptions();
 };
 initLoad();

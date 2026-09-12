@@ -1,0 +1,30 @@
+/**
+@UCF @param {"prop":"CssAllChrome","type":"AUTHOR_SHEET","disable":true} @UCF
+@UCF @param {"prop":"CssContent","type":"AUTHOR_SHEET","disable":true} @UCF
+*/
+:root {
+    --v-highlight-all-background-color: #0074e8;
+    --v-highlight-all-color: #ffffff;
+}
+@-moz-document regexp("^(?:https?|ftp|about|file|view-source):.*") {
+    ::selection {
+        background-color: var(--v-highlight-all-background-color);
+        color: var(--v-highlight-all-color);
+    }
+    :any-link:focus {
+        outline: 1px dotted currentColor;
+    }
+    input, textarea, select, button, ::file-selector-button {
+        border-width: 1px;
+    }
+    :focus-visible {
+        outline: 1px solid var(--v-highlight-all-background-color);
+        outline-offset: -1px;
+    }
+}
+@-moz-document url-prefix("chrome:") {
+    ::selection {
+        background-color: var(--lwt-toolbar-field-highlight, var(--v-highlight-all-background-color)) !important;
+        color: var(--lwt-toolbar-field-highlight-text, var(--v-highlight-all-color)) !important;
+    }
+}

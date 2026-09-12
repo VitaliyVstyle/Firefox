@@ -82,3 +82,5 @@ decorprefdifferent = - The setting in the file is different from the one used
 decorrebootrequired = - Requires restarting the application
 decorerror = - Error in setting up or creating a file
 deletefile = Delete file
+savedetails =
+    .title = Remember spoiler status

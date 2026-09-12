@@ -4,10 +4,10 @@
     padding: 0 !important;
     min-height: 100% !important;
     width: 100% !important;
-    --v-background-color-root: #f4f4f7;
-    --v-color-root: #18181b;
+    --v-root-background-color: #f4f4f7;
+    --v-root-color: #18181b;
     --v-border-color: rgba(0, 0, 0, 0.25);
-    --v-decoration-color-error: color-mix(in srgb, currentColor 10%, #e31b5d);
+    --v-error-color: color-mix(in srgb, currentColor 10%, #e31b5d);
     --v-input-background-color: #ffffff;
     --v-input-background-color-focus: #ffffff;
     --v-button-background-color-hover: rgba(0, 0, 0, 0.1);
@@ -17,11 +17,11 @@
     --v-highlight-background-color-active: #0059e8;
     --v-highlight-color: #ffffff;
     --v-scrollbar-color: var(--v-highlight-background-color) #ffffff;
-    background: var(--v-background-color-root) !important;
-    color: var(--v-color-root) !important;
+    background: var(--v-root-background-color) !important;
+    color: var(--v-root-color) !important;
     @media (prefers-color-scheme: dark) {
-        --v-background-color-root: #23232d;
-        --v-color-root: #f7f7fa;
+        --v-root-background-color: #23232d;
+        --v-root-color: #f7f7fa;
         --v-border-color: rgba(100, 100, 110, 0.5);
         --v-input-background-color: #1b1b25;
         --v-input-background-color-focus: #1b1b25;
@@ -98,7 +98,7 @@ input, button {
         &::before {
             content: "";
             display: flex;
-            flex-grow: 1;
+            flex: 1;
             background-image: url("./svg/choose.svg");
             background-repeat: no-repeat;
             background-position: center;
@@ -120,7 +120,7 @@ input, button {
         background-color: var(--v-input-background-color-focus) !important;
     }
     &[type=number]:-moz-ui-invalid {
-        border-color: var(--v-decoration-color-error) !important;
+        border-color: var(--v-error-color) !important;
     }
     &[type=checkbox] {
         min-height: 16px !important;
@@ -132,6 +132,8 @@ input, button {
         background-repeat: no-repeat !important;
         background-position: center !important;
         background-size: 16px !important;
+        -moz-context-properties: fill, fill-opacity, stroke;
+        fill: var(--v-highlight-color);
         &:checked {
             border-color: var(--v-highlight-background-color) !important;
             background-color: var(--v-highlight-background-color) !important;
@@ -169,7 +171,7 @@ fieldset {
     }
 }
 .grow {
-    flex-grow: 1 !important;
+    flex: 1 !important;
     padding-inline-end: 0 !important;
 }
 span {

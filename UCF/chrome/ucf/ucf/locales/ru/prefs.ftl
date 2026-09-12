@@ -82,3 +82,5 @@ decorprefdifferent = - Настройка в файле отличается о�
 decorrebootrequired = - Требуется перезапуск приложения.
 decorerror = - Ошибка при настройке или создании файла
 deletefile = Удалить файл
+savedetails =
+    .title = Запомнить состояние спойлера

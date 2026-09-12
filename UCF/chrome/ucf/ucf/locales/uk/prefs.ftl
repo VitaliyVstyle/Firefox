@@ -82,3 +82,5 @@ decorprefdifferent = - Налаштування у файлі відрізняє
 decorrebootrequired = - Потрібно перезапустити програму
 decorerror = - Помилка під час налаштування або створення файлу
 deletefile = Видалити файл
+savedetails =
+    .title = Запам'ятати стан спойлера
