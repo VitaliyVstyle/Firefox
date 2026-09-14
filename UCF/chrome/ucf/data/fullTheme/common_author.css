@@ -6,21 +6,9 @@
     --v-highlight-all-background-color: #0074e8;
     --v-highlight-all-color: #ffffff;
 }
-@-moz-document regexp("^(?:https?|ftp|about|file|view-source):.*") {
-    ::selection {
-        background-color: var(--v-highlight-all-background-color);
-        color: var(--v-highlight-all-color);
-    }
-    :any-link:focus {
-        outline: 1px dotted currentColor;
-    }
-    input, textarea, select, button, ::file-selector-button {
-        border-width: 1px;
-    }
-    :focus-visible {
-        outline: 1px solid var(--v-highlight-all-background-color);
-        outline-offset: -1px;
-    }
+::selection {
+    background-color: var(--v-highlight-all-background-color);
+    color: var(--v-highlight-all-color);
 }
 @-moz-document url-prefix("chrome:") {
     ::selection {

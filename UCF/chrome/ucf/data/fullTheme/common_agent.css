@@ -25,6 +25,10 @@ xul|tooltip {
         --v-tooltip-background-color: rgb(27, 27, 37);
     }
 }
+:root {
+    --v-highlight-all-background-color: #0074e8;
+    --v-highlight-all-color: #ffffff;
+}
 /* ************************************************ */
 
 xul|scrollcorner {
@@ -73,6 +77,18 @@ xul|tooltip {
 }
 xul|resizer {
     appearance: none !important;
+}
+@-moz-document regexp("^(?:https?|chrome|about|file):.*") {
+    :any-link:focus {
+        outline: 1px dotted currentColor;
+    }
+    input, textarea, select, button, ::file-selector-button {
+        border-width: 1px;
+    }
+    input:focus-visible {
+        outline: 1px solid var(--v-highlight-all-background-color);
+        outline-offset: -1px;
+    }
 }
 @-moz-document url-prefix("chrome:") {
     toolbar, findbar {

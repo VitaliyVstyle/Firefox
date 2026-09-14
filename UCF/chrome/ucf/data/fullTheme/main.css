@@ -78,6 +78,7 @@
     --button-background-color-muted-active: var(--button-background-color-active) !important;
     --button-background-color-muted-disabled: var(--button-background-color-disabled) !important;
     --button-background-color-muted-selected: var(--button-background-color-muted-active) !important;
+    --sidebar-launcher-button-padding-inline: 0px !important;
     &[uidensity="touch"] {
         --v-tabs-tab-max-width: 225px;
         --v-titlebar-button-vert-padding: 7px;
@@ -302,14 +303,9 @@
     }
 }
 #browser {
-    #sidebar-main {
-        --button-outer-padding-inline-start: 0px !important;
-        --button-outer-padding-inline-end: 0px !important;
-        --button-outer-padding-block-start: 0px !important;
-        --button-outer-padding-block-end: 0px !important;
-        &>sidebar-main {
-            --button-border-radius: var(--toolbarbutton-border-radius) !important;
-        }
+    sidebar-main {
+        --space-small: 0px !important;
+        --space-xxsmall: 0px !important;
     }
     #tabbrowser-tabpanels {
         .split-view-panel {
