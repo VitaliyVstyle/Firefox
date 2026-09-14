@@ -26,8 +26,8 @@ xul|tooltip {
     }
 }
 :root {
-    --v-highlight-all-background-color: #0074e8;
-    --v-highlight-all-color: #ffffff;
+    --v-accent-primary-color: #0074e8;
+    --v-accent-primary-text-color: #ffffff;
 }
 /* ************************************************ */
 
@@ -86,7 +86,7 @@ xul|resizer {
         border-width: 1px;
     }
     input:focus-visible {
-        outline: 1px solid var(--v-highlight-all-background-color);
+        outline: 1px solid var(--v-accent-primary-color);
         outline-offset: -1px;
     }
 }
