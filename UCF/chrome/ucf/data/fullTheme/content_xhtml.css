@@ -197,6 +197,10 @@
         /** input **/
         --input-search-border-radius: var(--input-text-border-radius) !important;
     }
+    /** moz-toggle **/
+    moz-toggle {
+        --toggle-dot-background-color-on-pressed: var(--color-white) !important;
+    }
     moz-page-nav {
         --page-nav-button-border-radius: 0px !important;
     }
