@@ -12,10 +12,10 @@
     --v-titlebar-button-image-width: 12px;
     --v-titlebar-button-background-hover: var(--button-hover-bgcolor, color-mix(in srgb, currentColor 20%, transparent));
     --v-titlebar-button-background-active: var(--button-active-bgcolor, color-mix(in srgb, currentColor 10%, transparent));
-    --v-titlebar-close-background-hover: rgb(227, 27, 93);
-    --v-titlebar-close-background-active: rgb(191, 22, 78);
-    --v-titlebar-close-color-hover: rgb(255, 255, 255);
-    --v-titlebar-close-color-active: rgb(255, 255, 255);
+    --v-titlebar-close-background-hover: oklch(60% 0.2 0);
+    --v-titlebar-close-background-active: oklch(50% 0.2 0);
+    --v-titlebar-close-color-hover: oklch(1 0 0);
+    --v-titlebar-close-color-active: oklch(1 0 0);
     --v-titlebar-button-fill-opacity: .85;
     --v-titlebar-close-fill-opacity: .85;
     --lwt-tab-line-color: var(--color-accent-primary, Highlight);
@@ -104,7 +104,7 @@
     }
 }
 .toggle-button {
-    --toggle-dot-background-color-on-pressed: rgb(255, 255, 255) !important;
+    --toggle-dot-background-color-on-pressed: oklch(1 0 0) !important;
 }
 /* ************************************************ */
 #tabbrowser-tabs {
@@ -660,8 +660,8 @@ input::-moz-search-clear-button {
 }
 #statuspanel-label {
     appearance: none !important;
-    color: var(--panel-color, light-dark(rgb(12, 12, 22), rgb(177, 177, 187))) !important;
-    background: var(--panel-background, light-dark(rgb(245, 245, 255), rgb(27, 27, 37))) !important;
+    color: var(--panel-color, light-dark(oklch(16% 0.02 285), oklch(77% 0.02 285))) !important;
+    background: var(--panel-background, light-dark(oklch(97% 0.02 285), oklch(23% 0.02 285))) !important;
     border: 1px solid var(--panel-border-color, color-mix(in srgb, currentColor 25%, transparent)) !important;
     border-radius: 0 !important;
 }

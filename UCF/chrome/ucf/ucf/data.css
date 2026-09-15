@@ -4,31 +4,40 @@
     padding: 0 !important;
     min-height: 100% !important;
     width: 100% !important;
-    --v-root-background-color: #f4f4f7;
-    --v-root-color: #18181b;
-    --v-border-color: rgba(0, 0, 0, 0.3);
-    --v-warn-color: color-mix(in srgb, currentColor 10%, #f38725);
-    --v-error-color: color-mix(in srgb, currentColor 10%, #e31b5d);
-    --v-input-background-color: #ececee;
-    --v-input-background-color-focus: #ffffff;
-    --v-button-background-color-hover: rgba(0, 0, 0, 0.1);
-    --v-button-background-color-active: rgba(0, 0, 0, 0.15);
-    --v-highlight-background-color: #0074e8;
-    --v-highlight-background-color-hover: #178bff;
-    --v-highlight-background-color-active: #0059e8;
-    --v-highlight-color: #ffffff;
-    --v-scrollbar-color: var(--v-highlight-background-color) #ffffff;
+    --v-root-background-color: oklch(97% 0.01 285);
+    --v-root-color: oklch(20% 0.01 285);
+    --v-border-color: oklch(75% 0.01 285);
+    --v-border-color-hover: oklch(67% 0.01 285);
+    --v-border-color-active: oklch(77% 0.01 285);
+    --v-warn-color: oklch(60% 0.2 57);
+    --v-error-color: oklch(50% 0.3 0);
+    --v-input-background-color: oklch(95% 0.01 285);
+    --v-input-background-color-focus: oklch(1 0 0);
+    --v-button-background-color-hover: oklch(0 0 0 / 0.1);
+    --v-button-background-color-active: oklch(0 0 0 / 0.15);
+    --v-accent-primary-color: oklch(62% 0.2 260);
+    --v-accent-primary-color-hover: oklch(50% 0.2 260);
+    --v-accent-primary-color-active: oklch(40% 0.2 260);
+    --v-accent-primary-text-color: oklch(1 0 0);
+    --v-scrollbar-color: var(--v-accent-primary-color) oklch(1 0 0);
     background: var(--v-root-background-color) !important;
     color: var(--v-root-color) !important;
     @media (prefers-color-scheme: dark) {
-        --v-root-background-color: #23232d;
-        --v-root-color: #f7f7fa;
-        --v-border-color: rgba(100, 100, 110, 0.5);
-        --v-input-background-color: #1b1b25;
-        --v-input-background-color-focus: #1b1b25;
-        --v-button-background-color-hover: rgba(255, 255, 255, 0.15);
-        --v-button-background-color-active: rgba(255, 255, 255, 0.1);
-        --v-scrollbar-color: var(--v-highlight-background-color) #000000;
+        --v-root-background-color: oklch(25% 0.02 285);
+        --v-root-color: oklch(97% 0.02 285);
+        --v-border-color: oklch(40% 0.01 285);
+        --v-border-color-hover: oklch(48% 0.01 285);
+        --v-border-color-active: oklch(38% 0.01 285);
+        --v-warn-color: oklch(80% 0.2 57);
+        --v-error-color: oklch(70% 0.3 0);
+        --v-input-background-color: oklch(23% 0.01 285);
+        --v-input-background-color-focus: oklch(23% 0.01 285);
+        --v-button-background-color-hover: oklch(1 0.01 285 / 0.15);
+        --v-button-background-color-active: oklch(1 0.01 285 / 0.1);
+        --v-accent-primary-color: oklch(65% 0.2 260);
+        --v-accent-primary-color-hover: oklch(72% 0.2 260);
+        --v-accent-primary-color-active: oklch(62% 0.2 260);
+        --v-scrollbar-color: var(--v-accent-primary-color) oklch(0 0 0);
     }
 }
 body {
@@ -48,6 +57,7 @@ body {
             display: flex !important;
             margin-inline: -10px !important;
             padding-inline: 10px !important;
+            margin-block-end: -1px !important;
             &:hover {
                 background-color: var(--v-button-background-color-hover) !important;
             }
@@ -84,8 +94,8 @@ body {
     scrollbar-color: var(--v-scrollbar-color) !important;
 }
 ::selection {
-    background-color: var(--v-highlight-background-color) !important;
-    color: var(--v-highlight-color) !important;
+    background-color: var(--v-accent-primary-color) !important;
+    color: var(--v-accent-primary-text-color) !important;
 }
 div {
     display: flex !important;
@@ -94,6 +104,12 @@ div {
 span {
     min-height: max(24px, 1.5em) !important;
     line-height: max(24px, 1.5em) !important;
+}
+pre {
+    font: inherit !important;
+    margin-inline: 0 !important;
+    margin-block: 2px !important;
+    padding: 0 !important;
 }
 .css, .js {
     display: flex !important;
@@ -126,11 +142,6 @@ span {
     opacity: .8 !important;
     padding-inline-start: .25em !important;
 }
-pre {
-    font: inherit !important;
-    margin-block: 2px !important;
-    padding: 0 !important;
-}
 input, textarea, button {
     font: inherit !important;
     box-sizing: border-box !important;
@@ -152,8 +163,13 @@ input, textarea, button {
     resize: none !important;
     white-space: pre !important;
     scrollbar-width: none !important;
+    position: relative !important;
+    &:hover {
+        z-index: 2 !important;
+    }
     &:focus {
-        border-color: var(--v-highlight-background-color) !important;
+        z-index: 3 !important;
+        border-color: var(--v-accent-primary-color) !important;
         background-color: var(--v-input-background-color-focus) !important;
     }
     &:is(button[type=button]) {
@@ -195,9 +211,11 @@ input, textarea, button {
         }
         &:hover {
             background-color: var(--v-button-background-color-hover) !important;
+            border-color: var(--v-border-color-hover) !important;
         }
         &:hover:active {
             background-color: var(--v-button-background-color-active) !important;
+            border-color: var(--v-border-color-active) !important;
         }
     }
     &[type=checkbox] {
@@ -211,10 +229,10 @@ input, textarea, button {
         background-position: center !important;
         background-size: 16px !important;
         -moz-context-properties: fill, fill-opacity, stroke;
-        fill: var(--v-highlight-color);
+        fill: var(--v-accent-primary-text-color);
         &:checked {
-            border-color: var(--v-highlight-background-color) !important;
-            background-color: var(--v-highlight-background-color) !important;
+            border-color: var(--v-accent-primary-color) !important;
+            background-color: var(--v-accent-primary-color) !important;
             background-image: url("./svg/checkbox.svg") !important;
         }
     }
@@ -224,6 +242,12 @@ input, textarea, button {
     flex-direction: row !important;
     justify-content: stretch !important;
     align-items: start !important;
+    &:not(:last-of-type) {
+        margin-block-end: -1px !important;
+    }
+    &>:is(.path, button) {
+        margin-inline-end: -1px !important;
+    }
     .disable {
         margin-block: calc((max(22px, 1.5em) - 14px) / 2) !important;
     }
@@ -277,11 +301,8 @@ input, textarea, button {
     }
     &[rebootrequired] .path,
     &[rebootrequired] .pref {
-        border-style: dashed !important;
-        border-color: var(--v-highlight-background-color) !important;
-        &:focus {
-            border-style: solid !important;
-        }
+        outline: 2px dashed var(--v-accent-primary-color) !important;
+        outline-offset: -3px !important;
     }
     &[error] .path,
     &[error] .pref {
@@ -369,7 +390,7 @@ div.controls {
         margin-inline-end: 16px !important;
     }
     input[type=button] {
-        color: var(--v-highlight-background-color-hover) !important;
+        color: var(--v-accent-primary-color) !important;
         font-weight: bold !important;
         background: none !important;
         border: none !important;
@@ -384,12 +405,13 @@ div.controls {
         &:not(:last-of-type) {
             margin-inline-end: 8px !important;
         }
-        &:focus, &:hover {
+        &:hover {
+            color: var(--v-accent-primary-color-hover) !important;
             border-bottom-style: solid !important;
             background: none !important;
         }
         &:hover:active {
-            color: var(--v-highlight-background-color-active) !important;
+            color: var(--v-accent-primary-color-active) !important;
             border-bottom-style: solid !important;
             background: none !important;
         }
