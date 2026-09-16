@@ -79,6 +79,7 @@
     --button-background-color-muted-disabled: var(--button-background-color-disabled) !important;
     --button-background-color-muted-selected: var(--button-background-color-muted-active) !important;
     --sidebar-launcher-button-padding-inline: 0px !important;
+    --search-engine-name-max-width: 20em !important;
     &[uidensity="touch"] {
         --v-tabs-tab-max-width: 225px;
         --v-titlebar-button-vert-padding: 7px;

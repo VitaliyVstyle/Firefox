@@ -241,9 +241,7 @@
     .widget-overflow-list .toolbarbutton-1,
     button[role=menuitem][part=button] {
         min-height: var(--v-panel-item-min-height) !important;
-    }
-    .searchmode-switcher-panel-list {
-        --space-small: var(--panel-menuitem-margin-block) !important;
+        align-items: center;
     }
     /* <-- menu */
 
