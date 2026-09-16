@@ -106,7 +106,12 @@
 .toggle-button {
     --toggle-dot-background-color-on-pressed: oklch(1 0 0) !important;
 }
+menupopup[placespopup=true], #b-undo-tab-menu menupopup {
+    --v-scrollbar-orient-vertical-overflow: 1; /* 1 or 0 */
+    --v-scrollbar-orient-vertical-width: thin; /* auto or thin */
+}
 /* ************************************************ */
+
 #tabbrowser-tabs {
     border: none !important;
     .tabbrowser-tab {
@@ -335,11 +340,20 @@
     height: 24px !important;
     width: auto !important;
 }
+scrollbox[orient=vertical] {
+    @container style(--v-scrollbar-orient-vertical-overflow: 1) {
+        --scrollbutton-height: 0px !important;
+        overflow-y: auto !important;
+        scrollbar-width: var(--v-scrollbar-orient-vertical-width) !important;
+    }
+}
 toolbarbutton#scrollbutton-down, toolbarbutton#scrollbutton-up {
-    border: none !important;
-    border-radius: 0 !important;
+    appearance: none !important;
     margin: 0 !important;
     padding: 0 !important;
+    @container style(--v-scrollbar-orient-vertical-overflow: 1) {
+        visibility: collapse !important;
+    }
 }
 spacer[part="overflow-start-indicator"], spacer[part="overflow-end-indicator"] {
     background: none !important;
