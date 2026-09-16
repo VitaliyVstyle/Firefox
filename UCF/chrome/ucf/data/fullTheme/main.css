@@ -103,7 +103,7 @@
 .toggle-button {
     --toggle-dot-background-color-on-pressed: oklch(1 0 0) !important;
 }
-menupopup[placespopup=true], #b-undo-tab-menu menupopup {
+menupopup[placespopup=true], #b-undo-tab-menu menupopup, #PanelUI-history, #PanelUI-bookmarks {
     --v-scrollbar-orient-vertical-overflow: 1; /* 1 or 0 */
     --v-scrollbar-orient-vertical-width: thin; /* auto or thin */
 }
@@ -337,7 +337,7 @@ menupopup[placespopup=true], #b-undo-tab-menu menupopup {
     height: 24px !important;
     width: auto !important;
 }
-scrollbox[orient=vertical] {
+scrollbox[orient=vertical], .panel-subview-body {
     @container style(--v-scrollbar-orient-vertical-overflow: 1) {
         --scrollbutton-height: 0px !important;
         overflow-y: auto !important;
