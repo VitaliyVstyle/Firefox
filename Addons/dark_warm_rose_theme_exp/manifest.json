@@ -9,7 +9,7 @@
     },
     "name": "Dark Warm Rose",
     "author": "Vitaliy",
-    "version": "2026.9.17",
+    "version": "2026.9.17.17",
     "description": "Dark Warm Rose - VitaliyVstyle Theme",
     "homepage_url": "https://github.com/VitaliyVstyle/Firefox/tree/main/Addons/dark_cold_violet_theme_exp",
     "icons": {
@@ -28,7 +28,7 @@
             "tab_text": "oklch(1 0 0)",
             "tab_loading": "oklch(65% 0.2 260)",
             "tab_background_separator": "oklch(92% 0.05 300)",
-            "icons": "oklch(80% 0.12 300)",
+            "icons": "oklch(80% 0.12 345)",
             "icons_attention": "oklch(65% 0.2 260)",
             "toolbar": "oklch(28% 0.12 345)",
             "bookmark_text": "oklch(92% 0.05 300)",

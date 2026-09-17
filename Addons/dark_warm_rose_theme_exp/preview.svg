@@ -6,11 +6,11 @@
   <rect y="44" width="680" height="48" fill="oklch(28% 0.12 345)"/>
   <line x1="0" y1="43.75" x2="680" y2="43.75" stroke="oklch(65% 0.2 260)" stroke-width="1.5"/>
   <line x1="0" y1="91.25" x2="680" y2="91.25" stroke="oklch(33% 0.12 345)" stroke-width="1.5"/>
-  <circle cx="24" cy="68" r="6.25" stroke="oklch(80% 0.12 300)" stroke-width="1.5"/>
-  <circle cx="60" cy="68" r="6.25" stroke="oklch(80% 0.12 300)" stroke-width="1.5"/>
-  <line x1="663" y1="73.75" x2="649" y2="73.75" stroke="oklch(80% 0.12 300)" stroke-width="1.5"/>
-  <line x1="663" y1="67.75" x2="649" y2="67.75" stroke="oklch(80% 0.12 300)" stroke-width="1.5"/>
-  <line x1="663" y1="61.75" x2="649" y2="61.75" stroke="oklch(80% 0.12 300)" stroke-width="1.5"/>
+  <circle cx="24" cy="68" r="6.25" stroke="oklch(80% 0.12 345)" stroke-width="1.5"/>
+  <circle cx="60" cy="68" r="6.25" stroke="oklch(80% 0.12 345)" stroke-width="1.5"/>
+  <line x1="663" y1="73.75" x2="649" y2="73.75" stroke="oklch(80% 0.12 345)" stroke-width="1.5"/>
+  <line x1="663" y1="67.75" x2="649" y2="67.75" stroke="oklch(80% 0.12 345)" stroke-width="1.5"/>
+  <line x1="663" y1="61.75" x2="649" y2="61.75" stroke="oklch(80% 0.12 345)" stroke-width="1.5"/>
   <rect x="114" y="52" width="488" height="32" rx="4" fill="oklch(23% 0.12 295)"/>
   <circle cx="130" cy="68" r="6.25" stroke="oklch(92% 0.05 300)" stroke-width="1.5"/>
   <rect x="146" y="66" width="308" height="4" rx="2" fill="oklch(92% 0.05 300)"/>
