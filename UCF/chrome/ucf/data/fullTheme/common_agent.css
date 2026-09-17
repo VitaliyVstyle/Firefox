@@ -15,7 +15,7 @@ xul|scrollbar, xul|scrollcorner {
 xul|tooltip {
     --v-tooltip-color: InfoText;
     --v-tooltip-background-color: InfoBackground;
-    --v-tooltip-border-color: color-mix(in srgb, currentColor 25%, transparent);
+    --v-tooltip-border-color: oklch(from currentColor l c h / 0.25);
     @media (prefers-color-scheme: light) {
         --v-tooltip-color: oklch(16% 0.02 285);
         --v-tooltip-background-color: oklch(97% 0.02 285);

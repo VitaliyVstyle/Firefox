@@ -33,16 +33,16 @@
 --v-favicon-in-urlbar: url("${iconDefault}");
 padding-inline: var(--urlbar-icon-padding, 3px) !important;
 align-items: center !important;
-background-color: var(--urlbar-box-bgcolor, color-mix(in srgb, currentColor 12%, transparent));
+background-color: var(--urlbar-box-bgcolor, oklch(from currentColor l c h / 0.12));
 border-radius: var(--urlbar-inner-border-radius, calc(var(--toolbarbutton-border-radius, 1px) - 1px)) !important;
 &[busy] {
 --v-favicon-in-urlbar: url("${iconDefault}") !important;
 }
 &:hover {
-background-color: var(--urlbar-box-hover-bgcolor, color-mix(in srgb, currentColor 20%, transparent));
+background-color: var(--urlbar-box-hover-bgcolor, oklch(from currentColor l c h / 0.2));
 }
 &:hover:active {
-background-color: var(--urlbar-box-active-bgcolor, color-mix(in srgb, currentColor 10%, transparent));
+background-color: var(--urlbar-box-active-bgcolor, oklch(from currentColor l c h / 0.1));
 }
 #${id}-img {
 list-style-image: var(--v-favicon-in-urlbar) !important;

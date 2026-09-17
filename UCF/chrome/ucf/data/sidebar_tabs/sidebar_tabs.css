@@ -53,10 +53,10 @@
             --default-focusring: none !important;
         }
         tab:hover {
-            border-bottom-color: color-mix(in srgb, currentColor 30%, transparent) !important;
+            border-bottom-color: oklch(from currentColor l c h / 0.3) !important;
         }
         tab[selected] {
-            border-bottom-color: color-mix(in srgb, currentColor 80%, transparent) !important;
+            border-bottom-color: oklch(from currentColor l c h / 0.8) !important;
         }
         &[hide_header=true] #st_header {
             display: none !important;

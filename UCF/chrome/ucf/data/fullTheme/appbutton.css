@@ -10,8 +10,8 @@
     --v-main-menubar-height: max(20px, 1.5rem);
     --v-main-menubar-color: var(--button-text-color-primary, HighlightText);
     --v-main-menubar-background-color: var(--color-accent-primary, Highlight);
-    --v-main-menubar-background-color-hover: color-mix(in srgb, rgb(255, 255, 255) 15%, var(--v-main-menubar-background-color));
-    --v-main-menubar-background-color-active: color-mix(in srgb, rgb(0, 0, 0) 10%, var(--v-main-menubar-background-color));
+    --v-main-menubar-background-color-hover: oklch(from var(--v-main-menubar-background-color) calc(l + 0.07) c h);
+    --v-main-menubar-background-color-active: oklch(from var(--v-main-menubar-background-color) calc(l - 0.03) c h);
     &[uidensity="touch"] {
         --v-main-menubar-width: max(40px, 3rem);
         --v-main-menubar-height: max(30px, 2.5rem);

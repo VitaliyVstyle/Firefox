@@ -10,8 +10,8 @@
     --v-titlebar-button-horizont-padding: 10px;
     --v-titlebar-button-image-height: 12px;
     --v-titlebar-button-image-width: 12px;
-    --v-titlebar-button-background-hover: var(--button-hover-bgcolor, color-mix(in srgb, currentColor 20%, transparent));
-    --v-titlebar-button-background-active: var(--button-active-bgcolor, color-mix(in srgb, currentColor 10%, transparent));
+    --v-titlebar-button-background-hover: var(--toolbarbutton-background-color-hover, oklch(from currentColor l c h / 0.2));
+    --v-titlebar-button-background-active: var(--toolbarbutton-background-color-active, oklch(from currentColor l c h / 0.1));
     --v-titlebar-close-background-hover: oklch(60% 0.2 0);
     --v-titlebar-close-background-active: oklch(50% 0.2 0);
     --v-titlebar-close-color-hover: oklch(1 0 0);
@@ -69,9 +69,9 @@
     --chrome-window-gap: 0px !important;
     --chrome-block-radius: 0px !important;
     --popup-border-radius: 0px !important;
-    --button-background-color: color-mix(in srgb, currentColor 12%, transparent) !important;
-    --button-background-color-hover: color-mix(in srgb, currentColor 20%, transparent) !important;
-    --button-background-color-active: color-mix(in srgb, currentColor 10%, transparent) !important;
+    --button-background-color: oklch(from currentColor l c h / 0.12) !important;
+    --button-background-color-hover: oklch(from currentColor l c h / 0.2) !important;
+    --button-background-color-active: oklch(from currentColor l c h / 0.1) !important;
     --button-background-color-disabled: transparent !important;
     --button-background-color-muted: var(--button-background-color) !important;
     --button-background-color-muted-hover: var(--button-background-color-hover) !important;
@@ -212,7 +212,7 @@ menupopup[placespopup=true], #b-undo-tab-menu menupopup, #PanelUI-history, #Pane
         --tab-max-width: var(--v-tabs-tab-max-width) !important;
         .tabbrowser-tab {
             &:where(:not(:hover, [selected], [multiselected])) .tab-background {
-                border-image-source: linear-gradient(transparent 20%, color-mix(in srgb, currentColor 25%, transparent) 20%, color-mix(in srgb, currentColor 25%, transparent) 80%, transparent 80%) !important;
+                border-image-source: linear-gradient(transparent 20%, oklch(from currentColor l c h / 0.25) 20%, oklch(from currentColor l c h / 0.25) 80%, transparent 80%) !important;
                 border-image-width: var(--v-tabs-separators-width) !important;
                 border-image-slice: 1 !important;
             }
@@ -393,10 +393,10 @@ toolbar[type="menubar"] {
     padding-block: 0 !important;
     min-height: var(--v-main-menubar-height, 0) !important;
     &:is(:hover, [_moz-menuactive=true]):not([disabled]:not([disabled=false])) {
-        background: var(--toolbarbutton-hover-background, color-mix(in srgb, currentColor 20%, transparent)) !important;
+        background: var(--toolbarbutton-background-color-hover, oklch(from currentColor l c h / 0.2)) !important;
     }
     &:is([open], [checked=true], :hover:active):not([disabled]:not([disabled=false])) {
-        background: var(--toolbarbutton-active-background, color-mix(in srgb, currentColor 10%, transparent)) !important;
+        background: var(--toolbarbutton-background-color-active, oklch(from currentColor l c h / 0.1)) !important;
     }
 }
 #PersonalToolbar {
@@ -424,7 +424,7 @@ toolbar[type="menubar"] {
         margin: 0 !important;
         padding: var(--bookmark-block-padding) var(--toolbarbutton-padding-inner) !important;
         &[dragover][open] {
-            background-color: var(--toolbarbutton-active-background) !important;
+            background-color: var(--toolbarbutton-background-color-active) !important;
             color: inherit !important;
             fill: var(--toolbarbutton-icon-fill) !important;
         }
@@ -602,7 +602,7 @@ findbar {
     color: inherit !important;
     &>richlistitem.autocomplete-richlistitem {
         &:hover {
-            background-color: var(--panel-dimmed, color-mix(in srgb, currentColor 20%, transparent)) !important;
+            background-color: var(--panel-dimmed, oklch(from currentColor l c h / 0.2)) !important;
             color: inherit !important;
         }
         &[selected] {
@@ -613,7 +613,7 @@ findbar {
             fill: currentColor !important;
         }
         &[originaltype="loginsFooter"] {
-            border-top-color: color-mix(in srgb, currentColor 20%, transparent) !important;
+            border-top-color: oklch(from currentColor l c h / 0.2) !important;
             background-color: transparent !important;
             color: inherit !important;
             &::before {
@@ -673,7 +673,7 @@ input::-moz-search-clear-button {
     appearance: none !important;
     color: var(--panel-color, light-dark(oklch(16% 0.02 285), oklch(77% 0.02 285))) !important;
     background: var(--panel-background, light-dark(oklch(97% 0.02 285), oklch(23% 0.02 285))) !important;
-    border: 1px solid var(--panel-border-color, color-mix(in srgb, currentColor 25%, transparent)) !important;
+    border: 1px solid var(--panel-border-color, oklch(from currentColor l c h / 0.25)) !important;
     border-radius: 0 !important;
 }
 .dialogBox, menulist, button, textarea, input, .checkbox-check {
@@ -683,10 +683,10 @@ input::-moz-search-clear-button {
     background-color: rgba(28, 28, 38, 0.2) !important;
 }
 .close-icon:hover {
-    background-color: color-mix(in srgb, currentColor 20%, transparent) !important;
+    background-color: oklch(from currentColor l c h / 0.2) !important;
 }
 .close-icon:hover:active {
-    background-color: color-mix(in srgb, currentColor 10%, transparent) !important;
+    background-color: oklch(from currentColor l c h / 0.1) !important;
 }
 toolbar toolbaritem:is(.toolbaritem-combined-buttons, .toolbaritem-menu-buttons) {
     align-items: stretch !important;
@@ -699,7 +699,7 @@ menuseparator.searchbar-separator {
     tree,
     richlistbox {
         appearance: none !important;
-        border: 1px solid var(--input-border-color, color-mix(in srgb, currentColor 46%, transparent)) !important;
+        border: 1px solid var(--input-border-color, oklch(from currentColor l c h / 0.46)) !important;
         border-radius: 0 !important;
         background-color: var(--input-bgcolor, Field) !important;
         color: var(--input-color, FieldText) !important;

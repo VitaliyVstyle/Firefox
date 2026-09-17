@@ -74,7 +74,7 @@ flex-direction: row !important;
 padding: 0 !important;
 margin: 0 !important;
 &:hover {
-background-color: color-mix(in srgb, currentColor 10%, transparent);
+background-color: oklch(from currentColor l c h / 0.1);
 border-radius: var(--menuitem-border-radius, calc(var(--panel-border-radius, 0px) / 2));
 }
 &>menuitem {

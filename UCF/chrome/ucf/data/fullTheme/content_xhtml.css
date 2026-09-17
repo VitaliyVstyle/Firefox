@@ -14,8 +14,8 @@
         /** background-color **/
         --background-color-box: light-dark(var(--color-white), var(--color-gray-80)) !important;
         --background-color-critical: light-dark(var(--color-red-0), var(--color-red-90)) !important;
-        --background-color-dimmed: light-dark(color-mix(in srgb, currentColor 12%, transparent), color-mix(in srgb, currentColor 17%, transparent)) !important;
-        --background-color-dimmed-further: light-dark(color-mix(in srgb, currentColor 20%, transparent), color-mix(in srgb, currentColor 14%, transparent)) !important;
+        --background-color-dimmed: light-dark(oklch(from currentColor l c h / 0.12), oklch(from currentColor l c h / 0.17)) !important;
+        --background-color-dimmed-further: light-dark(oklch(from currentColor l c h / 0.2), oklch(from currentColor l c h / 0.14)) !important;
         --background-color-information: light-dark(var(--color-blue-0), var(--color-blue-90)) !important;
         --background-color-overlay: var(--color-black-alpha-50) !important;
         --background-color-success: light-dark(var(--color-green-0), var(--color-green-90)) !important;

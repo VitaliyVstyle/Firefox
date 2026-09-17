@@ -85,7 +85,7 @@ font-size: .8em !important;
 font-weight: normal !important;
 padding: 0 !important;
 border-radius: var(--urlbar-inner-border-radius, var(--urlbar-icon-border-radius, 0)) !important;
-background-color: var(--urlbar-box-bgcolor, color-mix(in srgb, currentColor 12%, transparent)) !important;
+background-color: var(--urlbar-box-bgcolor, oklch(from currentColor l c h / 0.12)) !important;
 color: var(--urlbar-box-text-color, inherit) !important;
 margin: 0 !important;
 align-self: stretch !important;
@@ -94,10 +94,10 @@ justify-content: stretch !important;
 overflow: hidden !important;
 min-width: 3.5em !important;
 &:hover {
-background-color: var(--urlbar-box-hover-bgcolor, color-mix(in srgb, currentColor 20%, transparent)) !important;
+background-color: var(--urlbar-box-hover-bgcolor, oklch(from currentColor l c h / 0.2)) !important;
 }
 &:hover:active {
-background-color: var(--urlbar-box-active-bgcolor, color-mix(in srgb, currentColor 10%, transparent)) !important;
+background-color: var(--urlbar-box-active-bgcolor, oklch(from currentColor l c h / 0.1)) !important;
 }
 .toolbarbutton-icon {
 display: none !important;
