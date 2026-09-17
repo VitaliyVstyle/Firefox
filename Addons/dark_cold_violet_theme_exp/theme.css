@@ -1,4 +1,4 @@
 
 :root:not([privatebrowsingmode="temporary"]) {
-    --tabpanel-background-color: rgb(27, 27, 37) !important;
+    --tabpanel-background-color: oklch(23% 0.02 285) !important;
 }
