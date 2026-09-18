@@ -3,7 +3,7 @@
 */
 @-moz-document regexp("^(about:(?!blank|srcdoc|newtab|home|devtools-toolbox|reader|mozilla)|chrome:\/\/(?!devtools\/|global\/|extensions\/)).*") {
     :root {
-        --v-content-page-background-image: light-dark(url("./png/background.png"), url("./png/background_dark.png"));
+        --v-content-page-background-image: light-dark(url("./svg/bg_light_ff.svg"), url("./svg/bg_dark_ff.svg"));
         background-color: light-dark(var(--color-white), var(--color-black));
         color: light-dark(var(--color-black), var(--color-white));
         background-image: var(--v-content-page-background-image) !important;
@@ -13,6 +13,7 @@
         background-attachment: fixed !important;
         /** background-color **/
         --background-color-box: light-dark(var(--color-white), var(--color-gray-80)) !important;
+        --background-color-box-info: light-dark(var(--color-white), var(--color-gray-80)) !important;
         --background-color-critical: light-dark(var(--color-red-0), var(--color-red-90)) !important;
         --background-color-dimmed: light-dark(oklch(from currentColor l c h / 0.12), oklch(from currentColor l c h / 0.17)) !important;
         --background-color-dimmed-further: light-dark(oklch(from currentColor l c h / 0.2), oklch(from currentColor l c h / 0.14)) !important;
@@ -77,15 +78,15 @@
         --color-cyan-90: oklch(35% 0.2 260) !important;
         --color-cyan-100: oklch(27% 0.1 260) !important;
         --color-cyan-110: oklch(20% 0.05 260) !important;
-        --color-gray-0: #fbfbfe !important;
-        --color-gray-20: #f0f0f4 !important;
-        --color-gray-30: #bac2ca !important;
-        --color-gray-50: #bfbfc9 !important;
-        --color-gray-60: #8f8f9d !important;
-        --color-gray-70: #5b5b66 !important;
-        --color-gray-80: #23222b !important;
-        --color-gray-90: #1c1b22 !important;
-        --color-gray-100: #15141a !important;
+        --color-gray-0: oklch(98% 0.02 285) !important;
+        --color-gray-20: oklch(95% 0.02 285) !important;
+        --color-gray-30: oklch(85% 0.02 285) !important;
+        --color-gray-50: oklch(80% 0.02 285) !important;
+        --color-gray-60: oklch(65% 0.02 285) !important;
+        --color-gray-70: oklch(50% 0.02 285) !important;
+        --color-gray-80: oklch(25% 0.02 285) !important;
+        --color-gray-90: oklch(20% 0.02 285) !important;
+        --color-gray-100: oklch(15% 0.02 285) !important;
         --color-green-0: oklch(97% 0.05 145) !important;
         --color-green-10: oklch(90% 0.1 145) !important;
         --color-green-20: oklch(83% 0.14 145) !important;
@@ -196,6 +197,14 @@
         --size-item-xlarge: 48px !important;
         /** input **/
         --input-search-border-radius: var(--input-text-border-radius) !important;
+        /** button **/
+        --button-text-color-primary: var(--color-white) !important;
+        /** focus-outline **/
+        --focus-outline: var(--focus-outline-width) solid var(--focus-outline-color) !important;
+        --focus-outline-color: var(--color-accent-primary) !important;
+        --focus-outline-inset: calc(-1 * var(--focus-outline-width)) !important;
+        --focus-outline-offset: -1px !important;
+        --focus-outline-width: 1px !important;
     }
     /** moz-toggle **/
     moz-toggle {
@@ -227,6 +236,11 @@
         outline-offset: -1px;
     }
 }
+@-moz-document media-document(image) {
+    :root {
+        background: oklch(23% 0.02 285) !important;
+    }
+}
 @-moz-document url-prefix("chrome:") {
     :root {
         --v-content-page-background-image: none;
@@ -234,14 +248,14 @@
 }
 @-moz-document regexp("^moz-extension:\/\/.*\/new_tab_page\.html") {
     :root {
-        background-image: url("./png/background.png") !important;
+        background-image: url("./svg/bg_light_ff.svg") !important;
         background-position: center bottom !important;
         background-repeat: no-repeat !important;
         background-size: cover !important;
-        --v-page-background-color: #ece6ff !important;
+        --v-page-background-color: oklch(94% 0.03 297) !important;
         @media (prefers-color-scheme: dark) {
-            background-image: url("./png/background_dark.png") !important;
-            --v-page-background-color: #24173e !important;
+            background-image: url("./svg/bg_dark_ff.svg") !important;
+            --v-page-background-color: oklch(24% 0.07 297) !important;
         }
         --v-thumb-font-size-larger-1024: 1.25em !important;
         --v-thumb-font-size-larger-1280: 1.5em !important;
