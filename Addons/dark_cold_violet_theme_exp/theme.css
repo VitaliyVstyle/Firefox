@@ -1,8 +1,8 @@
 :root {
-    --color-accent-primary: oklch(65% 0.2 260) !important;
+    --color-accent-primary: oklch(65% 0.25 260) !important;
     --color-accent-primary-selected: var(--color-accent-primary) !important;
-    --color-accent-primary-hover: oklch(72% 0.2 260) !important;
-    --color-accent-primary-active: oklch(62% 0.2 260) !important;
+    --color-accent-primary-hover: oklch(72% 0.25 260) !important;
+    --color-accent-primary-active: oklch(62% 0.25 260) !important;
     --button-text-color-primary: oklch(1 0 0) !important;
     --button-background-color: oklch(from currentColor l c h / 0.12) !important;
     --button-background-color-hover: oklch(from currentColor l c h / 0.2) !important;

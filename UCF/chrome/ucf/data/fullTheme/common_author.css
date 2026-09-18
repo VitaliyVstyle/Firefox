@@ -3,7 +3,7 @@
 @UCF @param {"prop":"CssContent","type":"AUTHOR_SHEET","disable":true} @UCF
 */
 :root {
-    --v-accent-primary-color: oklch(65% 0.2 260);
+    --v-accent-primary-color: oklch(65% 0.25 260);
     --v-accent-primary-text-color: oklch(1 0 0);
 }
 ::selection {

@@ -6,9 +6,9 @@
 
 xul|scrollbar, xul|scrollcorner {
     --v-scrollbar-color: oklch(1 0 0);
-    --v-scrollbar-background-color: oklch(65% 0.2 260);
-    --v-scrollbar-background-color-hover: oklch(72% 0.2 260);
-    --v-scrollbar-background-color-active: oklch(62% 0.2 260);
+    --v-scrollbar-background-color: oklch(65% 0.25 260);
+    --v-scrollbar-background-color-hover: oklch(72% 0.25 260);
+    --v-scrollbar-background-color-active: oklch(62% 0.25 260);
     --v-scrollbar-border-radius: 0px;
     --v-scrollbar-thumb-min: 10px;
 }
@@ -26,7 +26,7 @@ xul|tooltip {
     }
 }
 :root {
-    --v-accent-primary-color: oklch(65% 0.2 260);
+    --v-accent-primary-color: oklch(65% 0.25 260);
     --v-accent-primary-text-color: oklch(1 0 0);
 }
 /* ************************************************ */

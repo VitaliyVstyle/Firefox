@@ -1,10 +1,10 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="680" height="92" viewBox="0 0 680 92" fill="none">
   <rect width="680" height="92" fill="oklch(23% 0.12 295)"/>
-  <rect x="27.75" y="4.75" width="166.5" height="34.5" rx="4" fill="oklch(33% 0.12 345)" stroke="oklch(65% 0.2 260)" stroke-width="1.5"/>
+  <rect x="27.75" y="4.75" width="166.5" height="34.5" rx="4" fill="oklch(33% 0.12 345)" stroke="oklch(65% 0.25 260)" stroke-width="1.5"/>
   <rect x="51" y="20" width="121" height="4" rx="2" fill="oklch(1 0 0)"/>
   <rect x="221" y="20" width="121" height="4" rx="2" fill="oklch(92% 0.05 300)"/>
   <rect y="44" width="680" height="48" fill="oklch(28% 0.12 345)"/>
-  <line x1="0" y1="43.75" x2="680" y2="43.75" stroke="oklch(65% 0.2 260)" stroke-width="1.5"/>
+  <line x1="0" y1="43.75" x2="680" y2="43.75" stroke="oklch(65% 0.25 260)" stroke-width="1.5"/>
   <line x1="0" y1="91.25" x2="680" y2="91.25" stroke="oklch(33% 0.12 345)" stroke-width="1.5"/>
   <circle cx="24" cy="68" r="6.25" stroke="oklch(80% 0.12 345)" stroke-width="1.5"/>
   <circle cx="60" cy="68" r="6.25" stroke="oklch(80% 0.12 345)" stroke-width="1.5"/>

@@ -15,9 +15,9 @@
     --v-input-background-color-focus: oklch(1 0 0);
     --v-button-background-color-hover: oklch(0 0 0 / 0.1);
     --v-button-background-color-active: oklch(0 0 0 / 0.15);
-    --v-accent-primary-color: oklch(62% 0.2 260);
-    --v-accent-primary-color-hover: oklch(50% 0.2 260);
-    --v-accent-primary-color-active: oklch(40% 0.2 260);
+    --v-accent-primary-color: oklch(62% 0.25 260);
+    --v-accent-primary-color-hover: oklch(50% 0.25 260);
+    --v-accent-primary-color-active: oklch(40% 0.25 260);
     --v-accent-primary-text-color: oklch(1 0 0);
     --v-scrollbar-color: var(--v-accent-primary-color) oklch(1 0 0);
     background: var(--v-root-background-color) !important;
@@ -34,9 +34,9 @@
         --v-input-background-color-focus: oklch(23% 0.01 285);
         --v-button-background-color-hover: oklch(1 0.01 285 / 0.15);
         --v-button-background-color-active: oklch(1 0.01 285 / 0.1);
-        --v-accent-primary-color: oklch(65% 0.2 260);
-        --v-accent-primary-color-hover: oklch(72% 0.2 260);
-        --v-accent-primary-color-active: oklch(62% 0.2 260);
+        --v-accent-primary-color: oklch(65% 0.25 260);
+        --v-accent-primary-color-hover: oklch(72% 0.25 260);
+        --v-accent-primary-color-active: oklch(62% 0.25 260);
         --v-scrollbar-color: var(--v-accent-primary-color) oklch(0 0 0);
     }
 }
