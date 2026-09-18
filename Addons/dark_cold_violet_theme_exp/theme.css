@@ -1,4 +1,48 @@
-
-:root:not([privatebrowsingmode="temporary"]) {
-    --tabpanel-background-color: oklch(23% 0.02 285) !important;
+:root {
+    --color-accent-primary: oklch(65% 0.2 260) !important;
+    --color-accent-primary-selected: var(--color-accent-primary) !important;
+    --color-accent-primary-hover: oklch(72% 0.2 260) !important;
+    --color-accent-primary-active: oklch(62% 0.2 260) !important;
+    --button-text-color-primary: oklch(1 0 0) !important;
+    --button-background-color: oklch(from currentColor l c h / 0.12) !important;
+    --button-background-color-hover: oklch(from currentColor l c h / 0.2) !important;
+    --button-background-color-active: oklch(from currentColor l c h / 0.1) !important;
+    --error-text-color: oklch(70% 0.3 0) !important;
+    --input-color: oklch(77% 0.02 285) !important;
+    --input-error-border-color: var(--error-text-color) !important;
+    --input-border-color: oklch(from currentColor l c h / 0.25) !important;
+    --focus-outline-color: var(--color-accent-primary) !important;
+    --autocomplete-popup-separator-color: var(--panel-separator-color) !important;
+    --panel-banner-item-update-supported-bgcolor: oklch(90% 0.17 174) !important;
+    --panel-banner-item-warning-icon-bgcolor: oklch(80% 0.2 57) !important;
+    --panel-banner-item-info-icon-bgcolor: var(--color-accent-primary) !important;
+    --panel-separator-zap-gradient: linear-gradient(90deg, var(--color-accent-primary) 0%, oklch(70% 0.2 345) 50%, oklch(80% 0.2 57) 100%) !important;
+    --panel-separator-color: oklch(1 0 0 / 20%) !important;
+    --tab-icon-overlay-stroke: oklch(33% 0.12 295) !important;
+    --tab-icon-overlay-fill: oklch(92% 0.05 300) !important;
+    --urlbar-popup-url-color: var(--color-accent-primary-hover) !important;
+    --urlbar-icon-fill-opacity: 0.9 !important;
+    --urlbar-box-background-color: var(--button-background-color) !important;
+    --urlbar-box-background-color-hover: var(--button-background-color-hover) !important;
+    --urlbar-box-background-color-active: var(--button-background-color-active) !important;
+    --urlbar-box-background-color-focus: var(--button-background-color) !important;
+    --urlbar-box-text-color: inherit !important;
+    --lwt-toolbar-field-icon-fill-attention: var(--color-accent-primary) !important;
+    --lwt-tab-attention-icon-color: var(--color-accent-primary) !important;
+    --link-color: var(--color-accent-primary) !important;
+    --link-color-hover: var(--color-accent-primary-hover) !important;
+    --link-color-active: var(--color-accent-primary-active) !important;
+    --background-color-dimmed: var(--button-background-color-hover) !important;
+    --background-color-dimmed-further: var(--button-background-color-active) !important;
+    --border-color-deemphasized: var(--input-border-color) !important;
+    --border-color-error: var(--error-text-color) !important;
+    --border-color-interactive: var(--input-border-color) !important;
+    --border-color-interactive-hover: var(--input-border-color) !important;
+    --border-color-interactive-active: var(--input-border-color) !important;
+    --border-color-interactive-disabled: var(--input-border-color) !important;
+    --border-color-selected: var(--color-accent-primary) !important;
+    --border-color-transparent: transparent !important;
+    &:not([privatebrowsingmode=temporary]) {
+        --tabpanel-background-color: oklch(23% 0.02 285) !important;
+    }
 }
