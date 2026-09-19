@@ -2,16 +2,16 @@
 @UCF @param {"prop":"JsBackground","disable":true} @UCF
 */
 (async (
+    id = "ucf-zoom-button",
     fullZoomPref = "browser.zoom.full",
     siteSpecificPref = "browser.zoom.siteSpecific",
     zoomBtnId = "urlbar-zoom-button",
     // -- User Settings -->
-    id = "ucf-zoom-button",
     title = "Zoom Button",
     tooltip = `L: Toggle ${fullZoomPref}\nM: Toggle ${siteSpecificPref}\nM-wheel: Change Zoom\nShift+M-wheel: Change default Zoom\nR: Reset Zoom\nShift+R: Reset default Zoom`,
     selector = "#star-button-box",
     badged = true,
-    hideDefaultButton = true,
+    hideZoomBtn = true,
     // <-- User Settings --
 ) => PageActions.addAction(new PageActions.Action({
     id, title, tooltip,
@@ -22,6 +22,8 @@
         var { document } = win;
         var node = document.querySelector(`#page-action-buttons > ${selector}`);
         if (!node) return;
+        var pabtns = node.parentElement;
+        pabtns.setAttribute("hideZoomBtn", hideZoomBtn);
         var btn = document.createXULElement("toolbarbutton");
         btn.id = id;
         btn.tooltipText = tooltip;
@@ -38,7 +40,7 @@
         }
         btn.setAttribute("useFullZoom", win.ZoomManager.useFullZoom);
         btn.setAttribute("siteSpecific", win.FullZoom.siteSpecific);
-        var uzbtn = node.id !== zoomBtnId ? node.parentElement.querySelector(`#${zoomBtnId}`) : node;
+        var uzbtn = node.id !== zoomBtnId ? pabtns.querySelector(`#${zoomBtnId}`) : node;
         var desc = Object.getOwnPropertyDescriptor(XULElement.prototype, "hidden");
         var { set } = desc;
         desc.set = async val => {
@@ -47,16 +49,15 @@
         };
         Object.defineProperty(uzbtn, "hidden", desc);
         var { observe } = win.FullZoom;
-        win.FullZoom.observe = function (subject, topic, data) {
-            var func = observe.apply(this, arguments);
+        win.FullZoom.observe = function (s, t, data) {
             switch (data) {
                 case fullZoomPref:
-                    btn.setAttribute("useFullZoom", win.ZoomManager.useFullZoom);
+                    btn.setAttribute("useFullZoom", Services.prefs.getBoolPref(fullZoomPref));
                     break;
                 case siteSpecificPref:
-                    btn.setAttribute("siteSpecific", this.siteSpecific);
+                    btn.setAttribute("siteSpecific", Services.prefs.getBoolPref(siteSpecificPref));
             }
-            return func;
+            return observe.apply(this, arguments);
         };
         btn.onclick = e => {
             e.stopPropagation();
@@ -78,86 +79,6 @@
             else win.FullZoom.enlarge();
             if (e.shiftKey) win.FullZoom._cps2.setGlobal(win.FullZoom.name, win.ZoomManager.zoom, Cu.createLoadContext());
         };
-        var style = `data:text/css;charset=utf-8,${encodeURIComponent(`
-#page-action-buttons > #${id} {
-appearance: none !important;
-font-size: .8em !important;
-font-weight: normal !important;
-padding: 0 !important;
-border-radius: var(--urlbar-inner-border-radius, var(--urlbar-icon-border-radius, 0)) !important;
-background-color: var(--urlbar-box-bgcolor, oklch(from currentColor l c h / 0.12)) !important;
-color: var(--urlbar-box-text-color, inherit) !important;
-margin: 0 !important;
-align-self: stretch !important;
-align-items: center !important;
-justify-content: stretch !important;
-overflow: hidden !important;
-min-width: 3.5em !important;
-&:hover {
-background-color: var(--urlbar-box-hover-bgcolor, oklch(from currentColor l c h / 0.2)) !important;
-}
-&:hover:active {
-background-color: var(--urlbar-box-active-bgcolor, oklch(from currentColor l c h / 0.1)) !important;
-}
-.toolbarbutton-icon {
-display: none !important;
-}
-.toolbarbutton-text {
-display: flex !important;
-justify-content: center !important;
-margin: 0 !important;
-padding: 0 !important;
-}
-&[useFullZoom=false] {
-font-weight: bold !important;
-}
-&[siteSpecific=false]:not([badged]) .toolbarbutton-text {
-text-decoration-line: underline !important;
-text-decoration-style: solid !important;
-text-decoration-color: currentColor !important;
-text-decoration-thickness: 1px !important;
-text-decoration-skip-ink: none !important;
-text-underline-offset: .2em !important;
-}
-&[badged] {
-display: grid !important;
-position: relative !important;
-& > * {
-grid-area: 1 / 1 !important;
-z-index: 0 !important;
-}
-stack {
-display: flex !important;
-align-self: start !important;
-justify-self: end !important;
-z-index: 1 !important;
-.toolbarbutton-badge {
-background: #0074e8 !important;
-color: #ffffff !important;
-border-radius: var(--urlbar-inner-border-radius, var(--urlbar-icon-border-radius, 0)) !important;
-font-size: 10px !important;
-font-weight: normal !important;
-line-height: 10px !important;
-box-shadow: none !important;
-text-shadow: none !important;
-margin: 0 !important;
-padding: 1px !important;
-min-width: 0 !important;
-}
-}
-&[siteSpecific=false] stack .toolbarbutton-badge {
-font-weight: bold !important;
-}
-.toolbarbutton-text {
-justify-content: start !important;
-padding-inline-start: 2px !important;
-}
-}
-}
-${hideDefaultButton ? `#${zoomBtnId} {
-display: none !important;
-}` : ""}`)}`;
-        win.windowUtils.loadSheetUsingURIString(style, win.windowUtils.AGENT_SHEET);
         node.after(btn);
     },
 })))();

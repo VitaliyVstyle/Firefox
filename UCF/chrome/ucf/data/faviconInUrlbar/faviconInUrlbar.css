@@ -1,0 +1,30 @@
+/**
+@UCF @param {"prop":"CssChrome","type":"USER_SHEET","disable":true} @UCF
+*/
+#ucf-favicon-in-urlbar-box {
+    --v-favicon-def: url("chrome://global/skin/icons/info.svg"); /* icon default */
+
+    --v-favicon: var(--v-favicon-def);
+    padding-inline: var(--urlbar-icon-padding, 3px) !important;
+    align-items: center !important;
+    background-color: var(--urlbar-box-background-color, oklch(from currentColor l c h / 0.12));
+    border-radius: var(--urlbar-inner-border-radius, calc(var(--toolbarbutton-border-radius, 1px) - 1px)) !important;
+    &[busy] {
+        --v-favicon: var(--v-favicon-def) !important;
+    }
+    &:hover {
+        background-color: var(--urlbar-box-background-color-hover, oklch(from currentColor l c h / 0.2));
+    }
+    &:hover:active {
+        background-color: var(--urlbar-box-background-color-active, oklch(from currentColor l c h / 0.1));
+    }
+    #ucf-favicon-in-urlbar-img {
+        list-style-image: var(--v-favicon) !important;
+        pointer-events: none !important;
+        height: 16px !important;
+        width: 16px !important;
+        -moz-context-properties: fill, fill-opacity;
+        fill: currentColor;
+        fill-opacity: var(--urlbar-icon-fill-opacity, 1);
+    }
+}

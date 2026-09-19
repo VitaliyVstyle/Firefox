@@ -1,0 +1,81 @@
+/**
+@UCF @param {"prop":"CssChrome","type":"USER_SHEET","disable":true} @UCF
+*/
+#page-action-buttons {
+    &>#ucf-zoom-button {
+        appearance: none !important;
+        font-size: .8em !important;
+        font-weight: normal !important;
+        padding: 0 !important;
+        border-radius: var(--urlbar-inner-border-radius, 0px) !important;
+        background-color: var(--urlbar-box-background-color, oklch(from currentColor l c h / 0.12)) !important;
+        color: var(--urlbar-box-text-color, inherit) !important;
+        margin: 0 !important;
+        align-self: stretch !important;
+        align-items: center !important;
+        justify-content: stretch !important;
+        overflow: hidden !important;
+        min-width: 3.5em !important;
+        &:hover {
+            background-color: var(--urlbar-box-background-color-hover, oklch(from currentColor l c h / 0.2)) !important;
+        }
+        &:hover:active {
+            background-color: var(--urlbar-box-background-color-active, oklch(from currentColor l c h / 0.1)) !important;
+        }
+        .toolbarbutton-icon {
+            display: none !important;
+        }
+        .toolbarbutton-text {
+            display: flex !important;
+            justify-content: center !important;
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+        &[useFullZoom=false] {
+            font-weight: bold !important;
+        }
+        &[siteSpecific=false]:not([badged]) .toolbarbutton-text {
+            text-decoration-line: underline !important;
+            text-decoration-style: solid !important;
+            text-decoration-color: currentColor !important;
+            text-decoration-thickness: 1px !important;
+            text-decoration-skip-ink: none !important;
+            text-underline-offset: .2em !important;
+        }
+        &[badged] {
+            display: grid !important;
+            position: relative !important;
+            &>stack {
+                grid-area: 1 / 1 !important;
+                display: flex !important;
+                align-self: start !important;
+                justify-self: end !important;
+                z-index: 1 !important;
+                .toolbarbutton-badge {
+                    background: light-dark(oklch(62% 0.25 260), oklch(65% 0.25 260)) !important;
+                    color: oklch(1 0 0) !important;
+                    border-radius: var(--urlbar-inner-border-radius, 0px) !important;
+                    font-size: 10px !important;
+                    font-weight: normal !important;
+                    line-height: 10px !important;
+                    box-shadow: none !important;
+                    text-shadow: none !important;
+                    margin: 0 !important;
+                    padding: 1px !important;
+                    min-width: 0 !important;
+                }
+            }
+            &[siteSpecific=false]>stack .toolbarbutton-badge {
+                font-weight: bold !important;
+            }
+            &>.toolbarbutton-text {
+                grid-area: 1 / 1 !important;
+                justify-content: start !important;
+                padding-inline-start: 2px !important;
+            }
+        }
+    }
+    &[hideZoomBtn=true]>#urlbar-zoom-button {
+        display: none !important;
+    }
+}

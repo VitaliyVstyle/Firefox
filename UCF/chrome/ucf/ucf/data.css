@@ -242,6 +242,13 @@ input, textarea, button {
     flex-direction: row !important;
     justify-content: stretch !important;
     align-items: start !important;
+    label {
+        display: flex !important;
+        flex-direction: row !important;
+        align-self: stretch !important;
+        align-items: start !important;
+        user-select: none !important;
+    }
     &:not(:last-of-type) {
         margin-block-end: -1px !important;
     }

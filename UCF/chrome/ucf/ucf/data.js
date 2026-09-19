@@ -47,7 +47,7 @@ const deletePref = async (prefs, path, nowrite) => {
 const handleClick = async ({ target, currentTarget }) => {
     if (_write || !/checkbox|button/.test(target.type)) return;
     _write = true;
-    var row = target.parentElement;
+    var row = target.closest(".row");
     var path = row.children[pathInd].value;
     switch (target.className) {
         case "disable":
@@ -224,8 +224,8 @@ const comparePrefs = (pref1, pref2) => {
     });
     return stringify(pref1) === stringify(pref2);
 };
-const createSection = async (prefs, id) => {
-    var _id = id.replace(".", "_");
+const createSection = async (prefs, prp) => {
+    var _id = prp.replace(".", "_");
     var sec = window[_id] ||= document.querySelector(`#${_id}`);
     var children = sec.querySelectorAll(":scope > .row");
     if (children.length)
@@ -235,7 +235,7 @@ const createSection = async (prefs, id) => {
     var delprefs = [];
     for (let pref of prefs) {
         let { path } = pref;
-        let fpref = `${path}?${id}`;
+        let fpref = `${path}?${prp}`;
         let attrs = {};
         if (filesMap.has(path)) filesMap.delete(path);
         if (filesMap.has(fpref)) {
@@ -249,8 +249,8 @@ const createSection = async (prefs, id) => {
             delprefs.push(path);
             continue;
         }
-        let dis = pref.disable || false;
-        allFilesMap.get(path)?.set(id, dis) || allFilesMap.set(path, new Map([[id, dis]]));
+        let dis = !!pref.disable;
+        allFilesMap.get(path)?.set(prp, dis) || allFilesMap.set(path, new Map([[prp, dis]]));
         createRow(_id, path, getJsonStr(pref), dis, true, attrs);
     }
     var del = false;
@@ -264,12 +264,15 @@ const createItem = (elm, val = "", cls, type, rdonly) => {
     var item = document.createElement(elm);
     item.className = cls;
     item.type = type;
+    item.autocomplete = "off";
     if (type === "checkbox") {
         item.checked = !val;
-        item.autocomplete = "off";
+        item.setAttribute("checked", !val);
+        let lab = document.createElement("label");
+        lab.append(item);
+        return lab;
     } else if (val !== null) {
         item.value = val;
-        item.autocomplete = "off";
         item.spellcheck = false;
         item.rows &&= 1;
         if (rdonly) item.readOnly = true;
@@ -342,6 +345,7 @@ const initOptions = async () => {
         try {
             if (pref) {
                 await setPref(pref, false, true);
+                allFilesMap.get(pref.path)?.set(pref.prop, !!pref.disable) || allFilesMap.set(pref.path, new Map([[pref.prop, !!pref.disable]]));
                 addpref = true;
             } else {
                 let base;

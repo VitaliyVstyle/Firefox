@@ -2,8 +2,6 @@
 @UCF @param {"prop":"JsChrome.load","ucfobj":true,"disable":true} @UCF
 */
 (async (
-    id = "ucf-favicon-in-urlbar",
-    iconDefault = "chrome://global/skin/icons/info.svg",
     handlers = true,
     tooltip = "L: Copy address of current page\nShift+L|M: Copy domain of current page\nR: More site information",
     confirmURL = "URL copied to clipboard!",
@@ -28,34 +26,7 @@
         );
     },
     init() {
-        var style = "data:text/css;charset=utf-8," + encodeURIComponent(`
-#${id}-box {
---v-favicon-in-urlbar: url("${iconDefault}");
-padding-inline: var(--urlbar-icon-padding, 3px) !important;
-align-items: center !important;
-background-color: var(--urlbar-box-bgcolor, oklch(from currentColor l c h / 0.12));
-border-radius: var(--urlbar-inner-border-radius, calc(var(--toolbarbutton-border-radius, 1px) - 1px)) !important;
-&[busy] {
---v-favicon-in-urlbar: url("${iconDefault}") !important;
-}
-&:hover {
-background-color: var(--urlbar-box-hover-bgcolor, oklch(from currentColor l c h / 0.2));
-}
-&:hover:active {
-background-color: var(--urlbar-box-active-bgcolor, oklch(from currentColor l c h / 0.1));
-}
-#${id}-img {
-list-style-image: var(--v-favicon-in-urlbar) !important;
-pointer-events: none !important;
-height: 16px !important;
-width: 16px !important;
--moz-context-properties: fill, fill-opacity;
-fill: currentColor;
-fill-opacity: var(--urlbar-icon-fill-opacity, 1);
-}
-}
-`);
-        windowUtils.loadSheetUsingURIString(style, windowUtils.USER_SHEET);
+        var id = "ucf-favicon-in-urlbar";
         var box = document.createXULElement("box");
         box.id = `${id}-box`;
         var img = document.createXULElement("image");
@@ -64,8 +35,8 @@ fill-opacity: var(--urlbar-icon-fill-opacity, 1);
         gURLBar._inputContainer.prepend(box);
         var { STATE_START, STATE_STOP, STATE_IS_NETWORK } = Ci.nsIWebProgressListener;
         var updatefavicon = (image, isimg) => {
-            if (image) box.style.setProperty("--v-favicon-in-urlbar", `url("${image}")`);
-            else box.style.removeProperty("--v-favicon-in-urlbar");
+            if (image) box.style.setProperty("--v-favicon", `url("${image}")`);
+            else box.style.removeProperty("--v-favicon");
             if (isimg && box.hasAttribute("busy")) box.removeAttribute("busy");
         };
         this.handleEvent = e => {
@@ -88,15 +59,13 @@ fill-opacity: var(--urlbar-icon-fill-opacity, 1);
             e.stopPropagation();
             switch (e.button) {
                 case 0:
-                    if (!e.shiftKey) this.copy(e, true);
-                    else this.copy(e);
+                    this.copy(e, !e.shiftKey);
                     break;
                 case 1:
                     this.copy(e);
                     break;
                 case 2:
-                    if ("BrowserCommands" in window) BrowserCommands.pageInfo();
-                    else BrowserPageInfo();
+                    BrowserCommands.pageInfo();
             }
         };
     },
