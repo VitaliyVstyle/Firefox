@@ -267,7 +267,7 @@ const createItem = (elm, val = "", cls, type, rdonly) => {
     item.autocomplete = "off";
     if (type === "checkbox") {
         item.checked = !val;
-        item.setAttribute("checked", !val);
+        item.toggleAttribute("checked", !val);
         let lab = document.createElement("label");
         lab.append(item);
         return lab;

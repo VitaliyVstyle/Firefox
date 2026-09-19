@@ -23,7 +23,7 @@ const Change = {
 const FillForm = (pref, i, val = UcfPrefs.prefs[pref]) => {
     if (i.type === "checkbox") {
         i.checked = !!val;
-        i.setAttribute("checked", !!val);
+        i.toggleAttribute("checked", !!val);
         if (controlSet.has(pref)) i.parentElement.nextElementSibling.disabled = !val;
     } else {
         let v = replaceSet.has(pref) ? val.join(",") : val;
