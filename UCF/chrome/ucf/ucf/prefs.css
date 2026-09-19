@@ -153,10 +153,24 @@ input, button {
         background-size: 16px !important;
         -moz-context-properties: fill, fill-opacity, stroke;
         fill: var(--v-accent-primary-text-color);
+        &:hover {
+            border-color: var(--v-border-color-hover) !important;
+        }
+        &:hover:active {
+            border-color: var(--v-border-color-active) !important;
+        }
         &:checked {
             border-color: var(--v-accent-primary-color) !important;
             background-color: var(--v-accent-primary-color) !important;
             background-image: url("./svg/checkbox.svg") !important;
+            &:hover {
+                border-color: var(--v-accent-primary-color-hover) !important;
+                background-color: var(--v-accent-primary-color-hover) !important;
+            }
+            &:hover:active {
+                border-color: var(--v-accent-primary-color-active) !important;
+                background-color: var(--v-accent-primary-color-active) !important;
+            }
         }
     }
 }
