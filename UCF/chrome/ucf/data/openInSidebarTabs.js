@@ -5,7 +5,7 @@
 (async (
     label = "Open in Sidebar Tabs",
     image = "chrome://ucf-url/content/data/sidebar_tabs/icon.svg",
-    index = 4, // Sidebar Tabs index
+    index = null, // Sidebar Tabs index or null
 ) => ({
     init() {
         for (let sep of document.querySelectorAll("#placesContext > #placesContext_openSeparator, #sidebar-history-context-menu > menuseparator:first-of-type")) {
@@ -24,7 +24,8 @@
     },
     open({ triggerNode: tn, _view: vw }) {
         var { uri } = tn._placesNode || vw?.selectedNode || tn.triggerNode;
-        if (uri) Services.wm.getMostRecentBrowserWindow()
-            .ucf_js_chrome_win.ucf_sidebar_tabs.setPanel(index, uri);
+        if (!uri) return;
+        var st = Services.wm.getMostRecentBrowserWindow().ucf_js_chrome_win.ucf_sidebar_tabs;
+        st.setPanel((index ?? (st.urlsMap.size - 1)), uri);
     },
 }).init())();

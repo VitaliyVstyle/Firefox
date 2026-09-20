@@ -1,5 +1,6 @@
 st-bookmarks = Закладки
 st-history = История
+st-pass = Пароли
 st-downloads = Загрузки
 st-addons = Дополнения
 st-sites = Сайты

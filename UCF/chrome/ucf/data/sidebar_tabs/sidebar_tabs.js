@@ -10,6 +10,7 @@
         [
             st_bookmarks,
             st_history,
+            st_pass,
             st_downloads,
             st_addons,
             st_sites,
@@ -20,6 +21,7 @@
         ] = await UcfPrefs.getLocalization("data/sidebar_tabs/locales", "sidebar_tabs.ftl").formatValues([
             "st-bookmarks",
             "st-history",
+            "st-pass",
             "st-downloads",
             "st-addons",
             "st-sites",
@@ -36,6 +38,10 @@
             {
                 label: st_history,
                 src: "chrome://browser/content/places/historySidebar.xhtml",
+            },
+            {
+                label: st_pass,
+                src: "chrome://global/content/megalist/megalist.html",
             },
             {
                 label: st_downloads,
@@ -60,7 +66,7 @@
         TOOLTIP = st_tooltip,
         TOOLTIP_BUTTON = st_tooltip_button,
         START = true, // Placement
-        WIDTH = 370,
+        WIDTH = 440,
         AUTO_HIDE = true, // Auto hide
         SHOW_DELAY = 300,
         HIDE_DELAY = 2000,

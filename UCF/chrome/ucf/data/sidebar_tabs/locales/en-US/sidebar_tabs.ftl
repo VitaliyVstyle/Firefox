@@ -1,5 +1,6 @@
 st-bookmarks = Bookmarks
 st-history = History
+st-pass = Passwords
 st-downloads = Downloads
 st-addons = Add-ons
 st-sites = Sites
