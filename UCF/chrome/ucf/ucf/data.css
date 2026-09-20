@@ -296,37 +296,30 @@ input, textarea, button {
             width: 5rem !important;
         }
     }
-    &[unconnected] .path,
-    &[unconnected] .pref,
-    &[noprefinfile] .path,
-    &[noprefinfile] .pref,
-    &[prefdifferent] .path,
-    &[prefdifferent] .pref {
+    &[unconnected] :is(.path, .pref),
+    &[noprefinfile] :is(.path, .pref),
+    &[prefdifferent] :is(.path, .pref) {
         text-decoration-line: underline !important;
         text-decoration-style: solid !important;
         text-decoration-color: var(--v-warn-color) !important;
         text-decoration-thickness: 2px !important;
         text-decoration-skip-ink: none !important;
-        text-underline-offset: .2em !important;
+        text-underline-offset: 0px !important;
         &.pref[rows]:where(:not([rows="1"])) {
             text-decoration-line: none !important;
         }
     }
-    &[unconnected] .path,
-    &[unconnected] .pref {
+    &[unconnected] :is(.path, .pref) {
         text-decoration-line: line-through !important;
     }
-    &[prefdifferent] .path,
-    &[prefdifferent] .pref {
+    &[prefdifferent] :is(.path, .pref) {
         text-decoration-style: dashed !important;
     }
-    &[rebootrequired] .path,
-    &[rebootrequired] .pref {
+    &[rebootrequired] :is(.path, .pref) {
         outline: 2px dashed var(--v-accent-primary-color) !important;
         outline-offset: -3px !important;
     }
-    &[error] .path,
-    &[error] .pref {
+    &[error] :is(.path, .pref) {
         color: var(--v-error-color) !important;
         text-decoration-line: line-through !important;
         text-decoration-style: solid !important;

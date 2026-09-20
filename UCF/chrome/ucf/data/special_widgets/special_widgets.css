@@ -27,13 +27,13 @@ toolbarpaletteitem {
     &>toolbarseparator[id^="customizableui-special-separator"] {
         -moz-window-dragging: no-drag !important;
         border: none !important;
-        outline: 1px solid color-mix(in srgb, currentColor 80%, black) !important;
+        outline: 1px solid oklch(from currentColor calc(l - 0.2) c h) !important;
         outline-offset: -1px !important;
         flex: 1 !important;
         min-height: 16px !important;
         max-height: 37px !important;
         margin: 0 !important;
-        background-color: white !important;
+        background-color: oklch(1 0 0) !important;
         background-repeat: no-repeat !important;
         background-position: center !important;
         opacity: .3 !important;

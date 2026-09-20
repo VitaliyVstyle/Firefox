@@ -1,6 +1,7 @@
 var _write = false;
 const { UcfPrefs } = ChromeUtils.importESModule("chrome://ucf-url/content/ucf/UcfPrefs.mjs");
 const filesMap = new Map(), prefsMap = new Map(), filesSet = new Set(), allFilesMap = new Map();
+const ucfObj = {};
 const baseCSS = { prop: "CssChrome", type: "USER_SHEET", disable: true };
 const baseJS = { prop: "JsChrome.load", disable: true };
 const baseMJS = { prop: "JsBackground", module: true, disable: true };
@@ -95,14 +96,14 @@ const handleClick = async ({ target, currentTarget }) => {
         case "save":
             try {
                 let pref = JSON.parse(row.children[prefInd].value);
-                if (!window[pref.prop.replace(".", "_")].classList.contains(path.match(/\.(css|js|mjs)$/)[1])) throw null;
+                if (!ucfObj[pref.prop.replace(".", "_")].classList.contains(path.match(/\.(css|js|mjs)$/)[1])) throw null;
                 pref.path = path;
                 if (row.matches("#addFile > :scope")) {
                     let prefs = [pref];
                     let set = new Set([pref.prop]);
                     while (row = row.nextElementSibling) {
                         let p = JSON.parse(row.children[prefInd].value);
-                        if (set.has(p.prop) || !window[p.prop.replace(".", "_")].classList.contains(path.match(/\.(css|js|mjs)$/)[1])) throw null;
+                        if (set.has(p.prop) || !ucfObj[p.prop.replace(".", "_")].classList.contains(path.match(/\.(css|js|mjs)$/)[1])) throw null;
                         p.path = path;
                         prefs.push(p);
                         set.add(p.prop);
@@ -226,7 +227,7 @@ const comparePrefs = (pref1, pref2) => {
 };
 const createSection = async (prefs, prp) => {
     var _id = prp.replace(".", "_");
-    var sec = window[_id] ||= document.querySelector(`#${_id}`);
+    var sec = ucfObj[_id] ||= document.querySelector(`#${_id}`);
     var children = sec.querySelectorAll(":scope > .row");
     if (children.length)
         for (let child of children)
@@ -264,14 +265,15 @@ const createItem = (elm, val = "", cls, type, rdonly) => {
     var item = document.createElement(elm);
     item.className = cls;
     item.type = type;
-    item.autocomplete = "off";
     if (type === "checkbox") {
+        item.autocomplete = "off";
         item.checked = !val;
         item.toggleAttribute("checked", !val);
         let lab = document.createElement("label");
         lab.append(item);
         return lab;
     } else if (val !== null) {
+        item.autocomplete = "off";
         item.value = val;
         item.spellcheck = false;
         item.rows &&= 1;
@@ -293,7 +295,7 @@ const createRow = (id, val1, val2, disable, rdonly, atr = {}) => {
     row.append(createItem("textarea", val2, "pref", "textarea"));
     for (let p in atr)
         row.setAttribute(p, atr[p]);
-    window[id].append(row);
+    ucfObj[id].append(row);
     return row;
 };
 const initOptions = async () => {
@@ -382,8 +384,8 @@ const initLoad = () => {
     l10n.connectRoot(document.documentElement);
     l10n.translateRoots();
     initOptions();
-    (window.addFile ||= document.querySelector("#addFile")).open = UcfPrefs.getPref("addfile_savedetails_open", true);
-    (window.allFiles ||= document.querySelector("#allFiles")).open = UcfPrefs.getPref("allfiles_savedetails_open", true);
+    (ucfObj.addFile ||= document.querySelector("#addFile")).open = UcfPrefs.getPref("addfile_savedetails_open", true);
+    (ucfObj.allFiles ||= document.querySelector("#allFiles")).open = UcfPrefs.getPref("allfiles_savedetails_open", true);
     window.addEventListener("input", handleInput);
     document.querySelector("#open_data").onclick = () => getFile(UcfPrefs.manifestPath.replace(/ucf\.manifest$/, "data")).launch();
     document.querySelector("#open_edit_data").onclick = () => openFileOrDir(getFile(UcfPrefs.manifestPath.replace(/ucf\.manifest$/, "data")), "folder_editor_path", "folder_editor_args");

@@ -19,7 +19,7 @@
         border: none !important;
         list-style-image: url("./edit-delete.svg") !important;
         -moz-context-properties: fill, stroke, fill-opacity !important;
-        fill: color-mix(in srgb, currentColor 20%, #e31b5d) !important;
+        fill: light-dark(oklch(50% 0.3 0), oklch(70% 0.3 0)) !important;
         &[disabled] {
             pointer-events: none !important;
         }

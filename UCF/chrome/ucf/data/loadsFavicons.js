@@ -6,7 +6,7 @@
     id = "ucf-loads-favicons",
     label = "Restore favicons",
     tooltiptext = "Restore bookmark favicons",
-    image = (size = "width='16' height='16'") => `data:image/svg+xml;charset=utf-8,<svg xmlns='http://www.w3.org/2000/svg' ${size} viewBox='0 0 16 16'><path style='fill:none;stroke:context-fill rgb(142, 142, 152);stroke-opacity:context-fill-opacity;stroke-width:1.1;stroke-linecap:round;stroke-linejoin:round;' d='M3.6.6v14.8L8 11l4.4 4.4V.6z'/></svg>`,
+    image = (size = "width='16' height='16'") => `data:image/svg+xml;charset=utf-8,<svg xmlns='http://www.w3.org/2000/svg' ${size} viewBox='0 0 16 16'><path style='fill:none;stroke:context-fill oklch(50% 0.02 285);stroke-opacity:context-fill-opacity;stroke-width:1.1;stroke-linecap:round;stroke-linejoin:round;' d='M3.6.6v14.8L8 11l4.4 4.4V.6z'/></svg>`,
     maxtimeout = 30,  // Duration before request abort in seconds
     maxrequests = 50, // Maximum number of parallel requests
     alertnotification = true, // Notification of search completion
@@ -43,7 +43,7 @@
         return this.NetUtil = ChromeUtils.importESModule("resource://gre/modules/NetUtil.sys.mjs").NetUtil;
     },
     setFill(btn) {
-        if (this.favrunning) btn.style.setProperty("fill", "color-mix(in srgb, currentColor 20%, #e31b5d)", "important");
+        if (this.favrunning) btn.style.setProperty("fill", "light-dark(oklch(50% 0.3 0), oklch(70% 0.3 0))", "important");
         else btn.style.removeProperty("fill");
     },
     setBtnsFill() {

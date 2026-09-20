@@ -20,6 +20,8 @@
             btn.setAttribute("shortcut", "Ctrl+Alt+Q");
             btn.toggleAttribute("context", true);
             btn.addEventListener("click", this);
+            if (icon)
+                btn.style.cssText = `list-style-image:url("${icon}");-moz-context-properties:fill;fill:light-dark(oklch(60% 0.2 57), oklch(80% 0.2 57));`;
             abtn.before(frag);
         }
         var aftermuim = document.querySelector("#menu_FilePopup #menu_FileQuitItem");
@@ -32,20 +34,9 @@
             muim.setAttribute("acceltext", "Ctrl+Alt+Q");
             muim.toggleAttribute("context", true);
             muim.addEventListener("click", this);
+            if (icon)
+                muim.style.cssText = `--menuitem-icon:url("${icon}");-moz-context-properties:fill;fill:light-dark(oklch(60% 0.2 57), oklch(80% 0.2 57));`;
             aftermuim.before(muim);
-        }
-        if (icon) {
-            let style = `data:text/css;charset=utf-8,${encodeURIComponent(`
-#${btnID}, #${muimID} {
---menuitem-icon: url("${icon}") !important;
-list-style-image: url("${icon}") !important;
--moz-context-properties: fill;
-fill: color-mix(in srgb, currentColor 20%, #f38525) !important;
-}
-#${btnID} > .toolbarbutton-text {
-padding-inline-start: var(--v-icons-text-padding-inline-start, 8px) !important;
-}`)}`;
-            windowUtils.loadSheetUsingURIString(style, windowUtils.USER_SHEET);
         }
         window.addEventListener("keydown", this);
     },

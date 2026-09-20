@@ -5,14 +5,14 @@ toolbarpaletteitem {
     &>toolbarspring[id^="customizableui-special-spring"] {
         -moz-window-dragging: no-drag !important;
         border: none !important;
-        outline: 1px solid color-mix(in srgb, currentColor 80%, black) !important;
+        outline: 1px solid oklch(from currentColor calc(l - 0.2) c h) !important;
         outline-offset: -1px !important;
         flex: 1 !important;
         min-height: 16px !important;
         max-height: 37px !important;
         min-width: 34px !important;
         margin: 0 !important;
-        background-color: white !important;
+        background-color: oklch(1 0 0) !important;
         background-image: url("./svg/spring.svg") !important;
         background-repeat: no-repeat !important;
         background-position: center !important;
@@ -33,7 +33,7 @@ toolbar:not(#nav-bar) {
 }
 #ucf-restart-app {
     list-style-image: url("./svg/restart-app.svg") !important;
-    fill: color-mix(in srgb, currentColor 20%, #f38725) !important;
+    fill: light-dark(oklch(60% 0.2 57), oklch(80% 0.2 57)) !important;
 }
 #ucf-additional-vertical-toggle-button {
     list-style-image: url("./svg/vert-toolbar.svg") !important;
@@ -65,7 +65,7 @@ toolbar:not(#nav-bar) {
     overflow: clip;
 }
 #ucf-additional-bottom-bar {
-    border-top: 1px solid var(--chrome-content-separator-color, rgba(0, 0, 0, 0.1)) !important;
+    border-top: 1px solid var(--chrome-content-separator-color, oklch(0 0 0 / 10%)) !important;
     #ucf-additional-bottom-closebutton {
         margin-inline: var(--toolbarbutton-padding-outer, 1px) !important;
         margin-block: 0 !important;
@@ -151,14 +151,14 @@ toolbar:not(#nav-bar) {
             align-items: stretch !important;
             justify-content: start !important;
             flex-direction: column !important;
-            border-inline-end: 1px solid var(--chrome-content-separator-color, rgba(0, 0, 0, 0.1)) !important;
+            border-inline-end: 1px solid var(--chrome-content-separator-color, oklch(0 0 0 / 10%)) !important;
             &>:is(toolbarbutton, toolbaritem) {
                 margin-inline-end: 0 !important;
                 padding-inline-end: 0 !important;
             }
             #ucf-additional-vertical-box[v_vertical_bar_start=false]>& {
                 border-inline-end: none !important;
-                border-inline-start: 1px solid var(--chrome-content-separator-color, rgba(0, 0, 0, 0.1)) !important;
+                border-inline-start: 1px solid var(--chrome-content-separator-color, oklch(0 0 0 / 10%)) !important;
                 &>:is(toolbarbutton, toolbaritem) {
                     margin-inline-start: 0 !important;
                     padding-inline-start: 0 !important;

@@ -550,7 +550,7 @@ findbar {
             z-index: 7 !important;
             inset-inline: 0 !important;
             inset-block: auto !important;
-            box-shadow: 0 0 var(--panel-shadow-margin, 10px) rgba(0, 0, 0, .2) !important;
+            box-shadow: 0 0 var(--panel-shadow-margin, 10px) oklch(0 0 0 / 20%) !important;
             .searchbar-engine-one-off-item {
                 margin: 0 !important;
                 min-width: 28px !important;

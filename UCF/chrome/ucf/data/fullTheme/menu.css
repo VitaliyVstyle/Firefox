@@ -37,7 +37,7 @@
         --panel-padding-inline: 4px !important;
         --panel-padding: var(--panel-padding-block) var(--panel-padding-inline) !important;
         --panel-shadow-margin: 10px !important;
-        --panel-shadow: 0 0 var(--panel-shadow-margin) rgba(0, 0, 0, .2) !important;
+        --panel-shadow: 0 0 var(--panel-shadow-margin) oklch(0 0 0 / 20%) !important;
         --menuitem-border-radius: var(--panel-menuitem-border-radius) !important;
         --menuitem-padding: var(--panel-menuitem-padding) !important;
         --menuitem-max-width: 42em !important;
@@ -358,7 +358,7 @@
         &>.menu-icon {
             visibility: visible !important;
             content: url("./svg/state-sync.svg") !important;
-            stroke: color-mix(in srgb, currentColor 20%, #178bff);
+            stroke: light-dark(oklch(62% 0.25 260), oklch(65% 0.25 260));
         }
     }
     #menu_devToolbox:not([checked=""], [checked=true]) {
@@ -371,7 +371,7 @@
         &>.menu-icon {
             visibility: visible !important;
             content: url("./svg/insert-table.svg") !important;
-            stroke: color-mix(in srgb, currentColor 20%, #178bff);
+            stroke: light-dark(oklch(62% 0.25 260), oklch(65% 0.25 260));
         }
     }
     #menu_responsiveUI:not([checked=""], [checked=true]) {
@@ -390,14 +390,14 @@
         &>.menu-icon {
             visibility: visible !important;
             content: url("./svg/notifications-disabled.svg") !important;
-            stroke: color-mix(in srgb, currentColor 20%, #e31b5d);
+            stroke: light-dark(oklch(50% 0.3 0), oklch(70% 0.3 0));
         }
     }
     #spell-check-enabled:not([checked=""], [checked=true]) {
         &>.menu-icon {
             visibility: visible !important;
             content: url("./svg/tools-check-spelling.svg") !important;
-            stroke: color-mix(in srgb, currentColor 20%, #27ae81);
+            stroke: light-dark(oklch(76% 0.17 160), oklch(83% 0.17 160));
         }
     }
     #context-video-pictureinpicture:not([checked=""], [checked=true]) {
@@ -435,18 +435,18 @@
     }
     #PanelUI-fxa-menu-syncnow-button::before {
         background-image: url("./svg/state-sync.svg");
-        stroke: color-mix(in srgb, currentColor 20%, #178bff);
+        stroke: light-dark(oklch(62% 0.25 260), oklch(65% 0.25 260));
     }
     #PanelUI-fxa-menu-connect-device-button {
         list-style-image: url("./svg/add-device.svg");
     }
     #PanelUI-fxa-menu-setup-sync-button {
         list-style-image: url("./svg/state-sync.svg");
-        stroke: color-mix(in srgb, currentColor 20%, #178bff);
+        stroke: light-dark(oklch(62% 0.25 260), oklch(65% 0.25 260));
     }
     #PanelUI-fxa-menu-account-signout-button {
         list-style-image: url("./svg/im-kick-user.svg");
-        stroke: color-mix(in srgb, currentColor 20%, #e31b5d);
+        stroke: light-dark(oklch(50% 0.3 0), oklch(70% 0.3 0));
     }
     #appMenu-new-tab-button,
     #appMenu-new-tab-button2 {
@@ -461,7 +461,7 @@
     #appMenu-new-private-window-button,
     #appMenu-new-private-window-button2 {
         list-style-image: url("./svg/privateBrowsing.svg");
-        fill: color-mix(in srgb, currentColor 20%, #9b59b6);
+        fill: light-dark(oklch(60% 0.17 315), oklch(76% 0.17 315));
     }
     #appMenu-library-bookmarks-button,
     #appMenu-bookmarks-button {
@@ -508,7 +508,7 @@
     #appMenu-quit-button,
     #appMenu-quit-button2 {
         list-style-image: url("./svg/shutdown_primary.svg");
-        fill: color-mix(in srgb, currentColor 20%, #e31b5d);
+        fill: light-dark(oklch(50% 0.3 0), oklch(70% 0.3 0));
     }
     #panelMenuBookmarkThisPage {
         list-style-image: url("./svg/bookmark-new-2.svg");
@@ -581,7 +581,7 @@
     }
     #appMenu_feedbackPage {
         list-style-image: url("./svg/meeting-participant-request-response.svg");
-        stroke: color-mix(in srgb, currentColor 20%, #f38525);
+        stroke: light-dark(oklch(60% 0.2 57), oklch(80% 0.2 57));
     }
     #appMenu_helpSafeMode {
         list-style-image: url("./svg/gtk-convert.svg");
@@ -598,7 +598,7 @@
     #appMenu_menu_HelpPopup_reportPhishingtoolmenu,
     #appMenu-report-broken-site-button {
         list-style-image: url("./svg/dialog-warning.svg");
-        fill: color-mix(in srgb, currentColor 20%, #f38525);
+        fill: light-dark(oklch(60% 0.2 57), oklch(80% 0.2 57));
     }
     #appMenu_menu_HelpPopup_reportPhishingErrortoolmenu {
         list-style-image: url("./svg/popup.svg");
@@ -629,7 +629,7 @@
         &>.menu-icon {
             visibility: visible !important;
             content: url("./svg/privateBrowsing.svg");
-            fill: color-mix(in srgb, currentColor 20%, #9b59b6);
+            fill: light-dark(oklch(60% 0.17 315), oklch(76% 0.17 315));
         }
     }
     #menu_openLocation,
@@ -655,7 +655,7 @@
         &>.menu-icon {
             visibility: visible !important;
             content: url("./svg/gnome-dev-printer-new.svg");
-            stroke: color-mix(in srgb, currentColor 20%, #178bff);
+            stroke: light-dark(oklch(62% 0.25 260), oklch(65% 0.25 260));
         }
     }
     #menu_printPreview {
@@ -688,7 +688,7 @@
         &>.menu-icon {
             visibility: visible !important;
             content: url("./svg/shutdown_primary.svg");
-            fill: color-mix(in srgb, currentColor 20%, #e31b5d);
+            fill: light-dark(oklch(50% 0.3 0), oklch(70% 0.3 0));
         }
     }
     #menu_undo,
@@ -742,14 +742,14 @@
         }
     }
     #strip-on-share>.menu-icon {
-        fill: color-mix(in srgb, currentColor 20%, #178bff);
+        fill: light-dark(oklch(62% 0.25 260), oklch(65% 0.25 260));
     }
     #context-copy-clean-link-to-highlight,
     #context-stripOnShareLink {
         &>.menu-icon {
             visibility: visible !important;
             content: url("./svg/link.svg");
-            fill: color-mix(in srgb, currentColor 20%, #178bff);
+            fill: light-dark(oklch(62% 0.25 260), oklch(65% 0.25 260));
         }
     }
     menuitem.share-copy-link,
@@ -790,7 +790,7 @@
         }
     }
     #context-paste-no-formatting>.menu-icon {
-        fill: color-mix(in srgb, currentColor 20%, #178bff);
+        fill: light-dark(oklch(62% 0.25 260), oklch(65% 0.25 260));
     }
     #paste-and-go,
     menuitem.searchbar-paste-and-search {
@@ -819,7 +819,7 @@
         &>.menu-icon {
             visibility: visible !important;
             content: url("./svg/edit-delete.svg");
-            fill: color-mix(in srgb, currentColor 20%, #e31b5d);
+            fill: light-dark(oklch(50% 0.3 0), oklch(70% 0.3 0));
         }
     }
     #menu_selectAll,
@@ -906,7 +906,7 @@
         }
     }
     #toolbar-context-full-screen-autohide:not([checked=""], [checked=true])>.menu-icon {
-        fill: color-mix(in srgb, currentColor 20%, #e31b5d) !important;
+        fill: light-dark(oklch(50% 0.3 0), oklch(70% 0.3 0)) !important;
     }
     #context_fullscreenExit,
     #context-leave-dom-fullscreen,
@@ -943,7 +943,7 @@
         &>.menu-icon {
             visibility: visible !important;
             content: url("./svg/close-other-tabs.svg");
-            stroke: color-mix(in srgb, currentColor 20%, #e31b5d);
+            stroke: light-dark(oklch(50% 0.3 0), oklch(70% 0.3 0));
         }
     }
     #sanitizeItem,
@@ -959,7 +959,7 @@
         &>.menu-icon {
             visibility: visible !important;
             content: url("./svg/delete-download.svg");
-            fill: color-mix(in srgb, currentColor 20%, #e31b5d);
+            fill: light-dark(oklch(50% 0.3 0), oklch(70% 0.3 0));
         }
     }
     #historyRestoreLastSession,
@@ -982,7 +982,7 @@
         &>.menu-icon {
             visibility: visible !important;
             content: url("./svg/window-close.svg");
-            stroke: color-mix(in srgb, currentColor 20%, #e31b5d);
+            stroke: light-dark(oklch(50% 0.3 0), oklch(70% 0.3 0));
         }
     }
     #BMB_bookmarksShowAllTop,
@@ -1043,7 +1043,7 @@
         &>.menu-icon {
             visibility: visible !important;
             content: url("./svg/sort-presence.svg");
-            stroke: color-mix(in srgb, currentColor 20%, #27ae81);
+            stroke: light-dark(oklch(76% 0.17 160), oklch(83% 0.17 160));
         }
     }
     #placesContext_sortBy\:name {
@@ -1119,7 +1119,7 @@
         &>.menu-icon {
             visibility: visible !important;
             content: url("./svg/state-download.svg");
-            stroke: color-mix(in srgb, currentColor 20%, #27ae81);
+            stroke: light-dark(oklch(76% 0.17 160), oklch(83% 0.17 160));
         }
     }
     menuitem[data-l10n-id="page-action-manage-extension"],
@@ -1137,7 +1137,7 @@
         &>.menu-icon {
             visibility: visible !important;
             content: url("./svg/data-information.svg");
-            stroke: color-mix(in srgb, currentColor 20%, #178bff);
+            stroke: light-dark(oklch(62% 0.25 260), oklch(65% 0.25 260));
         }
     }
     #sidebar-context-menu-customize-sidebar,
@@ -1167,7 +1167,7 @@
         &>.menu-icon {
             visibility: visible !important;
             content: url("./svg/state-sync.svg");
-            stroke: color-mix(in srgb, currentColor 20%, #178bff);
+            stroke: light-dark(oklch(62% 0.25 260), oklch(65% 0.25 260));
         }
     }
     #syncedTabsManageDevices {
@@ -1218,10 +1218,10 @@
         }
     }
     #toolbar-context-remove-extension>.menu-icon {
-        fill: color-mix(in srgb, currentColor 20%, #e31b5d);
+        fill: light-dark(oklch(50% 0.3 0), oklch(70% 0.3 0));
     }
     #toolbar-context-report-extension>.menu-icon {
-        fill: color-mix(in srgb, currentColor 20%, #f38525);
+        fill: light-dark(oklch(60% 0.2 57), oklch(80% 0.2 57));
     }
     #toolbar-context-move-to-panel {
         &>.menu-icon {
@@ -1237,7 +1237,7 @@
         }
     }
     #toolbar-context-remove-from-toolbar>.menu-icon {
-        fill: color-mix(in srgb, currentColor 20%, #e31b5d);
+        fill: light-dark(oklch(50% 0.3 0), oklch(70% 0.3 0));
     }
     #menuitem_inspector {
         &>.menu-icon {
@@ -1350,7 +1350,7 @@
         &>.menu-icon {
             visibility: visible !important;
             content: url("./svg/meeting-participant-request-response.svg");
-            stroke: color-mix(in srgb, currentColor 20%, #f38525);
+            stroke: light-dark(oklch(60% 0.2 57), oklch(80% 0.2 57));
         }
     }
     #helpSafeMode {
@@ -1365,7 +1365,7 @@
         &>.menu-icon {
             visibility: visible !important;
             content: url("./svg/dialog-warning.svg");
-            fill: color-mix(in srgb, currentColor 20%, #f38525);
+            fill: light-dark(oklch(60% 0.2 57), oklch(80% 0.2 57));
         }
     }
     #helpSwitchDevice {
@@ -1449,7 +1449,7 @@
         &>.menu-icon {
             visibility: visible !important;
             content: url("./svg/window-unpin.svg");
-            stroke: color-mix(in srgb, currentColor 20%, #e31b5d);
+            stroke: light-dark(oklch(50% 0.3 0), oklch(70% 0.3 0));
         }
     }
     #context_duplicateTab,
@@ -1495,7 +1495,7 @@
     #context_closeTabsToTheStart,
     #context_closeTabsToTheEnd {
         &>.menu-icon {
-            fill: color-mix(in srgb, currentColor 20%, #e31b5d);
+            fill: light-dark(oklch(50% 0.3 0), oklch(70% 0.3 0));
         }
     }
     #context_closeTab,
@@ -1504,28 +1504,28 @@
         &>.menu-icon {
             visibility: visible !important;
             content: url("./svg/view-close.svg");
-            stroke: color-mix(in srgb, currentColor 20%, #e31b5d);
+            stroke: light-dark(oklch(50% 0.3 0), oklch(70% 0.3 0));
         }
     }
     #context_closeTabOptions {
         &>.menu-icon {
             visibility: visible !important;
             content: url("./svg/close-multiple-tab.svg");
-            stroke: color-mix(in srgb, currentColor 20%, #e31b5d);
+            stroke: light-dark(oklch(50% 0.3 0), oklch(70% 0.3 0));
         }
     }
     #context_closeDuplicateTabs {
         &>.menu-icon {
             visibility: visible !important;
             content: url("./svg/close-duplicate-tab.svg");
-            stroke: color-mix(in srgb, currentColor 20%, #e31b5d);
+            stroke: light-dark(oklch(50% 0.3 0), oklch(70% 0.3 0));
         }
     }
     #context_closeOtherTabs {
         &>.menu-icon {
             visibility: visible !important;
             content: url("./svg/close-other-tabs.svg");
-            stroke: color-mix(in srgb, currentColor 20%, #e31b5d);
+            stroke: light-dark(oklch(50% 0.3 0), oklch(70% 0.3 0));
         }
     }
     #context_undoCloseTab,
@@ -1552,14 +1552,14 @@
         &>.menu-icon {
             visibility: visible !important;
             content: url("./svg/groups-tab.svg");
-            fill: color-mix(in srgb, currentColor 20%, #e31b5d);
+            fill: light-dark(oklch(50% 0.3 0), oklch(70% 0.3 0));
         }
     }
     #context_separateSplitView {
         &>.menu-icon {
             visibility: visible !important;
             content: url("./svg/vert-tabs.svg");
-            fill: color-mix(in srgb, currentColor 20%, #e31b5d);
+            fill: light-dark(oklch(50% 0.3 0), oklch(70% 0.3 0));
         }
     }
     #context_unloadTab {
@@ -1650,7 +1650,7 @@
         &>.menu-icon {
             visibility: visible !important;
             content: url("./svg/tools-check-spelling.svg");
-            stroke: color-mix(in srgb, currentColor 20%, #27ae81);
+            stroke: light-dark(oklch(76% 0.17 160), oklch(83% 0.17 160));
         }
     }
     #spell-dictionaries,
@@ -1717,7 +1717,7 @@
         }
     }
     #context-viewsource-highlightSyntax:not([checked=""], [checked=true])>.menu-icon {
-        fill: color-mix(in srgb, currentColor 20%, #178bff) !important;
+        fill: light-dark(oklch(62% 0.25 260), oklch(65% 0.25 260)) !important;
     }
     #context-translate-selection {
         &>.menu-icon {
