@@ -12,8 +12,8 @@
     --v-titlebar-button-image-width: 12px;
     --v-titlebar-button-background-hover: var(--toolbarbutton-background-color-hover, oklch(from currentColor l c h / 0.2));
     --v-titlebar-button-background-active: var(--toolbarbutton-background-color-active, oklch(from currentColor l c h / 0.1));
-    --v-titlebar-close-background-hover: oklch(60% 0.2 0);
-    --v-titlebar-close-background-active: oklch(50% 0.2 0);
+    --v-titlebar-close-background-hover: oklch(60% 0.25 0);
+    --v-titlebar-close-background-active: oklch(50% 0.25 0);
     --v-titlebar-close-color-hover: oklch(1 0 0);
     --v-titlebar-close-color-active: oklch(1 0 0);
     --v-titlebar-button-fill-opacity: .85;

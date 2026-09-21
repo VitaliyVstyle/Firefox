@@ -105,7 +105,7 @@ export class autoCopyButtonParent extends JSWindowActorParent {
                 }
             },
             setFill(btn, disabled) {
-                if (disabled) btn.style.setProperty("fill", "light-dark(oklch(50% 0.3 0), oklch(70% 0.3 0))");
+                if (disabled) btn.style.setProperty("fill", "light-dark(oklch(50% 0.25 0), oklch(70% 0.25 0))");
                 else btn.style.removeProperty("fill");
             },
             sendMessage(win, message, data, selected = false) {

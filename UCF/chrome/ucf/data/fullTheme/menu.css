@@ -252,7 +252,7 @@
     }
     menupopup {
         menu, menuitem {
-            -moz-context-properties: fill, fill-opacity, stroke;
+            -moz-context-properties: fill, fill-opacity, stroke !important;
             fill: currentColor;
             fill-opacity: var(--v-icons-fill-opacity);
         }
@@ -390,7 +390,7 @@
         &>.menu-icon {
             visibility: visible !important;
             content: url("./svg/notifications-disabled.svg") !important;
-            stroke: light-dark(oklch(50% 0.3 0), oklch(70% 0.3 0));
+            stroke: light-dark(oklch(50% 0.25 0), oklch(70% 0.25 0));
         }
     }
     #spell-check-enabled:not([checked=""], [checked=true]) {
@@ -446,7 +446,7 @@
     }
     #PanelUI-fxa-menu-account-signout-button {
         list-style-image: url("./svg/im-kick-user.svg");
-        stroke: light-dark(oklch(50% 0.3 0), oklch(70% 0.3 0));
+        stroke: light-dark(oklch(50% 0.25 0), oklch(70% 0.25 0));
     }
     #appMenu-new-tab-button,
     #appMenu-new-tab-button2 {
@@ -508,7 +508,7 @@
     #appMenu-quit-button,
     #appMenu-quit-button2 {
         list-style-image: url("./svg/shutdown_primary.svg");
-        fill: light-dark(oklch(50% 0.3 0), oklch(70% 0.3 0));
+        fill: light-dark(oklch(50% 0.25 0), oklch(70% 0.25 0));
     }
     #panelMenuBookmarkThisPage {
         list-style-image: url("./svg/bookmark-new-2.svg");
@@ -688,7 +688,7 @@
         &>.menu-icon {
             visibility: visible !important;
             content: url("./svg/shutdown_primary.svg");
-            fill: light-dark(oklch(50% 0.3 0), oklch(70% 0.3 0));
+            fill: light-dark(oklch(50% 0.25 0), oklch(70% 0.25 0));
         }
     }
     #menu_undo,
@@ -819,7 +819,7 @@
         &>.menu-icon {
             visibility: visible !important;
             content: url("./svg/edit-delete.svg");
-            fill: light-dark(oklch(50% 0.3 0), oklch(70% 0.3 0));
+            fill: light-dark(oklch(50% 0.25 0), oklch(70% 0.25 0));
         }
     }
     #menu_selectAll,
@@ -906,7 +906,7 @@
         }
     }
     #toolbar-context-full-screen-autohide:not([checked=""], [checked=true])>.menu-icon {
-        fill: light-dark(oklch(50% 0.3 0), oklch(70% 0.3 0)) !important;
+        fill: light-dark(oklch(50% 0.25 0), oklch(70% 0.25 0)) !important;
     }
     #context_fullscreenExit,
     #context-leave-dom-fullscreen,
@@ -943,7 +943,7 @@
         &>.menu-icon {
             visibility: visible !important;
             content: url("./svg/close-other-tabs.svg");
-            stroke: light-dark(oklch(50% 0.3 0), oklch(70% 0.3 0));
+            stroke: light-dark(oklch(50% 0.25 0), oklch(70% 0.25 0));
         }
     }
     #sanitizeItem,
@@ -959,7 +959,7 @@
         &>.menu-icon {
             visibility: visible !important;
             content: url("./svg/delete-download.svg");
-            fill: light-dark(oklch(50% 0.3 0), oklch(70% 0.3 0));
+            fill: light-dark(oklch(50% 0.25 0), oklch(70% 0.25 0));
         }
     }
     #historyRestoreLastSession,
@@ -982,7 +982,7 @@
         &>.menu-icon {
             visibility: visible !important;
             content: url("./svg/window-close.svg");
-            stroke: light-dark(oklch(50% 0.3 0), oklch(70% 0.3 0));
+            stroke: light-dark(oklch(50% 0.25 0), oklch(70% 0.25 0));
         }
     }
     #BMB_bookmarksShowAllTop,
@@ -1218,7 +1218,7 @@
         }
     }
     #toolbar-context-remove-extension>.menu-icon {
-        fill: light-dark(oklch(50% 0.3 0), oklch(70% 0.3 0));
+        fill: light-dark(oklch(50% 0.25 0), oklch(70% 0.25 0));
     }
     #toolbar-context-report-extension>.menu-icon {
         fill: light-dark(oklch(60% 0.2 57), oklch(80% 0.2 57));
@@ -1237,7 +1237,7 @@
         }
     }
     #toolbar-context-remove-from-toolbar>.menu-icon {
-        fill: light-dark(oklch(50% 0.3 0), oklch(70% 0.3 0));
+        fill: light-dark(oklch(50% 0.25 0), oklch(70% 0.25 0));
     }
     #menuitem_inspector {
         &>.menu-icon {
@@ -1449,7 +1449,7 @@
         &>.menu-icon {
             visibility: visible !important;
             content: url("./svg/window-unpin.svg");
-            stroke: light-dark(oklch(50% 0.3 0), oklch(70% 0.3 0));
+            stroke: light-dark(oklch(50% 0.25 0), oklch(70% 0.25 0));
         }
     }
     #context_duplicateTab,
@@ -1495,7 +1495,7 @@
     #context_closeTabsToTheStart,
     #context_closeTabsToTheEnd {
         &>.menu-icon {
-            fill: light-dark(oklch(50% 0.3 0), oklch(70% 0.3 0));
+            fill: light-dark(oklch(50% 0.25 0), oklch(70% 0.25 0));
         }
     }
     #context_closeTab,
@@ -1504,28 +1504,28 @@
         &>.menu-icon {
             visibility: visible !important;
             content: url("./svg/view-close.svg");
-            stroke: light-dark(oklch(50% 0.3 0), oklch(70% 0.3 0));
+            stroke: light-dark(oklch(50% 0.25 0), oklch(70% 0.25 0));
         }
     }
     #context_closeTabOptions {
         &>.menu-icon {
             visibility: visible !important;
             content: url("./svg/close-multiple-tab.svg");
-            stroke: light-dark(oklch(50% 0.3 0), oklch(70% 0.3 0));
+            stroke: light-dark(oklch(50% 0.25 0), oklch(70% 0.25 0));
         }
     }
     #context_closeDuplicateTabs {
         &>.menu-icon {
             visibility: visible !important;
             content: url("./svg/close-duplicate-tab.svg");
-            stroke: light-dark(oklch(50% 0.3 0), oklch(70% 0.3 0));
+            stroke: light-dark(oklch(50% 0.25 0), oklch(70% 0.25 0));
         }
     }
     #context_closeOtherTabs {
         &>.menu-icon {
             visibility: visible !important;
             content: url("./svg/close-other-tabs.svg");
-            stroke: light-dark(oklch(50% 0.3 0), oklch(70% 0.3 0));
+            stroke: light-dark(oklch(50% 0.25 0), oklch(70% 0.25 0));
         }
     }
     #context_undoCloseTab,
@@ -1552,14 +1552,14 @@
         &>.menu-icon {
             visibility: visible !important;
             content: url("./svg/groups-tab.svg");
-            fill: light-dark(oklch(50% 0.3 0), oklch(70% 0.3 0));
+            fill: light-dark(oklch(50% 0.25 0), oklch(70% 0.25 0));
         }
     }
     #context_separateSplitView {
         &>.menu-icon {
             visibility: visible !important;
             content: url("./svg/vert-tabs.svg");
-            fill: light-dark(oklch(50% 0.3 0), oklch(70% 0.3 0));
+            fill: light-dark(oklch(50% 0.25 0), oklch(70% 0.25 0));
         }
     }
     #context_unloadTab {

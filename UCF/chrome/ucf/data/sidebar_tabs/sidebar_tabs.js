@@ -11,10 +11,11 @@
             st_bookmarks,
             st_history,
             st_pass,
+            st_pass_menu,
             st_downloads,
             st_addons,
             st_sites,
-            st_open_sites,
+            st_sites_menu,
             st_name,
             st_tooltip,
             st_tooltip_button,
@@ -22,10 +23,11 @@
             "st-bookmarks",
             "st-history",
             "st-pass",
+            "st-pass-menu",
             "st-downloads",
             "st-addons",
             "st-sites",
-            "st-open-sites",
+            "st-sites-menu",
             "st-name",
             "st-tooltip",
             "st-tooltip-button",
@@ -42,6 +44,23 @@
             {
                 label: st_pass,
                 src: "chrome://global/content/megalist/megalist.html",
+                menu: {
+                    label: st_pass_menu,
+                    icon: "chrome://ucf-url/content/data/sidebar_tabs/password.svg",
+                    async click(e) {
+                        var murl = "chrome://global/content/megalist/megalist.html";
+                        var host = this.convertToDisplayIDN(this.getBaseDomain(gContextMenu?.linkURI || gBrowser.selectedBrowser.currentURI));
+                        var { st_index } = e.currentTarget, mlist;
+                        if (this.st_index === st_index) mlist = this.setPanel(st_index, murl).contentDocument?.querySelector("megalist-alpha");
+                        else mlist = await new Promise(resolve => this.setPanel(st_index, murl).addEventListener("virtual-list-ready", e => resolve(e.target), { once: true }));
+                        if (!mlist) return;
+                        var filter = mlist.shadowRoot?.querySelector("moz-input-search");
+                        if (!filter) return;
+                        filter.value = host;
+                        filter.dispatchEvent(new CustomEvent("MozInputSearch:search", { detail: { query: host } }));
+                        filter.focus();
+                    },
+                },
             },
             {
                 label: st_downloads,
@@ -57,9 +76,13 @@
                 src: "https://github.com/VitaliyVstyle/Firefox",
                 attributes: 'messagemanagergroup="webext-browsers" type="content" disableglobalhistory="true" context="contentAreaContextMenu" tooltip="aHTMLTooltip" autocompletepopup="PopupAutoComplete" remote="true" maychangeremoteness="true" ',
                 menu: {
-                    label: st_open_sites,
+                    label: st_sites_menu,
                     icon: ICON,
-                }
+                    click(e) {
+                        var url = !(e.shiftKey || e.button === 1) ? (gContextMenu?.linkURI?.spec || gURLBar.makeURIReadable(gBrowser.selectedBrowser.currentURI).spec) : this.readFromClipboard();
+                        this.setPanel(e.currentTarget.st_index, url, { userContextId: gContextMenu?.contentData?.userContextId, triggeringPrincipal: gContextMenu?.principal });
+                    },
+                },
             },
         ],
         NAME = st_name,
@@ -86,7 +109,7 @@
         last_index: "sidebar_tabs_last_index",
         toolbox_width: "sidebar_tabs_toolbox_width",
         book_url: "chrome://browser/content/places/bookmarksSidebar.xhtml",
-        book_index: null,
+        mlist_url: "chrome://global/content/megalist/megalist.html",
         eventListeners: new Map(),
         eventCListeners: [],
         urlsMap: new Map(),
@@ -97,6 +120,10 @@
         isVisible: false,
         isMouseOver: false,
         isPanel: false,
+        get idnService() {
+            delete this.idnService;
+            return this.idnService = Cc["@mozilla.org/network/idn-service;1"].getService(Ci.nsIIDNService);
+        },
         JsBackground() {
             CustomizableUI.createWidget(this);
         },
@@ -178,7 +205,6 @@
                     menu.st_index = ind;
                     menus.push(menu);
                 }
-                if (src === this.book_url) this.book_index = ind;
             }
             this.panels_str = panels_str;
             this.menus = menus;
@@ -205,14 +231,14 @@
         },
         open() {
             this.toolbox.hidden = this.splitter.hidden = false;
-            var { st_index, book_index } = this;
+            var { st_index, st_tabpanels } = this;
             var width = `${UcfPrefs.getPref(`${this.toolbox_width}${st_index}`, WIDTH)}px`;
             document.documentElement.style.setProperty("--v-sidebar-tabs-width", width);
             this.toolbox.style.width = width;
-            this.addListener("st_tabpanels_select", this.st_tabpanels, "select", this);
+            this.addListener("st_tabpanels_select", st_tabpanels, "select", this);
             this.addListener("splitter_command", this.splitter, "command", this);
             this.addListener("st_close_btn_command", this.st_close_btn, "command", this);
-            if (book_index !== null) this.addListener("st_browser_domcontload", this[`st_browser_${book_index}`], "DOMContentLoaded", this);
+            this.addListener("st_tabpanels_domcontload", st_tabpanels, "DOMContentLoaded", this);
             if (AUTO_HIDE) {
                 let st_vbox = this.st_vbox_container ||= this.toolbox.parentElement.parentElement;
                 st_vbox.hidden = false;
@@ -228,11 +254,11 @@
         toggle() {
             if (!this._open) this.open();
             else {
-                let { st_index, book_index } = this;
+                let { st_index } = this;
                 this.delListener("st_tabpanels_select");
                 this.delListener("splitter_command");
                 this.delListener("st_close_btn_command");
-                if (book_index !== null) this.delListener("st_browser_domcontload");
+                this.delListener("st_tabpanels_domcontload");
                 this.toolbox.hidden = this.splitter.hidden = true;
                 if (AUTO_HIDE) {
                     if (this.isVisible) {
@@ -283,14 +309,8 @@
                     this.isPanel = true;
                     if (!this.isVisible) this.showBar(true);
                 }
+                return browser;
             } catch (e) { console.error(e) }
-        },
-        click(e) {
-            var url = !(e.shiftKey || e.button === 1) ? (gContextMenu?.linkURI?.spec || gURLBar.makeURIReadable(gBrowser.selectedBrowser.currentURI).spec) : this.readFromClipboard();
-            var { st_index } = e.currentTarget;
-            var userContextId = gContextMenu?.contentData?.userContextId;
-            var triggeringPrincipal = gContextMenu?.principal;
-            this.setPanel(st_index, url, { ...(userContextId ? { userContextId } : {}), ...(triggeringPrincipal ? { triggeringPrincipal } : {}) });
         },
         showHide() {
             if (!this.isVisible) {
@@ -368,8 +388,13 @@
         },
         DOMContentLoaded(e) {
             var doc = e.target;
-            if (doc?.documentURI !== this.book_url) return;
-            doc.querySelector("#sidebar-panel-header")?.style.setProperty("display", "none", "important");
+            switch (doc?.documentURI) {
+                case this.book_url:
+                    doc.querySelector("#sidebar-panel-header")?.style.setProperty("display", "none", "important");
+                    break;
+                case this.mlist_url:
+                    doc.querySelector("megalist-alpha")?.shadowRoot?.querySelector("sidebar-panel-header")?.shadowRoot?.querySelector(".sidebar-panel-heading")?.style.setProperty("display", "none", "important");
+            }
         },
         showBar(nodelay) {
             clearTimeout(this.showTimer);
@@ -430,15 +455,15 @@
             var contextsel = this.popup.querySelector(`:scope > ${SELECTOR}`) || this.popup.querySelector(":scope > menuseparator:last-of-type");
             var fragment = document.createDocumentFragment();
             var itemId = 0;
-            this.menus.forEach(({ label, icon, st_index }) => {
+            this.menus.forEach(({ label, icon, click, st_index }) => {
                 var mitem = document.createXULElement("menuitem");
                 mitem.id = `ucf-sidebar-tabs-${++itemId}`;
                 mitem.className = "menuitem-iconic ucf-sidebar-tabs";
                 mitem.setAttribute("label", label);
-                if (icon) mitem.style.cssText = `--menuitem-icon:url("${icon}");list-style-image:url("${icon}");-moz-context-properties:fill,stroke,fill-opacity;stroke:currentColor;fill:currentColor;fill-opacity:var(--toolbarbutton-icon-fill-opacity,.8);`;
+                if (icon) mitem.style.cssText = `--menuitem-icon:url("${icon}");-moz-context-properties:fill,stroke,fill-opacity;stroke:currentColor;fill:currentColor;fill-opacity:var(--toolbarbutton-icon-fill-opacity,.8);`;
                 mitem.st_index = st_index;
                 fragment.append(mitem);
-                this.addCListener(mitem, "click", this);
+                this.addCListener(mitem, "click", click.bind(this));
             });
             contextsel.before(fragment);
             this.popupshowing = this.itemsShow;
@@ -454,6 +479,22 @@
             if (e.target != e.currentTarget) return;
             for (let { elm } of this.eventCListeners)
                 elm.hidden = true;
+        },
+        getBaseDomain(uri) {
+            uri = gURLBar.makeURIReadable(uri);
+            try {
+                if (WebExtensionPolicy.getByURI(uri)) return "";
+            } catch { }
+            try {
+                return Services.eTLD.getBaseDomain(uri);
+            } catch { }
+            return uri.asciiHost;
+        },
+        convertToDisplayIDN(uri) {
+            try {
+                return this.idnService.convertToDisplayIDN(uri, {});
+            } catch { }
+            return "";
         },
         readFromClipboard() {
             try {

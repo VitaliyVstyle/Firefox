@@ -1,10 +1,11 @@
 st-bookmarks = Закладки
 st-history = История
 st-pass = Пароли
+st-pass-menu = Пароли в Sidebar Tabs
 st-downloads = Загрузки
 st-addons = Дополнения
 st-sites = Сайты
-st-open-sites = Открыть в Sidebar Tabs
+st-sites-menu = Открыть в Sidebar Tabs
 st-name = Sidebar Tabs
 st-tooltip = Закрыть Sidebar Tabs
 st-tooltip-button = Открыть / Закрыть  Sidebar Tabs

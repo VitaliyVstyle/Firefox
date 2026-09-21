@@ -38,6 +38,16 @@
         --border-radius-large: 0px !important;
         --border-radius-xlarge: 0px !important;
         --border-width: 1px !important;
+        /** toolbar **/
+        --toolbar-background-color: var(--background-color-box) !important;
+        --toolbar-field-background-color: light-dark(var(--color-black-alpha-10), var(--color-black-alpha-30)) !important;
+        --toolbar-field-background-color-focus: light-dark(var(--color-white), var(--color-black)) !important;
+        --toolbar-field-border-color: var(--border-color) !important;
+        --toolbar-field-border-color-focus: var(--focus-outline-color) !important;
+        --toolbar-field-text-color: light-dark(var(--color-gray-100), var(--color-gray-0)) !important;
+        --toolbar-field-text-color-focus: light-dark(var(--color-black), var(--color-gray-0)) !important;
+        --toolbar-padding-inline: 2px !important;
+        --toolbar-text-color: light-dark(var(--color-gray-100), var(--color-gray-0)) !important;
         /** color **/
         --color-accent-attention: light-dark(var(--color-green-30), var(--color-green-20)) !important;
         --color-accent-primary: light-dark(var(--color-blue-60), var(--color-blue-50)) !important;

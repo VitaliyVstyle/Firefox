@@ -121,7 +121,7 @@ opacity: 1 !important;
 }
 }
 &[iname=uninstall] {
-fill: light-dark(oklch(50% 0.3 0), oklch(70% 0.3 0)) !important;
+fill: light-dark(oklch(50% 0.25 0), oklch(70% 0.25 0)) !important;
 &[disabled]:not([disabled=false]) {
 opacity: .4 !important;
 }
@@ -131,7 +131,7 @@ opacity: .6 !important;
 }
 }
 &.ucf-type-dictionary>menuitem[iname=main]::after {
-background-color: light-dark(oklch(50% 0.3 0), oklch(70% 0.3 0)) !important;
+background-color: light-dark(oklch(50% 0.25 0), oklch(70% 0.25 0)) !important;
 }
 &.ucf-type-locale>menuitem[iname=main]::after {
 background-color: light-dark(oklch(76% 0.17 160), oklch(83% 0.17 160)) !important;
@@ -157,7 +157,7 @@ text-decoration-color: light-dark(oklch(60% 0.2 57), oklch(80% 0.2 57)) !importa
 &.ucf-error>menuitem[iname=main]>label {
 text-decoration: line-through !important;
 text-decoration-style: solid !important;
-text-decoration-color: light-dark(oklch(50% 0.3 0), oklch(70% 0.3 0)) !important;
+text-decoration-color: light-dark(oklch(50% 0.25 0), oklch(70% 0.25 0)) !important;
 }
 &.ucf-options>menuitem[iname=opts] {
 fill: light-dark(oklch(62% 0.25 260), oklch(65% 0.25 260)) !important;

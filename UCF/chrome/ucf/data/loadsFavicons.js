@@ -43,7 +43,7 @@
         return this.NetUtil = ChromeUtils.importESModule("resource://gre/modules/NetUtil.sys.mjs").NetUtil;
     },
     setFill(btn) {
-        if (this.favrunning) btn.style.setProperty("fill", "light-dark(oklch(50% 0.3 0), oklch(70% 0.3 0))", "important");
+        if (this.favrunning) btn.style.setProperty("fill", "light-dark(oklch(50% 0.25 0), oklch(70% 0.25 0))", "important");
         else btn.style.removeProperty("fill");
     },
     setBtnsFill() {

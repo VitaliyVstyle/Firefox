@@ -10,7 +10,7 @@
     --v-border-color-hover: oklch(67% 0.01 285);
     --v-border-color-active: oklch(77% 0.01 285);
     --v-warn-color: oklch(60% 0.2 57);
-    --v-error-color: oklch(50% 0.3 0);
+    --v-error-color: oklch(50% 0.25 0);
     --v-input-background-color: oklch(95% 0.01 285);
     --v-input-background-color-focus: oklch(1 0 0);
     --v-button-background-color-hover: oklch(0 0 0 / 0.1);
@@ -29,7 +29,7 @@
         --v-border-color-hover: oklch(48% 0.01 285);
         --v-border-color-active: oklch(38% 0.01 285);
         --v-warn-color: oklch(80% 0.2 57);
-        --v-error-color: oklch(70% 0.3 0);
+        --v-error-color: oklch(70% 0.25 0);
         --v-input-background-color: oklch(23% 0.01 285);
         --v-input-background-color-focus: oklch(23% 0.01 285);
         --v-button-background-color-hover: oklch(1 0.01 285 / 0.15);

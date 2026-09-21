@@ -95,9 +95,9 @@
     },
     setStyle(btn) {
         var cookieBehavior = Services.prefs.getIntPref(cookiePref);
-        btn.style.cssText = `list-style-image:url("${this.image}${cookieBehavior === 0 ? "-0" : ""}");${cookieBehavior === 2 ? "fill:light-dark(oklch(50% 0.3 0), oklch(70% 0.3 0));" : ""}`;
+        btn.style.cssText = `list-style-image:url("${this.image}${cookieBehavior === 0 ? "-0" : ""}");${cookieBehavior === 2 ? "fill:light-dark(oklch(50% 0.25 0), oklch(70% 0.25 0));" : ""}`;
         btn.setAttribute("badge", cookieBehavior);
-        btn.setAttribute("badgeStyle", `background: ${cookieBehavior !== 2 ? "light-dark(oklch(62% 0.25 260), oklch(65% 0.25 260))" : "light-dark(oklch(50% 0.3 0), oklch(70% 0.3 0))"}; color: oklch(1 0 0); font-size: 10px; line-height: 10px; box-shadow: none; text-shadow: none; padding-block: 0 1px !important; padding-inline: 2px !important; min-width: 0 !important;`);
+        btn.setAttribute("badgeStyle", `background: ${cookieBehavior !== 2 ? "light-dark(oklch(62% 0.25 260), oklch(65% 0.25 260))" : "light-dark(oklch(50% 0.25 0), oklch(70% 0.25 0))"}; color: oklch(1 0 0); font-size: 10px; line-height: 10px; box-shadow: none; text-shadow: none; padding-block: 0 1px !important; padding-inline: 2px !important; min-width: 0 !important;`);
     },
     setBtnsStyle() {
         for (let win of CustomizableUI.windows) {
