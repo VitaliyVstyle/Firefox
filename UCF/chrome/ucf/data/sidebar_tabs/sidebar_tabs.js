@@ -78,10 +78,6 @@
                 menu: {
                     label: st_sites_menu,
                     icon: ICON,
-                    click(e) {
-                        var url = !(e.shiftKey || e.button === 1) ? (gContextMenu?.linkURI?.spec || gURLBar.makeURIReadable(gBrowser.selectedBrowser.currentURI).spec) : this.readFromClipboard();
-                        this.setPanel(e.currentTarget.st_index, url, { userContextId: gContextMenu?.contentData?.userContextId, triggeringPrincipal: gContextMenu?.principal });
-                    },
                 },
             },
         ],
@@ -463,7 +459,7 @@
                 if (icon) mitem.style.cssText = `--menuitem-icon:url("${icon}");-moz-context-properties:fill,stroke,fill-opacity;stroke:currentColor;fill:currentColor;fill-opacity:var(--toolbarbutton-icon-fill-opacity,.8);`;
                 mitem.st_index = st_index;
                 fragment.append(mitem);
-                this.addCListener(mitem, "click", click.bind(this));
+                this.addCListener(mitem, "click", (click || this.click).bind(this));
             });
             contextsel.before(fragment);
             this.popupshowing = this.itemsShow;
@@ -479,6 +475,10 @@
             if (e.target != e.currentTarget) return;
             for (let { elm } of this.eventCListeners)
                 elm.hidden = true;
+        },
+        click(e) {
+            var url = !(e.shiftKey || e.button === 1) ? (gContextMenu?.linkURI?.spec || gURLBar.makeURIReadable(gBrowser.selectedBrowser.currentURI).spec) : this.readFromClipboard();
+            this.setPanel(e.currentTarget.st_index, url, { userContextId: gContextMenu?.contentData?.userContextId, triggeringPrincipal: gContextMenu?.principal });
         },
         getBaseDomain(uri) {
             uri = gURLBar.makeURIReadable(uri);
