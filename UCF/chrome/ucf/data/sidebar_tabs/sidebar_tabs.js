@@ -36,14 +36,17 @@
         TABS = [
             {
                 label: st_bookmarks,
+                img: "chrome://ucf-url/content/data/sidebar_tabs/bookmark.svg",
                 src: "chrome://browser/content/places/bookmarksSidebar.xhtml",
             },
             {
                 label: st_history,
+                img: "chrome://ucf-url/content/data/sidebar_tabs/history.svg",
                 src: "chrome://browser/content/places/historySidebar.xhtml",
             },
             {
                 label: st_pass,
+                img: "chrome://ucf-url/content/data/sidebar_tabs/password.svg",
                 src: "chrome://global/content/megalist/megalist.html",
                 menu: {
                     label: st_pass_menu,
@@ -71,15 +74,18 @@
             },
             {
                 label: st_downloads,
+                img: "chrome://ucf-url/content/data/sidebar_tabs/downloads.svg",
                 src: "about:downloads",
             },
             {
                 label: st_addons,
+                img: "chrome://ucf-url/content/data/sidebar_tabs/addons.svg",
                 src: "about:addons",
                 attributes: 'type="content" disableglobalhistory="true" context="contentAreaContextMenu" tooltip="aHTMLTooltip" autocompletepopup="PopupAutoComplete" remote="false" maychangeremoteness="true" ',
             },
             {
                 label: st_sites,
+                img: "chrome://ucf-url/content/data/sidebar_tabs/globe.svg",
                 src: "https://github.com/VitaliyVstyle/Firefox",
                 attributes: 'messagemanagergroup="webext-browsers" type="content" disableglobalhistory="true" context="contentAreaContextMenu" tooltip="aHTMLTooltip" autocompletepopup="PopupAutoComplete" remote="true" maychangeremoteness="true" ',
                 menu: {
@@ -93,7 +99,7 @@
         TOOLTIP = st_tooltip,
         TOOLTIP_BUTTON = st_tooltip_button,
         START = true, // Placement
-        WIDTH = 440,
+        WIDTH = 400,
         AUTO_HIDE = true, // Auto hide
         SHOW_DELAY = 300,
         HIDE_DELAY = 2000,
@@ -104,6 +110,7 @@
         PADDING_FOR_VBAR = true,
         KEY = "KeyB_true_true_false", // Keyboard shortcut for to switch Sidebar Tabs - code_ctrlKey_altKey_shiftKey
         TABS_FOCUS = true,
+        TABS_LAB_WITH_IMG = false,
         FOCUS_DELAY = 150;
     // <-- Sidebar Tabs Settings --
     (this[ID] = {
@@ -142,7 +149,7 @@
                     <toolbarbutton id="st_close_button" class="close-icon tabbable" tooltiptext="${TOOLTIP}"/>
                 </hbox>
                 <tabbox id="st_tabbox" flex="1">
-                    <tabs id="st_tabs">
+                    <tabs id="st_tabs" lab_with_img="${TABS_LAB_WITH_IMG}">
                         ${this.getTabs()}
                     </tabs>
                     <tabpanels id="st_tabpanels" flex="1">
@@ -153,7 +160,7 @@
             <splitter id="st_splitter" class="chromeclass-extrachrome" resizebefore="sibling" resizeafter="none" hidden="true" hide_fullscreen="${HIDE_FULLSCREEN}"/>`;
             if (AUTO_HIDE)
                 str = `<vbox id="st_vbox_container" class="chromeclass-extrachrome" hidden="true" hide_fullscreen="${HIDE_FULLSCREEN}">
-                    <hbox id="st_hbox_container" flex="1" style="--v-sidebar-min-width:${MIN_WIDTH}px">
+                    <hbox id="st_hbox_container" flex="1" style="--v-sidebar-tabs-min-width:${MIN_WIDTH}px;">
                         ${str}
                         <vbox id="st_uncontrolled"></vbox>
                     </hbox>
@@ -211,8 +218,8 @@
         },
         getTabs() {
             var str = "", panels_str = "";
-            for (let [ind, { label, src, attributes, menu }] of TABS.entries()) {
-                str += `<tab id="st_tab_${ind}" label="${label}"/>`;
+            for (let [ind, { label, img, src, attributes, menu }] of TABS.entries()) {
+                str += `<tab id="st_tab_${ind}" ${label ? `label="${label}"` : ""} ${img ? `image="${img}"` : ""}/>`;
                 panels_str += `<vbox id="st_container_${ind}" flex="1">
                 <browser id="st_browser_${ind}" flex="1" autoscroll="false" ${attributes || ""}/>
             </vbox>`;
