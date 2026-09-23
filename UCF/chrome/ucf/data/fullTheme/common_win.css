@@ -1,7 +1,7 @@
 /**
 @UCF @param {"prop":"CssAllChrome","type":"USER_SHEET","disable":true} @UCF
 */
-@-moz-document regexp("^(chrome://(?!browser\/content\/browser\.|devtools\/|extensions\/)|about:downloads).*") {
+@-moz-document regexp("^(?:chrome://(?!browser\/content\/browser\.|devtools\/|extensions\/)|about:downloads).*") {
     :root {
         --v-content-page-background-image: none;
         background-color: light-dark(var(--color-white), var(--color-black));
@@ -194,11 +194,11 @@
         /** space **/
         --space-xxsmall: 1px !important;
         --space-xsmall: 2px !important;
-        --space-small: 0.5rem !important;
-        --space-medium: 0.75rem !important;
-        --space-large: 1rem !important;
-        --space-xlarge: 1.5rem !important;
-        --space-xxlarge: 2rem !important;
+        --space-small: 0.25rem !important;
+        --space-medium: 0.5rem !important;
+        --space-large: 0.75rem !important;
+        --space-xlarge: 1rem !important;
+        --space-xxlarge: 1.5rem !important;
         /** size **/
         --size-item-large: 24px !important;
         --size-item-small: 16px !important;
@@ -222,6 +222,27 @@
     }
     moz-page-nav {
         --page-nav-button-border-radius: 0px !important;
+    }
+    @-moz-document url-prefix("chrome://global/content/megalist/megalist.html") {
+        .sidebar-panel {
+            padding: 0 !important;
+        }
+        .edit-line-container {
+            --space-medium: var(--space-xsmall) !important;
+            height: auto !important;
+        }
+        .line-item, login-line {
+            --line-container-height: auto !important;
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+        .line-container {
+            padding-block: var(--space-xxsmall) !important;
+        }
+        sidebar-panel-header {
+            padding: var(--space-small) !important;
+            margin: 0 !important;
+        }
     }
     treechildren::-moz-tree-row {
         outline: none !important;

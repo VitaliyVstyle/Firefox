@@ -20,6 +20,7 @@
         btn.size = "default";
         btn.iconSrc = image;
         btn.tooltipText = tooltipText;
+        btn.toggleAttribute("context", true);
         btn.style.setProperty("--button-outer-padding-inline-end", "4px");
         btn.style.setProperty("--button-border", "none");
         btn.onclick = btn.onauxclick = this.toggle.bind(this);
