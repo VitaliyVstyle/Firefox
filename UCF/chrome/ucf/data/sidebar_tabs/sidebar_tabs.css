@@ -3,14 +3,13 @@
 */
 :root {
     #st_toolbox {
-        background-color: Field !important;
-        --v-toolbar-bgcolor: var(--toolbar-background-color, var(--toolbar-bgcolor, Field));
-        background-image: linear-gradient(var(--v-toolbar-bgcolor), var(--v-toolbar-bgcolor)) !important;
+        background-color: var(--toolbar-background-color, var(--toolbar-bgcolor, Field)) !important;
+        background-image: none !important;
         color: var(--toolbar-text-color, var(--toolbar-color, FieldText)) !important;
         overflow: hidden !important;
         border-inline-end: 1px solid var(--chrome-content-separator-color, ThreeDShadow) !important;
         order: 0 !important;
-        transition-property: margin-top, padding-inline !important;
+        transition-property: margin-block, padding-inline !important;
         transition-timing-function: linear !important;
         transition-duration: .2s !important;
         transition-delay: 0s !important;
@@ -25,9 +24,6 @@
         [flex="1"] {
             flex: 1 !important;
         }
-        tabs>spacer {
-            display: none !important;
-        }
         tabs, tabpanels, tab, label {
             appearance: none !important;
             background-color: transparent !important;
@@ -38,6 +34,9 @@
         }
         tabs {
             justify-content: start !important;
+            &>spacer {
+                display: none !important;
+            }
             tab {
                 --default-focusring: none !important;
                 margin: 0 !important;
@@ -55,6 +54,11 @@
                 }
                 &[label] image {
                     margin-inline-end: 2px !important;
+                }
+                &>.tab-middle {
+                    margin: 0 !important;
+                    padding: 0 !important;
+                    min-height: max(20px, 1.25em) !important;
                 }
             }
             tab:hover {
@@ -93,7 +97,7 @@
         opacity: 0 !important;
         margin-inline-start: -6px !important;
         order: 0 !important;
-        transition-property: margin-top !important;
+        transition-property: margin-block !important;
         transition-timing-function: linear !important;
         transition-duration: .2s !important;
         transition-delay: 0s !important;
@@ -129,7 +133,7 @@
             position: relative !important;
             width: 0 !important;
             overflow: visible !important;
-            transition-property: margin-top !important;
+            transition-property: margin-block !important;
             transition-timing-function: linear !important;
             transition-duration: .2s !important;
             transition-delay: 0s !important;
@@ -138,8 +142,7 @@
                 position: absolute !important;
                 z-index: calc(var(--browser-area-z-index-tabbox, 2) + 2) !important;
                 pointer-events: none !important;
-                top: 0 !important;
-                bottom: 0 !important;
+                inset-block: 0 !important;
                 inset-inline-start: 0 !important;
                 justify-content: start !important;
                 margin-inline-start: calc(-1 * (var(--v-sidebar-tabs-width) - var(--v-sidebar-tabs-min-width))) !important;
@@ -196,24 +199,24 @@
             transition-delay: 0s !important;
         }
         &[BookmarksToolbarOverlapsBrowser] #st_vbox_container {
-            margin-top: var(--bookmarks-toolbar-overlapping-browser-height, var(--bookmarks-toolbar-height)) !important;
+            margin-block-start: var(--bookmarks-toolbar-overlapping-browser-height, var(--bookmarks-toolbar-height)) !important;
         }
         &[v_top_bar_overlaps=true] #st_vbox_container {
-            margin-top: var(--v-top-bar-overlaps) !important;
+            margin-block-start: var(--v-top-bar-overlaps) !important;
         }
         &[BookmarksToolbarOverlapsBrowser][v_top_bar_overlaps=true] #st_vbox_container {
-            margin-top: calc(var(--bookmarks-toolbar-overlapping-browser-height, var(--bookmarks-toolbar-height)) + var(--v-top-bar-overlaps)) !important;
+            margin-block-start: calc(var(--bookmarks-toolbar-overlapping-browser-height, var(--bookmarks-toolbar-height)) + var(--v-top-bar-overlaps)) !important;
         }
     }
     &[sidebar_tabs_auto_hide=false] {
         &[BookmarksToolbarOverlapsBrowser] :is(#st_toolbox, #st_splitter) {
-            margin-top: var(--bookmarks-toolbar-overlapping-browser-height, var(--bookmarks-toolbar-height)) !important;
+            margin-block-start: var(--bookmarks-toolbar-overlapping-browser-height, var(--bookmarks-toolbar-height)) !important;
         }
         &[v_top_bar_overlaps=true] :is(#st_toolbox, #st_splitter) {
-            margin-top: var(--v-top-bar-overlaps) !important;
+            margin-block-start: var(--v-top-bar-overlaps) !important;
         }
         &[BookmarksToolbarOverlapsBrowser][v_top_bar_overlaps=true] :is(#st_toolbox, #st_splitter) {
-            margin-top: calc(var(--bookmarks-toolbar-overlapping-browser-height, var(--bookmarks-toolbar-height)) + var(--v-top-bar-overlaps)) !important;
+            margin-block-start: calc(var(--bookmarks-toolbar-overlapping-browser-height, var(--bookmarks-toolbar-height)) + var(--v-top-bar-overlaps)) !important;
         }
         &[v_vertical_bar_start=true][sidebar_tabs_start=true][v_vertical_bar_visible^="visible"] #st_toolbox[padding_for_vbar=true] {
             padding-inline-start: var(--v-vertical-bar-width, 0px) !important;
