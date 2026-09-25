@@ -3,9 +3,9 @@
 */
 :root {
     #st_toolbox {
-        background-color: var(--toolbar-background-color, var(--toolbar-bgcolor, Field)) !important;
+        background-color: var(--toolbar-background-color, Field) !important;
         background-image: none !important;
-        color: var(--toolbar-text-color, var(--toolbar-color, FieldText)) !important;
+        color: var(--toolbar-text-color, FieldText) !important;
         overflow: hidden !important;
         border-inline-end: 1px solid var(--chrome-content-separator-color, ThreeDShadow) !important;
         order: 0 !important;
@@ -13,14 +13,6 @@
         transition-timing-function: linear !important;
         transition-duration: .2s !important;
         transition-delay: 0s !important;
-        #st_header {
-            padding: 6px !important;
-            padding-bottom: 3px !important;
-            flex-direction: row !important;
-            &>label {
-                white-space: nowrap !important;
-            }
-        }
         [flex="1"] {
             flex: 1 !important;
         }
@@ -33,7 +25,10 @@
             border: none !important;
         }
         tabs {
+            flex-direction: row !important;
             justify-content: start !important;
+            anchor-name: --v-st-tabs-anchor !important;
+            anchor-scope: --v-st-tabs-anchor !important;
             &>spacer {
                 display: none !important;
             }
@@ -60,19 +55,45 @@
                     padding: 0 !important;
                     min-height: max(20px, 1.25em) !important;
                 }
+                &:hover {
+                    border-bottom-color: oklch(from currentColor l c h / 0.3) !important;
+                }
+                &[selected] {
+                    border-bottom-color: oklch(from currentColor l c h / 0.8) !important;
+                }
             }
-            tab:hover {
-                border-bottom-color: oklch(from currentColor l c h / 0.3) !important;
-            }
-            tab[selected] {
-                border-bottom-color: oklch(from currentColor l c h / 0.8) !important;
+            &>#st_close_button {
+                position: absolute !important;
+                position-anchor: --v-st-tabs-anchor !important;
+                inset-inline: auto anchor(end) !important;
+                inset-block: anchor(start) anchor(end) !important;
+                width: anchor-size(--v-st-tabs-anchor height) !important;
+                height: auto !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                background-color: var(--toolbar-background-color, Field) !important;
+                background-image: none !important;
+                --v-btn-hover: var(--button-background-color-hover, oklch(from currentColor l c h / 0.2));
+                --v-btn-active: var(--button-background-color-active, oklch(from currentColor l c h / 0.1));
+                &:hover {
+                    background-image: linear-gradient(var(--v-btn-hover), var(--v-btn-hover)) !important;
+                }
+                &:hover:active {
+                    background-image: linear-gradient(var(--v-btn-active), var(--v-btn-active)) !important;
+                }
+                image {
+                    width: 16px !important;
+                    height: 16px !important;
+                    margin: 0 !important;
+                    padding: 0 !important;
+                }
             }
             &[lab_with_img=false] tab[image] {
                 label {
                     display: none !important;
                 }
                 image {
-                    margin-inline: 10px !important;
+                    margin-inline: 6px !important;
                 }
             }
         }
@@ -80,9 +101,6 @@
             color-scheme: light dark;
             background-color: var(--sidebar-background-color, var(--tabpanel-background-color, Field)) !important;
             color: var(--sidebar-text-color, FieldText) !important;
-        }
-        &[hide_header=true] #st_header {
-            display: none !important;
         }
     }
     #st_splitter {
@@ -107,11 +125,12 @@
             border-inline-start: 1px solid var(--chrome-content-separator-color, ThreeDShadow) !important;
             border-inline-end: none !important;
             order: 101 !important;
-            #st_header {
-                flex-direction: row-reverse !important;
-            }
             tabs {
                 justify-content: end !important;
+                flex-direction: row-reverse !important;
+                &>#st_close_button {
+                    inset-inline: anchor(start) auto !important;
+                }
             }
         }
         #st_splitter {

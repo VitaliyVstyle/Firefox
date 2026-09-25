@@ -98,7 +98,7 @@
         NAME = st_name,
         TOOLTIP = st_tooltip,
         TOOLTIP_BUTTON = st_tooltip_button,
-        START = true, // Placement
+        START = true, // ST location
         WIDTH = 400,
         AUTO_HIDE = true, // Auto hide
         SHOW_DELAY = 300,
@@ -106,11 +106,11 @@
         MIN_WIDTH = 10,
         SHOW_HIDE = true,
         HIDE_FULLSCREEN = true, // Hide in full screen mode
-        HIDE_HEADER = false,
         PADDING_FOR_VBAR = true,
         KEY = "KeyB_true_true_false", // Keyboard shortcut for to switch Sidebar Tabs - code_ctrlKey_altKey_shiftKey
         TABS_FOCUS = true,
         TABS_LAB_WITH_IMG = false,
+        TABS_TOOLTIP_ON = false,
         FOCUS_DELAY = 150;
     // <-- Sidebar Tabs Settings --
     (this[ID] = {
@@ -142,15 +142,11 @@
             var docElm = document.documentElement;
             docElm.setAttribute("sidebar_tabs_start", START);
             docElm.setAttribute("sidebar_tabs_auto_hide", AUTO_HIDE);
-            var str = `<vbox id="st_toolbox" class="chromeclass-extrachrome" hidden="true" hide_header="${HIDE_HEADER}" hide_fullscreen="${HIDE_FULLSCREEN}" padding_for_vbar="${PADDING_FOR_VBAR}">
-                <hbox id="st_header" align="center">
-                    <label>${NAME}</label>
-                    <spacer flex="1"/>
-                    <toolbarbutton id="st_close_button" class="close-icon tabbable" tooltiptext="${TOOLTIP}"/>
-                </hbox>
+            var str = `<vbox id="st_toolbox" class="chromeclass-extrachrome" hidden="true" hide_fullscreen="${HIDE_FULLSCREEN}" padding_for_vbar="${PADDING_FOR_VBAR}">
                 <tabbox id="st_tabbox" flex="1">
-                    <tabs id="st_tabs" lab_with_img="${TABS_LAB_WITH_IMG}">
+                    <tabs id="st_tabs" lab_with_img="${TABS_LAB_WITH_IMG}" orient="">
                         ${this.getTabs()}
+                        <toolbarbutton id="st_close_button" class="close-icon tabbable" tooltiptext="${TOOLTIP}"/>
                     </tabs>
                     <tabpanels id="st_tabpanels" flex="1">
                         ${this.panels_str}
@@ -219,7 +215,7 @@
         getTabs() {
             var str = "", panels_str = "";
             for (let [ind, { label, img, src, attributes, menu }] of TABS.entries()) {
-                str += `<tab id="st_tab_${ind}" ${label ? `label="${label}"` : ""} ${img ? `image="${img}"` : ""}/>`;
+                str += `<tab id="st_tab_${ind}" ${label ? (`label="${label}" ${TABS_TOOLTIP_ON ? `tooltiptext="${label}"` : ""}`) : ""} ${img ? `image="${img}"` : ""}/>`;
                 panels_str += `<vbox id="st_container_${ind}" flex="1">
                 <browser id="st_browser_${ind}" flex="1" autoscroll="false" ${attributes || ""}/>
             </vbox>`;
