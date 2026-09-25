@@ -74,19 +74,17 @@
                 padding: 0 !important;
                 background-color: var(--v-st-bgcolor) !important;
                 background-image: none !important;
-                --v-btn-hover: var(--button-background-color-hover, oklch(from currentColor l c h / 0.2));
-                --v-btn-active: var(--button-background-color-active, oklch(from currentColor l c h / 0.1));
-                &:hover {
-                    background-image: linear-gradient(var(--v-btn-hover), var(--v-btn-hover)) !important;
-                }
-                &:hover:active {
-                    background-image: linear-gradient(var(--v-btn-active), var(--v-btn-active)) !important;
-                }
-                image {
-                    width: 16px !important;
-                    height: 16px !important;
+                &>image {
+                    width: 20px !important;
+                    height: 20px !important;
+                    padding: 2px !important;
                     margin: 0 !important;
-                    padding: 0 !important;
+                }
+                &:hover>image {
+                    background-color: var(--button-background-color-hover, oklch(from currentColor l c h / 0.2)) !important;
+                }
+                &:hover:active>image {
+                    background-color: var(--button-background-color-active, oklch(from currentColor l c h / 0.1)) !important;
                 }
             }
             &[lab_with_img=false] tab[image] {
