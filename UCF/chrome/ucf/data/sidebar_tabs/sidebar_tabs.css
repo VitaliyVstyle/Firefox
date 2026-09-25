@@ -46,8 +46,8 @@
                 outline: none !important;
                 border-block: 2px solid transparent !important;
                 &[image] image {
-                    -moz-context-properties: fill, fill-opacity;
-                    fill: currentColor;
+                    -moz-context-properties: fill, fill-opacity, stroke !important;
+                    fill: var(--toolbarbutton-icon-fill, currentColor) !important;
                     width: 16px !important;
                     height: 16px !important;
                     margin: 0 !important;
