@@ -86,20 +86,20 @@ toolbar:not(#nav-bar) {
 #ucf-additional-top-box[topautohide=true]>#ucf-additional-top-bar,
 #ucf-additional-vertical-box>#ucf-additional-vertical-bar,
 #ucf-additional-bottom-bar {
+    --v-toolbar-bgcolor: var(--toolbar-background-color, -moz-Dialog);
     -moz-window-dragging: no-drag !important;
     background-clip: border-box !important;
     background-origin: border-box !important;
-    --v-toolbar-bgcolor: var(--toolbar-background-color, var(--toolbar-bgcolor, , -moz-Dialog));
     background-color: var(--v-toolbar-bgcolor) !important;
-    color: var(--toolbar-text-color, var(--toolbar-color, -moz-DialogText)) !important;
+    color: var(--toolbar-text-color, -moz-DialogText) !important;
     border-inline: none !important;
     :root[lwtheme] & {
-        color: var(--toolbar-text-color, var(--toolbar-color, inherit)) !important;
-        background-repeat: no-repeat, repeat-y !important;
-        background-position: right top, var(--lwt-background-alignment, right top) !important;
+        color: var(--toolbar-text-color, inherit) !important;
+        background-repeat: repeat-y !important;
+        background-position: unset, var(--lwt-background-alignment, right top) !important;
         background-color: var(--lwt-accent-color, transparent) !important;
         background-image: linear-gradient(var(--v-toolbar-bgcolor), var(--v-toolbar-bgcolor)), var(--lwt-header-image, var(--lwt-additional-images, none)) !important;
-        background-attachment: scroll, fixed !important;
+        background-attachment: fixed !important;
     }
 }
 #ucf-additional-vertical-container {

@@ -3,7 +3,8 @@
 */
 :root {
     #st_toolbox {
-        background-color: var(--toolbar-background-color, Field) !important;
+        --v-st-bgcolor: var(--toolbar-background-color, Field);
+        background-color: var(--v-st-bgcolor) !important;
         background-image: none !important;
         color: var(--toolbar-text-color, FieldText) !important;
         overflow: hidden !important;
@@ -71,7 +72,7 @@
                 height: auto !important;
                 margin: 0 !important;
                 padding: 0 !important;
-                background-color: var(--toolbar-background-color, Field) !important;
+                background-color: var(--v-st-bgcolor) !important;
                 background-image: none !important;
                 --v-btn-hover: var(--button-background-color-hover, oklch(from currentColor l c h / 0.2));
                 --v-btn-active: var(--button-background-color-active, oklch(from currentColor l c h / 0.1));
@@ -102,6 +103,14 @@
             background-color: var(--sidebar-background-color, var(--tabpanel-background-color, Field)) !important;
             color: var(--sidebar-text-color, FieldText) !important;
         }
+    }
+    &[lwtheme] #st_toolbox {
+        color: var(--toolbar-text-color, inherit) !important;
+        background-repeat: repeat-y !important;
+        background-position: unset, var(--lwt-background-alignment, right top) !important;
+        background-color: var(--lwt-accent-color, transparent) !important;
+        background-image: linear-gradient(var(--v-st-bgcolor), var(--v-st-bgcolor)), var(--lwt-header-image, var(--lwt-additional-images, none)) !important;
+        background-attachment: fixed !important;
     }
     #st_splitter {
         appearance: none !important;
