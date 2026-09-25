@@ -108,9 +108,9 @@
         HIDE_FULLSCREEN = true, // Hide in full screen mode
         PADDING_FOR_VBAR = true,
         KEY = "KeyB_true_true_false", // Keyboard shortcut for to switch Sidebar Tabs - code_ctrlKey_altKey_shiftKey
-        TABS_FOCUS = true,
         TABS_LAB_WITH_IMG = false,
         TABS_TOOLTIP_ON = false,
+        TABS_FOCUS = true,
         FOCUS_DELAY = 150;
     // <-- Sidebar Tabs Settings --
     (this[ID] = {
