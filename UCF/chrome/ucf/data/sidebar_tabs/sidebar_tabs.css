@@ -3,10 +3,15 @@
 */
 :root {
     #st_toolbox {
-        --v-st-bgcolor: var(--toolbar-background-color, Field);
-        background-color: var(--v-st-bgcolor) !important;
-        background-image: none !important;
-        color: var(--toolbar-text-color, FieldText) !important;
+        background-clip: border-box !important;
+        background-origin: border-box !important;
+        background-color: var(--toolbox-background-color, light-dark(oklch(1 0 0), oklch(0 0 0))) !important;
+        background-image: image(var(--toolbar-background-color, light-dark(oklch(1 0 0 / 60%), oklch(1 0 0 / 20%)))), var(--toolbox-background-image, none) !important;
+        background-position: 0% 0%, var(--toolbox-background-position, right top) !important;
+        background-size: auto, var(--toolbox-background-size, auto) !important;
+        background-repeat: repeat-y !important;
+        background-attachment: fixed !important;
+        color: var(--toolbar-text-color, inherit) !important;
         overflow: hidden !important;
         border-inline-end: 1px solid var(--chrome-content-separator-color, ThreeDShadow) !important;
         order: 0 !important;
@@ -72,8 +77,7 @@
                 height: auto !important;
                 margin: 0 !important;
                 padding: 0 !important;
-                background-color: var(--v-st-bgcolor) !important;
-                background-image: none !important;
+                background: unset !important;
                 border-radius: 0px !important;
                 &>image {
                     width: 20px !important;
@@ -103,14 +107,6 @@
             background-color: var(--sidebar-background-color, var(--tabpanel-background-color, Field)) !important;
             color: var(--sidebar-text-color, FieldText) !important;
         }
-    }
-    &[lwtheme] #st_toolbox {
-        color: var(--toolbar-text-color, inherit) !important;
-        background-repeat: repeat-y !important;
-        background-position: 0% 0%, var(--lwt-background-alignment, right top) !important;
-        background-color: var(--lwt-accent-color, transparent) !important;
-        background-image: linear-gradient(var(--v-st-bgcolor), var(--v-st-bgcolor)), var(--lwt-header-image, var(--lwt-additional-images, none)) !important;
-        background-attachment: fixed !important;
     }
     #st_splitter {
         appearance: none !important;

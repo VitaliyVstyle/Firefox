@@ -86,21 +86,17 @@ toolbar:not(#nav-bar) {
 #ucf-additional-top-box[topautohide=true]>#ucf-additional-top-bar,
 #ucf-additional-vertical-box>#ucf-additional-vertical-bar,
 #ucf-additional-bottom-bar {
-    --v-toolbar-bgcolor: var(--toolbar-background-color, -moz-Dialog);
-    -moz-window-dragging: no-drag !important;
     background-clip: border-box !important;
     background-origin: border-box !important;
-    background-color: var(--v-toolbar-bgcolor) !important;
-    color: var(--toolbar-text-color, -moz-DialogText) !important;
+    background-color: var(--toolbox-background-color, light-dark(oklch(1 0 0), oklch(0 0 0))) !important;
+    background-image: image(var(--toolbar-background-color, light-dark(oklch(1 0 0 / 60%), oklch(1 0 0 / 20%)))), var(--toolbox-background-image, none) !important;
+    background-position: 0% 0%, var(--toolbox-background-position, right top) !important;
+    background-size: auto, var(--toolbox-background-size, auto) !important;
+    background-repeat: repeat-y !important;
+    background-attachment: fixed !important;
+    color: var(--toolbar-text-color, inherit) !important;
     border-inline: none !important;
-    :root[lwtheme] & {
-        color: var(--toolbar-text-color, inherit) !important;
-        background-repeat: repeat-y !important;
-        background-position: 0% 0%, var(--lwt-background-alignment, right top) !important;
-        background-color: var(--lwt-accent-color, transparent) !important;
-        background-image: linear-gradient(var(--v-toolbar-bgcolor), var(--v-toolbar-bgcolor)), var(--lwt-header-image, var(--lwt-additional-images, none)) !important;
-        background-attachment: fixed !important;
-    }
+    -moz-window-dragging: no-drag !important;
 }
 #ucf-additional-vertical-container {
     display: flex !important;
