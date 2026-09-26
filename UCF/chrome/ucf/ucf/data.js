@@ -48,7 +48,7 @@ const deletePref = async (prefs, path, nowrite) => {
 const handleClick = async ({ target, currentTarget }) => {
     if (_write || !/checkbox|button/.test(target.type)) return;
     _write = true;
-    var row = target.closest(".row");
+    var row = target.closest(".row") || target.parentElement;
     var path = row.children[pathInd].value;
     switch (target.className) {
         case "disable":

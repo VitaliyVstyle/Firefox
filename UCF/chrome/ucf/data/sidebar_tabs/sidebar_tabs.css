@@ -74,11 +74,13 @@
                 padding: 0 !important;
                 background-color: var(--v-st-bgcolor) !important;
                 background-image: none !important;
+                border-radius: 0px !important;
                 &>image {
                     width: 20px !important;
                     height: 20px !important;
                     padding: 2px !important;
                     margin: 0 !important;
+                    border-radius: var(--toolbarbutton-border-radius, 0px) !important;
                 }
                 &:hover>image {
                     background-color: var(--button-background-color-hover, oklch(from currentColor l c h / 0.2)) !important;
