@@ -48,7 +48,7 @@ const deletePref = async (prefs, path, nowrite) => {
 const handleClick = async ({ target, currentTarget }) => {
     if (_write || !/checkbox|button/.test(target.type)) return;
     _write = true;
-    var row = target.closest(".row") || target.parentElement;
+    var row = target.closest(".row, details");
     var path = row.children[pathInd].value;
     switch (target.className) {
         case "disable":
@@ -139,11 +139,9 @@ const handleClick = async ({ target, currentTarget }) => {
                 row.setAttribute("error", "true");
             }
             break;
-        case "savedetails": {
-            let details = row.parentElement;
-            await UcfPrefs.setPrefs(`${details.id.toLowerCase()}_savedetails_open`, details.open);
+        case "savedetails":
+            await UcfPrefs.setPrefs(`${row.id.toLowerCase()}_savedetails_open`, row.open);
             break;
-        }
     }
     _write = false;
 };
