@@ -96,7 +96,7 @@ toolbar:not(#nav-bar) {
     :root[lwtheme] & {
         color: var(--toolbar-text-color, inherit) !important;
         background-repeat: repeat-y !important;
-        background-position: unset, var(--lwt-background-alignment, right top) !important;
+        background-position: 0% 0%, var(--lwt-background-alignment, right top) !important;
         background-color: var(--lwt-accent-color, transparent) !important;
         background-image: linear-gradient(var(--v-toolbar-bgcolor), var(--v-toolbar-bgcolor)), var(--lwt-header-image, var(--lwt-additional-images, none)) !important;
         background-attachment: fixed !important;
