@@ -33,6 +33,7 @@
         tabs {
             flex-direction: row !important;
             justify-content: start !important;
+            min-height: calc(2 * var(--toolbarbutton-padding-inner, 5px) + 16px) !important;
             anchor-name: --v-st-tabs-anchor !important;
             anchor-scope: --v-st-tabs-anchor !important;
             &>spacer {
@@ -40,9 +41,7 @@
             }
             tab {
                 --default-focusring: none !important;
-                margin: 0 !important;
-                padding-inline: 6px !important;
-                padding-block: 3px !important;
+                padding-inline: var(--toolbarbutton-padding-inner, 5px) !important;
                 outline: none !important;
                 border-block: 2px solid transparent !important;
                 &[image] image {
@@ -55,11 +54,6 @@
                 }
                 &[label] image {
                     margin-inline-end: 2px !important;
-                }
-                &>.tab-middle {
-                    margin: 0 !important;
-                    padding: 0 !important;
-                    min-height: max(20px, 1.25em) !important;
                 }
                 &:hover {
                     border-bottom-color: oklch(from currentColor l c h / 0.3) !important;
@@ -80,9 +74,9 @@
                 background: unset !important;
                 border-radius: 0px !important;
                 &>image {
-                    width: 20px !important;
-                    height: 20px !important;
-                    padding: 2px !important;
+                    width: calc(2 * var(--toolbarbutton-padding-inner, 5px) + 16px) !important;
+                    height: auto !important;
+                    padding: var(--toolbarbutton-padding-inner, 5px) !important;
                     margin: 0 !important;
                     border-radius: var(--toolbarbutton-border-radius, 0px) !important;
                 }
@@ -98,7 +92,7 @@
                     display: none !important;
                 }
                 image {
-                    margin-inline: 6px !important;
+                    margin-inline: var(--toolbarbutton-padding-inner, 5px) !important;
                 }
             }
         }

@@ -2,31 +2,42 @@
 @UCF @param {"prop":"CssChrome","type":"USER_SHEET","disable":true} @UCF
 */
 :root {
-    --v-findbar-flex-row-reverse: 1; /* 0 or 1 - findbar on the left or right */
-    --v-findbar-inset-block-start: 1; /* 0 or 1 - findbar on the bottom or top */
-    --v-findbar-margin-end: 15px; /* scrollbar indent */
-    --v-findbar-duration: 150ms; /* animation duration */
-    --v-findbar-toolbarbutton-padding-inner: 0; /* 0 or for example 3px - button size and input field */
-    --v-findbar-toolbarbutton-padding-outer: 0; /* 0 or for example 1px - indentation for buttons */
-    --v-findbar-toolbarbutton-border-radius: 0; /* 0 or for example 3px - button rounding radius */
-    --v-findbar-border-radius: 0; /* 0 or for example 3px - findbar rounding radius */
-    --v-findbar-textbox-radius: 0; /* 0 or for example 3px - input field rounding radius */
-    --v-findbar-textbox-width: 15em; /* input field width */
-    --v-findbar-toolbarbutton-icon-display: 1; /* 0 or 1 - icons on buttons */
-    --v-findbar-toolbarbutton-text-display: 0; /* 0 or 1 - text on buttons */
+    --v-findbar-flex-row-reverse: 1;
+    /* 0 or 1 - findbar on the left or right */
+    --v-findbar-inset-block-start: 1;
+    /* 0 or 1 - findbar on the bottom or top */
+    --v-findbar-margin-end: 15px;
+    /* scrollbar indent */
+    --v-findbar-duration: 150ms;
+    /* animation duration */
+    --v-findbar-toolbarbutton-padding-inner: 0;
+    /* 0 or for example 3px - button size and input field */
+    --v-findbar-toolbarbutton-padding-outer: 0;
+    /* 0 or for example 1px - indentation for buttons */
+    --v-findbar-toolbarbutton-border-radius: 0;
+    /* 0 or for example 3px - button rounding radius */
+    --v-findbar-border-radius: 0;
+    /* 0 or for example 3px - findbar rounding radius */
+    --v-findbar-textbox-radius: 0;
+    /* 0 or for example 3px - input field rounding radius */
+    --v-findbar-textbox-width: 15em;
+    /* input field width */
+    --v-findbar-toolbarbutton-icon-display: 1;
+    /* 0 or 1 - icons on buttons */
+    --v-findbar-toolbarbutton-text-display: 0;
+    /* 0 or 1 - text on buttons */
     --v-findbar-highlight-icon: url("./findbar-highlight.svg");
     --v-findbar-case-sensitive-icon: url("./findbar-case-sensitive.svg");
     --v-findbar-match-diacritics-icon: url("./findbar-match-diacritics.svg");
     --v-findbar-entire-word-icon: url("./findbar-entire-word.svg");
     .browserContainer {
-        &>.browserStack {
-            anchor-name: --v-browser-stack !important;
-        }
+        anchor-name: --v-browser-container !important;
+        anchor-scope: --v-browser-container !important;
         &>findbar {
             display: flex !important;
             flex-wrap: nowrap !important;
             position: fixed !important;
-            position-anchor: --v-browser-stack !important;
+            position-anchor: --v-browser-container !important;
             inset-block: anchor(start) auto !important;
             inset-inline: anchor(start) anchor(end) !important;
             border: none !important;
@@ -42,6 +53,7 @@
             box-shadow: none !important;
             overflow: hidden !important;
             align-items: center !important;
+            background: unset !important;
             @container style(--v-findbar-inset-block-start: 0) {
                 inset-block: auto anchor(end) !important;
                 margin-block: 0 -1px !important;
@@ -99,9 +111,10 @@
                 padding-inline: calc(2 * (var(--toolbarbutton-padding-inner) + var(--toolbarbutton-padding-outer)) + 16px) 0 !important;
                 padding-block: 0 !important;
                 overflow: hidden !important;
-                background: inherit !important;
-                background-origin: border-box !important;
                 background-clip: border-box !important;
+                background-origin: border-box !important;
+                background-color: var(--toolbox-background-color, light-dark(oklch(1 0 0), oklch(0 0 0))) !important;
+                background-image: image(var(--toolbar-background-color, light-dark(oklch(1 0 0 / 60%), oklch(1 0 0 / 20%)))) !important;
                 flex: unset !important;
                 border: 1px solid var(--chrome-content-separator-color, oklch(from currentColor l c h / 0.2)) !important;
                 border-top-color: transparent !important;
