@@ -59,6 +59,7 @@
     --urlbar-border-radius: 0px !important;
     --urlbar-input-container-border-width: 1px !important;
     --urlbar-input-container-border-width-breakout: 1px !important;
+    --urlbar-component-gap: 0px !important;
     --identity-box-margin-inline: 4px !important;
     --urlbarView-padding: 0px !important;
     --urlbarView-results-padding: 0px !important;
