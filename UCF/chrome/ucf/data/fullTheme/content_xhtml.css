@@ -191,6 +191,9 @@
         --color-yellow-90: oklch(34% 0.17 90) !important;
         --color-yellow-100: oklch(27% 0.13 90) !important;
         --color-yellow-110: oklch(20% 0.08 90) !important;
+        /** text-color **/
+        --text-color: light-dark(var(--color-gray-100), var(--color-gray-0)) !important;
+        --text-color-accent-primary-selected: var(--color-white) !important;
         /** space **/
         --space-xxsmall: 1px !important;
         --space-xsmall: 2px !important;

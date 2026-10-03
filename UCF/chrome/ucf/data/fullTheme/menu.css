@@ -446,7 +446,7 @@
     }
     #PanelUI-fxa-menu-account-signout-button {
         list-style-image: url("./svg/im-kick-user.svg");
-        stroke: light-dark(oklch(50% 0.25 0), oklch(70% 0.25 0));
+        stroke: light-dark(oklch(50% 0.25 0), oklch(70% 0.25 0)) !important;
     }
     #appMenu-new-tab-button,
     #appMenu-new-tab-button2 {
@@ -508,7 +508,7 @@
     #appMenu-quit-button,
     #appMenu-quit-button2 {
         list-style-image: url("./svg/shutdown_primary.svg");
-        fill: light-dark(oklch(50% 0.25 0), oklch(70% 0.25 0));
+        fill: light-dark(oklch(50% 0.25 0), oklch(70% 0.25 0)) !important;
     }
     #panelMenuBookmarkThisPage {
         list-style-image: url("./svg/bookmark-new-2.svg");
