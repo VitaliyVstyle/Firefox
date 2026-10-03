@@ -24,7 +24,7 @@
         /** border **/
         --border-color: light-dark(var(--color-gray-30), var(--color-gray-70)) !important;
         --border-color-deemphasized: light-dark(var(--color-gray-20), var(--color-gray-70)) !important;
-        --border-color-interactive: light-dark(var(--color-gray-45), var(--color-gray-70)) !important;
+        --border-color-interactive: light-dark(var(--color-gray-50), var(--color-gray-70)) !important;
         --border-color-error: light-dark(var(--color-red-70), var(--color-red-20)) !important;
         --border-color-interactive-hover: var(--border-color-interactive) !important;
         --border-color-interactive-active: var(--border-color-interactive) !important;
