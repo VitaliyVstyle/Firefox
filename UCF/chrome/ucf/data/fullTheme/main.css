@@ -749,10 +749,11 @@ menuseparator.searchbar-separator {
 #ipprotection-button:not([overflowedItem=true], [cui-areatype=panel]) {
     .ipprotection-icon-stack>.toolbarbutton-icon,
     .ipprotection-icon-layer {
-        width: 16px !important;
-        height: 16px !important;
+        width: 20px !important;
+        height: 20px !important;
         object-fit: cover !important;
-        object-position: left center !important;
+        object-position: 1px !important;
+        margin: -2px !important;
     }
 }
 /* window controls --> */
