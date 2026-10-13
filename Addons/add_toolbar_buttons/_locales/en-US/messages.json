@@ -2,283 +2,295 @@
     "extDescription": {
         "message": "Adds buttons to the toolbar"
     },
-    "bImageToggleL": {
+    "atbImageToggleL": {
         "message": "Toggle Images"
     },
-    "bImageToggleT": {
+    "atbImageToggleT": {
         "message": "L: Toggle image loading\nM|R: Toggle image loading on the current page"
     },
-    "bStopAnimationL": {
+    "atbStopAnimationL": {
         "message": "Toggle animation"
     },
-    "bStopAnimationT": {
+    "atbStopAnimationT": {
         "message": "L: Stop or Start CSS, SVG animation\nShift+L: Toggle animation - normal/none/once\nM: Toggle animation - normal/none\nR: Toggle animation on the current page"
     },
-    "bAutoplayL": {
+    "atbAutoplayL": {
         "message": "Toggle Media"
     },
-    "bAutoplayT": {
+    "atbAutoplayT": {
         "message": "L: Toggle auto-play media\nM|R: Toggle media playback on the current page"
     },
-    "bJavascriptL": {
+    "atbJavascriptL": {
         "message": "Toggle JavaScript"
     },
-    "bJavascriptT": {
+    "atbJavascriptT": {
         "message": "L: Toggle JavaScript\nM|R: Toggle JavaScript on the current page"
     },
-    "bCookieToggleL": {
+    "atbCookieToggleL": {
         "message": "Toggle Cookies"
     },
-    "bCookieToggleT": {
+    "atbCookieToggleT": {
         "message": "L: Toggle Cookies\nShift+L: Delete cookies from the domain of the current page\nM: Delete cookies from the domain of the current page\nR: Managing cookies"
     },
-    "bCookieToggleNdel": {
+    "atbCookieToggleNdel": {
         "message": "Cookies for the current domain have been cleared!"
     },
-    "bCookieToggleNnone": {
+    "atbCookieToggleNnone": {
         "message": "Missing cookies from the current domain!"
     },
-    "bZoomToggleL": {
+    "atbZoomToggleL": {
         "message": "Text only"
     },
-    "bZoomToggleT": {
+    "atbZoomToggleT": {
         "message": "Toggle text or page scale"
     },
-    "bToggleProxy": {
+    "atbToggleProxy": {
         "message": "Toggle proxy"
     },
-    "bToggleProxyT": {
+    "atbToggleProxyT": {
         "message": "L: Proxy Menu\nR: Open the proxy settings"
     },
-    "bToggleProxyM0": {
+    "atbToggleProxyM0": {
         "message": "Direct connection, without proxy"
     },
-    "bToggleProxyM1": {
+    "atbToggleProxyM1": {
         "message": "Manual proxy configuration"
     },
-    "bToggleProxyM2": {
+    "atbToggleProxyM2": {
         "message": "Automatic proxy configuration"
     },
-    "bToggleProxyM4": {
+    "atbToggleProxyM4": {
         "message": "Automatic detection of proxy settings"
     },
-    "bToggleProxyM5": {
+    "atbToggleProxyM5": {
         "message": "Use the system proxy settings"
     },
-    "bToggleProxyMS": {
+    "atbToggleProxyMS": {
         "message": "Open the proxy settings"
     },
-    "bUndoTabL": {
+    "atbUndoTabL": {
         "message": "Restore"
     },
-    "bUndoTabT": {
+    "atbUndoTabT": {
         "message": "L: Restore a tab\nR: Restore the window"
     },
-    "bUndoTabT0": {
+    "atbUndoTabT0": {
         "message": "L: Restore menu\nR: Show all history"
     },
-    "bUndoTabM0": {
+    "atbUndoTabM0": {
         "message": "Show all history"
     },
-    "bUndoTabM1": {
+    "atbUndoTabM1": {
         "message": "Clear recent history…"
     },
-    "bUndoTabM2": {
+    "atbUndoTabM2": {
         "message": "Restore previous session"
     },
-    "bUndoTabM3": {
+    "atbUndoTabM3": {
         "message": "Recently closed windows"
     },
-    "bUndoTabM4": {
+    "atbUndoTabM4": {
         "message": "Forget closed windows"
     },
-    "bUndoTabM5": {
+    "atbUndoTabM5": {
         "message": "Forget closed tabs"
     },
-    "bNewtabL": {
+    "atbNewtabL": {
         "message": "New tab"
     },
-    "bNewtabT": {
+    "atbNewtabT": {
         "message": "L: Open a new tab\nR: Menu to open a tab in the container"
     },
-    "bCloseOtherTabsL": {
+    "atbCloseOtherTabsL": {
         "message": "Close tabs"
     },
-    "bCloseOtherTabsT": {
+    "atbCloseOtherTabsT": {
         "message": "L: Close tabs before the current\nM: Close the other tabs of the current site\nR: Close tabs after the current"
     },
-    "bCloseAllTabsL": {
+    "atbCloseAllTabsL": {
         "message": "Close tabs, windows"
     },
-    "bCloseAllTabsT": {
+    "atbCloseAllTabsT": {
         "message": "L: Close all tabs\nShift+L: Close other tabs\nM: Close other browser windows\nR: Close all tabs of the current site"
     },
-    "bRestartAppL": {
+    "atbRestartAppL": {
         "message": "Restart"
     },
-    "bRestartAppT": {
+    "atbRestartAppT": {
         "message": "L: Restart the application\nM: Restart without add-ons\nR: Restart with clearing the Quick Launch cache"
     },
-    "bAboutConfigT": {
+    "atbAboutConfigT": {
         "message": "L: Open about:config\nShift+L: Search from clipboard in about:config\nM: Search from clipboard in about:config\nR: Search for the highlighted in about:config"
     },
-    "bAboutDownloadsL": {
+    "atbAboutDownloadsL": {
         "message": "Downloads"
     },
-    "bAboutDownloadsT": {
+    "atbAboutDownloadsT": {
         "message": "L: Show downloads\nM: Open a recent downloads folder\nR: Open a recent file folder\nShift+R: Open a recent downloads folder"
     },
-    "bAboutAboutT": {
+    "atbAboutAboutT": {
         "message": "Open about:about"
     },
-    "bClearDataL": {
+    "atbClearDataL": {
         "message": "Clear data"
     },
-    "bClearDataT": {
+    "atbClearDataT": {
         "message": "Open the window for deleting personal data"
     },
-    "bPreferencesL": {
-        "message": "Add Toolbar Buttons Settings"
+    "atbPreferencesL": {
+        "message": "ATB Settings"
     },
-    "bPreferencesT": {
+    "atbPreferencesT": {
         "message": "L: Open the Add Toolbar Buttons Settings\nM: Open the browser settings"
     },
-    "bBookmarkNopopL": {
+    "atbBookmarkNopopL": {
         "message": "Quick Bookmark"
     },
-    "bBookmarkNopopT": {
+    "atbBookmarkNopopT": {
         "message": "L: Add or delete bookmarks without confirmation\nM: Add a group of tabs to bookmarks\nR: Open the Bookmarks Manager"
     },
-    "bSnapBackL": {
+    "atbSnapBackL": {
         "message": "Full back or forward"
     },
-    "bSnapBackT": {
+    "atbSnapBackT": {
         "message": "L: Go to the first page opened in this tab\nM: Go to the entered address in a new tab\nR: Go to the last page opened in this tab"
     },
-    "bTopPageL": {
+    "atbTopPageL": {
         "message": "Up"
     },
-    "bTopPageT": {
+    "atbTopPageT": {
         "message": "Go to the top of the page"
     },
-    "bBottomPageL": {
+    "atbBottomPageL": {
         "message": "Down"
     },
-    "bBottomPageT": {
+    "atbBottomPageT": {
         "message": "Go to the end of the page"
     },
-    "bUpPageL": {
+    "atbUpPageL": {
         "message": "Scroll up"
     },
-    "bUpPageT": {
+    "atbUpPageT": {
         "message": "Scroll up one page"
     },
-    "bDownPageL": {
+    "atbDownPageL": {
         "message": "Scroll down"
     },
-    "bDownPageT": {
+    "atbDownPageT": {
         "message": "Scroll down one page"
     },
-    "bFindBarL": {
+    "atbFindBarL": {
         "message": "Search"
     },
-    "bFindBarT": {
+    "atbFindBarT": {
         "message": "L: Find Text / Close the search bar\nShift+L: Search on this page from the clipboard\nM: Search this page from the clipboard\nR: Search for the highlighted on this page"
     },
-    "bClearBarL": {
-        "message": "Clear the address and search fields"
+    "atbClearBarL": {
+        "message": "Clear"
     },
-    "bClearBarT": {
+    "atbClearBarT": {
         "message": "L: Clear the address field\nM: Clear the address and search fields\nR: Clear the search field"
     },
-    "bPasteAndGoL": {
+    "atbPasteAndGoL": {
         "message": "Paste and go"
     },
-    "bPasteAndGoT": {
+    "atbPasteAndGoT": {
         "message": "L: Go to the address from the clipboard\nM: Go to the address from the clipboard in a new tab\nR: Search from clipboard in a new tab"
     },
-    "bCopyAndGoL": {
-        "message": "Go for the highlighted"
+    "atbCopyAndGoL": {
+        "message": "Go"
     },
-    "bCopyAndGoT": {
+    "atbCopyAndGoT": {
         "message": "L: Go for the highlighted\nM: Go for the highlighted in new tab\nR: Copy the address of the current page\nShift+R: Copy the domain of the current page"
     },
-    "bProfilefolderL": {
+    "atbProfilefolderL": {
         "message": "Open a folder"
     },
-    "bProfilefolderT": {
+    "atbProfilefolderT": {
         "message": "L: Profile Folder\nM: The root folder of the disk\nR: Installation Folder"
     },
-    "bPassWordsL": {
+    "atbPassWordsL": {
         "message": "Passwords"
     },
-    "bPassWordsT": {
+    "atbPassWordsT": {
         "message": "Open the Password manager"
     },
-    "bToggleStylesL": {
+    "atbToggleStylesL": {
         "message": "Toggle Styles"
     },
-    "bToggleStylesT": {
+    "atbToggleStylesT": {
         "message": "Toogle styles defined by sites"
     },
-    "bOpenConsoleL": {
+    "atbOpenConsoleL": {
         "message": "Open the Console"
     },
-    "bOpenConsoleT": {
+    "atbOpenConsoleT": {
         "message": "L: Open the Browser Console\nM: Open the Web Console\nR: Open the Inspector"
     },
-    "bTextToLinkL": {
-        "message": "URL text in clickable links"
+    "atbTextToLinkL": {
+        "message": "URL text"
     },
-    "bTextToLinkT": {
+    "atbTextToLinkT": {
         "message": "L: Turn URL text into clickable links\nM: Copy all links on the page\nR: Disable/Enable clickable links"
     },
-    "bAddonsManagerL": {
+    "atbAddonsManagerL": {
         "message": "Add-ons"
     },
-    "bAddonsManagerT": {
+    "atbAddonsManagerT": {
         "message": "Open the Add-on Manager"
     },
-    "bOpenFileL": {
+    "atbOpenFileL": {
         "message": "Open file"
     },
-    "bOpenFileT": {
+    "atbOpenFileT": {
         "message": "L: Open file\nM: Open userContent\nR: Open userChrome"
     },
-    "bSaveasL": {
+    "atbSaveasL": {
         "message": "Save"
     },
-    "bSaveasT": {
+    "atbSaveasT": {
         "message": "Save the page as..."
     },
-    "bReduceL": {
+    "atbReduceL": {
         "message": "Reduce"
     },
-    "bReduceT": {
+    "atbReduceT": {
         "message": "L: Reduce the size of the text\nM: Increase the text size\nR: Reset the text size"
     },
-    "bEnlargeL": {
+    "atbEnlargeL": {
         "message": "Increase"
     },
-    "bEnlargeT": {
+    "atbEnlargeT": {
         "message": "L: Increase the text size\nM: Reduce the size of the text\nR: Reset the text size"
     },
-    "bLoadsFaviconsL": {
+    "atbBookmarksMgrL": {
+        "message": "Bookmarks"
+    },
+    "atbBookmarksMgrT": {
+        "message": "Managing bookmarks"
+    },
+    "atbBookmarksSortName": {
+        "message": "Sort bookmarks by name"
+    },
+    "atbBookmarksSortLoc": {
+        "message": "Sort bookmarks by site"
+    },
+    "atbBookmarksSortAdd": {
+        "message": "Sort bookmarks by date added"
+    },
+    "atbBookmarksFav": {
         "message": "Restore favicons"
     },
-    "bLoadsFaviconsT": {
-        "message": "Restore bookmark favicons"
-    },
-    "bExtOptionMenuL": {
+    "atbExtOptionMenuL": {
         "message": "Add-ons"
     },
-    "bExtOptionMenuT": {
+    "atbExtOptionMenuT": {
         "message": "Add-ons menu"
     },
-    "bSoundMutedAllTabsL": {
+    "atbSoundMutedAllTabsL": {
         "message": "Sound control"
     },
-    "bSoundMutedAllTabsT": {
+    "atbSoundMutedAllTabsT": {
         "message": "L: Toogle sound in selected tabs\nShift+L: Toogle sound in all tabs\nM: Close other tabs with audio source\nM-wheel: Adjust media audio volume level"
     },
     "openUChrmFiles": {
@@ -411,7 +423,7 @@
         "message": "The duration before the request was interrupted in seconds"
     },
     "alertnotification": {
-        "message": "Notification of completion of the search for favicons for bookmarks"
+        "message": "Notification of completion"
     },
     "addbookmarks": {
         "message": "Add or delete bookmarks without confirmation:"

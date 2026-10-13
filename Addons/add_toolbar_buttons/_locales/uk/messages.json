@@ -2,283 +2,295 @@
     "extDescription": {
         "message": "Додає кнопки на панель інструментів"
     },
-    "bImageToggleL": {
+    "atbImageToggleL": {
         "message": "Переключити зображення"
     },
-    "bImageToggleT": {
+    "atbImageToggleT": {
         "message": "Л: Переключити завантаження зображень\nС|П: Переключити завантаження зображень на поточній сторінці"
     },
-    "bStopAnimationL": {
+    "atbStopAnimationL": {
         "message": "Переключити анімацію"
     },
-    "bStopAnimationT": {
+    "atbStopAnimationT": {
         "message": "Л: Зупинити або запустити CSS, SVG анімацію\nShift+Л: Переключити анімацію - normal/none/once\nС: Переключити анімацію - normal/none\nП: Переключити анімацію на поточній сторінці"
     },
-    "bAutoplayL": {
+    "atbAutoplayL": {
         "message": "Переключити медіа"
     },
-    "bAutoplayT": {
+    "atbAutoplayT": {
         "message": "Л: Переключити авто-відтворення медіа\nС|П: Переключити відтворення медіа на поточній сторінці"
     },
-    "bJavascriptL": {
+    "atbJavascriptL": {
         "message": "Переключити JavaScript"
     },
-    "bJavascriptT": {
+    "atbJavascriptT": {
         "message": "Л: Переключити JavaScript\nС|П: Переключити JavaScript на поточній сторінці"
     },
-    "bCookieToggleL": {
+    "atbCookieToggleL": {
         "message": "Переключити Куки"
     },
-    "bCookieToggleT": {
+    "atbCookieToggleT": {
         "message": "Л: Переключити Куки\nShift+Л: Видалити куки домену поточної сторінки\nС: Видалити куки домену поточної сторінки\nП: Управління куками"
     },
-    "bCookieToggleNdel": {
+    "atbCookieToggleNdel": {
         "message": "Куки поточного домену очищені!"
     },
-    "bCookieToggleNnone": {
+    "atbCookieToggleNnone": {
         "message": "Немає куки поточного домену!"
     },
-    "bZoomToggleL": {
+    "atbZoomToggleL": {
         "message": "Тільки текст"
     },
-    "bZoomToggleT": {
+    "atbZoomToggleT": {
         "message": "Перемикання масштабування тексту і сторінки"
     },
-    "bToggleProxy": {
+    "atbToggleProxy": {
         "message": "Переключити проксі"
     },
-    "bToggleProxyT": {
+    "atbToggleProxyT": {
         "message": "Л: Меню проксі\nП: Відкрити налаштування проксі"
     },
-    "bToggleProxyM0": {
+    "atbToggleProxyM0": {
         "message": "Пряме підключення, без проксі"
     },
-    "bToggleProxyM1": {
+    "atbToggleProxyM1": {
         "message": "Ручне налаштування проксі"
     },
-    "bToggleProxyM2": {
+    "atbToggleProxyM2": {
         "message": "Автоматичне налаштування проксі"
     },
-    "bToggleProxyM4": {
+    "atbToggleProxyM4": {
         "message": "Автовизначення налаштувань проксі"
     },
-    "bToggleProxyM5": {
+    "atbToggleProxyM5": {
         "message": "Використовувати системні налаштування проксі"
     },
-    "bToggleProxyMS": {
+    "atbToggleProxyMS": {
         "message": "Відкрити налаштування проксі"
     },
-    "bUndoTabL": {
+    "atbUndoTabL": {
         "message": "Відновивши"
     },
-    "bUndoTabT": {
+    "atbUndoTabT": {
         "message": "Л: Відновити вкладку\nП: Відновити вікно"
     },
-    "bUndoTabT0": {
+    "atbUndoTabT0": {
         "message": "Л: Меню відновити\nП: Показати всю історію"
     },
-    "bUndoTabM0": {
+    "atbUndoTabM0": {
         "message": "Показати всю історію"
     },
-    "bUndoTabM1": {
+    "atbUndoTabM1": {
         "message": "Стерти недавню історію…"
     },
-    "bUndoTabM2": {
+    "atbUndoTabM2": {
         "message": "Відновити попередній сеанс"
     },
-    "bUndoTabM3": {
+    "atbUndoTabM3": {
         "message": "Недавно закриті вікна"
     },
-    "bUndoTabM4": {
+    "atbUndoTabM4": {
         "message": "Забути закриті вікна"
     },
-    "bUndoTabM5": {
+    "atbUndoTabM5": {
         "message": "Забути закриті вкладки"
     },
-    "bNewtabL": {
+    "atbNewtabL": {
         "message": "Нова вкладка"
     },
-    "bNewtabT": {
+    "atbNewtabT": {
         "message": "Л: Відкрити нову вкладку\nП: Меню щоб відкрити вкладку в контейнері"
     },
-    "bCloseOtherTabsL": {
+    "atbCloseOtherTabsL": {
         "message": "Закрити вкладки"
     },
-    "bCloseOtherTabsT": {
+    "atbCloseOtherTabsT": {
         "message": "Л: Закрити вкладки перед поточною\nС: Закрити інші вкладки поточного сайту\nП: Закрити вкладки після поточної"
     },
-    "bCloseAllTabsL": {
+    "atbCloseAllTabsL": {
         "message": "Закрити вкладки, вікна"
     },
-    "bCloseAllTabsT": {
+    "atbCloseAllTabsT": {
         "message": "Л: Закрити всі вкладки\nShift+Л: Закрити інші вкладки\nС: Закрити інші вікна браузера\nП: Закрити всі вкладки поточного сайту"
     },
-    "bRestartAppL": {
+    "atbRestartAppL": {
         "message": "Перезавантаження"
     },
-    "bRestartAppT": {
+    "atbRestartAppT": {
         "message": "Л: Перезапустити додаток\nС: Перезапустити без доповнень\nП: Перезапустити з очищенням кешу швидкого запуску"
     },
-    "bAboutConfigT": {
+    "atbAboutConfigT": {
         "message": "Л: Відкрити about:config\nShift+Л: Шукати вміст буфера обміну в about:config\nС: Шукати вміст буфера обміну в about:config\nП: Шукати виділене в about:config"
     },
-    "bAboutDownloadsL": {
+    "atbAboutDownloadsL": {
         "message": "Завантаження"
     },
-    "bAboutDownloadsT": {
+    "atbAboutDownloadsT": {
         "message": "Л: Показати завантаження\nС: Відкрити недавню папку завантажень\nП: Відкрити недавню папку з файлом\nShift+П: Відкрити недавню папку завантажень"
     },
-    "bAboutAboutT": {
+    "atbAboutAboutT": {
         "message": "Відкрити about:about"
     },
-    "bClearDataL": {
+    "atbClearDataL": {
         "message": "Видалити дані"
     },
-    "bClearDataT": {
+    "atbClearDataT": {
         "message": "Відкрити діалогове вікно видалення особистих даних"
     },
-    "bPreferencesL": {
-        "message": "Налаштування Add Toolbar Buttons"
+    "atbPreferencesL": {
+        "message": "Налаштування ATB"
     },
-    "bPreferencesT": {
+    "atbPreferencesT": {
         "message": "Л: Відкрити налаштування Add Toolbar Buttons\nС: Відкрити налаштування браузера"
     },
-    "bBookmarkNopopL": {
+    "atbBookmarkNopopL": {
         "message": "Швидка закладка"
     },
-    "bBookmarkNopopT": {
+    "atbBookmarkNopopT": {
         "message": "Л: Додати або видалити закладки без підтвердження\nС: Додати групу вкладок в закладки\nП: Відкрити менеджер Закладок"
     },
-    "bSnapBackL": {
+    "atbSnapBackL": {
         "message": "Повний назад або вперед"
     },
-    "bSnapBackT": {
+    "atbSnapBackT": {
         "message": "Л: Перейти на першу сторінку, відкриту в цій вкладці\nС: Перейти по введеному адресою в новій вкладці\nП: Перейти на останню сторінку, відкриту в цій вкладці"
     },
-    "bTopPageL": {
+    "atbTopPageL": {
         "message": "Догори"
     },
-    "bTopPageT": {
+    "atbTopPageT": {
         "message": "Перейти на початок сторінки"
     },
-    "bBottomPageL": {
+    "atbBottomPageL": {
         "message": "Униз"
     },
-    "bBottomPageT": {
+    "atbBottomPageT": {
         "message": "Перейти до кінця сторінки"
     },
-    "bUpPageL": {
+    "atbUpPageL": {
         "message": "Догори"
     },
-    "bUpPageT": {
+    "atbUpPageT": {
         "message": "Прокрутка на одну сторінку вгору"
     },
-    "bDownPageL": {
+    "atbDownPageL": {
         "message": "Униз"
     },
-    "bDownPageT": {
+    "atbDownPageT": {
         "message": "Прокрутка на одну сторінку вниз"
     },
-    "bFindBarL": {
+    "atbFindBarL": {
         "message": "Пошук"
     },
-    "bFindBarT": {
+    "atbFindBarT": {
         "message": "Л: Знайти текст / закрити панель пошуку\nShift+Л: Пошук на цій сторінці з буфера обміну\nС: Пошук на цій сторінці з буфера обміну\nП: Пошук на цій сторінці виділеного"
     },
-    "bClearBarL": {
-        "message": "Очистити поля адреси та пошуку"
+    "atbClearBarL": {
+        "message": "Очистити"
     },
-    "bClearBarT": {
+    "atbClearBarT": {
         "message": "Л: Очистити поле адреси\nС: Очистити поля адреси та пошуку\nП: Очистити поле пошуку"
     },
-    "bPasteAndGoL": {
+    "atbPasteAndGoL": {
         "message": "Вставити і перейти"
     },
-    "bPasteAndGoT": {
+    "atbPasteAndGoT": {
         "message": "Л: Перейти за адресою з буфера обміну\nС: Перейти за адресою з буфера обміну в новій вкладці\nП: Шукати вміст буфера обміну в новій вкладці"
     },
-    "bCopyAndGoL": {
-        "message": "Перейти по виділеному"
+    "atbCopyAndGoL": {
+        "message": "Перейти"
     },
-    "bCopyAndGoT": {
+    "atbCopyAndGoT": {
         "message": "Л: Перейти по виділеному\nС: Перейти по виділеному в новій вкладці\nП: Скопіювати адресу поточної сторінки\nShift+П: Скопіювати домен поточної сторінки"
     },
-    "bProfilefolderL": {
+    "atbProfilefolderL": {
         "message": "Відкрити папку"
     },
-    "bProfilefolderT": {
+    "atbProfilefolderT": {
         "message": "Л: Папка профілю\nС: Коренева папка диска\nП: Папка встановлення"
     },
-    "bPassWordsL": {
+    "atbPassWordsL": {
         "message": "Паролі"
     },
-    "bPassWordsT": {
+    "atbPassWordsT": {
         "message": "Відкрити менеджер паролів"
     },
-    "bToggleStylesL": {
+    "atbToggleStylesL": {
         "message": "Переключити стилі"
     },
-    "bToggleStylesT": {
+    "atbToggleStylesT": {
         "message": "Переключити стилі, визначені сайтами"
     },
-    "bOpenConsoleL": {
+    "atbOpenConsoleL": {
         "message": "Відкрити Консоль"
     },
-    "bOpenConsoleT": {
+    "atbOpenConsoleT": {
         "message": "Л: Відкрити Консоль браузера\nС: Відкрити Веб-консоль\nП: Відкрити Інспектор"
     },
-    "bTextToLinkL": {
-        "message": "Текст URL в Клікабельні посилання"
+    "atbTextToLinkL": {
+        "message": "Текст URL"
     },
-    "bTextToLinkT": {
+    "atbTextToLinkT": {
         "message": "Л: Перетворити текст URL в Клікабельні посилання\nС: Копіювати всі посилання на сторінці\nП: Відключити / Включити клікабельні посилання"
     },
-    "bAddonsManagerL": {
+    "atbAddonsManagerL": {
         "message": "Доповнення"
     },
-    "bAddonsManagerT": {
+    "atbAddonsManagerT": {
         "message": "Відкрийте диспетчер доповнень"
     },
-    "bOpenFileL": {
+    "atbOpenFileL": {
         "message": "Відкрити"
     },
-    "bOpenFileT": {
+    "atbOpenFileT": {
         "message": "Л: Відкрити файл\nС: Відкрити userContent\nП: Відкрити userChrome"
     },
-    "bSaveasL": {
+    "atbSaveasL": {
         "message": "Зберегти"
     },
-    "bSaveasT": {
+    "atbSaveasT": {
         "message": "Зберегти як…"
     },
-    "bReduceL": {
+    "atbReduceL": {
         "message": "Зменшивши"
     },
-    "bReduceT": {
+    "atbReduceT": {
         "message": "Л: Зменшити розмір тексту\nС: Збільшити розмір тексту\nП: Скинути розмір тексту"
     },
-    "bEnlargeL": {
+    "atbEnlargeL": {
         "message": "Збільшувати"
     },
-    "bEnlargeT": {
+    "atbEnlargeT": {
         "message": "Л: Збільшити розмір тексту\nС: Зменшити розмір тексту\nП: Скинути розмір тексту"
     },
-    "bLoadsFaviconsL": {
+    "atbBookmarksMgrL": {
+        "message": "Закладки"
+    },
+    "atbBookmarksMgrT": {
+        "message": "Управління закладками"
+    },
+    "atbBookmarksSortName": {
+        "message": "Сорт. закладки на ім'я"
+    },
+    "atbBookmarksSortLoc": {
+        "message": "Сорт. закладки по сайтам"
+    },
+    "atbBookmarksSortAdd": {
+        "message": "Сорт. закладки за датою додавання"
+    },
+    "atbBookmarksFav": {
         "message": "Відновити фавіконки"
     },
-    "bLoadsFaviconsT": {
-        "message": "Відновити фавіконки закладок"
-    },
-    "bExtOptionMenuL": {
+    "atbExtOptionMenuL": {
         "message": "Меню доповнень"
     },
-    "bExtOptionMenuT": {
+    "atbExtOptionMenuT": {
         "message": "Меню доповнень"
     },
-    "bSoundMutedAllTabsL": {
+    "atbSoundMutedAllTabsL": {
         "message": "Управління звуком"
     },
-    "bSoundMutedAllTabsT": {
+    "atbSoundMutedAllTabsT": {
         "message": "Л: Переключити звук у виділених вкладках\nShift+Л: Переключити звук у всіх вкладках\nС: Закрийте інші вкладки з джерелом звуку\nКМ: Регулювати рівень гучності звуку медіа"
     },
     "openUChrmFiles": {
@@ -411,7 +423,7 @@
         "message": "Тривалість до переривання запиту в секундах"
     },
     "alertnotification": {
-        "message": "Повідомлення про завершення пошуку фавіконок для закладок"
+        "message": "Повідомлення про завершення"
     },
     "addbookmarks": {
         "message": "Додати або видалити закладки без підтвердження:"

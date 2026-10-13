@@ -13,12 +13,12 @@ ChromeUtils.defineLazyGetter(this, "CustomizableUI", () => {
     }
 });
 ChromeUtils.defineLazyGetter(this, "GlobalManager", () => ExtensionParent.GlobalManager);
-ChromeUtils.defineLazyGetter(this, "windowTracker", () => ExtensionParent.apiManager.global.windowTracker);
 ChromeUtils.defineLazyGetter(this, "Timer", () => Components.Constructor("@mozilla.org/timer;1", "nsITimer"));
-var gNextId = 1;
+var winWeakMap = new WeakMap();
+var gNextId = 0;
 var gTidMap = new Map();
 var setTimeout = (func, ms, ...args) => {
-    var id = gNextId++;
+    var id = ++gNextId;
     var tid = new Timer;
     tid.initWithCallback(() => {
         gTidMap.delete(id);
@@ -32,9 +32,9 @@ var clearTimeout = id => {
     gTidMap.get(id).cancel();
     gTidMap.delete(id);
 };
-var add_toolbar_buttons = {
+var add_bar_btns = {
     initialized: false,
-    favrunning: false,
+    bookMgrRun: false,
     bookmarksInsertRemove: false,
     registerActor: false,
     get clipboard() {
@@ -191,56 +191,10 @@ animation-timing-function: step-start !important;`}
         delete this.SearchService;
         return this.SearchService = (Services.search ?? ChromeUtils.importESModule("moz-src:///toolkit/components/search/SearchService.sys.mjs").SearchService);
     },
-    async showAlert() {
-        var alertsService = Cc["@mozilla.org/alerts-service;1"].getService(Ci.nsIAlertsService);
-        var defopts = { imageURL: "resource://add_toolbar_buttons/svg/icon_large.svg", silent: true };
-        var notification = Components.Constructor("@mozilla.org/alert-notification;1", "nsIAlertNotification");
-        var gIdMap = new Map();
-        if ("initWithObject" in new notification()) {
-            if ("fetchDecodedImage" in ChromeUtils) {
-                try {
-                    let uri = Services.io.newURI(defopts.imageURL);
-                    let channel = Services.io.newChannelFromURI(uri, null, Services.scriptSecurityManager.getSystemPrincipal(), null, Ci.nsILoadInfo.SEC_ALLOW_CROSS_ORIGIN_SEC_CONTEXT_IS_NULL, Ci.nsIContentPolicy.TYPE_IMAGE);
-                    channel.loadInfo.allowDeprecatedSystemRequests = true;
-                    defopts.image = await ChromeUtils.fetchDecodedImage(uri, channel);
-                } catch { defopts.imageURL = undefined; }
-            }
-            this.showAlert = (opts = {}, obs) => {
-                var alert = new notification();
-                var alertTimeout = opts.name && opts.alertTimeout;
-                if (alertTimeout) {
-                    opts.requireInteraction = true;
-                    if (gIdMap.has(opts.name)) {
-                        clearTimeout(gIdMap.get(opts.name));
-                        gIdMap.delete(opts.name);
-                    }
-                }
-                alert.initWithObject({ ...defopts, ...opts });
-                alertsService.showAlert(alert, obs);
-                if (alertTimeout) gIdMap.set(opts.name, setTimeout(() => {
-                    alertsService.closeAlert(opts.name);
-                    gIdMap.delete(opts.name);
-                }, alertTimeout));
-            };
-        } else this.showAlert = (opts = {}, obs) => {
-            var { name, imageURL, title, text, textClickable, cookie, dir, lang, data, principal, inPrivateBrowsing, requireInteraction, silent, vibrate = [], actions, opaqueRelaunchData } = { ...defopts, ...opts };
-            var alert = new notification();
-            var alertTimeout = name && opts.alertTimeout;
-            if (alertTimeout && gIdMap.has(name)) {
-                clearTimeout(gIdMap.get(name));
-                gIdMap.delete(name);
-            }
-            alert.init(name, imageURL, title, text, textClickable, cookie, dir, lang, data, principal, inPrivateBrowsing, (alertTimeout ? true : requireInteraction), silent, vibrate);
-            if (actions) alert.actions = actions;
-            if (opaqueRelaunchData) alert.opaqueRelaunchData = opaqueRelaunchData;
-            alertsService.showAlert(alert, obs);
-            if (alertTimeout) gIdMap.set(name, setTimeout(() => {
-                alertsService.closeAlert(name);
-                gIdMap.delete(name);
-            }, alertTimeout));
-        };
-        this.showAlert.apply(this, arguments);
-    },
+    obsprefs: [
+        "permissions.default.image", "image.animation_mode", "javascript.enabled", "media.autoplay.default",
+        "media.volume_scale", "browser.zoom.full", "network.cookie.cookieBehavior", "network.proxy.type"
+    ],
     init() {
         if (this.initialized) return;
         this.initialized = true;
@@ -249,6 +203,7 @@ animation-timing-function: step-start !important;`}
         branch.setBoolPref("doreload", false);
         branch.setBoolPref("alertnotification", true);
         branch.setBoolPref("bookmarksindex", false);
+        branch.setBoolPref("bookmarkssortrevers", false);
         branch.setBoolPref("obs.animation", true);
         branch.setBoolPref("obs.animfunc", false);
         branch.setBoolPref("obs.showversion", true);
@@ -265,32 +220,26 @@ animation-timing-function: step-start !important;`}
         branch.setIntPref("maxrequests", 50);
         branch.setIntPref("maxtimeout", 30);
         branch.setIntPref("bookmarksparentguid", 0);
+        branch.setIntPref("bookmarkssorttype", 0);
         branch.setIntPref("obs.soundvolumestep", 2);
         branch.setStringPref("obs.exceptionslistset", "");
         branch.setStringPref("obs.exceptionstypelistarr", "");
         Services.io.getProtocolHandler("resource")
             .QueryInterface(Ci.nsIResProtocolHandler)
             .setSubstitution("add_toolbar_buttons", Services.io.newURI(atb_ext.resourceURL));
-        this.loadWin = this.loadWin.bind(this);
-        this.unloadWin = this.unloadWin.bind(this);
-        windowTracker.addOpenListener(this.loadWin);
-        for (let win of windowTracker.browserWindows())
-            this.loadWin(win);
-        windowTracker.addCloseListener(this.unloadWin);
-        [
-            "permissions.default.image", "image.animation_mode", "javascript.enabled", "media.autoplay.default",
-            "media.volume_scale", "browser.zoom.full", "network.cookie.cookieBehavior", "network.proxy.type"
-        ].forEach(pref => {
-            var type = atb_ps.getPrefType(pref);
-            if (type != atb_ps.PREF_INVALID) atb_ps.addObserver(pref, this);
+        CustomizableUI.addListener(this);
+        for (let win of CustomizableUI.windows)
+            this.onWindowOpened(win);
+        this.obsprefs.forEach(pref => {
+            if (atb_ps.getPrefType(pref) !== atb_ps.PREF_INVALID) atb_ps.addObserver(pref, this);
         });
         atb_ps.addObserver("extensions.add_toolbar_buttons.obs.", this);
-        try {
-            CustomizableUI.createWidget({
-                id: "b-image-toggle",
+        this.widgets = [
+            {
+                id: "atb-image-toggle",
                 type: "custom",
-                label: atb_locale.localizeMessage("bImageToggleL"),
-                tooltiptext: atb_locale.localizeMessage("bImageToggleT"),
+                label: atb_locale.localizeMessage("atbImageToggleL"),
+                tooltiptext: atb_locale.localizeMessage("atbImageToggleT"),
                 localized: false,
                 onBuild(doc) {
                     var trbn = doc.createXULElement("toolbarbutton");
@@ -299,31 +248,29 @@ animation-timing-function: step-start !important;`}
                     trbn.setAttribute("label", this.label);
                     trbn.setAttribute("context", "");
                     trbn.setAttribute("tooltiptext", this.tooltiptext);
-                    var image = add_toolbar_buttons.permissions_default_image;
+                    var image = add_bar_btns.permissions_default_image;
                     if (image !== null) {
                         trbn.setAttribute("activated", image);
                         trbn.onclick = e => {
                             switch (e.button) {
                                 case 0:
-                                    add_toolbar_buttons.prefToggleNumber("permissions.default.image", [1, 2, 1]);
-                                    add_toolbar_buttons.checkBrowserReload(e.view);
+                                    add_bar_btns.prefToggleNumber("permissions.default.image", [1, 2, 1]);
+                                    add_bar_btns.checkBrowserReload(e.view);
                                     break;
                                 case 1:
                                 case 2:
-                                    add_toolbar_buttons.sendAsyncMessages(e.view, "ATBWinActor:PageImages");
+                                    add_bar_btns.sendAsyncMessages(e.view, "ATBWinActor:PageImages");
                             }
                         };
                     }
                     return trbn;
                 }
-            });
-        } catch { }
-        try {
-            CustomizableUI.createWidget({
-                id: "b-stop-animation",
+            },
+            {
+                id: "atb-stop-animation",
                 type: "custom",
-                label: atb_locale.localizeMessage("bStopAnimationL"),
-                tooltiptext: atb_locale.localizeMessage("bStopAnimationT"),
+                label: atb_locale.localizeMessage("atbStopAnimationL"),
+                tooltiptext: atb_locale.localizeMessage("atbStopAnimationT"),
                 localized: false,
                 onBuild(doc) {
                     var trbn = doc.createXULElement("toolbarbutton");
@@ -334,42 +281,40 @@ animation-timing-function: step-start !important;`}
                     trbn.setAttribute("label", this.label);
                     trbn.setAttribute("context", "");
                     trbn.setAttribute("tooltiptext", this.tooltiptext);
-                    var image_animation_mode = add_toolbar_buttons.image_animation_mode;
+                    var image_animation_mode = add_bar_btns.image_animation_mode;
                     if (image_animation_mode !== null) {
-                        trbn.setAttribute("activated", add_toolbar_buttons.anim_css);
+                        trbn.setAttribute("activated", add_bar_btns.anim_css);
                         trbn.setAttribute("badge", image_animation_mode.substring(0, 3));
-                        trbn.setAttribute("badgeStyle", "background: #0074e8; color: #ffffff; font-size: 10px; line-height: 10px; box-shadow: none; text-shadow: none; padding-block: 0 1px !important; padding-inline: 2px !important; min-width: 0 !important;");
+                        trbn.setAttribute("badgeStyle", "background: light-dark(oklch(62% 0.25 260), oklch(65% 0.25 260)); color: oklch(1 0 0); font-size: 10px; font-weight: normal; line-height: 10px; box-shadow: none; text-shadow: none; padding-block: 0 1px !important; padding-inline: 2px !important; min-width: 0 !important;");
                         trbn.onclick = e => {
                             switch (e.button) {
                                 case 0:
-                                    if (!e.shiftKey) add_toolbar_buttons.extensionPrefToggleStatus("obs.animation");
+                                    if (!e.shiftKey) add_bar_btns.extensionPrefToggleStatus("obs.animation");
                                     else {
-                                        add_toolbar_buttons.prefToggleString("image.animation_mode", ["normal", "none", "once"]);
-                                        add_toolbar_buttons.checkBrowserReload(e.view);
+                                        add_bar_btns.prefToggleString("image.animation_mode", ["normal", "none", "once"]);
+                                        add_bar_btns.checkBrowserReload(e.view);
                                     }
                                     break;
                                 case 1:
-                                    add_toolbar_buttons.prefToggleString("image.animation_mode", ["normal", "none"]);
-                                    add_toolbar_buttons.checkBrowserReload(e.view);
+                                    add_bar_btns.prefToggleString("image.animation_mode", ["normal", "none"]);
+                                    add_bar_btns.checkBrowserReload(e.view);
                                     break;
                                 case 2:
-                                    add_toolbar_buttons.sendAsyncMessages(e.view, "ATBWinActor:ImageAnimationMode");
+                                    add_bar_btns.sendAsyncMessages(e.view, "ATBWinActor:ImageAnimationMode");
                             }
                         };
                     }
                     return trbn;
                 }
-            });
-        } catch { }
-        try {
-            CustomizableUI.createWidget({
-                id: "b-autoplay",
+            },
+            {
+                id: "atb-autoplay",
                 type: "custom",
-                label: atb_locale.localizeMessage("bAutoplayL"),
-                tooltiptext: atb_locale.localizeMessage("bAutoplayT"),
+                label: atb_locale.localizeMessage("atbAutoplayL"),
+                tooltiptext: atb_locale.localizeMessage("atbAutoplayT"),
                 localized: false,
                 onBuild(doc) {
-                    var autoplay = add_toolbar_buttons.media_autoplay_default;
+                    var autoplay = add_bar_btns.media_autoplay_default;
                     var trbn = doc.createXULElement("toolbarbutton");
                     trbn.id = this.id;
                     trbn.className = "toolbarbutton-1 chromeclass-toolbar-additional";
@@ -381,25 +326,23 @@ animation-timing-function: step-start !important;`}
                         trbn.onclick = e => {
                             switch (e.button) {
                                 case 0:
-                                    add_toolbar_buttons.prefToggleNumber("media.autoplay.default", [1, 5, 0, 0, 0, 0]);
-                                    add_toolbar_buttons.checkBrowserReload(e.view);
+                                    add_bar_btns.prefToggleNumber("media.autoplay.default", [1, 5, 0, 0, 0, 0]);
+                                    add_bar_btns.checkBrowserReload(e.view);
                                     break;
                                 case 1:
                                 case 2:
-                                    add_toolbar_buttons.sendAsyncMessages(e.view, "ATBWinActor:PageMedia");
+                                    add_bar_btns.sendAsyncMessages(e.view, "ATBWinActor:PageMedia");
                             }
                         };
                     }
                     return trbn;
                 }
-            });
-        } catch { }
-        try {
-            CustomizableUI.createWidget({
-                id: "b-javascript",
+            },
+            {
+                id: "atb-javascript",
                 type: "custom",
-                label: atb_locale.localizeMessage("bJavascriptL"),
-                tooltiptext: atb_locale.localizeMessage("bJavascriptT"),
+                label: atb_locale.localizeMessage("atbJavascriptL"),
+                tooltiptext: atb_locale.localizeMessage("atbJavascriptT"),
                 localized: false,
                 onBuild(doc) {
                     var trbn = doc.createXULElement("toolbarbutton");
@@ -408,31 +351,29 @@ animation-timing-function: step-start !important;`}
                     trbn.setAttribute("label", this.label);
                     trbn.setAttribute("context", "");
                     trbn.setAttribute("tooltiptext", this.tooltiptext);
-                    var javascript = add_toolbar_buttons.javascript_enabled;
+                    var javascript = add_bar_btns.javascript_enabled;
                     if (javascript !== null) {
                         trbn.setAttribute("activated", javascript);
                         trbn.onclick = e => {
                             switch (e.button) {
                                 case 0:
-                                    add_toolbar_buttons.prefToggleStatus("javascript.enabled");
-                                    add_toolbar_buttons.checkBrowserReload(e.view);
+                                    add_bar_btns.prefToggleStatus("javascript.enabled");
+                                    add_bar_btns.checkBrowserReload(e.view);
                                     break;
                                 case 1:
                                 case 2:
-                                    add_toolbar_buttons.sendAsyncMessagesJavaScript(e.view, "ATBWinActor:PageJavaScript");
+                                    add_bar_btns.sendAsyncMessagesJavaScript(e.view, "ATBWinActor:PageJavaScript");
                             }
                         };
                     }
                     return trbn;
                 }
-            });
-        } catch { }
-        try {
-            CustomizableUI.createWidget({
-                id: "b-cookie-toggle",
+            },
+            {
+                id: "atb-cookie-toggle",
                 type: "custom",
-                label: atb_locale.localizeMessage("bCookieToggleL"),
-                tooltiptext: atb_locale.localizeMessage("bCookieToggleT"),
+                label: atb_locale.localizeMessage("atbCookieToggleL"),
+                tooltiptext: atb_locale.localizeMessage("atbCookieToggleT"),
                 localized: false,
                 onBuild(doc) {
                     var trbn = doc.createXULElement("toolbarbutton");
@@ -443,34 +384,32 @@ animation-timing-function: step-start !important;`}
                     trbn.setAttribute("label", this.label);
                     trbn.setAttribute("context", "");
                     trbn.setAttribute("tooltiptext", this.tooltiptext);
-                    var cookieBehavior = add_toolbar_buttons.network_cookie_cookieBehavior;
+                    var cookieBehavior = add_bar_btns.network_cookie_cookieBehavior;
                     if (cookieBehavior !== null) {
                         trbn.setAttribute("badge", cookieBehavior);
-                        trbn.setAttribute("badgeStyle", `background: ${cookieBehavior !== 2 ? "#0074e8" : "#e31b5d"}; color: #ffffff; font-size: 10px; line-height: 10px; box-shadow: none; text-shadow: none; padding-block: 0 1px !important; padding-inline: 2px !important; min-width: 0 !important;`);
+                        trbn.setAttribute("badgeStyle", `background: ${cookieBehavior !== 2 ? "light-dark(oklch(62% 0.25 260), oklch(65% 0.25 260))" : "light-dark(oklch(50% 0.25 0), oklch(70% 0.25 0))"}; color: oklch(1 0 0); font-size: 10px; font-weight: normal; line-height: 10px; box-shadow: none; text-shadow: none; padding-block: 0 1px !important; padding-inline: 2px !important; min-width: 0 !important;`);
                         trbn.onclick = e => {
                             switch (e.button) {
                                 case 0:
-                                    if (!e.shiftKey) add_toolbar_buttons.prefToggleNumber("network.cookie.cookieBehavior", [1, 2, 3, 4, 5, 0]);
-                                    else add_toolbar_buttons.delCookies(e.view, this.id);
+                                    if (!e.shiftKey) add_bar_btns.prefToggleNumber("network.cookie.cookieBehavior", [1, 2, 3, 4, 5, 0]);
+                                    else add_bar_btns.delCookies(e.view, this.id);
                                     break;
                                 case 1:
-                                    add_toolbar_buttons.delCookies(e.view, this.id);
+                                    add_bar_btns.delCookies(e.view, this.id);
                                     break;
                                 case 2:
-                                    add_toolbar_buttons.viewCookies(e.view);
+                                    add_bar_btns.viewCookies(e.view);
                             }
                         };
                     }
                     return trbn;
                 }
-            });
-        } catch { }
-        try {
-            CustomizableUI.createWidget({
-                id: "b-zoom-toggle",
+            },
+            {
+                id: "atb-zoom-toggle",
                 type: "custom",
-                label: atb_locale.localizeMessage("bZoomToggleL"),
-                tooltiptext: atb_locale.localizeMessage("bZoomToggleT"),
+                label: atb_locale.localizeMessage("atbZoomToggleL"),
+                tooltiptext: atb_locale.localizeMessage("atbZoomToggleT"),
                 localized: false,
                 onBuild(doc) {
                     var trbn = doc.createXULElement("toolbarbutton");
@@ -478,7 +417,7 @@ animation-timing-function: step-start !important;`}
                     trbn.className = "toolbarbutton-1 chromeclass-toolbar-additional";
                     trbn.setAttribute("label", this.label);
                     trbn.setAttribute("tooltiptext", this.tooltiptext);
-                    var zoom = add_toolbar_buttons.browser_zoom_full;
+                    var zoom = add_bar_btns.browser_zoom_full;
                     if (zoom !== null) {
                         trbn.setAttribute("activated", zoom);
                         trbn.onclick = e => {
@@ -487,227 +426,245 @@ animation-timing-function: step-start !important;`}
                     }
                     return trbn;
                 }
-            });
-        } catch { }
-        try {
-            let bToggleProxy = atb_locale.localizeMessage("bToggleProxy");
-            CustomizableUI.createWidget({
-                id: "toolbaritem-b-toggle-proxy",
+            },
+            {
+                id: "atb-combined-toggle-proxy",
                 type: "custom",
-                label: bToggleProxy,
-                tooltiptext: bToggleProxy,
+                label: atb_locale.localizeMessage("atbToggleProxy"),
+                tooltiptext: atb_locale.localizeMessage("atbToggleProxy"),
                 localized: false,
                 onBuild(doc) {
                     var trim = doc.createXULElement("toolbaritem");
                     trim.id = this.id;
-                    trim.className = "toolbaritem-combined-buttons atb-toolbaritem-combined-buttons chromeclass-toolbar-additional";
+                    trim.className = "toolbaritem-combined-buttons atb-combined-buttons chromeclass-toolbar-additional";
                     trim.setAttribute("label", this.label);
                     trim.setAttribute("type", "custom");
                     var trbn_0 = doc.createXULElement("toolbarbutton");
-                    trbn_0.id = "b-toggle-proxy";
-                    trbn_0.className = "toolbarbutton-1 atb-toolbarbutton-combined-buttons-toolbarbutton";
+                    trbn_0.id = "atb-toggle-proxy";
+                    trbn_0.className = "toolbarbutton-1 atb-combined-buttons-toolbarbutton";
                     trbn_0.setAttribute("label", this.label);
                     trbn_0.setAttribute("tooltiptext", this.tooltiptext);
                     trbn_0.setAttribute("context", "");
+                    var map = winWeakMap.get(doc.defaultView);
+                    map.addListener(Symbol(), trbn_0, "command", this.toggleTheProxy.bind(add_bar_btns));
                     trim.append(trbn_0);
                     var trbn_1 = doc.createXULElement("toolbarbutton");
-                    trbn_1.id = "b-toggle-proxy-menu";
-                    trbn_1.className = "toolbarbutton-1 atb-toolbarbutton-combined-buttons-dropmarker";
+                    trbn_1.id = "atb-toggle-proxy-menu";
+                    trbn_1.className = "toolbarbutton-1 atb-combined-buttons-dropmarker";
                     trbn_1.setAttribute("type", "menu");
                     trbn_1.setAttribute("label", "");
-                    trbn_1.setAttribute("tooltiptext", atb_locale.localizeMessage("bToggleProxyT"));
+                    trbn_1.setAttribute("tooltiptext", atb_locale.localizeMessage("atbToggleProxyT"));
                     trbn_1.setAttribute("context", "");
-                    trbn_1.onclick = e => {
-                        if (e.button === 2) {
-                            e.preventDefault();
-                            e.stopPropagation();
-                            add_toolbar_buttons.openProxyWin(e.view);
-                        }
-                    };
+                    map.addListener(Symbol(), trbn_1, "contextmenu", this.openProxyWin.bind(add_bar_btns));
                     var mupp = doc.createXULElement("menupopup");
-                    mupp.id = "b-toggle-proxy-popup";
-                    mupp.onclick = e => {
-                        e.stopPropagation();
-                    };
-                    var proxy = add_toolbar_buttons.network_proxy_type;
-                    if (proxy !== null) {
-                        trim.setAttribute("activated", proxy);
-                        trbn_0.onclick = e => {
-                            if (e.button) return;
-                            add_toolbar_buttons.toggleTheProxy();
-                            add_toolbar_buttons.checkBrowserReload(e.view);
-                        };
-                        mupp.onclick = e => {
-                            if (e.button) return;
-                            e.stopPropagation();
-                            add_toolbar_buttons.setProxyValue(e);
-                            add_toolbar_buttons.checkBrowserReload(e.view);
-                        };
-                        mupp.addEventListener("popupshowing", e => {
-                            add_toolbar_buttons.setProxyMenuItem(e);
-                        });
-                    }
+                    mupp.id = "atb-toggle-proxy-popup";
+                    var sym = Symbol();
+                    map.addListener(sym, mupp, "popupshowing", this.buildMenu.bind(this, map, sym));
+                    trim.setAttribute("activated", add_bar_btns.network_proxy_type);
+                    trbn_1.append(mupp);
+                    trim.append(trbn_1);
+                    return trim;
+                },
+                buildMenu(map, sym, e) {
+                    map.delListener(sym);
+                    var mupp = e.currentTarget;
+                    var doc = e.view.document;
+                    map.addListener(Symbol(), mupp, "command", this.setProxyValue.bind(add_bar_btns));
                     var muim_0 = doc.createXULElement("menuitem");
-                    muim_0.setAttribute("label", atb_locale.localizeMessage("bToggleProxyM0"));
+                    muim_0.setAttribute("label", atb_locale.localizeMessage("atbToggleProxyM0"));
                     muim_0.setAttribute("type", "radio");
                     muim_0.setAttribute("value", "0");
                     mupp.append(muim_0);
                     var muim_1 = doc.createXULElement("menuitem");
-                    muim_1.setAttribute("label", atb_locale.localizeMessage("bToggleProxyM1"));
+                    muim_1.setAttribute("label", atb_locale.localizeMessage("atbToggleProxyM1"));
                     muim_1.setAttribute("type", "radio");
                     muim_1.setAttribute("value", "1");
                     mupp.append(muim_1);
                     var muim_2 = doc.createXULElement("menuitem");
-                    muim_2.setAttribute("label", atb_locale.localizeMessage("bToggleProxyM2"));
+                    muim_2.setAttribute("label", atb_locale.localizeMessage("atbToggleProxyM2"));
                     muim_2.setAttribute("type", "radio");
                     muim_2.setAttribute("value", "2");
                     mupp.append(muim_2);
                     var muim_3 = doc.createXULElement("menuitem");
-                    muim_3.setAttribute("label", atb_locale.localizeMessage("bToggleProxyM4"));
+                    muim_3.setAttribute("label", atb_locale.localizeMessage("atbToggleProxyM4"));
                     muim_3.setAttribute("type", "radio");
                     muim_3.setAttribute("value", "4");
                     mupp.append(muim_3);
                     var muim_4 = doc.createXULElement("menuitem");
-                    muim_4.setAttribute("label", atb_locale.localizeMessage("bToggleProxyM5"));
+                    muim_4.setAttribute("label", atb_locale.localizeMessage("atbToggleProxyM5"));
                     muim_4.setAttribute("type", "radio");
                     muim_4.setAttribute("value", "5");
                     mupp.append(muim_4);
-                    var menuseparator = doc.createXULElement("menuseparator");
-                    mupp.append(menuseparator);
+                    mupp.append(doc.createXULElement("menuseparator"));
                     var muim_5 = doc.createXULElement("menuitem");
-                    muim_5.setAttribute("label", atb_locale.localizeMessage("bToggleProxyMS"));
-                    muim_5.onclick = e => {
-                        if (e.button) return;
-                        e.stopPropagation();
-                        add_toolbar_buttons.openProxyWin(e.view);
-                    };
+                    muim_5.setAttribute("label", atb_locale.localizeMessage("atbToggleProxyMS"));
+                    map.addListener(Symbol(), muim_5, "command", this.openProxyWin.bind(add_bar_btns));
+                    this.popupshowing.call(add_bar_btns, { currentTarget: mupp });
+                    map.addListener(sym, mupp, "popupshowing", this.popupshowing.bind(add_bar_btns));
                     mupp.append(muim_5);
-                    trbn_1.append(mupp);
-                    trim.append(trbn_1);
-                    return trim;
-                }
-            });
-        } catch { }
-        try {
-            CustomizableUI.createWidget({
-                id: "toolbaritem-b-undo-tab",
+                },
+                toggleTheProxy(e) {
+                    var proxyState = atb_ps.getIntPref("network.proxy.type"),
+                        toggleproxy = this.atb_branch.getIntPref("toggleproxy"),
+                        toggleproxy2 = this.atb_branch.getIntPref("toggleproxy2");
+                    atb_ps.setIntPref("network.proxy.type", (proxyState == toggleproxy2) ? toggleproxy : toggleproxy2);
+                    this.checkBrowserReload(e.view);
+                },
+                setProxyValue(e) {
+                    e.stopPropagation();
+                    atb_ps.setIntPref("network.proxy.type", +e.target.getAttribute("value"));
+                    this.checkBrowserReload(e.view);
+                },
+                async openProxyWin(e) {
+                    e.stopPropagation();
+                    if (e.target != e.currentTarget) return;
+                    var win = e.view;
+                    var type = "aTaB:ProxyWin";
+                    var w = Services.wm.getMostRecentWindow(type);
+                    if (!w) {
+                        let url = "chrome://browser/content/preferences/dialogs/connection.xhtml", id = "ConnectionsWin";
+                        let { xulStore: xs } = Services;
+                        let sx = +xs.getValue(url, id, "screenX") || xs.setValue(url, id, "screenX", 1) || 1;
+                        let sy = +xs.getValue(url, id, "screenY") || xs.setValue(url, id, "screenY", 1) || 1;
+                        let wh = +xs.getValue(url, id, "width") || xs.setValue(url, id, "width", 600) || 600;
+                        let ht = +xs.getValue(url, id, "height") || xs.setValue(url, id, "height", 600) || 600;
+                        let sm = xs.getValue(url, id, "sizemode");
+                        w = win.openDialog(url, type, `chrome,dialog=no,resizable,screenX=${sx},screenY=${sy},width=${wh},height=${ht}`);
+                        w.opener = win;
+                        w.opener.gSubDialog = {
+                            _dialogs: []
+                        };
+                        if (sm === "maximized") w.windowRoot.addEventListener("MozUpdateWindowPos", () => w.maximize(), { once: true, capture: true });
+                        await new Promise(resolve => w.windowRoot.addEventListener("DOMContentLoaded", resolve, { once: true }));
+                        let docEl = w.document.documentElement;
+                        docEl.id = id;
+                        docEl.setAttribute("type", "prefwindow");
+                        docEl.setAttribute("windowtype", type);
+                        docEl.setAttribute("persist", "screenX screenY width height sizemode lastSelected");
+                    }
+                    w.focus();
+                },
+                popupshowing(e) {
+                    var proxyState = atb_ps.getIntPref("network.proxy.type"), popup = e.currentTarget;
+                    for (let item of popup.querySelectorAll("menuitem")) {
+                        if (+item.getAttribute("value") === proxyState) {
+                            item.toggleAttribute("checked", true);
+                            break;
+                        }
+                    }
+                },
+            },
+            {
+                id: "atb-combined-undo-tab",
                 type: "custom",
-                label: atb_locale.localizeMessage("bUndoTabL"),
-                tooltiptext: atb_locale.localizeMessage("bUndoTabT"),
+                label: atb_locale.localizeMessage("atbUndoTabL"),
+                tooltiptext: atb_locale.localizeMessage("atbUndoTabT"),
                 localized: false,
                 onBuild(doc) {
                     var trim = doc.createXULElement("toolbaritem");
                     trim.id = this.id;
-                    trim.className = "toolbaritem-combined-buttons atb-toolbaritem-combined-buttons chromeclass-toolbar-additional";
+                    trim.className = "toolbaritem-combined-buttons atb-combined-buttons chromeclass-toolbar-additional";
                     trim.setAttribute("label", this.label);
                     trim.setAttribute("type", "custom");
                     var trbn_0 = doc.createXULElement("toolbarbutton");
-                    trbn_0.id = "b-undo-tab";
-                    trbn_0.className = "toolbarbutton-1 atb-toolbarbutton-combined-buttons-toolbarbutton";
+                    trbn_0.id = "atb-undo-tab";
+                    trbn_0.className = "toolbarbutton-1 atb-combined-buttons-toolbarbutton";
                     trbn_0.setAttribute("label", this.label);
                     trbn_0.setAttribute("tooltiptext", this.tooltiptext);
                     trbn_0.setAttribute("context", "");
-                    trbn_0.onclick = e => {
-                        var win = e.view;
-                        switch (e.button) {
-                            case 0:
-                            case 1:
-                                if (!("undoCloseTab" in win)) win.SessionWindowUI.undoCloseTab(win);
-                                else win.undoCloseTab();
-                                break;
-                            case 2:
-                                if (!("undoCloseWindow" in win)) win.SessionWindowUI.undoCloseWindow(0);
-                                else win.undoCloseWindow();
-                        }
-                    };
+                    var map = winWeakMap.get(doc.defaultView);
+                    map.addListener(Symbol(), trbn_0, "click", this.btnClick.bind(add_bar_btns));
                     trim.append(trbn_0);
                     var trbn_1 = doc.createXULElement("toolbarbutton");
-                    trbn_1.id = "b-undo-tab-menu";
-                    trbn_1.className = "toolbarbutton-1 atb-toolbarbutton-combined-buttons-dropmarker";
+                    trbn_1.id = "atb-undo-tab-menu";
+                    trbn_1.className = "toolbarbutton-1 atb-combined-buttons-dropmarker";
                     trbn_1.setAttribute("type", "menu");
                     trbn_1.setAttribute("label", "");
-                    trbn_1.setAttribute("tooltiptext", atb_locale.localizeMessage("bUndoTabT0"));
+                    trbn_1.setAttribute("tooltiptext", atb_locale.localizeMessage("atbUndoTabT0"));
                     trbn_1.setAttribute("context", "");
-                    trbn_1.onclick = e => {
-                        if (e.button === 2) {
-                            e.preventDefault();
-                            e.stopPropagation();
-                            e.view.PlacesCommandHook.showPlacesOrganizer("History");
-                        }
-                    };
+                    map.addListener(Symbol(), trbn_1, "contextmenu", this.contextmenu.bind(add_bar_btns));
                     var mupp_0 = doc.createXULElement("menupopup");
                     mupp_0.id = "mupp-undo-tab-popup";
                     mupp_0.setAttribute("tooltip", "bhTooltip");
                     mupp_0.setAttribute("popupsinherittooltip", true);
-                    mupp_0.onclick = e => {
-                        e.stopPropagation();
-                    };
+                    var sym = Symbol();
+                    map.addListener(sym, mupp_0, "popupshowing", this.buildMenu.bind(this, map, sym));
+                    trbn_1.append(mupp_0);
+                    trim.append(trbn_1);
+                    return trim;
+                },
+                btnClick(e) {
+                    switch (e.button) {
+                        case 0:
+                        case 1:
+                            e.view.SessionWindowUI.undoCloseTab(e.view);
+                            break;
+                        case 2:
+                            e.view.SessionWindowUI.undoCloseWindow(0);
+                    }
+                },
+                contextmenu(e) {
+                    e.view.PlacesCommandHook.showPlacesOrganizer("History");
+                },
+                buildMenu(map, sym, e) {
+                    map.delListener(sym);
+                    var mupp_0 = e.currentTarget;
+                    var doc = e.view.document;
                     var muim_0 = doc.createXULElement("menuitem");
                     muim_0.id = "muim-undo-all-history";
                     muim_0.className = "atb-menuitem";
-                    muim_0.setAttribute("label", atb_locale.localizeMessage("bUndoTabM0"));
-                    muim_0.onclick = e => {
-                        if (e.button) return;
+                    muim_0.setAttribute("label", atb_locale.localizeMessage("atbUndoTabM0"));
+                    map.addListener(Symbol(), muim_0, "command", e => {
                         e.stopPropagation();
                         e.view.PlacesCommandHook.showPlacesOrganizer("History");
-                    };
+                    });
                     mupp_0.append(muim_0);
                     var muim_1 = doc.createXULElement("menuitem");
                     muim_1.id = "muim-open-sanitize";
                     muim_1.className = "atb-menuitem";
-                    muim_1.setAttribute("label", atb_locale.localizeMessage("bUndoTabM1"));
-                    muim_1.onclick = e => {
-                        if (e.button) return;
+                    muim_1.setAttribute("label", atb_locale.localizeMessage("atbUndoTabM1"));
+                    map.addListener(Symbol(), muim_1, "command", e => {
                         e.stopPropagation();
-                        add_toolbar_buttons.openSanitizeWin(e.view);
-                    };
+                        add_bar_btns.openSanitizeWin(e.view);
+                    });
                     mupp_0.append(muim_1);
                     var muim_2 = doc.createXULElement("menuitem");
                     muim_2.id = "muim-restore-last-session";
                     muim_2.className = "atb-menuitem";
                     muim_2.setAttribute("hidden", "true");
-                    muim_2.setAttribute("label", atb_locale.localizeMessage("bUndoTabM2"));
-                    muim_2.onclick = e => {
-                        if (e.button) return;
+                    muim_2.setAttribute("label", atb_locale.localizeMessage("atbUndoTabM2"));
+                    map.addListener(Symbol(), muim_2, "command", e => {
                         e.stopPropagation();
                         e.view.SessionStore.restoreLastSession();
-                    };
+                    });
                     mupp_0.append(muim_2);
                     var menu_0 = doc.createXULElement("menu");
                     menu_0.id = "menu-recently-closed-win";
                     menu_0.className = "atb-menu";
                     menu_0.setAttribute("hidden", "true");
-                    menu_0.setAttribute("label", atb_locale.localizeMessage("bUndoTabM3"));
+                    menu_0.setAttribute("label", atb_locale.localizeMessage("atbUndoTabM3"));
                     var mupp_1 = doc.createXULElement("menupopup");
                     var muim_3 = doc.createXULElement("menuitem");
                     muim_3.id = "muim-recently-closed-win";
                     muim_3.className = "atb-menuitem";
                     muim_3.setAttribute("hidden", "true");
-                    muim_3.setAttribute("label", atb_locale.localizeMessage("bUndoTabM4"));
-                    muim_3.onclick = e => {
-                        if (e.button) return;
+                    muim_3.setAttribute("label", atb_locale.localizeMessage("atbUndoTabM4"));
+                    map.addListener(Symbol(), muim_3, "command", e => {
                         e.stopPropagation();
                         var { SessionStore } = e.view;
-                        if ("forgetClosedWindowById" in SessionStore)
-                            for (let { closedId } of SessionStore.getClosedWindowData())
-                                SessionStore.forgetClosedWindowById(closedId);
-                        else {
-                            let count = SessionStore.getClosedWindowCount();
-                            while (count--)
-                                SessionStore.forgetClosedWindow(0);
-                        }
-                    };
+                        for (let { closedId } of SessionStore.getClosedWindowData())
+                            SessionStore.forgetClosedWindowById(closedId);
+                    });
                     mupp_1.append(muim_3);
                     var musr_0 = doc.createXULElement("menuseparator");
                     musr_0.id = "musr-recently-closed-win";
                     musr_0.className = "atb-menuseparator";
                     musr_0.setAttribute("hidden", "true");
                     mupp_1.append(musr_0);
-                    mupp_1.addEventListener("popupshowing", e => {
-                        if (e.target != mupp_1) return;
-                        e.stopPropagation();
+                    map.addListener(Symbol(), mupp_1, "popupshowing", e => {
+                        if (e.currentTarget != e.target) return;
                         var win = e.view;
-                        for (let item of mupp_1.querySelectorAll(":scope > *:not(.atb-menuitem,.atb-menu,.atb-menuseparator)"))
+                        for (let item of mupp_1.querySelectorAll(":scope > :not(.atb-menuitem, .atb-menu, .atb-menuseparator)"))
                             item.remove();
                         if (win.SessionStore.getClosedWindowCount() === 0) {
                             muim_3.setAttribute("hidden", "true");
@@ -716,8 +673,7 @@ animation-timing-function: step-start !important;`}
                         }
                         muim_3.removeAttribute("hidden");
                         musr_0.removeAttribute("hidden");
-                        var windowsFragment = win.RecentlyClosedTabsAndWindowsMenuUtils.getWindowsFragment(win, "menuitem");
-                        mupp_1.append(windowsFragment);
+                        mupp_1.append(win.RecentlyClosedTabsAndWindowsMenuUtils.getWindowsFragment(win, "menuitem"));
                         menu_0.removeAttribute("hidden");
                     });
                     menu_0.append(mupp_1);
@@ -730,40 +686,31 @@ animation-timing-function: step-start !important;`}
                     muim_4.id = "muim-recently-closed-tabs";
                     muim_4.className = "atb-menuitem";
                     muim_4.setAttribute("hidden", "true");
-                    muim_4.setAttribute("label", atb_locale.localizeMessage("bUndoTabM5"));
-                    muim_4.onclick = e => {
-                        if (e.button) return;
+                    muim_4.setAttribute("label", atb_locale.localizeMessage("atbUndoTabM5"));
+                    map.addListener(Symbol(), muim_4, "command", e => {
                         e.stopPropagation();
-                        var win = e.view;
-                        var { SessionStore } = win;
-                        if ("forgetClosedTabById" in SessionStore) {
-                            for (let { id, sourceWindowId, tabs: [{ sourceClosedId }] } of (SessionStore.getClosedTabGroups?.() || []))
-                                SessionStore.forgetClosedTabGroup({ sourceWindowId, sourceClosedId }, id);
-                            for (let { closedId } of SessionStore.getClosedTabData(win))
-                                SessionStore.forgetClosedTabById(closedId);
-                            for (let { closedId, sourceClosedId } of SessionStore.getClosedTabDataFromClosedWindows())
-                                SessionStore.forgetClosedTabById(closedId, { sourceClosedId });
-                        } else {
-                            let count = SessionStore.getClosedTabCountForWindow(win);
-                            while (count--)
-                                SessionStore.forgetClosedTab(win, 0);
-                        }
-                    };
+                        var { SessionStore } = e.view;
+                        for (let { id, sourceWindowId, tabs: [{ sourceClosedId }] } of (SessionStore.getClosedTabGroups?.() || []))
+                            SessionStore.forgetClosedTabGroup({ sourceWindowId, sourceClosedId }, id);
+                        for (let { closedId } of SessionStore.getClosedTabDataForWindow(e.view))
+                            SessionStore.forgetClosedTabById(closedId);
+                        for (let { closedId, sourceClosedId } of SessionStore.getClosedTabDataFromClosedWindows())
+                            SessionStore.forgetClosedTabById(closedId, { sourceClosedId });
+                    });
                     mupp_0.append(muim_4);
                     var musr_2 = doc.createXULElement("menuseparator");
                     musr_2.id = "musr-recently-closed-tabs";
                     musr_2.className = "atb-menuseparator";
                     musr_2.setAttribute("hidden", "true");
                     mupp_0.append(musr_2);
-                    mupp_0.addEventListener("popupshowing", e => {
+                    var popupshowing = e => {
                         if (e.target != mupp_0) return;
-                        var win = e.view;
-                        var { SessionStore } = win;
+                        var { SessionStore } = e.view;
                         if (SessionStore.getClosedWindowCount() === 0) menu_0.setAttribute("hidden", "true");
                         else menu_0.removeAttribute("hidden");
                         if (!SessionStore.canRestoreLastSession) muim_2.setAttribute("hidden", "true");
                         else muim_2.removeAttribute("hidden");
-                        for (let item of mupp_0.querySelectorAll(":scope > *:not(.atb-menuitem,.atb-menu,.atb-menuseparator)"))
+                        for (let item of mupp_0.querySelectorAll(":scope > :not(.atb-menuitem, .atb-menu, .atb-menuseparator)"))
                             item.remove();
                         if (SessionStore.getClosedTabCount() === 0) {
                             musr_1.setAttribute("hidden", "true");
@@ -774,21 +721,127 @@ animation-timing-function: step-start !important;`}
                         musr_1.removeAttribute("hidden");
                         muim_4.removeAttribute("hidden");
                         musr_2.removeAttribute("hidden");
-                        var tabsFragment = win.RecentlyClosedTabsAndWindowsMenuUtils.getTabsFragment(win, "menuitem");
+                        var tabsFragment = e.view.RecentlyClosedTabsAndWindowsMenuUtils.getTabsFragment(e.view, "menuitem");
                         mupp_0.append(tabsFragment);
-                    });
-                    trbn_1.append(mupp_0);
+                    };
+                    popupshowing(e);
+                    map.addListener(sym, mupp_0, "popupshowing", popupshowing);
+                }
+            },
+            {
+                id: "atb-combined-bookmarks-mgr",
+                type: "custom",
+                label: atb_locale.localizeMessage("atbBookmarksMgrL"),
+                tooltiptext: atb_locale.localizeMessage("atbBookmarksMgrT"),
+                localized: false,
+                onBuild(doc) {
+                    var trim = doc.createXULElement("toolbaritem");
+                    trim.id = this.id;
+                    trim.className = "toolbaritem-combined-buttons atb-combined-buttons chromeclass-toolbar-additional";
+                    trim.setAttribute("label", this.label);
+                    trim.setAttribute("type", "custom");
+                    trim.setAttribute("activated", !add_bar_btns.bookMgrRun);
+                    var trbn_0 = doc.createXULElement("toolbarbutton");
+                    trbn_0.id = "atb-bookmarks-mgr";
+                    trbn_0.className = "toolbarbutton-1 atb-combined-buttons-toolbarbutton";
+                    trbn_0.setAttribute("label", atb_locale.localizeMessage("atbBookmarkNopopL"));
+                    trbn_0.setAttribute("tooltiptext", atb_locale.localizeMessage("atbBookmarkNopopT"));
+                    trbn_0.setAttribute("context", "");
+                    var map = winWeakMap.get(doc.defaultView);
+                    map.addListener(Symbol(), trbn_0, "click", this.btnClick.bind(add_bar_btns));
+                    trim.append(trbn_0);
+                    var trbn_1 = doc.createXULElement("toolbarbutton");
+                    trbn_1.id = "atb-bookmarks-mgr-menu";
+                    trbn_1.className = "toolbarbutton-1 atb-combined-buttons-dropmarker";
+                    trbn_1.setAttribute("type", "menu");
+                    trbn_1.setAttribute("label", this.label);
+                    trbn_1.setAttribute("tooltiptext", this.tooltiptext);
+                    trbn_1.setAttribute("context", "");
+                    var mupp = doc.createXULElement("menupopup");
+                    mupp.id = "atb-bookmarks-mgr-popup";
+                    var sym = Symbol();
+                    map.addListener(sym, mupp, "popupshowing", this.buildMenu.bind(this, map, sym));
+                    trbn_1.append(mupp);
                     trim.append(trbn_1);
                     return trim;
-                }
-            });
-        } catch { }
-        try {
-            CustomizableUI.createWidget({
-                id: "b-newtab",
+                },
+                btnClick(e) {
+                    if (this.bookMgrRun) return;
+                    switch (e.button) {
+                        case 0:
+                            this.bookmarkNoPopup(e.view);
+                            break;
+                        case 1:
+                            e.view.PlacesCommandHook.bookmarkTabs(e.view.gBrowser.selectedTabs);
+                            break;
+                        case 2:
+                            e.view.PlacesCommandHook.showPlacesOrganizer("BookmarksMenu");
+                    }
+                },
+                command(e) {
+                    var im = e.target;
+                    im.replaceWith(im);
+                    switch (im.dataset.id) {
+                        case "atb-fav":
+                            this.atb_branch.setBoolPref("alertnotification", im.hasAttribute("checked"));
+                            break;
+                        case "atb-sort":
+                            this.atb_branch.setBoolPref("bookmarkssortrevers", im.hasAttribute("checked"));
+                    }
+                },
+                contextmenu(e) {
+                    var pref = [1, 2, 0][this.atb_branch.getIntPref("bookmarkssorttype")];
+                    this.atb_branch.setIntPref("bookmarkssorttype", pref);
+                    e.target.setAttribute("label", atb_locale.localizeMessage(["atbBookmarksSortName", "atbBookmarksSortLoc", "atbBookmarksSortAdd"][pref]));
+                },
+                popupshowing(e) {
+                    var mupp = e.currentTarget;
+                    var { atb_branch } = this;
+                    mupp.atb_fav.toggleAttribute("checked", atb_branch.getBoolPref("alertnotification"));
+                    mupp.atb_sort.toggleAttribute("checked", atb_branch.getBoolPref("bookmarkssortrevers"));
+                    mupp.atb_sort.nextElementSibling.setAttribute("label", atb_locale.localizeMessage(["atbBookmarksSortName", "atbBookmarksSortLoc", "atbBookmarksSortAdd"][atb_branch.getIntPref("bookmarkssorttype")]));
+                },
+                buildMenu(map, sym, e) {
+                    map.delListener(sym);
+                    var mupp = e.currentTarget;
+                    var doc = e.view.document;
+                    var mugp_0 = doc.createXULElement("menugroup");
+                    var muim_0 = doc.createXULElement("menuitem");
+                    muim_0.setAttribute("type", "checkbox");
+                    muim_0.setAttribute("closemenu", "none");
+                    muim_0.setAttribute("tooltiptext", atb_locale.localizeMessage("alertnotification"));
+                    muim_0.dataset.id = "atb-fav";
+                    mupp.atb_fav = muim_0;
+                    map.addListener(Symbol(), muim_0, "command", this.command.bind(add_bar_btns));
+                    mugp_0.append(muim_0);
+                    var muim_1 = doc.createXULElement("menuitem");
+                    muim_1.setAttribute("label", atb_locale.localizeMessage("atbBookmarksFav"));
+                    map.addListener(Symbol(), muim_1, "command", add_bar_btns.favSearchStart.bind(add_bar_btns));
+                    mugp_0.append(muim_1);
+                    mupp.append(mugp_0);
+                    var mugp_1 = doc.createXULElement("menugroup");
+                    var muim_2 = doc.createXULElement("menuitem");
+                    muim_2.setAttribute("type", "checkbox");
+                    muim_2.setAttribute("closemenu", "none");
+                    muim_2.setAttribute("tooltiptext", atb_locale.localizeMessage("alertnotification"));
+                    muim_2.dataset.id = "atb-sort";
+                    mupp.atb_sort = muim_2;
+                    map.addListener(Symbol(), muim_2, "command", this.command.bind(add_bar_btns));
+                    mugp_1.append(muim_2);
+                    var muim_3 = doc.createXULElement("menuitem");
+                    map.addListener(Symbol(), muim_3, "command", add_bar_btns.bookmarksSort.bind(add_bar_btns));
+                    map.addListener(Symbol(), muim_3, "contextmenu", this.contextmenu.bind(add_bar_btns));
+                    mugp_1.append(muim_3);
+                    mupp.append(mugp_1);
+                    this.popupshowing.call(add_bar_btns, { currentTarget: mupp });
+                    map.addListener(sym, mupp, "popupshowing", this.popupshowing.bind(add_bar_btns));
+                },
+            },
+            {
+                id: "atb-newtab",
                 type: "custom",
-                label: atb_locale.localizeMessage("bNewtabL"),
-                tooltiptext: atb_locale.localizeMessage("bNewtabT"),
+                label: atb_locale.localizeMessage("atbNewtabL"),
+                tooltiptext: atb_locale.localizeMessage("atbNewtabT"),
                 localized: false,
                 onBuild(doc) {
                     var trbn = doc.createXULElement("toolbarbutton");
@@ -797,25 +850,17 @@ animation-timing-function: step-start !important;`}
                     trbn.setAttribute("label", this.label);
                     trbn.setAttribute("context", "new-tab-button-popup");
                     trbn.setAttribute("tooltiptext", this.tooltiptext);
-                    trbn.browsercommands = function (e) {
-                        this.browsercommands = ("BrowserCommands" in e.view)
-                            ? e => e.view.BrowserCommands.openTab({ event: e })
-                            : e => e.view.BrowserOpenTab({ event: e });
-                        this.browsercommands(e);
-                    };
-                    trbn.onclick = function (e) {
-                        if (e.button === 0 || e.button === 1) this.browsercommands(e);
+                    trbn.onclick = e => {
+                        if (e.button === 0 || e.button === 1) e.view.BrowserCommands.openTab({ event: e });
                     };
                     return trbn;
                 }
-            });
-        } catch { }
-        try {
-            CustomizableUI.createWidget({
-                id: "b-close-other-tabs",
+            },
+            {
+                id: "atb-close-other-tabs",
                 type: "custom",
-                label: atb_locale.localizeMessage("bCloseOtherTabsL"),
-                tooltiptext: atb_locale.localizeMessage("bCloseOtherTabsT"),
+                label: atb_locale.localizeMessage("atbCloseOtherTabsL"),
+                tooltiptext: atb_locale.localizeMessage("atbCloseOtherTabsT"),
                 localized: false,
                 onBuild(doc) {
                     var trbn = doc.createXULElement("toolbarbutton");
@@ -827,25 +872,23 @@ animation-timing-function: step-start !important;`}
                     trbn.onclick = e => {
                         switch (e.button) {
                             case 0:
-                                add_toolbar_buttons.closeStartTabs(e.view);
+                                add_bar_btns.closeStartTabs(e.view);
                                 break;
                             case 1:
-                                add_toolbar_buttons.closeTabsDomain(e.view);
+                                add_bar_btns.closeTabsDomain(e.view);
                                 break;
                             case 2:
-                                add_toolbar_buttons.closeEndTabs(e.view);
+                                add_bar_btns.closeEndTabs(e.view);
                         }
                     };
                     return trbn;
                 }
-            });
-        } catch { }
-        try {
-            CustomizableUI.createWidget({
-                id: "b-close-all-tabs",
+            },
+            {
+                id: "atb-close-all-tabs",
                 type: "custom",
-                label: atb_locale.localizeMessage("bCloseAllTabsL"),
-                tooltiptext: atb_locale.localizeMessage("bCloseAllTabsT"),
+                label: atb_locale.localizeMessage("atbCloseAllTabsL"),
+                tooltiptext: atb_locale.localizeMessage("atbCloseAllTabsT"),
                 localized: false,
                 onBuild(doc) {
                     var trbn = doc.createXULElement("toolbarbutton");
@@ -857,26 +900,24 @@ animation-timing-function: step-start !important;`}
                     trbn.onclick = e => {
                         switch (e.button) {
                             case 0:
-                                if (!e.shiftKey) add_toolbar_buttons.closeAllTabs(e.view);
-                                else add_toolbar_buttons.closeOtherTabs(e.view);
+                                if (!e.shiftKey) add_bar_btns.closeAllTabs(e.view);
+                                else add_bar_btns.closeOtherTabs(e.view);
                                 break;
                             case 1:
-                                add_toolbar_buttons.closeOtherWindow(e.view);
+                                add_bar_btns.closeOtherWindow(e.view);
                                 break;
                             case 2:
-                                add_toolbar_buttons.closeTabsDomain(e.view, true);
+                                add_bar_btns.closeTabsDomain(e.view, true);
                         }
                     };
                     return trbn;
                 }
-            });
-        } catch { }
-        try {
-            CustomizableUI.createWidget({
-                id: "b-restart-app",
+            },
+            {
+                id: "atb-restart-app",
                 type: "custom",
-                label: atb_locale.localizeMessage("bRestartAppL"),
-                tooltiptext: atb_locale.localizeMessage("bRestartAppT"),
+                label: atb_locale.localizeMessage("atbRestartAppL"),
+                tooltiptext: atb_locale.localizeMessage("atbRestartAppT"),
                 localized: false,
                 onBuild(doc) {
                     var trbn = doc.createXULElement("toolbarbutton");
@@ -888,25 +929,23 @@ animation-timing-function: step-start !important;`}
                     trbn.onclick = e => {
                         switch (e.button) {
                             case 0:
-                                add_toolbar_buttons.restartApp();
+                                add_bar_btns.restartApp();
                                 break;
                             case 1:
                                 e.view.safeModeRestart();
                                 break;
                             case 2:
-                                add_toolbar_buttons.restartApp(true);
+                                add_bar_btns.restartApp(true);
                         }
                     };
                     return trbn;
                 }
-            });
-        } catch { }
-        try {
-            CustomizableUI.createWidget({
-                id: "b-about-config",
+            },
+            {
+                id: "atb-about-config",
                 type: "custom",
                 label: "about:config",
-                tooltiptext: atb_locale.localizeMessage("bAboutConfigT"),
+                tooltiptext: atb_locale.localizeMessage("atbAboutConfigT"),
                 localized: false,
                 onBuild(doc) {
                     var trbn = doc.createXULElement("toolbarbutton");
@@ -918,26 +957,24 @@ animation-timing-function: step-start !important;`}
                     trbn.onclick = e => {
                         switch (e.button) {
                             case 0:
-                                if (!e.shiftKey) add_toolbar_buttons.loadURL(e.view, "about:config");
-                                else add_toolbar_buttons.openClipboardConfigTab(e.view);
+                                if (!e.shiftKey) add_bar_btns.loadURL(e.view, "about:config");
+                                else add_bar_btns.openClipboardConfigTab(e.view);
                                 break;
                             case 1:
-                                add_toolbar_buttons.openClipboardConfigTab(e.view);
+                                add_bar_btns.openClipboardConfigTab(e.view);
                                 break;
                             case 2:
-                                add_toolbar_buttons.openSelectedConfigTab(e.view);
+                                add_bar_btns.openSelectedConfigTab(e.view);
                         }
                     };
                     return trbn;
                 }
-            });
-        } catch { }
-        try {
-            CustomizableUI.createWidget({
-                id: "b-about-downloads",
+            },
+            {
+                id: "atb-about-downloads",
                 type: "custom",
-                label: atb_locale.localizeMessage("bAboutDownloadsL"),
-                tooltiptext: atb_locale.localizeMessage("bAboutDownloadsT"),
+                label: atb_locale.localizeMessage("atbAboutDownloadsL"),
+                tooltiptext: atb_locale.localizeMessage("atbAboutDownloadsT"),
                 localized: false,
                 onBuild(doc) {
                     var trbn = doc.createXULElement("toolbarbutton");
@@ -980,41 +1017,35 @@ animation-timing-function: step-start !important;`}
                     };
                     return trbn;
                 }
-            });
-        } catch { }
-        try {
-            CustomizableUI.createWidget({
-                id: "b-about-about",
+            },
+            {
+                id: "atb-about-about",
                 label: "about:about",
-                tooltiptext: atb_locale.localizeMessage("bAboutAboutT"),
+                tooltiptext: atb_locale.localizeMessage("atbAboutAboutT"),
                 localized: false,
                 onClick(e) {
                     switch (e.button) {
                         case 0:
-                            add_toolbar_buttons.loadURL(e.view, "about:about");
+                            add_bar_btns.loadURL(e.view, "about:about");
                             break;
                         case 1:
-                            add_toolbar_buttons.loadURL(e.view, "about:about", true);
+                            add_bar_btns.loadURL(e.view, "about:about", true);
                     }
                 }
-            });
-        } catch { }
-        try {
-            CustomizableUI.createWidget({
-                id: "b-clear-data",
-                label: atb_locale.localizeMessage("bClearDataL"),
-                tooltiptext: atb_locale.localizeMessage("bClearDataT"),
+            },
+            {
+                id: "atb-clear-data",
+                label: atb_locale.localizeMessage("atbClearDataL"),
+                tooltiptext: atb_locale.localizeMessage("atbClearDataT"),
                 localized: false,
                 onCommand(e) {
-                    add_toolbar_buttons.openSanitizeWin(e.view);
+                    add_bar_btns.openSanitizeWin(e.view);
                 }
-            });
-        } catch { }
-        try {
-            CustomizableUI.createWidget({
-                id: "b-preferences",
-                label: atb_locale.localizeMessage("bPreferencesL"),
-                tooltiptext: atb_locale.localizeMessage("bPreferencesT"),
+            },
+            {
+                id: "atb-preferences",
+                label: atb_locale.localizeMessage("atbPreferencesL"),
+                tooltiptext: atb_locale.localizeMessage("atbPreferencesT"),
                 localized: false,
                 onClick(e) {
                     switch (e.button) {
@@ -1027,44 +1058,12 @@ animation-timing-function: step-start !important;`}
                             e.view.openPreferences();
                     }
                 }
-            });
-        } catch { }
-        try {
-            CustomizableUI.createWidget({
-                id: "b-bookmark-nopop",
+            },
+            {
+                id: "atb-snap-back",
                 type: "custom",
-                label: atb_locale.localizeMessage("bBookmarkNopopL"),
-                tooltiptext: atb_locale.localizeMessage("bBookmarkNopopT"),
-                localized: false,
-                onBuild(doc) {
-                    var trbn = doc.createXULElement("toolbarbutton");
-                    trbn.id = this.id;
-                    trbn.className = "toolbarbutton-1 chromeclass-toolbar-additional";
-                    trbn.setAttribute("label", this.label);
-                    trbn.setAttribute("context", "");
-                    trbn.setAttribute("tooltiptext", this.tooltiptext);
-                    trbn.onclick = e => {
-                        switch (e.button) {
-                            case 0:
-                                add_toolbar_buttons.bookmarkNoPopup(e.view);
-                                break;
-                            case 1:
-                                e.view.PlacesCommandHook.bookmarkTabs(e.view.gBrowser.selectedTabs);
-                                break;
-                            case 2:
-                                e.view.PlacesCommandHook.showPlacesOrganizer("BookmarksMenu");
-                        }
-                    };
-                    return trbn;
-                }
-            });
-        } catch { }
-        try {
-            CustomizableUI.createWidget({
-                id: "b-snap-back",
-                type: "custom",
-                label: atb_locale.localizeMessage("bSnapBackL"),
-                tooltiptext: atb_locale.localizeMessage("bSnapBackT"),
+                label: atb_locale.localizeMessage("atbSnapBackL"),
+                tooltiptext: atb_locale.localizeMessage("atbSnapBackT"),
                 localized: false,
                 onBuild(doc) {
                     var trbn = doc.createXULElement("toolbarbutton");
@@ -1090,58 +1089,48 @@ animation-timing-function: step-start !important;`}
                     };
                     return trbn;
                 }
-            });
-        } catch { }
-        try {
-            CustomizableUI.createWidget({
-                id: "b-top-page",
-                label: atb_locale.localizeMessage("bTopPageL"),
-                tooltiptext: atb_locale.localizeMessage("bTopPageT"),
+            },
+            {
+                id: "atb-top-page",
+                label: atb_locale.localizeMessage("atbTopPageL"),
+                tooltiptext: atb_locale.localizeMessage("atbTopPageT"),
                 localized: false,
                 onCommand(e) {
-                    add_toolbar_buttons.sendAsyncMessages(e.view, "ATBWinActor:ScrollTop");
+                    add_bar_btns.sendAsyncMessages(e.view, "ATBWinActor:ScrollTop");
                 }
-            });
-        } catch { }
-        try {
-            CustomizableUI.createWidget({
-                id: "b-bottom-page",
-                label: atb_locale.localizeMessage("bBottomPageL"),
-                tooltiptext: atb_locale.localizeMessage("bBottomPageT"),
+            },
+            {
+                id: "atb-bottom-page",
+                label: atb_locale.localizeMessage("atbBottomPageL"),
+                tooltiptext: atb_locale.localizeMessage("atbBottomPageT"),
                 localized: false,
                 onCommand(e) {
-                    add_toolbar_buttons.sendAsyncMessages(e.view, "ATBWinActor:ScrollBottom");
+                    add_bar_btns.sendAsyncMessages(e.view, "ATBWinActor:ScrollBottom");
                 }
-            });
-        } catch { }
-        try {
-            CustomizableUI.createWidget({
-                id: "b-up-page",
-                label: atb_locale.localizeMessage("bUpPageL"),
-                tooltiptext: atb_locale.localizeMessage("bUpPageT"),
+            },
+            {
+                id: "atb-up-page",
+                label: atb_locale.localizeMessage("atbUpPageL"),
+                tooltiptext: atb_locale.localizeMessage("atbUpPageT"),
                 localized: false,
                 onCommand(e) {
-                    add_toolbar_buttons.sendAsyncMessages(e.view, "ATBWinActor:ScrollPageUp");
+                    add_bar_btns.sendAsyncMessages(e.view, "ATBWinActor:ScrollPageUp");
                 }
-            });
-        } catch { }
-        try {
-            CustomizableUI.createWidget({
-                id: "b-down-page",
-                label: atb_locale.localizeMessage("bDownPageL"),
-                tooltiptext: atb_locale.localizeMessage("bDownPageT"),
+            },
+            {
+                id: "atb-down-page",
+                label: atb_locale.localizeMessage("atbDownPageL"),
+                tooltiptext: atb_locale.localizeMessage("atbDownPageT"),
                 localized: false,
                 onCommand(e) {
-                    add_toolbar_buttons.sendAsyncMessages(e.view, "ATBWinActor:ScrollPageDown");
+                    add_bar_btns.sendAsyncMessages(e.view, "ATBWinActor:ScrollPageDown");
                 }
-            });
-        } catch { }
-        try {
-            CustomizableUI.createWidget({
-                id: "b-find-bar",
+            },
+            {
+                id: "atb-find-bar",
                 type: "custom",
-                label: atb_locale.localizeMessage("bFindBarL"),
-                tooltiptext: atb_locale.localizeMessage("bFindBarT"),
+                label: atb_locale.localizeMessage("atbFindBarL"),
+                tooltiptext: atb_locale.localizeMessage("atbFindBarT"),
                 localized: false,
                 onBuild(doc) {
                     var trbn = doc.createXULElement("toolbarbutton");
@@ -1153,26 +1142,24 @@ animation-timing-function: step-start !important;`}
                     trbn.onclick = e => {
                         switch (e.button) {
                             case 0:
-                                if (!e.shiftKey) add_toolbar_buttons.findBarFind(e.view);
-                                else add_toolbar_buttons.findBarPaste(e.view);
+                                if (!e.shiftKey) add_bar_btns.findBarFind(e.view);
+                                else add_bar_btns.findBarPaste(e.view);
                                 break;
                             case 1:
-                                add_toolbar_buttons.findBarPaste(e.view);
+                                add_bar_btns.findBarPaste(e.view);
                                 break;
                             case 2:
-                                add_toolbar_buttons.findBarCopyPaste(e.view);
+                                add_bar_btns.findBarCopyPaste(e.view);
                         }
                     };
                     return trbn;
                 }
-            });
-        } catch { }
-        try {
-            CustomizableUI.createWidget({
-                id: "b-clear-bar",
+            },
+            {
+                id: "atb-clear-bar",
                 type: "custom",
-                label: atb_locale.localizeMessage("bClearBarL"),
-                tooltiptext: atb_locale.localizeMessage("bClearBarT"),
+                label: atb_locale.localizeMessage("atbClearBarL"),
+                tooltiptext: atb_locale.localizeMessage("atbClearBarT"),
                 localized: false,
                 onBuild(doc) {
                     var trbn = doc.createXULElement("toolbarbutton");
@@ -1184,25 +1171,23 @@ animation-timing-function: step-start !important;`}
                     trbn.onclick = e => {
                         switch (e.button) {
                             case 0:
-                                add_toolbar_buttons.clearUrlBar(e.view);
+                                add_bar_btns.clearUrlBar(e.view);
                                 break;
                             case 1:
-                                add_toolbar_buttons.clearAllBar(e.view);
+                                add_bar_btns.clearAllBar(e.view);
                                 break;
                             case 2:
-                                add_toolbar_buttons.clearSearchBar(e.view);
+                                add_bar_btns.clearSearchBar(e.view);
                         }
                     };
                     return trbn;
                 }
-            });
-        } catch { }
-        try {
-            CustomizableUI.createWidget({
-                id: "b-paste-and-go",
+            },
+            {
+                id: "atb-paste-and-go",
                 type: "custom",
-                label: atb_locale.localizeMessage("bPasteAndGoL"),
-                tooltiptext: atb_locale.localizeMessage("bPasteAndGoT"),
+                label: atb_locale.localizeMessage("atbPasteAndGoL"),
+                tooltiptext: atb_locale.localizeMessage("atbPasteAndGoT"),
                 localized: false,
                 onBuild(doc) {
                     var trbn = doc.createXULElement("toolbarbutton");
@@ -1214,25 +1199,23 @@ animation-timing-function: step-start !important;`}
                     trbn.onclick = e => {
                         switch (e.button) {
                             case 0:
-                                add_toolbar_buttons.loadURLFromClipboard(e.view);
+                                add_bar_btns.loadURLFromClipboard(e.view);
                                 break;
                             case 1:
-                                add_toolbar_buttons.loadURLFromClipboard(e.view, true);
+                                add_bar_btns.loadURLFromClipboard(e.view, true);
                                 break;
                             case 2:
-                                add_toolbar_buttons.searchFromClipboard(e.view);
+                                add_bar_btns.searchFromClipboard(e.view);
                         }
                     };
                     return trbn;
                 }
-            });
-        } catch { }
-        try {
-            CustomizableUI.createWidget({
-                id: "b-copy-and-go",
+            },
+            {
+                id: "atb-copy-and-go",
                 type: "custom",
-                label: atb_locale.localizeMessage("bCopyAndGoL"),
-                tooltiptext: atb_locale.localizeMessage("bCopyAndGoT"),
+                label: atb_locale.localizeMessage("atbCopyAndGoL"),
+                tooltiptext: atb_locale.localizeMessage("atbCopyAndGoT"),
                 localized: false,
                 onBuild(doc) {
                     var trbn = doc.createXULElement("toolbarbutton");
@@ -1244,26 +1227,24 @@ animation-timing-function: step-start !important;`}
                     trbn.onclick = e => {
                         switch (e.button) {
                             case 0:
-                                add_toolbar_buttons.copyLoadURL(e.view);
+                                add_bar_btns.copyLoadURL(e.view);
                                 break;
                             case 1:
-                                add_toolbar_buttons.copyLoadURL(e.view, true);
+                                add_bar_btns.copyLoadURL(e.view, true);
                                 break;
                             case 2:
-                                if (!e.shiftKey) add_toolbar_buttons.copyCurrentURI(e.view, `${this.id}-url`);
-                                else add_toolbar_buttons.copyDomainURI(e.view, `${this.id}-domain`);
+                                if (!e.shiftKey) add_bar_btns.copyCurrentURI(e.view, `${this.id}-url`);
+                                else add_bar_btns.copyDomainURI(e.view, `${this.id}-domain`);
                         }
                     };
                     return trbn;
                 }
-            });
-        } catch { }
-        try {
-            CustomizableUI.createWidget({
-                id: "b-profilefolder",
+            },
+            {
+                id: "atb-profilefolder",
                 type: "custom",
-                label: atb_locale.localizeMessage("bProfilefolderL"),
-                tooltiptext: atb_locale.localizeMessage("bProfilefolderT"),
+                label: atb_locale.localizeMessage("atbProfilefolderL"),
+                tooltiptext: atb_locale.localizeMessage("atbProfilefolderT"),
                 localized: false,
                 onBuild(doc) {
                     var trbn = doc.createXULElement("toolbarbutton");
@@ -1292,24 +1273,20 @@ animation-timing-function: step-start !important;`}
                     };
                     return trbn;
                 }
-            });
-        } catch { }
-        try {
-            CustomizableUI.createWidget({
-                id: "b-pass-words",
-                label: atb_locale.localizeMessage("bPassWordsL"),
-                tooltiptext: atb_locale.localizeMessage("bPassWordsT"),
+            },
+            {
+                id: "atb-pass-words",
+                label: atb_locale.localizeMessage("atbPassWordsL"),
+                tooltiptext: atb_locale.localizeMessage("atbPassWordsT"),
                 localized: false,
                 onCommand(e) {
-                    add_toolbar_buttons.viewPasswords(e.view);
+                    add_bar_btns.viewPasswords(e.view);
                 }
-            });
-        } catch { }
-        try {
-            CustomizableUI.createWidget({
-                id: "b-toggle-styles",
-                label: atb_locale.localizeMessage("bToggleStylesL"),
-                tooltiptext: atb_locale.localizeMessage("bToggleStylesT"),
+            },
+            {
+                id: "atb-toggle-styles",
+                label: atb_locale.localizeMessage("atbToggleStylesL"),
+                tooltiptext: atb_locale.localizeMessage("atbToggleStylesT"),
                 localized: false,
                 onCommand(e) {
                     var win = e.view;
@@ -1318,14 +1295,12 @@ animation-timing-function: step-start !important;`}
                         else win.gPageStyleMenu.disableStyle();
                     } catch { }
                 }
-            });
-        } catch { }
-        try {
-            CustomizableUI.createWidget({
-                id: "b-open-console",
+            },
+            {
+                id: "atb-open-console",
                 type: "custom",
-                label: atb_locale.localizeMessage("bOpenConsoleL"),
-                tooltiptext: atb_locale.localizeMessage("bOpenConsoleT"),
+                label: atb_locale.localizeMessage("atbOpenConsoleL"),
+                tooltiptext: atb_locale.localizeMessage("atbOpenConsoleT"),
                 localized: false,
                 onBuild(doc) {
                     var trbn = doc.createXULElement("toolbarbutton");
@@ -1337,25 +1312,23 @@ animation-timing-function: step-start !important;`}
                     trbn.onclick = e => {
                         switch (e.button) {
                             case 0:
-                                e.target.ownerDocument.querySelector("key[id='key_browserConsole']").doCommand();
+                                e.target.ownerDocument.querySelector("key[id=key_browserConsole]").doCommand();
                                 break;
                             case 1:
-                                e.target.ownerDocument.querySelector("key[id='key_webconsole']").doCommand();
+                                e.target.ownerDocument.querySelector("key[id=key_webconsole]").doCommand();
                                 break;
                             case 2:
-                                e.target.ownerDocument.querySelector("key[id='key_inspector']").doCommand();
+                                e.target.ownerDocument.querySelector("key[id=key_inspector]").doCommand();
                         }
                     };
                     return trbn;
                 }
-            });
-        } catch { }
-        try {
-            CustomizableUI.createWidget({
-                id: "b-text-to-link",
+            },
+            {
+                id: "atb-text-to-link",
                 type: "custom",
-                label: atb_locale.localizeMessage("bTextToLinkL"),
-                tooltiptext: atb_locale.localizeMessage("bTextToLinkT"),
+                label: atb_locale.localizeMessage("atbTextToLinkL"),
+                tooltiptext: atb_locale.localizeMessage("atbTextToLinkT"),
                 localized: false,
                 onBuild(doc) {
                     var trbn = doc.createXULElement("toolbarbutton");
@@ -1367,38 +1340,32 @@ animation-timing-function: step-start !important;`}
                     trbn.onclick = e => {
                         switch (e.button) {
                             case 0:
-                                add_toolbar_buttons.sendAsyncMessages(e.view, "ATBWinActor:TextToLink");
+                                add_bar_btns.sendAsyncMessages(e.view, "ATBWinActor:TextToLink");
                                 break;
                             case 1:
-                                add_toolbar_buttons.sendAsyncMessages(e.view, "ATBWinActor:CopyAllLinks");
+                                add_bar_btns.sendAsyncMessages(e.view, "ATBWinActor:CopyAllLinks");
                                 break;
                             case 2:
-                                add_toolbar_buttons.sendAsyncMessages(e.view, "ATBWinActor:LinkPointerEvents");
+                                add_bar_btns.sendAsyncMessages(e.view, "ATBWinActor:LinkPointerEvents");
                         }
                     };
                     return trbn;
                 }
-            });
-        } catch { }
-        try {
-            CustomizableUI.createWidget({
-                id: "b-addons-manager",
-                label: atb_locale.localizeMessage("bAddonsManagerL"),
-                tooltiptext: atb_locale.localizeMessage("bAddonsManagerT"),
+            },
+            {
+                id: "atb-addons-manager",
+                label: atb_locale.localizeMessage("atbAddonsManagerL"),
+                tooltiptext: atb_locale.localizeMessage("atbAddonsManagerT"),
                 localized: false,
                 onCommand(e) {
-                    var win = e.view;
-                    if ("openAddonsMgr" in win.BrowserAddonUI) win.BrowserAddonUI.openAddonsMgr();
-                    else win.BrowserOpenAddonsMgr();
+                    e.view.BrowserAddonUI.openAddonsMgr();
                 }
-            });
-        } catch { }
-        try {
-            CustomizableUI.createWidget({
-                id: "b-open-file",
+            },
+            {
+                id: "atb-open-file",
                 type: "custom",
-                label: atb_locale.localizeMessage("bOpenFileL"),
-                tooltiptext: atb_locale.localizeMessage("bOpenFileT"),
+                label: atb_locale.localizeMessage("atbOpenFileL"),
+                tooltiptext: atb_locale.localizeMessage("atbOpenFileT"),
                 localized: false,
                 onBuild(doc) {
                     var trbn = doc.createXULElement("toolbarbutton");
@@ -1407,46 +1374,36 @@ animation-timing-function: step-start !important;`}
                     trbn.setAttribute("label", this.label);
                     trbn.setAttribute("context", "");
                     trbn.setAttribute("tooltiptext", this.tooltiptext);
-                    trbn.browsercommands = function (e) {
-                        this.browsercommands = ("BrowserCommands" in e.view)
-                            ? e => e.view.BrowserCommands.openFileWindow()
-                            : e => e.view.BrowserOpenFileWindow();
-                        this.browsercommands(e);
-                    };
-                    trbn.onclick = function (e) {
+                    trbn.onclick = e => {
                         switch (e.button) {
                             case 0:
-                                this.browsercommands(e);
+                                e.view.BrowserCommands.openFileWindow();
                                 break;
                             case 1:
-                                add_toolbar_buttons.openUChrmFiles("userContent.css", this.id);
+                                add_bar_btns.openUChrmFiles("userContent.css", this.id);
                                 break;
                             case 2:
-                                add_toolbar_buttons.openUChrmFiles("userChrome.css", this.id);
+                                add_bar_btns.openUChrmFiles("userChrome.css", this.id);
                         }
                     };
                     return trbn;
                 }
-            });
-        } catch { }
-        try {
-            CustomizableUI.createWidget({
-                id: "b-saveas",
-                label: atb_locale.localizeMessage("bSaveasL"),
-                tooltiptext: atb_locale.localizeMessage("bSaveasT"),
+            },
+            {
+                id: "atb-saveas",
+                label: atb_locale.localizeMessage("atbSaveasL"),
+                tooltiptext: atb_locale.localizeMessage("atbSaveasT"),
                 localized: false,
                 onCommand(e) {
                     var win = e.view;
                     win.saveBrowser(win.gBrowser.selectedBrowser);
                 }
-            });
-        } catch { }
-        try {
-            CustomizableUI.createWidget({
-                id: "b-reduce",
+            },
+            {
+                id: "atb-reduce",
                 type: "custom",
-                label: atb_locale.localizeMessage("bReduceL"),
-                tooltiptext: atb_locale.localizeMessage("bReduceT"),
+                label: atb_locale.localizeMessage("atbReduceL"),
+                tooltiptext: atb_locale.localizeMessage("atbReduceT"),
                 localized: false,
                 onBuild(doc) {
                     var trbn = doc.createXULElement("toolbarbutton");
@@ -1469,14 +1426,12 @@ animation-timing-function: step-start !important;`}
                     };
                     return trbn;
                 }
-            });
-        } catch { }
-        try {
-            CustomizableUI.createWidget({
-                id: "b-enlarge",
+            },
+            {
+                id: "atb-enlarge",
                 type: "custom",
-                label: atb_locale.localizeMessage("bEnlargeL"),
-                tooltiptext: atb_locale.localizeMessage("bEnlargeT"),
+                label: atb_locale.localizeMessage("atbEnlargeL"),
+                tooltiptext: atb_locale.localizeMessage("atbEnlargeT"),
                 localized: false,
                 onBuild(doc) {
                     var trbn = doc.createXULElement("toolbarbutton");
@@ -1499,28 +1454,12 @@ animation-timing-function: step-start !important;`}
                     };
                     return trbn;
                 }
-            });
-        } catch { }
-        try {
-            CustomizableUI.createWidget({
-                id: "b-loads-favicons",
-                label: atb_locale.localizeMessage("bLoadsFaviconsL"),
-                tooltiptext: atb_locale.localizeMessage("bLoadsFaviconsT"),
-                localized: false,
-                onCreated(button) {
-                    button.setAttribute("activated", !add_toolbar_buttons.favrunning);
-                },
-                onCommand(e) {
-                    add_toolbar_buttons.favSearchStart();
-                }
-            });
-        } catch { }
-        try {
-            CustomizableUI.createWidget({
-                id: "b-ext-option-menu",
+            },
+            {
+                id: "atb-ext-option-menu",
                 type: "custom",
-                label: atb_locale.localizeMessage("bExtOptionMenuL"),
-                tooltiptext: atb_locale.localizeMessage("bExtOptionMenuT"),
+                label: atb_locale.localizeMessage("atbExtOptionMenuL"),
+                tooltiptext: atb_locale.localizeMessage("atbExtOptionMenuT"),
                 localized: false,
                 onBuild(doc) {
                     var trbn = doc.createXULElement("toolbarbutton");
@@ -1533,22 +1472,272 @@ animation-timing-function: step-start !important;`}
                     mupp.id = `${this.id}-popup`;
                     mupp.setAttribute("flip", "both");
                     mupp.setAttribute("position", "after_end");
-                    mupp.oncontextmenu = e => {
+                    var map = winWeakMap.get(doc.defaultView);
+                    map.addListener(Symbol(), mupp, "contextmenu", e => {
                         e.preventDefault();
                         e.stopPropagation();
-                    };
-                    mupp.addEventListener("popupshowing", e => add_toolbar_buttons.populateMenu(e, this.id));
+                    });
+                    map.addListener(Symbol(), mupp, "popupshowing", this.populateMenu.bind(this, map, this.id));
                     trbn.append(mupp);
                     return trbn;
                 },
-            });
-        } catch { }
-        try {
-            CustomizableUI.createWidget({
-                id: "b-sound-muted-all-tabs",
+                async populateMenu(map, id, e) {
+                    var addons = AddonManager.getAddonsByTypes(add_bar_btns.exceptions_type_listarr);
+                    var popup = e.currentTarget, doc = e.view.document;
+                    var exceptions_listset = add_bar_btns.exceptions_listset,
+                        enabled_first = add_bar_btns.enabled_first,
+                        show_disabled = add_bar_btns.show_disabled,
+                        show_hidden = add_bar_btns.show_hidden,
+                        user_permissions = add_bar_btns.user_permissions,
+                        show_version = add_bar_btns.show_version,
+                        show_description = add_bar_btns.show_description,
+                        max_width_main_item = add_bar_btns.max_width_main_item,
+                        max_height_popup = add_bar_btns.max_height_popup;
+                    var locale_desc = atb_locale.localizeMessage("locale_desc"),
+                        locale_perm = atb_locale.localizeMessage("locale_perm"),
+                        locale_opts = atb_locale.localizeMessage("locale_opts"),
+                        locale_contr = atb_locale.localizeMessage("locale_contr"),
+                        locale_copyid = atb_locale.localizeMessage("locale_copyid"),
+                        locale_copyuuid = atb_locale.localizeMessage("locale_copyuuid"),
+                        locale_home = atb_locale.localizeMessage("locale_home"),
+                        locale_author = atb_locale.localizeMessage("locale_author"),
+                        locale_source = atb_locale.localizeMessage("locale_source"),
+                        locale_sourceext = atb_locale.localizeMessage("locale_sourceext"),
+                        locale_toogle = atb_locale.localizeMessage("locale_toogle"),
+                        locale_pin = atb_locale.localizeMessage("locale_pin"),
+                        locale_del = atb_locale.localizeMessage("locale_del"),
+                        locale_am = atb_locale.localizeMessage("locale_am"),
+                        locale_amup = atb_locale.localizeMessage("locale_amup"),
+                        locale_dbg = atb_locale.localizeMessage("locale_dbg");
+                    var img_addons = "resource://add_toolbar_buttons/svg/addons.svg",
+                        img_opts = "resource://add_toolbar_buttons/svg/preferences.svg",
+                        img_copy = "resource://add_toolbar_buttons/svg/copy.svg",
+                        img_open = "resource://add_toolbar_buttons/svg/user-home.svg",
+                        img_view = "resource://add_toolbar_buttons/svg/view.svg",
+                        img_unins = "resource://add_toolbar_buttons/svg/uninstall.svg";
+                    var addonsMap = new Map();
+                    var createGroup = (addon, extension) => {
+                        var groop = doc.createXULElement("menugroup");
+                        var uuid = (addon.isActive && extension?.uuid);
+                        var widgetid = (addon.type === "extension" && addon.isActive && extension?.apiManager?.global?.browserActionFor?.(extension)?.widget?.id);
+                        for (let [name, tooltip, img, lab, checkbox] of [
+                            ["toogle", ("userDisabled" in addon) ? (!widgetid ? locale_toogle : `${locale_toogle}\n${locale_pin}`) : "", "", "", true],
+                            ["main", `${addon.name} ${addon.version}\n${(show_description && addon.description) ? `${locale_desc} ${addon.description}\n` : ""}ID: ${addon.id}\n${uuid ? `UUID: ${uuid}\n` : ""}${(user_permissions && addon.userPermissions?.permissions?.length) ? `${locale_perm} ${addon.userPermissions.permissions.join(", ")}` : ""}`, addon.iconURL, `${addon.name} ${show_version ? addon.version : ""}`],
+                            ["opts", !addon.isSystem ? `${addon.optionsURL ? `${locale_opts}\n` : ""}${locale_contr}` : "", img_opts],
+                            ["open", `${addon.homepageURL ? `${locale_home}\n` : ""}${addon.creator?.url ? locale_author : ""}`, img_open],
+                            ["copy", `${locale_copyid}\n${uuid ? locale_copyuuid : ""}`, img_copy],
+                            ["view", ("getResourceURI" in addon) ? `${!addon.isBuiltin ? `${locale_source}\n${locale_sourceext}` : locale_source}` : "", img_view],
+                            ["uninstall", ("uninstall" in addon && !addon.isSystem && !addon.isBuiltin) ? locale_del : "", img_unins]
+                        ]) {
+                            let item = doc.createXULElement("menuitem");
+                            item.setAttribute("iname", name);
+                            item.setAttribute("closemenu", "none");
+                            if (lab) item.label = lab;
+                            if (img) item.image = img;
+                            if (checkbox) {
+                                item.setAttribute("type", "checkbox");
+                                if (addon.isActive) item.toggleAttribute("checked", true);
+                            } else item.className = "menuitem-iconic";
+                            if (tooltip) item.tooltipText = tooltip;
+                            else item.disabled = true;
+                            groop.append(item);
+                        }
+                        groop.className = `atb-type-${addon.type}`;
+                        if (addon.isSystem) groop.classList.add("atb-system");
+                        else if (addon.optionsURL) groop.classList.add("atb-options");
+                        if (addon.isCorrectlySigned === false) groop.classList.add("atb-warning");
+                        if (addon.blocklistState || !addon.isCompatible) groop.classList.add("atb-error");
+                        groop._addon = addon;
+                        groop._extension = extension;
+                        groop._widgetid = widgetid;
+                        return groop;
+                    };
+                    popup.style.setProperty("--v-max-width-item", `${max_width_main_item}em`);
+                    popup.style.setProperty("max-height", !max_height_popup ? "none" : `${max_height_popup}em`);
+                    var frag = doc.createDocumentFragment();
+                    (await addons).filter(a => !a.getResourceURI?.().spec.startsWith("resource://search-extensions/")).sort((a, b) =>
+                        (`${(enabled_first ? a.isActive ? "0" : "1" : "")}${a.type || ""}${a.name.toLowerCase()}` > `${(enabled_first ? b.isActive ? "0" : "1" : "")}${b.type || ""}${b.name.toLowerCase()}`) ? 1 : -1
+                    ).forEach(addon => {
+                        if (!exceptions_listset.has(addon.id) &&
+                            (!addon.hidden || show_hidden) &&
+                            (addon.isActive || show_disabled)) {
+                            let extension = GlobalManager.extensionMap.get(addon.id);
+                            let gp = createGroup(addon, extension);
+                            frag.append(gp);
+                            addonsMap.set(addon.id, gp);
+                        }
+                    });
+                    var groop = doc.createXULElement("menugroup");
+                    for (let [name, tooltip, img, lab] of [
+                        ["manager", locale_amup, img_addons, locale_am],
+                        ["debugging", locale_dbg, img_view, locale_dbg],
+                    ]) {
+                        let item = doc.createXULElement("menuitem");
+                        item.className = "menuitem-iconic";
+                        item.setAttribute("iname", name);
+                        item.setAttribute("closemenu", "none");
+                        item.label = lab;
+                        item.image = img;
+                        item.tooltipText = tooltip;
+                        groop.append(item);
+                    }
+                    var sep = doc.createXULElement("menuseparator");
+                    sep.id = `${id}-separator`;
+                    frag.prepend(sep);
+                    frag.prepend(groop);
+                    popup.append(frag);
+                    var sym = Symbol();
+                    map.addListener(sym, popup, "click", this.handleClick.bind(this));
+                    var listener = {
+                        onEnabled(addon) {
+                            var gp = addonsMap.get(addon.id);
+                            if (gp) {
+                                let g = createGroup(addon, GlobalManager.extensionMap.get(addon.id));
+                                gp.replaceWith(g);
+                                addonsMap.set(addon.id, g);
+                            }
+                        },
+                        onDisabled(addon) {
+                            this.onEnabled(addon);
+                        },
+                        onInstalled(addon) {
+                            var g = createGroup(addon, GlobalManager.extensionMap.get(addon.id));
+                            var gp = addonsMap.get(addon.id);
+                            if (gp) gp.replaceWith(g);
+                            else popup.querySelector(`:scope>#${id}-separator`).after(g);
+                            addonsMap.set(addon.id, g);
+                        },
+                        onUninstalled(addon) {
+                            var gp = addonsMap.get(addon.id);
+                            if (gp) {
+                                gp.remove();
+                                addonsMap.delete(addon.id);
+                            }
+                        },
+                    };
+                    AddonManager.addAddonListener(listener);
+                    var symph = Symbol();
+                    map.addListener(symph, popup, "popuphiding", () => {
+                        map.delListener(symph);
+                        map.delListener(sym);
+                        AddonManager.removeAddonListener(listener);
+                        addonsMap.clear();
+                        for (let item of popup.querySelectorAll(":scope>*"))
+                            item.remove();
+                    });
+                },
+                handleClick(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    var mi = e.target;
+                    if (mi.disabled) return;
+                    var win = e.view, gp = mi.parentElement, addon = gp._addon, extension = gp._extension;
+                    switch (mi.getAttribute("iname")) {
+                        case "main":
+                            if (e.button) {
+                                if (!addon.isSystem && addon.optionsURL) this.openAddonOptions(addon, win);
+                                return;
+                            } else if (!("userDisabled" in addon)) return;
+                        case "toogle": {
+                            if (e.button === 2) {
+                                if (!gp._widgetid) return;
+                                let shouldPinTT = CustomizableUI.getPlacementOfWidget(gp._widgetid).area === CustomizableUI.AREA_ADDONS;
+                                if (shouldPinTT) win.gUnifiedExtensions._maybeMoveWidgetNodeBack(gp._widgetid);
+                                win.gUnifiedExtensions.pinToToolbar(gp._widgetid, shouldPinTT);
+                                return;
+                            }
+                            let { userDisabled } = addon;
+                            addon[userDisabled ? "enable" : "disable"]({ allowSystemAddons: true });
+                            switch (addon.id) {
+                                case "formautofill@mozilla.org":
+                                    Services.prefs.setBoolPref("dom.forms.autocomplete.formautofill", userDisabled);
+                                    break;
+                                case "pictureinpicture@mozilla.org":
+                                    Services.prefs.setBoolPref("extensions.pictureinpicture.enable_picture_in_picture_overrides", userDisabled);
+                                    break;
+                                case "webcompat@mozilla.org":
+                                case "webcompat-reporter@mozilla.org":
+                                    Services.prefs.setBoolPref("extensions.webcompat-reporter.enabled", userDisabled);
+                                    break;
+                                case "screenshots@mozilla.org":
+                                    Services.prefs.setBoolPref("extensions.screenshots.disabled", !userDisabled);
+                            }
+                            break;
+                        }
+                        case "opts":
+                            if (!e.button) this.openAddonOptions(addon, win);
+                            else win.BrowserAddonUI.openAddonsMgr(`addons://detail/${encodeURIComponent(addon.id)}`);
+                            break;
+                        case "copy":
+                            if (!e.button) {
+                                add_bar_btns.clipboard.copyStringToClipboard(addon.id, Ci.nsIClipboard.kGlobalClipboard);
+                                setTimeout(() => add_bar_btns.showAlert({ name: `${addon.id}-id`, title: `ID ${atb_locale.localizeMessage("locale_clip")}`, text: addon.id, alertTimeout: add_bar_btns.alert_timeout }), 100);
+                            } else if (extension?.uuid) {
+                                add_bar_btns.clipboard.copyStringToClipboard(extension.uuid, Ci.nsIClipboard.kGlobalClipboard);
+                                setTimeout(() => add_bar_btns.showAlert({ name: `${addon.id}-uuid`, title: `UUID ${atb_locale.localizeMessage("locale_clip")}`, text: extension.uuid, alertTimeout: add_bar_btns.alert_timeout }), 100);
+                            }
+                            break;
+                        case "open":
+                            if (!e.button) {
+                                if (addon.homepageURL) win.gBrowser.selectedTab = add_bar_btns.addTab(win, addon.homepageURL);
+                            } else if (addon.creator?.url) win.gBrowser.selectedTab = add_bar_btns.addTab(win, addon.creator.url);
+                            break;
+                        case "view":
+                            if (!e.button) this.browseDir(addon, win);
+                            else if (!addon.isBuiltin) this.browseDir(addon);
+                            break;
+                        case "uninstall":
+                            if (e.button) return;
+                            win.closeMenus(mi);
+                            if (Services.prompt.confirm(win, null, `${atb_locale.localizeMessage("locale_del")} ${addon.name}?`)) addon.uninstall();
+                            break;
+                        case "manager":
+                            this.openAddonsMgrOrUpdate(win, e.button, mi);
+                            break;
+                        case "debugging":
+                            if (!e.button) win.switchToTabHavingURI("about:debugging#/runtime/this-firefox", true, { ignoreFragment: "whenComparing", triggeringPrincipal: Services.scriptSecurityManager.getSystemPrincipal(), });
+                    }
+                },
+                async openAddonsMgrOrUpdate(win, button, mi) {
+                    var page = await win.BrowserAddonUI.openAddonsMgr("addons://list/extension");
+                    if (!button || !page) return;
+                    win.closeMenus(mi);
+                    var updateBtn = page.document.querySelector("[action=\"check-for-updates\"]");
+                    if (updateBtn && !updateBtn.disabled) updateBtn.click();
+                },
+                openAddonOptions(addon, win) {
+                    switch (addon.optionsType) {
+                        case 5:
+                            win.BrowserAddonUI.openAddonsMgr(`addons://detail/${encodeURIComponent(addon.id)}/preferences`);
+                            break;
+                        case 3:
+                            win.switchToTabHavingURI(addon.optionsURL, true);
+                            break;
+                        case 1: {
+                            let wins = Services.wm.getEnumerator(null);
+                            while (wins.hasMoreElements()) {
+                                let w = wins.getNext();
+                                if (!w.closed && w.document.documentURI === addon.optionsURL) return w.focus();
+                            }
+                            win.openDialog(addon.optionsURL, addon.id, `chrome,titlebar,toolbar,centerscreen${Services.prefs.getBoolPref("browser.preferences.instantApply", false) ? ",dialog=no" : ""}`);
+                        }
+                    }
+                },
+                browseDir(addon, win) {
+                    if (win) win.gBrowser.selectedTab = add_bar_btns.addTab(win, addon.getResourceURI().spec);
+                    else {
+                        let file = Services.io.getProtocolHandler("file")
+                            .QueryInterface(Ci.nsIFileProtocolHandler)
+                            .getFileFromURLSpec(addon.getResourceURI().QueryInterface(Ci.nsIJARURI).JARFile.spec);
+                        if (file.exists()) file.launch();
+                    }
+                },
+            },
+            {
+                id: "atb-sound-muted-all-tabs",
                 type: "custom",
-                label: atb_locale.localizeMessage("bSoundMutedAllTabsL"),
-                tooltiptext: atb_locale.localizeMessage("bSoundMutedAllTabsT"),
+                label: atb_locale.localizeMessage("atbSoundMutedAllTabsL"),
+                tooltiptext: atb_locale.localizeMessage("atbSoundMutedAllTabsT"),
                 localized: false,
                 onBuild(doc) {
                     var trbn = doc.createXULElement("toolbarbutton");
@@ -1557,11 +1746,11 @@ animation-timing-function: step-start !important;`}
                     trbn.setAttribute("label", this.label);
                     trbn.setAttribute("badged", "true");
                     trbn.setAttribute("constrain-size", "true");
-                    trbn.setAttribute("badge", (add_toolbar_buttons.media_volume_scale * 100).toFixed());
-                    trbn.setAttribute("badgeStyle", "background: #0074e8; color: #ffffff; font-size: 10px; line-height: 10px; box-shadow: none; text-shadow: none; padding-block: 0 1px !important; padding-inline: 2px !important; min-width: 0 !important;");
+                    trbn.setAttribute("badge", (add_bar_btns.media_volume_scale * 100).toFixed());
+                    trbn.setAttribute("badgeStyle", "background: light-dark(oklch(62% 0.25 260), oklch(65% 0.25 260)); color: oklch(1 0 0); font-size: 10px; font-weight: normal; line-height: 10px; box-shadow: none; text-shadow: none; padding-block: 0 1px !important; padding-inline: 2px !important; min-width: 0 !important;");
                     trbn.setAttribute("tooltiptext", this.tooltiptext);
                     trbn.addEventListener("wheel", e => {
-                        add_toolbar_buttons.setSoundVolumeValue(e);
+                        add_bar_btns.setSoundVolumeValue(e);
                     });
                     trbn.onclick = e => {
                         var win = e.view;
@@ -1586,8 +1775,13 @@ animation-timing-function: step-start !important;`}
                     };
                     return trbn;
                 },
-            });
-        } catch { }
+            },
+        ];
+        this.widgets.forEach(w => {
+            try {
+                CustomizableUI.createWidget(w);
+            } catch { }
+        });
     },
     restartApp(nocache = false) {
         var cancelQuit = Cc["@mozilla.org/supports-PRBool;1"].createInstance(Ci.nsISupportsPRBool);
@@ -1605,26 +1799,26 @@ animation-timing-function: step-start !important;`}
             else this.showAlert({ name, title: filename, text: atb_locale.localizeMessage("openUChrmFiles"), alertTimeout: this.alert_timeout });
         } catch { }
     },
-    bookmarkNoPopup(win) {
+    async bookmarkNoPopup(win) {
         if (this.bookmarksInsertRemove) return;
         this.bookmarksInsertRemove = true;
-        var bookmarks = PlacesUtils.bookmarks, url = win.gBrowser.selectedBrowser.currentURI.spec;
-        bookmarks.search({ url }).then(async array => {
-            if (!array.length)
-                try {
-                    await bookmarks.insert({
-                        url: Services.io.newURI(url),
-                        title: (win.gBrowser.contentTitle || win.gBrowser.selectedTab.label || url),
-                        parentGuid: [() => bookmarks.menuGuid, () => bookmarks.toolbarGuid, () => bookmarks.unfiledGuid][this.atb_branch.getIntPref("bookmarksparentguid")](),
-                        index: (!this.atb_branch.getBoolPref("bookmarksindex") ? bookmarks.DEFAULT_INDEX : 0),
-                    });
-                } catch { }
-            else
-                try {
-                    await bookmarks.remove(array);
-                } catch { }
-            this.bookmarksInsertRemove = false;
-        });
+        var { bookmarks } = PlacesUtils;
+        var url = win.gBrowser.selectedBrowser.currentURI.spec;
+        var array = await bookmarks.search({ url });
+        if (!array.length)
+            try {
+                await bookmarks.insert({
+                    url: Services.io.newURI(url),
+                    title: (win.gBrowser.contentTitle || win.gBrowser.selectedTab.label || url),
+                    parentGuid: [() => bookmarks.menuGuid, () => bookmarks.toolbarGuid, () => bookmarks.unfiledGuid][this.atb_branch.getIntPref("bookmarksparentguid")](),
+                    index: (!this.atb_branch.getBoolPref("bookmarksindex") ? bookmarks.DEFAULT_INDEX : 0),
+                });
+            } catch { }
+        else
+            try {
+                await bookmarks.remove(array);
+            } catch { }
+        this.bookmarksInsertRemove = false;
     },
     closeStartTabs(win) {
         var ctab = win.gBrowser.selectedTab, tabs;
@@ -1650,7 +1844,7 @@ animation-timing-function: step-start !important;`}
         win.gBrowser.removeAllTabsBut(win.gBrowser.selectedTab);
     },
     closeOtherWindow(win) {
-        for (let w of windowTracker.browserWindows())
+        for (let w of CustomizableUI.windows)
             if (w != win) w.close();
     },
     addTab(win, url, params = {}) {
@@ -1669,10 +1863,7 @@ animation-timing-function: step-start !important;`}
         atb_ps.setIntPref(pref, next[atb_ps.getIntPref(pref)]);
     },
     viewPasswords(win) {
-        var uri = this.getBaseDomain(win, win.gBrowser.selectedBrowser.currentURI);
-        try {
-            uri = this.idnService.convertToDisplayIDN(uri, {});
-        } catch { }
+        var uri = this.convertToDisplayIDN(this.getBaseDomain(win, win.gBrowser.selectedBrowser.currentURI));
         var params = new win.URLSearchParams({
             ...(uri && { filter: uri }),
         });
@@ -1740,17 +1931,25 @@ animation-timing-function: step-start !important;`}
         branch.setBoolPref(pref, !branch.getBoolPref(pref));
     },
     getBaseDomain(win, uri) {
-        var host = "";
-        uri = win.gURLBar.makeURIReadable(uri);
         try {
-            if (WebExtensionPolicy.getByURI(uri)) return host;
+            uri = win.gURLBar.makeURIReadable(uri);
         } catch { }
         try {
-            host = Services.eTLD.getBaseDomain(uri);
-        } catch {
-            host = uri.asciiHost;
-        }
-        return host;
+            if (WebExtensionPolicy.getByURI(uri)) return "";
+        } catch { }
+        try {
+            return Services.eTLD.getBaseDomain(uri);
+        } catch { }
+        try {
+            return uri.asciiHost;
+        } catch { }
+        return "";
+    },
+    convertToDisplayIDN(uri) {
+        try {
+            return this.idnService.convertToDisplayIDN(uri, {});
+        } catch { }
+        return uri;
     },
     copyCurrentURI(win, name) {
         var uri = win.gURLBar.makeURIReadable(win.gBrowser.selectedBrowser.currentURI).displaySpec;
@@ -1758,11 +1957,8 @@ animation-timing-function: step-start !important;`}
         setTimeout(() => this.showAlert({ name, title: atb_locale.localizeMessage("copyCurrentURI"), text: uri, alertTimeout: this.alert_timeout }), 100);
     },
     copyDomainURI(win, name) {
-        var uri = this.getBaseDomain(win, win.gBrowser.selectedBrowser.currentURI);
+        var uri = this.convertToDisplayIDN(this.getBaseDomain(win, win.gBrowser.selectedBrowser.currentURI));
         if (!uri) return;
-        try {
-            uri = this.idnService.convertToDisplayIDN(uri, {});
-        } catch { }
         this.clipboard.copyStringToClipboard(uri, Ci.nsIClipboard.kGlobalClipboard);
         setTimeout(() => this.showAlert({ name, title: atb_locale.localizeMessage("copyDomainURI"), text: uri, alertTimeout: this.alert_timeout }), 100);
     },
@@ -1784,11 +1980,10 @@ animation-timing-function: step-start !important;`}
     },
     clearSearchBar(win, nofocus) {
         for (let bar of win.document.querySelectorAll("#search-container > [id^=searchbar]")) {
-            if (bar._observer || bar._initialized) {
-                bar.value = "";
-                if (!nofocus) bar.focus();
-                return;
-            }
+            if (!(bar._observersAdded || bar._observer || bar._initialized)) continue;
+            bar.value = "";
+            if (!nofocus) bar.focus();
+            break;
         }
     },
     clearAllBar(win) {
@@ -1873,9 +2068,9 @@ animation-timing-function: step-start !important;`}
     delCookies(win, name) {
         if (!win.gIdentityHandler?._uriHasHost || win.gIdentityHandler._pageExtensionPolicy) return;
         win.SiteDataManager.hasSiteData(win.gIdentityHandler._uri.asciiHost).then(hasData => {
-            if (!hasData) return this.showAlert({ name, title: atb_locale.localizeMessage("bCookieToggleNnone"), alertTimeout: this.alert_timeout });
+            if (!hasData) return this.showAlert({ name, title: atb_locale.localizeMessage("atbCookieToggleNnone"), alertTimeout: this.alert_timeout });
             var baseDomain = win.SiteDataManager.getBaseDomainFromHost(win.gIdentityHandler._uri.host);
-            if (win.SiteDataManager.promptSiteDataRemoval(win, [baseDomain])) win.SiteDataManager.remove(baseDomain).then(() => this.showAlert({ name, title: atb_locale.localizeMessage("bCookieToggleNdel"), alertTimeout: this.alert_timeout }));
+            if (win.SiteDataManager.promptSiteDataRemoval(win, [baseDomain])) win.SiteDataManager.remove(baseDomain).then(() => this.showAlert({ name, title: atb_locale.localizeMessage("atbCookieToggleNdel"), alertTimeout: this.alert_timeout }));
         });
     },
     async viewCookies(win) {
@@ -1904,50 +2099,6 @@ animation-timing-function: step-start !important;`}
         filter.value = (filter.inputEl || {}).value = this.getBaseDomain(win, win.gBrowser.selectedBrowser.currentURI);
         filter.focus();
         filter.dispatchEvent(new w.Event("input", { bubbles: true }));
-    },
-    toggleTheProxy() {
-        var proxyState = atb_ps.getIntPref("network.proxy.type"),
-            toggleproxy = this.atb_branch.getIntPref("toggleproxy"),
-            toggleproxy2 = this.atb_branch.getIntPref("toggleproxy2");
-        atb_ps.setIntPref("network.proxy.type", (proxyState == toggleproxy2) ? toggleproxy : toggleproxy2);
-    },
-    setProxyMenuItem(e) {
-        var proxyState = atb_ps.getIntPref("network.proxy.type"), popup = e.currentTarget;
-        for (let item of popup.querySelectorAll("menuitem")) {
-            if (+item.getAttribute("value") == proxyState) {
-                item.setAttribute("checked", "true");
-                break;
-            }
-        }
-    },
-    setProxyValue(e) {
-        atb_ps.setIntPref("network.proxy.type", +e.target.getAttribute("value"));
-    },
-    async openProxyWin(win) {
-        var type = "aTaB:ProxyWin";
-        var w = Services.wm.getMostRecentWindow(type);
-        if (!w) {
-            let url = "chrome://browser/content/preferences/dialogs/connection.xhtml", id = "ConnectionsWin";
-            let { xulStore: xs } = Services;
-            let sx = +xs.getValue(url, id, "screenX") || xs.setValue(url, id, "screenX", 1) || 1;
-            let sy = +xs.getValue(url, id, "screenY") || xs.setValue(url, id, "screenY", 1) || 1;
-            let wh = +xs.getValue(url, id, "width") || xs.setValue(url, id, "width", 600) || 600;
-            let ht = +xs.getValue(url, id, "height") || xs.setValue(url, id, "height", 600) || 600;
-            let sm = xs.getValue(url, id, "sizemode");
-            w = win.openDialog(url, type, `chrome,dialog=no,resizable,screenX=${sx},screenY=${sy},width=${wh},height=${ht}`);
-            w.opener = win;
-            w.opener.gSubDialog = {
-                _dialogs: []
-            };
-            if (sm === "maximized") w.windowRoot.addEventListener("MozUpdateWindowPos", () => w.maximize(), { once: true, capture: true });
-            await new Promise(resolve => w.windowRoot.addEventListener("DOMContentLoaded", resolve, { once: true }));
-            let docEl = w.document.documentElement;
-            docEl.id = id;
-            docEl.setAttribute("type", "prefwindow");
-            docEl.setAttribute("windowtype", type);
-            docEl.setAttribute("persist", "screenX screenY width height sizemode lastSelected");
-        }
-        w.focus();
     },
     _registerActor() {
         if (this.registerActor) return;
@@ -1997,7 +2148,7 @@ animation-timing-function: step-start !important;`}
                 var state = !(await topactor().sendQuery(getstate));
                 for (let actor of this)
                     await actor.sendAsyncMessage(message, { state });
-                if (check) add_toolbar_buttons.checkBrowserReload(win);
+                if (check) add_bar_btns.checkBrowserReload(win);
             },
             "ATBWinActor:PageJavaScript"() {
                 this.stateSend("ATBWinActor:getPageJavaScript");
@@ -2026,8 +2177,8 @@ animation-timing-function: step-start !important;`}
                     links += `${d.links}\n`;
                     count += d.count;
                 }
-                add_toolbar_buttons.clipboard.copyStringToClipboard(links, Ci.nsIClipboard.kGlobalClipboard);
-                setTimeout(() => add_toolbar_buttons.showAlert({ name: message, title: atb_locale.localizeMessage("copyAllLinks"), text: `${count} ${atb_locale.localizeMessage("copyAllLinks0")}`, alertTimeout: add_toolbar_buttons.alert_timeout }), 100);
+                add_bar_btns.clipboard.copyStringToClipboard(links, Ci.nsIClipboard.kGlobalClipboard);
+                setTimeout(() => add_bar_btns.showAlert({ name: message, title: atb_locale.localizeMessage("copyAllLinks"), text: `${count} ${atb_locale.localizeMessage("copyAllLinks0")}`, alertTimeout: add_bar_btns.alert_timeout }), 100);
             },
             *[Symbol.iterator]() {
                 var contextsToVisit = [browsingContext];
@@ -2046,49 +2197,74 @@ animation-timing-function: step-start !important;`}
         if (!gdu) return;
         var selTab = win.gBrowser.selectedTab;
         win.gBrowser.visibleTabs.forEach(tab => {
-            var sel = select ? true : (tab != selTab);
-            if (!tab.pinned && sel && gdu === this.getBaseDomain(win, tab.linkedBrowser.currentURI)) win.gBrowser.removeTab(tab);
+            if (!tab.pinned && (select || tab != selTab) && gdu === this.getBaseDomain(win, tab.linkedBrowser.currentURI)) win.gBrowser.removeTab(tab);
         });
     },
-    favSearchStart() {
-        if (this.favrunning) return;
-        this.favrunning = true;
-        this.callWithEachWindow("b-loads-favicons", { activated: false });
-        PlacesUtils.promiseBookmarksTree(PlacesUtils.bookmarks.rootGuid).then(root => {
-            var urlsList = [];
-            var convert = (node, url) => {
-                if (node.children) node.children.map(convert);
-                else if ((url = node.uri) && /^(?:https?|ftp|file):/.test(url)) urlsList.push(url);
-            };
-            convert(root);
-            var favForPage = !("getFaviconURLForPage" in PlacesUtils.favicons)
-                ? siteURI => {
-                    return new Promise(resolve => {
-                        try {
-                            siteURI = Services.io.newURI(siteURI);
-                        } catch {
-                            resolve(null);
-                        }
-                        PlacesUtils.favicons.getFaviconForPage(siteURI).then(uri => resolve(uri === null ? siteURI : null));
-                    });
+    async bookmarksSort() {
+        if (this.bookMgrRun) return;
+        this.bookMgrRun = true;
+        this.callWithEachWindow("atb-combined-bookmarks-mgr", { activated: false });
+        var rvs = this.atb_branch.getBoolPref("bookmarkssortrevers") ? -1 : 1;
+        var _rvs = -1 * rvs;
+        var st = [
+            ["title", "uri"],
+            ["uri", "title"],
+            ["dateAdded", "title"],
+        ][this.atb_branch.getIntPref("bookmarkssorttype")];
+        var sort = async nodes => {
+            var list = [], listor = [];
+            for (let node of nodes) {
+                node.title &&= node.title.toLowerCase();
+                if ("uri" in node) {
+                    node.uri = node.uri.toLowerCase();
+                    list.push(node);
+                } else listor.push(node);
+            }
+            list.sort((a, b) => (`${a[st[0]]}${a[st[1]]}` > `${b[st[0]]}${b[st[1]]}`) ? rvs : _rvs);
+            for (let node of listor)
+                list.splice(node.index, 0, node);
+            for (let [ind, node] of list.entries()) {
+                if (node.children) await sort(node.children);
+                let mn = nodes.find(el => el.guid === node.guid);
+                if (mn?.index === ind) continue;
+                try {
+                    await PlacesUtils.bookmarks.update({ guid: node.guid, index: ind });
+                    nodes.splice(mn.index, 1);
+                    nodes.splice(ind, 0, mn);
+                    nodes.map((el, ind) => el.index = ind);
+                } catch { }
+            }
+        };
+        await sort((await PlacesUtils.promiseBookmarksTree(PlacesUtils.bookmarks.rootGuid)).children);
+        this.bookMgrRun = false;
+        this.callWithEachWindow("atb-combined-bookmarks-mgr", { activated: true });
+    },
+    async favSearchStart() {
+        if (this.bookMgrRun) return;
+        this.bookMgrRun = true;
+        this.callWithEachWindow("atb-combined-bookmarks-mgr", { activated: false });
+        var urlsList = [];
+        var convert = (node, url) => {
+            if (node.children) node.children.map(convert);
+            else if ((url = node.uri) && /^(?:https?|ftp|file):/.test(url)) urlsList.push(url);
+        };
+        convert(await PlacesUtils.promiseBookmarksTree(PlacesUtils.bookmarks.rootGuid));
+        var favForPage = siteURI => {
+            return new Promise(resolve => {
+                try {
+                    siteURI = Services.io.newURI(siteURI);
+                } catch {
+                    resolve(null);
                 }
-                : siteURI => {
-                    return new Promise(resolve => {
-                        try {
-                            siteURI = Services.io.newURI(siteURI);
-                        } catch {
-                            resolve(null);
-                        }
-                        PlacesUtils.favicons.getFaviconURLForPage(siteURI, uri => resolve(uri === null ? siteURI : null));
-                    });
-                };
-            Promise.all(urlsList.map(favForPage)).then(results => this.favSearchResults(results.filter(url => url !== null)));
-        });
+                PlacesUtils.favicons.getFaviconForPage(siteURI).then(uri => resolve(uri === null ? siteURI : null));
+            });
+        };
+        this.favSearchResults((await Promise.all(urlsList.map(favForPage))).filter(url => url !== null));
     },
     favComplete(favsuccesslength, favmaxlength) {
-        this.favrunning = false;
-        this.callWithEachWindow("b-loads-favicons", { activated: true });
-        if (this.atb_branch.getBoolPref("alertnotification")) this.showAlert({ name: "b-loads-favicons", title: atb_locale.localizeMessage("favComplete"), text: `${atb_locale.localizeMessage("favComplete0", [favsuccesslength, favmaxlength - favsuccesslength])}`, textClickable: true, requireInteraction: true });
+        this.bookMgrRun = false;
+        this.callWithEachWindow("atb-combined-bookmarks-mgr", { activated: true });
+        if (this.atb_branch.getBoolPref("alertnotification")) this.showAlert({ name: "atb-combined-bookmarks-mgr", title: atb_locale.localizeMessage("favComplete"), text: `${atb_locale.localizeMessage("favComplete0", [favsuccesslength, favmaxlength - favsuccesslength])}`, textClickable: true, requireInteraction: true });
     },
     favSearchResults(results, _favmaxlength) {
         var favmaxlength = _favmaxlength = results.length;
@@ -2100,65 +2276,49 @@ animation-timing-function: step-start !important;`}
         var maxrequests = this.atb_branch.getIntPref("maxrequests");
         var favmaxtimeout = this.atb_branch.getIntPref("maxtimeout") * 1000;
         var { Uint8ClampedArray, Blob, FileReader, XMLHttpRequest } = this.global;
-        var setFaviconForPage = !("setAndFetchFaviconForPage" in PlacesUtils.favicons)
-            ? async (siteURI, uri, type) => {
-                var resolver = Promise.withResolvers();
-                if (uri.schemeIs("data")) resolver.resolve(uri);
-                else {
-                    let channel = NetUtil.newChannel({
-                        uri,
-                        loadingPrincipal: Services.scriptSecurityManager.getSystemPrincipal(),
-                        securityFlags:
-                            Ci.nsILoadInfo.SEC_REQUIRE_CORS_INHERITS_SEC_CONTEXT |
-                            Ci.nsILoadInfo.SEC_COOKIES_INCLUDE |
-                            Ci.nsILoadInfo.SEC_ALLOW_CHROME |
-                            Ci.nsILoadInfo.SEC_DISALLOW_SCRIPT,
-                        contentPolicyType: Ci.nsIContentPolicy.TYPE_INTERNAL_IMAGE_FAVICON,
-                    });
-                    NetUtil.asyncFetch(channel, async (input, status, request) => {
-                        if (!Components.isSuccessCode(status)) {
-                            resolver.reject(status);
-                            return;
-                        }
-                        try {
-                            let data = NetUtil.readInputStream(input, input.available());
-                            input.close();
-                            let buffer = new Uint8ClampedArray(data);
-                            let blob = new Blob([buffer], { type: type || request.QueryInterface(Ci.nsIChannel).contentType });
-                            let dataURL = await new Promise((resolve, reject) => {
-                                let reader = new FileReader();
-                                reader.onload = () => resolve(reader.result);
-                                reader.onerror = e => reject(e);
-                                reader.readAsDataURL(blob);
-                            });
-                            resolver.resolve(Services.io.newURI(dataURL));
-                        } catch (e) {
-                            resolver.reject(e);
-                        }
-                    });
-                }
-                try {
-                    PlacesUtils.favicons.setFaviconForPage(siteURI, uri, await resolver.promise);
-                    ++favsuccesslength;
-                } catch { }
-            }
-            : async (siteURI, favURI) => {
-                var tid = new Timer;
-                var request = PlacesUtils.favicons.setAndFetchFaviconForPage(siteURI, favURI, false, PlacesUtils.favicons.FAVICON_LOAD_NON_PRIVATE, {
-                    onComplete() {
-                        ++favsuccesslength;
-                        tid.cancel();
-                    },
-                }, Services.scriptSecurityManager.getSystemPrincipal());
-                if (!request) return;
-                tid.initWithCallback(() => {
+        var setFaviconForPage = async (siteURI, uri, type) => {
+            var resolver = Promise.withResolvers();
+            if (uri.schemeIs("data")) resolver.resolve(uri);
+            else {
+                let channel = NetUtil.newChannel({
+                    uri,
+                    loadingPrincipal: Services.scriptSecurityManager.getSystemPrincipal(),
+                    securityFlags:
+                        Ci.nsILoadInfo.SEC_REQUIRE_CORS_INHERITS_SEC_CONTEXT |
+                        Ci.nsILoadInfo.SEC_COOKIES_INCLUDE |
+                        Ci.nsILoadInfo.SEC_ALLOW_CHROME |
+                        Ci.nsILoadInfo.SEC_DISALLOW_SCRIPT,
+                    contentPolicyType: Ci.nsIContentPolicy.TYPE_INTERNAL_IMAGE_FAVICON,
+                });
+                NetUtil.asyncFetch(channel, async (input, status, request) => {
+                    if (!Components.isSuccessCode(status)) {
+                        resolver.reject(status);
+                        return;
+                    }
                     try {
-                        request.cancel();
-                    } catch { }
-                }, favmaxtimeout, tid.TYPE_ONE_SHOT);
-            };
-        var favSearchPage = siteURI => {
-            new Promise(resolve => {
+                        let data = NetUtil.readInputStream(input, input.available());
+                        input.close();
+                        let buffer = new Uint8ClampedArray(data);
+                        let blob = new Blob([buffer], { type: type || request.QueryInterface(Ci.nsIChannel).contentType });
+                        let dataURL = await new Promise((resolve, reject) => {
+                            let reader = new FileReader();
+                            reader.onload = () => resolve(reader.result);
+                            reader.onerror = e => reject(e);
+                            reader.readAsDataURL(blob);
+                        });
+                        resolver.resolve(Services.io.newURI(dataURL));
+                    } catch (e) {
+                        resolver.reject(e);
+                    }
+                });
+            }
+            try {
+                PlacesUtils.favicons.setFaviconForPage(siteURI, uri, await resolver.promise);
+                ++favsuccesslength;
+            } catch { }
+        };
+        var favSearchPage = async siteURI => {
+            await new Promise(resolve => {
                 let req = new XMLHttpRequest({ mozAnon: false });
                 req.mozBackgroundRequest = true;
                 req.open("GET", siteURI.spec, true);
@@ -2170,7 +2330,7 @@ animation-timing-function: step-start !important;`}
                         let doc = req.responseXML, favURI, favType;
                         if (doc) {
                             let lastlink, is16, is32, isany;
-                            for (let link of doc.head.querySelectorAll("link[href][rel~='icon']")) {
+                            for (let link of doc.head.querySelectorAll("link[href][rel~=icon]")) {
                                 if (link.sizes.length === 1) {
                                     let size = link.sizes[0];
                                     if (/any/i.test(size))
@@ -2200,277 +2360,14 @@ animation-timing-function: step-start !important;`}
                     req.abort();
                 };
                 req.send(null);
-            }).then(() => {
-                if (!(--_favmaxlength)) {
-                    this.favComplete(favsuccesslength, favmaxlength);
-                    return;
-                }
-                if (results.length) favSearchPage(results.shift());
             });
+            if (!(--_favmaxlength)) {
+                this.favComplete(favsuccesslength, favmaxlength);
+                return;
+            }
+            if (results.length) favSearchPage(results.shift());
         };
         results.splice(0, maxrequests).map(favSearchPage);
-    },
-    async populateMenu(e, id) {
-        var addons = AddonManager.getAddonsByTypes(this.exceptions_type_listarr);
-        var popup = e.target, doc = e.view.document;
-        var exceptions_listset = this.exceptions_listset,
-            enabled_first = this.enabled_first,
-            show_disabled = this.show_disabled,
-            show_hidden = this.show_hidden,
-            user_permissions = this.user_permissions,
-            show_version = this.show_version,
-            show_description = this.show_description,
-            max_width_main_item = this.max_width_main_item,
-            max_height_popup = this.max_height_popup;
-        var locale_desc = atb_locale.localizeMessage("locale_desc"),
-            locale_perm = atb_locale.localizeMessage("locale_perm"),
-            locale_opts = atb_locale.localizeMessage("locale_opts"),
-            locale_contr = atb_locale.localizeMessage("locale_contr"),
-            locale_copyid = atb_locale.localizeMessage("locale_copyid"),
-            locale_copyuuid = atb_locale.localizeMessage("locale_copyuuid"),
-            locale_home = atb_locale.localizeMessage("locale_home"),
-            locale_author = atb_locale.localizeMessage("locale_author"),
-            locale_source = atb_locale.localizeMessage("locale_source"),
-            locale_sourceext = atb_locale.localizeMessage("locale_sourceext"),
-            locale_toogle = atb_locale.localizeMessage("locale_toogle"),
-            locale_pin = atb_locale.localizeMessage("locale_pin"),
-            locale_del = atb_locale.localizeMessage("locale_del"),
-            locale_am = atb_locale.localizeMessage("locale_am"),
-            locale_amup = atb_locale.localizeMessage("locale_amup"),
-            locale_dbg = atb_locale.localizeMessage("locale_dbg");
-        var img_addons = "resource://add_toolbar_buttons/svg/addons.svg",
-            img_opts = "resource://add_toolbar_buttons/svg/preferences.svg",
-            img_copy = "resource://add_toolbar_buttons/svg/copy.svg",
-            img_open = "resource://add_toolbar_buttons/svg/user-home.svg",
-            img_view = "resource://add_toolbar_buttons/svg/view.svg",
-            img_unins = "resource://add_toolbar_buttons/svg/uninstall.svg";
-        var addonsMap = new Map();
-        var createGroup = (addon, extension) => {
-            var groop = doc.createXULElement("menugroup");
-            var uuid = (addon.isActive && extension?.uuid);
-            var widgetid = (addon.type === "extension" && addon.isActive && extension?.apiManager?.global?.browserActionFor?.(extension)?.widget?.id);
-            for (let [name, tooltip, img, lab, checkbox] of [
-                ["toogle", ("userDisabled" in addon) ? (!widgetid ? locale_toogle : `${locale_toogle}\n${locale_pin}`) : "", "", "", true],
-                ["main", `${addon.name} ${addon.version}\n${(show_description && addon.description) ? `${locale_desc} ${addon.description}\n` : ""}ID: ${addon.id}\n${uuid ? `UUID: ${uuid}\n` : ""}${(user_permissions && addon.userPermissions?.permissions?.length) ? `${locale_perm} ${addon.userPermissions.permissions.join(", ")}` : ""}`, addon.iconURL, `${addon.name} ${show_version ? addon.version : ""}`],
-                ["opts", !addon.isSystem ? `${addon.optionsURL ? `${locale_opts}\n` : ""}${locale_contr}` : "", img_opts],
-                ["open", `${addon.homepageURL ? `${locale_home}\n` : ""}${addon.creator?.url ? locale_author : ""}`, img_open],
-                ["copy", `${locale_copyid}\n${uuid ? locale_copyuuid : ""}`, img_copy],
-                ["view", ("getResourceURI" in addon) ? `${!addon.isBuiltin ? `${locale_source}\n${locale_sourceext}` : locale_source}` : "", img_view],
-                ["uninstall", ("uninstall" in addon && !addon.isSystem && !addon.isBuiltin) ? locale_del : "", img_unins]
-            ]) {
-                let item = doc.createXULElement("menuitem");
-                item.setAttribute("iname", name);
-                item.setAttribute("closemenu", "none");
-                if (lab) item.label = lab;
-                if (img) item.image = img;
-                if (checkbox) {
-                    item.setAttribute("type", "checkbox");
-                    if (addon.isActive) item.setAttribute("checked", true);
-                } else item.className = "menuitem-iconic";
-                if (tooltip) item.tooltipText = tooltip;
-                else item.disabled = true;
-                groop.append(item);
-            }
-            groop.className = `atb-type-${addon.type}`;
-            if (addon.isSystem) groop.classList.add("atb-system");
-            else if (addon.optionsURL) groop.classList.add("atb-options");
-            if (addon.isCorrectlySigned === false) groop.classList.add("atb-warning");
-            if (addon.blocklistState || !addon.isCompatible) groop.classList.add("atb-error");
-            groop._addon = addon;
-            groop._extension = extension;
-            groop._widgetid = widgetid;
-            return groop;
-        };
-        popup.style.setProperty("--v-max-width-item", `${max_width_main_item}em`);
-        popup.style.setProperty("max-height", !max_height_popup ? "none" : `${max_height_popup}em`);
-        var frag = doc.createDocumentFragment();
-        (await addons).filter(a => !a.getResourceURI?.().spec.startsWith("resource://search-extensions/")).sort((a, b) => {
-            var ka = `${(enabled_first ? a.isActive ? "0" : "1" : "")}${a.type || ""}${a.name.toLowerCase()}`;
-            var kb = `${(enabled_first ? b.isActive ? "0" : "1" : "")}${b.type || ""}${b.name.toLowerCase()}`;
-            return (ka < kb) ? -1 : 1;
-        }).forEach(addon => {
-            if (!exceptions_listset.has(addon.id) &&
-                (!addon.hidden || show_hidden) &&
-                (addon.isActive || show_disabled)) {
-                let extension = GlobalManager.extensionMap.get(addon.id);
-                let gp = createGroup(addon, extension);
-                frag.append(gp);
-                addonsMap.set(addon.id, gp);
-            }
-        });
-        var groop = doc.createXULElement("menugroup");
-        for (let [name, tooltip, img, lab] of [
-            ["manager", locale_amup, img_addons, locale_am],
-            ["debugging", locale_dbg, img_view, locale_dbg],
-        ]) {
-            let item = doc.createXULElement("menuitem");
-            item.className = "menuitem-iconic";
-            item.setAttribute("iname", name);
-            item.setAttribute("closemenu", "none");
-            item.label = lab;
-            item.image = img;
-            item.tooltipText = tooltip;
-            groop.append(item);
-        }
-        var sep = doc.createXULElement("menuseparator");
-        sep.id = `${id}-separator`;
-        frag.prepend(sep);
-        frag.prepend(groop);
-        popup.append(frag);
-        var click = e => {
-            e.preventDefault();
-            e.stopPropagation();
-            this.handleClick(e);
-        };
-        popup.addEventListener("click", click);
-        var listener = {
-            onEnabled(addon) {
-                var gp = addonsMap.get(addon.id);
-                if (gp) {
-                    let g = createGroup(addon, GlobalManager.extensionMap.get(addon.id));
-                    gp.replaceWith(g);
-                    addonsMap.set(addon.id, g);
-                }
-            },
-            onDisabled(addon) {
-                this.onEnabled(addon);
-            },
-            onInstalled(addon) {
-                var g = createGroup(addon, GlobalManager.extensionMap.get(addon.id));
-                var gp = addonsMap.get(addon.id);
-                if (gp) gp.replaceWith(g);
-                else popup.querySelector(`:scope>#${id}-separator`).after(g);
-                addonsMap.set(addon.id, g);
-            },
-            onUninstalled(addon) {
-                var gp = addonsMap.get(addon.id);
-                if (gp) {
-                    gp.remove();
-                    addonsMap.delete(addon.id);
-                }
-            },
-        };
-        AddonManager.addAddonListener(listener);
-        popup.addEventListener("popuphiding", () => {
-            AddonManager.removeAddonListener(listener);
-            popup.removeEventListener("click", click);
-            addonsMap.clear();
-            for (let item of popup.querySelectorAll(":scope>*"))
-                item.remove();
-        }, { once: true });
-    },
-    handleClick(e) {
-        var mi = e.target;
-        if (mi.disabled) return;
-        var win = e.view, gp = mi.parentElement, addon = gp._addon, extension = gp._extension;
-        switch (mi.getAttribute("iname")) {
-            case "main":
-                if (e.button) {
-                    if (!addon.isSystem && addon.optionsURL) this.openAddonOptions(addon, win);
-                    return;
-                } else if (!("userDisabled" in addon)) return;
-            case "toogle": {
-                if (e.button === 2) {
-                    if (!gp._widgetid) return;
-                    let shouldPinTT = CustomizableUI.getPlacementOfWidget(gp._widgetid).area === CustomizableUI.AREA_ADDONS;
-                    if (shouldPinTT) win.gUnifiedExtensions._maybeMoveWidgetNodeBack(gp._widgetid);
-                    win.gUnifiedExtensions.pinToToolbar(gp._widgetid, shouldPinTT);
-                    return;
-                }
-                let { userDisabled } = addon;
-                addon[userDisabled ? "enable" : "disable"]({ allowSystemAddons: true });
-                switch (addon.id) {
-                    case "formautofill@mozilla.org":
-                        Services.prefs.setBoolPref("dom.forms.autocomplete.formautofill", userDisabled);
-                        break;
-                    case "pictureinpicture@mozilla.org":
-                        Services.prefs.setBoolPref("extensions.pictureinpicture.enable_picture_in_picture_overrides", userDisabled);
-                        break;
-                    case "webcompat@mozilla.org":
-                    case "webcompat-reporter@mozilla.org":
-                        Services.prefs.setBoolPref("extensions.webcompat-reporter.enabled", userDisabled);
-                        break;
-                    case "screenshots@mozilla.org":
-                        Services.prefs.setBoolPref("extensions.screenshots.disabled", !userDisabled);
-                }
-                break;
-            }
-            case "opts":
-                if (!e.button) this.openAddonOptions(addon, win);
-                else {
-                    let viewID = `addons://detail/${encodeURIComponent(addon.id)}`;
-                    if ("openAddonsMgr" in win.BrowserAddonUI) win.BrowserAddonUI.openAddonsMgr(viewID);
-                    else win.BrowserOpenAddonsMgr(viewID);
-                }
-                break;
-            case "copy":
-                if (!e.button) {
-                    this.clipboard.copyStringToClipboard(addon.id, Ci.nsIClipboard.kGlobalClipboard);
-                    setTimeout(() => this.showAlert({ name: `${addon.id}-id`, title: `ID ${atb_locale.localizeMessage("locale_clip")}`, text: addon.id, alertTimeout: this.alert_timeout }), 100);
-                } else if (extension?.uuid) {
-                    this.clipboard.copyStringToClipboard(extension.uuid, Ci.nsIClipboard.kGlobalClipboard);
-                    setTimeout(() => this.showAlert({ name: `${addon.id}-uuid`, title: `UUID ${atb_locale.localizeMessage("locale_clip")}`, text: extension.uuid, alertTimeout: this.alert_timeout }), 100);
-                }
-                break;
-            case "open":
-                if (!e.button) {
-                    if (addon.homepageURL) win.gBrowser.selectedTab = this.addTab(win, addon.homepageURL);
-                } else if (addon.creator?.url) win.gBrowser.selectedTab = this.addTab(win, addon.creator.url);
-                break;
-            case "view":
-                if (!e.button) this.browseDir(addon, win);
-                else if (!addon.isBuiltin) this.browseDir(addon);
-                break;
-            case "uninstall":
-                if (e.button) return;
-                win.closeMenus(mi);
-                if (Services.prompt.confirm(win, null, `${atb_locale.localizeMessage("locale_del")} ${addon.name}?`)) addon.uninstall();
-                break;
-            case "manager":
-                this.openAddonsMgrOrUpdate(win, e.button, mi);
-                break;
-            case "debugging":
-                if (!e.button) win.switchToTabHavingURI("about:debugging#/runtime/this-firefox", true, { ignoreFragment: "whenComparing", triggeringPrincipal: Services.scriptSecurityManager.getSystemPrincipal(), });
-        }
-    },
-    async openAddonsMgrOrUpdate(win, button, mi) {
-        var viewID = "addons://list/extension", page;
-        if ("openAddonsMgr" in win.BrowserAddonUI) page = await win.BrowserAddonUI.openAddonsMgr(viewID);
-        else page = await win.BrowserOpenAddonsMgr(viewID);
-        if (!button || !page) return;
-        win.closeMenus(mi);
-        var updateBtn = page.document.querySelector("[action=\"check-for-updates\"]");
-        if (updateBtn && !updateBtn.disabled) updateBtn.click();
-    },
-    openAddonOptions(addon, win) {
-        switch (addon.optionsType) {
-            case 5: {
-                let viewID = `addons://detail/${encodeURIComponent(addon.id)}/preferences`;
-                if ("openAddonsMgr" in win.BrowserAddonUI) win.BrowserAddonUI.openAddonsMgr(viewID);
-                else win.BrowserOpenAddonsMgr(viewID);
-                break;
-            }
-            case 3:
-                win.switchToTabHavingURI(addon.optionsURL, true);
-                break;
-            case 1: {
-                let wins = Services.wm.getEnumerator(null);
-                while (wins.hasMoreElements()) {
-                    let w = wins.getNext();
-                    if (!w.closed && w.document.documentURI === addon.optionsURL) return w.focus();
-                }
-                win.openDialog(addon.optionsURL, addon.id, `chrome,titlebar,toolbar,centerscreen${Services.prefs.getBoolPref("browser.preferences.instantApply", false) ? ",dialog=no" : ""}`);
-            }
-        }
-    },
-    browseDir(addon, win) {
-        if (win) win.gBrowser.selectedTab = this.addTab(win, addon.getResourceURI().spec);
-        else {
-            let file = Services.io.getProtocolHandler("file")
-                .QueryInterface(Ci.nsIFileProtocolHandler)
-                .getFileFromURLSpec(addon.getResourceURI().QueryInterface(Ci.nsIJARURI).JARFile.spec);
-            if (file.exists()) file.launch();
-        }
     },
     setSoundVolumeValue(e) {
         var pref = "media.volume_scale", gpref = parseFloat(atb_ps.getCharPref(pref)), step = this.sound_volume_step;
@@ -2486,7 +2383,7 @@ animation-timing-function: step-start !important;`}
                 delete this.anim_css;
                 var anim_css = this.anim_css = atb_ps.getBoolPref(pref);
                 this.cssFileToUserContent(this.animationCSS, anim_css);
-                this.callWithEachWindow("b-stop-animation", { activated: anim_css });
+                this.callWithEachWindow("atb-stop-animation", { activated: anim_css });
             },
             "extensions.add_toolbar_buttons.obs.animfunc": () => {
                 this.cssFileToUserContent(this.animationCSS, true);
@@ -2557,42 +2454,42 @@ animation-timing-function: step-start !important;`}
                 if (isNaN(volume))
                     volume = 0;
                 this.media_volume_scale = volume;
-                this.callWithEachWindow("b-sound-muted-all-tabs", { badge: (volume * 100).toFixed() });
+                this.callWithEachWindow("atb-sound-muted-all-tabs", { badge: (volume * 100).toFixed() });
             },
             "permissions.default.image": () => {
                 delete this.permissions_default_image;
                 var permissions_default_image = this.permissions_default_image = atb_ps.getIntPref(pref);
-                this.callWithEachWindow("b-image-toggle", { activated: permissions_default_image });
+                this.callWithEachWindow("atb-image-toggle", { activated: permissions_default_image });
             },
             "image.animation_mode": () => {
                 delete this.image_animation_mode;
                 var image_animation_mode = this.image_animation_mode = atb_ps.getCharPref(pref);
-                this.callWithEachWindow("b-stop-animation", { badge: image_animation_mode.substring(0, 3) });
+                this.callWithEachWindow("atb-stop-animation", { badge: image_animation_mode.substring(0, 3) });
             },
             "media.autoplay.default": () => {
                 delete this.media_autoplay_default;
                 var media_autoplay_default = this.media_autoplay_default = atb_ps.getIntPref(pref);
-                this.callWithEachWindow("b-autoplay", { activated: media_autoplay_default });
+                this.callWithEachWindow("atb-autoplay", { activated: media_autoplay_default });
             },
             "javascript.enabled": () => {
                 delete this.javascript_enabled;
                 var javascript_enabled = this.javascript_enabled = atb_ps.getBoolPref(pref);
-                this.callWithEachWindow("b-javascript", { activated: javascript_enabled });
+                this.callWithEachWindow("atb-javascript", { activated: javascript_enabled });
             },
             "network.cookie.cookieBehavior": () => {
                 delete this.network_cookie_cookieBehavior;
                 var network_cookie_cookieBehavior = this.network_cookie_cookieBehavior = atb_ps.getIntPref(pref);
-                this.callWithEachWindow("b-cookie-toggle", { badge: network_cookie_cookieBehavior, badgeStyle: `background: ${network_cookie_cookieBehavior !== 2 ? "#0074e8" : "#e31b5d"}; color: #ffffff; font-size: 10px; line-height: 10px; box-shadow: none; text-shadow: none; padding-block: 0 1px !important; padding-inline: 2px !important; min-width: 0 !important;` });
+                this.callWithEachWindow("atb-cookie-toggle", { badge: network_cookie_cookieBehavior, badgeStyle: `background: ${network_cookie_cookieBehavior !== 2 ? "light-dark(oklch(62% 0.25 260), oklch(65% 0.25 260))" : "light-dark(oklch(50% 0.25 0), oklch(70% 0.25 0))"}; color: oklch(1 0 0); font-size: 10px; font-weight: normal; line-height: 10px; box-shadow: none; text-shadow: none; padding-block: 0 1px !important; padding-inline: 2px !important; min-width: 0 !important;` });
             },
             "browser.zoom.full": () => {
                 delete this.browser_zoom_full;
                 var browser_zoom_full = this.browser_zoom_full = atb_ps.getBoolPref(pref);
-                this.callWithEachWindow("b-zoom-toggle", { activated: browser_zoom_full });
+                this.callWithEachWindow("atb-zoom-toggle", { activated: browser_zoom_full });
             },
             "network.proxy.type": () => {
                 delete this.network_proxy_type;
                 var network_proxy_type = this.network_proxy_type = atb_ps.getIntPref(pref);
-                this.callWithEachWindow("toolbaritem-b-toggle-proxy", { activated: network_proxy_type });
+                this.callWithEachWindow("atb-combined-toggle-proxy", { activated: network_proxy_type });
             },
         })[pref]?.();
     },
@@ -2603,14 +2500,31 @@ animation-timing-function: step-start !important;`}
             return this._stylePreload = await this.styleSS.preloadSheetAsync(this.styleURI, type);
         })();
     },
-    async loadWin(win) {
+    async onWindowOpened(win) {
         var type = win.windowUtils.USER_SHEET;
-        win.windowUtils.addSheet(await this.stylePreload(type), type);
+        var preload = this.stylePreload(type);
+        winWeakMap.set(win, {
+            eventListeners: new Map(),
+            addListener(key, elm, type, listener) {
+                elm.addEventListener(type, listener);
+                this.eventListeners.set(key, { elm, type, listener });
+            },
+            delListener(key) {
+                var { eventListeners } = this;
+                var getkey = eventListeners.get(key);
+                if (!getkey) return;
+                var { elm, type, listener } = getkey;
+                elm.removeEventListener(type, listener);
+                eventListeners.delete(key);
+            },
+        });
+        win.windowUtils.addSheet(await preload, type);
     },
-    unloadWin(win) {
-        try {
-            win.windowUtils.removeSheet(this.styleURI, win.windowUtils.USER_SHEET);
-        } catch (e) { console.error(e); }
+    async onWindowClosed(win) {
+        for (let { elm, type, listener } of winWeakMap.get(win).eventListeners.values())
+            elm.removeEventListener(type, listener);
+        winWeakMap.delete(win);
+        win.windowUtils.removeSheet(this.styleURI, win.windowUtils.USER_SHEET);
     },
     callWithEachWindow(buttonID, atr) {
         var getW = CustomizableUI.getWidget(buttonID);
@@ -2621,7 +2535,7 @@ animation-timing-function: step-start !important;`}
                     node.setAttribute(a, atr[a]);
             }
         else
-            for (let win of windowTracker.browserWindows()) {
+            for (let win of CustomizableUI.windows) {
                 let node = getW.forWindow(win).node;
                 if (!node) continue;
                 for (let a in atr)
@@ -2653,34 +2567,52 @@ animation-timing-function: step-start !important;`}
                 break;
         }
     },
+    async showAlert() {
+        var alertsService = Cc["@mozilla.org/alerts-service;1"].getService(Ci.nsIAlertsService);
+        var defopts = { imageURL: "resource://add_toolbar_buttons/svg/icon_large.svg", silent: true };
+        var notification = Components.Constructor("@mozilla.org/alert-notification;1", "nsIAlertNotification");
+        var gIdMap = new Map();
+        try {
+            let uri = Services.io.newURI(defopts.imageURL);
+            let channel = Services.io.newChannelFromURI(uri, null, Services.scriptSecurityManager.getSystemPrincipal(), null, Ci.nsILoadInfo.SEC_ALLOW_CROSS_ORIGIN_SEC_CONTEXT_IS_NULL, Ci.nsIContentPolicy.TYPE_IMAGE);
+            channel.loadInfo.allowDeprecatedSystemRequests = true;
+            defopts.image = await ChromeUtils.fetchDecodedImage(uri, channel);
+        } catch { defopts.imageURL = undefined; }
+        this.showAlert = (opts = {}, obs) => {
+            var alert = new notification();
+            var alertTimeout = opts.name && opts.alertTimeout;
+            if (alertTimeout) {
+                opts.requireInteraction = true;
+                if (gIdMap.has(opts.name)) {
+                    clearTimeout(gIdMap.get(opts.name));
+                    gIdMap.delete(opts.name);
+                }
+            }
+            alert.initWithObject({ ...defopts, ...opts });
+            alertsService.showAlert(alert, obs);
+            if (alertTimeout) gIdMap.set(opts.name, setTimeout(() => {
+                alertsService.closeAlert(opts.name);
+                gIdMap.delete(opts.name);
+            }, alertTimeout));
+        };
+        this.showAlert.apply(this, arguments);
+    },
     uninit() {
         if (!this.initialized) return;
-        [
-            "permissions.default.image", "image.animation_mode", "javascript.enabled", "media.autoplay.default",
-            "media.volume_scale", "browser.zoom.full", "network.cookie.cookieBehavior", "network.proxy.type"
-        ].forEach(pref => {
+        this.obsprefs.forEach(pref => {
             try {
-                let type = atb_ps.getPrefType(pref);
-                if (type != atb_ps.PREF_INVALID) atb_ps.removeObserver(pref, this);
+                if (atb_ps.getPrefType(pref) !== atb_ps.PREF_INVALID) atb_ps.removeObserver(pref, this);
             } catch { }
         });
-        try {
-            atb_ps.removeObserver("extensions.add_toolbar_buttons.obs.", this);
-        } catch { }
-        [
-            "b-image-toggle", "b-stop-animation", "b-autoplay", "b-javascript", "b-cookie-toggle", "b-zoom-toggle", "toolbaritem-b-toggle-proxy", "toolbaritem-b-undo-tab", "b-close-other-tabs", "b-close-all-tabs", "b-restart-app",
-            "b-about-config", "b-about-downloads", "b-about-about", "b-clear-data", "b-preferences", "b-bookmark-nopop", "b-snap-back", "b-top-page", "b-bottom-page", "b-up-page", "b-down-page", "b-find-bar", "b-clear-bar", "b-newtab",
-            "b-paste-and-go", "b-copy-and-go", "b-profilefolder", "b-pass-words", "b-toggle-styles", "b-open-console", "b-text-to-link", "b-addons-manager", "b-open-file", "b-saveas", "b-close-toolbars",
-            "b-reduce", "b-enlarge", "b-loads-favicons", "b-ext-option-menu", "b-sound-muted-all-tabs"
-        ].forEach(ids => {
+        atb_ps.removeObserver("extensions.add_toolbar_buttons.obs.", this);
+        this.widgets.forEach(({ id }) => {
             try {
-                CustomizableUI.destroyWidget(ids);
+                CustomizableUI.destroyWidget(id);
             } catch { }
         });
-        windowTracker.removeOpenListener(this.loadWin);
-        windowTracker.removeCloseListener(this.unloadWin);
-        for (let win of windowTracker.browserWindows())
-            this.unloadWin(win);
+        CustomizableUI.removeListener(this);
+        for (let win of CustomizableUI.windows)
+            this.onWindowClosed(win);
         Services.io.getProtocolHandler("resource")
             .QueryInterface(Ci.nsIResProtocolHandler)
             .setSubstitution("add_toolbar_buttons", null);
@@ -2688,25 +2620,25 @@ animation-timing-function: step-start !important;`}
         this.initialized = false;
     },
 };
-this.addToolbarButtons = class extends ExtensionAPI {
+var addToolbarButtons = class extends ExtensionAPI {
     onStartup() {
         atb_ext = this.extension;
         atb_uri = atb_ext.baseURI.spec;
         atb_locale = atb_ext.localeData;
         atb_ps = Services.prefs;
-        add_toolbar_buttons.init();
+        add_bar_btns.init();
     }
     onShutdown(reason) {
-        if (reason !== "APP_SHUTDOWN") add_toolbar_buttons.uninit();
+        if (reason !== "APP_SHUTDOWN") add_bar_btns.uninit();
     }
     getAPI() {
         return {
             addToolbarButtons: {
-                getPref(arr) {
-                    return arr.map(name => [name, add_toolbar_buttons.getPref(name)]);
+                getPrefs(arr) {
+                    return arr.map(name => [name, add_bar_btns.getPref(name)]);
                 },
-                setPref(arr) {
-                    arr.forEach(nv => add_toolbar_buttons.setPref(nv[0], nv[1]));
+                setPrefs(arr) {
+                    arr.forEach(nv => add_bar_btns.setPref(nv[0], nv[1]));
                 }
             }
         };

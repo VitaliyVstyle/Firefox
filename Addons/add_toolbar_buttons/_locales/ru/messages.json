@@ -2,283 +2,295 @@
     "extDescription": {
         "message": "Добавляет кнопки на панель инструментов"
     },
-    "bImageToggleL": {
+    "atbImageToggleL": {
         "message": "Переключить изображения"
     },
-    "bImageToggleT": {
+    "atbImageToggleT": {
         "message": "Л: Переключить загрузку изображений\nС|П: Переключить загрузку изображений на текущей странице"
     },
-    "bStopAnimationL": {
+    "atbStopAnimationL": {
         "message": "Переключить анимацию"
     },
-    "bStopAnimationT": {
+    "atbStopAnimationT": {
         "message": "Л: Остановить или Запустить CSS, SVG анимацию\nShift+Л: Переключить анимацию - normal/none/once\nС: Переключить анимацию - normal/none\nП: Переключить анимацию на текущей странице"
     },
-    "bAutoplayL": {
+    "atbAutoplayL": {
         "message": "Переключить медиа"
     },
-    "bAutoplayT": {
+    "atbAutoplayT": {
         "message": "Л: Переключить авто-воспроизведение медиа\nС|П: Переключить воспроизведение медиа на текущей странице"
     },
-    "bJavascriptL": {
+    "atbJavascriptL": {
         "message": "Переключить JavaScript"
     },
-    "bJavascriptT": {
+    "atbJavascriptT": {
         "message": "Л: Переключить JavaScript\nС|П: Переключить JavaScript на текущей странице"
     },
-    "bCookieToggleL": {
+    "atbCookieToggleL": {
         "message": "Переключить Куки"
     },
-    "bCookieToggleT": {
+    "atbCookieToggleT": {
         "message": "Л: Переключить Куки\nShift+Л: Удалить куки домена текущей страницы\nС: Удалить куки домена текущей страницы\nП: Управление куками"
     },
-    "bCookieToggleNdel": {
+    "atbCookieToggleNdel": {
         "message": "Куки текущего домена очищены!"
     },
-    "bCookieToggleNnone": {
+    "atbCookieToggleNnone": {
         "message": "Отсутствуют куки текущего домена!"
     },
-    "bZoomToggleL": {
+    "atbZoomToggleL": {
         "message": "Только текст"
     },
-    "bZoomToggleT": {
+    "atbZoomToggleT": {
         "message": "Переключение масштабирования текста и страницы"
     },
-    "bToggleProxy": {
+    "atbToggleProxy": {
         "message": "Переключить прокси"
     },
-    "bToggleProxyT": {
+    "atbToggleProxyT": {
         "message": "Л: Меню прокси\nП: Открыть настройки прокси"
     },
-    "bToggleProxyM0": {
+    "atbToggleProxyM0": {
         "message": "Прямое подключение, без прокси"
     },
-    "bToggleProxyM1": {
+    "atbToggleProxyM1": {
         "message": "Ручная настройка прокси"
     },
-    "bToggleProxyM2": {
+    "atbToggleProxyM2": {
         "message": "Автоматическая настройка прокси"
     },
-    "bToggleProxyM4": {
+    "atbToggleProxyM4": {
         "message": "Автоопределение настроек прокси"
     },
-    "bToggleProxyM5": {
+    "atbToggleProxyM5": {
         "message": "Использовать системные настройки прокси"
     },
-    "bToggleProxyMS": {
+    "atbToggleProxyMS": {
         "message": "Открыть настройки прокси"
     },
-    "bUndoTabL": {
+    "atbUndoTabL": {
         "message": "Восстановить"
     },
-    "bUndoTabT": {
+    "atbUndoTabT": {
         "message": "Л: Восстановить вкладку\nП: Восстановить окно"
     },
-    "bUndoTabT0": {
+    "atbUndoTabT0": {
         "message": "Л: Меню восстановить\nП: Показать весь журнал"
     },
-    "bUndoTabM0": {
+    "atbUndoTabM0": {
         "message": "Показать весь журнал"
     },
-    "bUndoTabM1": {
+    "atbUndoTabM1": {
         "message": "Удалить недавнюю историю…"
     },
-    "bUndoTabM2": {
+    "atbUndoTabM2": {
         "message": "Восстановить последнюю сессию"
     },
-    "bUndoTabM3": {
+    "atbUndoTabM3": {
         "message": "Недавно закрытые окна"
     },
-    "bUndoTabM4": {
+    "atbUndoTabM4": {
         "message": "Забыть закрытые окна"
     },
-    "bUndoTabM5": {
+    "atbUndoTabM5": {
         "message": "Забыть закрытые вкладки"
     },
-    "bNewtabL": {
+    "atbNewtabL": {
         "message": "Новая вкладка"
     },
-    "bNewtabT": {
+    "atbNewtabT": {
         "message": "Л: Открыть новую вкладку\nП: Меню чтобы открыть вкладку в контейнере"
     },
-    "bCloseOtherTabsL": {
+    "atbCloseOtherTabsL": {
         "message": "Закрыть вкладки"
     },
-    "bCloseOtherTabsT": {
+    "atbCloseOtherTabsT": {
         "message": "Л: Закрыть вкладки перед текущей\nС: Закрыть остальные вкладки текущего сайта\nП: Закрыть вкладки после текущей"
     },
-    "bCloseAllTabsL": {
+    "atbCloseAllTabsL": {
         "message": "Закрыть вкладки, окна"
     },
-    "bCloseAllTabsT": {
+    "atbCloseAllTabsT": {
         "message": "Л: Закрыть все вкладки\nShift+Л: Закрыть другие вкладки\nС: Закрыть другие окна браузера\nП: Закрыть все вкладки текущего сайта"
     },
-    "bRestartAppL": {
+    "atbRestartAppL": {
         "message": "Перезагрузка"
     },
-    "bRestartAppT": {
+    "atbRestartAppT": {
         "message": "Л: Перезапустить приложение\nС: Перезапустить без дополнений\nП: Перезапустить с очисткой кэша быстрого запуска"
     },
-    "bAboutConfigT": {
+    "atbAboutConfigT": {
         "message": "Л: Открыть about:config\nShift+Л: Искать содержимое буфера обмена в about:config\nС: Искать содержимое буфера обмена в about:config\nП: Искать выделенное в about:config"
     },
-    "bAboutDownloadsL": {
+    "atbAboutDownloadsL": {
         "message": "Загрузки"
     },
-    "bAboutDownloadsT": {
+    "atbAboutDownloadsT": {
         "message": "Л: Показать загрузки\nС: Открыть недавнюю папку загрузок\nП: Открыть недавнюю папку с файлом\nShift+П: Открыть недавнюю папку загрузок"
     },
-    "bAboutAboutT": {
+    "atbAboutAboutT": {
         "message": "Открыть about:about"
     },
-    "bClearDataL": {
+    "atbClearDataL": {
         "message": "Удалить данные"
     },
-    "bClearDataT": {
+    "atbClearDataT": {
         "message": "Открыть диалоговое окно Удаления личных данных"
     },
-    "bPreferencesL": {
-        "message": "Настройки Add Toolbar Buttons"
+    "atbPreferencesL": {
+        "message": "Настройки ATB"
     },
-    "bPreferencesT": {
+    "atbPreferencesT": {
         "message": "Л: Открыть настройки Add Toolbar Buttons\nС: Открыть настройки браузера"
     },
-    "bBookmarkNopopL": {
+    "atbBookmarkNopopL": {
         "message": "Быстрая закладка"
     },
-    "bBookmarkNopopT": {
+    "atbBookmarkNopopT": {
         "message": "Л: Добавить или удалить закладки без подтверждения\nС: Добавить группу вкладок в закладки\nП: Открыть менеджер Закладок"
     },
-    "bSnapBackL": {
+    "atbSnapBackL": {
         "message": "Полный назад или вперёд"
     },
-    "bSnapBackT": {
+    "atbSnapBackT": {
         "message": "Л: Перейти на первую страницу, открытую в этой вкладке\nС: Перейти по введённому адресу в новой вкладке\nП: Перейти на последнюю страницу, открытую в этой вкладке"
     },
-    "bTopPageL": {
+    "atbTopPageL": {
         "message": "Вверх"
     },
-    "bTopPageT": {
+    "atbTopPageT": {
         "message": "Перейти в начало страницы"
     },
-    "bBottomPageL": {
+    "atbBottomPageL": {
         "message": "Вниз"
     },
-    "bBottomPageT": {
+    "atbBottomPageT": {
         "message": "Перейти к концу страницы"
     },
-    "bUpPageL": {
+    "atbUpPageL": {
         "message": "Вверх"
     },
-    "bUpPageT": {
+    "atbUpPageT": {
         "message": "Прокрутка на одну страницу вверх"
     },
-    "bDownPageL": {
+    "atbDownPageL": {
         "message": "Вниз"
     },
-    "bDownPageT": {
+    "atbDownPageT": {
         "message": "Прокрутка на одну страницу вниз"
     },
-    "bFindBarL": {
+    "atbFindBarL": {
         "message": "Поиск"
     },
-    "bFindBarT": {
+    "atbFindBarT": {
         "message": "Л: Найти текст / Закрыть панель поиска\nShift+Л: Поиск на этой странице из буфера обмена\nС: Поиск на этой странице из буфера обмена\nП: Поиск на этой странице выделенного"
     },
-    "bClearBarL": {
-        "message": "Очистить поля адреса и поиска"
+    "atbClearBarL": {
+        "message": "Очистить"
     },
-    "bClearBarT": {
+    "atbClearBarT": {
         "message": "Л: Очистить поле адреса\nС: Очистить поля адреса и поиска\nП: Очистить поле поиска"
     },
-    "bPasteAndGoL": {
+    "atbPasteAndGoL": {
         "message": "Вставить и перейти"
     },
-    "bPasteAndGoT": {
+    "atbPasteAndGoT": {
         "message": "Л: Перейти по адресу из буфера обмена\nС: Перейти по адресу из буфера обмена в новой вкладке\nП: Искать содержимое буфера обмена в новой вкладке"
     },
-    "bCopyAndGoL": {
-        "message": "Перейти по выделенному"
+    "atbCopyAndGoL": {
+        "message": "Перейти"
     },
-    "bCopyAndGoT": {
+    "atbCopyAndGoT": {
         "message": "Л: Перейти по выделенному\nС: Перейти по выделенному в новой вкладке\nП: Скопировать адрес текущей страницы\nShift+П: Скопировать домен текущей страницы"
     },
-    "bProfilefolderL": {
+    "atbProfilefolderL": {
         "message": "Открыть папку"
     },
-    "bProfilefolderT": {
+    "atbProfilefolderT": {
         "message": "Л: Папка профиля\nС: Корневая папка диска\nП: Папка установки"
     },
-    "bPassWordsL": {
+    "atbPassWordsL": {
         "message": "Пароли"
     },
-    "bPassWordsT": {
+    "atbPassWordsT": {
         "message": "Открыть менеджер паролей"
     },
-    "bToggleStylesL": {
+    "atbToggleStylesL": {
         "message": "Переключить стили"
     },
-    "bToggleStylesT": {
+    "atbToggleStylesT": {
         "message": "Переключить стили, определенные сайтами"
     },
-    "bOpenConsoleL": {
+    "atbOpenConsoleL": {
         "message": "Открыть Консоль"
     },
-    "bOpenConsoleT": {
+    "atbOpenConsoleT": {
         "message": "Л: Открыть Консоль браузера\nС: Открыть Веб-консоль\nП: Открыть Инспектор"
     },
-    "bTextToLinkL": {
-        "message": "Текст URL в кликабельные ссылки"
+    "atbTextToLinkL": {
+        "message": "Текст URL"
     },
-    "bTextToLinkT": {
+    "atbTextToLinkT": {
         "message": "Л: Превратить текст URL в кликабельные ссылки\nС: Копировать все ссылки на странице\nП: Отключить / Включить кликабельные ссылки"
     },
-    "bAddonsManagerL": {
+    "atbAddonsManagerL": {
         "message": "Дополнения"
     },
-    "bAddonsManagerT": {
+    "atbAddonsManagerT": {
         "message": "Открыть менеджер дополнений"
     },
-    "bOpenFileL": {
+    "atbOpenFileL": {
         "message": "Открыть"
     },
-    "bOpenFileT": {
+    "atbOpenFileT": {
         "message": "Л: Открыть файл\nС: Открыть userContent\nП: Открыть userChrome"
     },
-    "bSaveasL": {
+    "atbSaveasL": {
         "message": "Сохранить"
     },
-    "bSaveasT": {
+    "atbSaveasT": {
         "message": "Сохранить страницу как..."
     },
-    "bReduceL": {
+    "atbReduceL": {
         "message": "Уменьшить"
     },
-    "bReduceT": {
+    "atbReduceT": {
         "message": "Л: Уменьшить размер текста\nС: Увеличить размер текста\nП: Сбросить размер текста"
     },
-    "bEnlargeL": {
+    "atbEnlargeL": {
         "message": "Увеличить"
     },
-    "bEnlargeT": {
+    "atbEnlargeT": {
         "message": "Л: Увеличить размер текста\nС: Уменьшить размер текста\nП: Сбросить размер текста"
     },
-    "bLoadsFaviconsL": {
+    "atbBookmarksMgrL": {
+        "message": "Закладки"
+    },
+    "atbBookmarksMgrT": {
+        "message": "Управление закладками"
+    },
+    "atbBookmarksSortName": {
+        "message": "Сорт. закладки по имени"
+    },
+    "atbBookmarksSortLoc": {
+        "message": "Сорт. закладки по сайтам"
+    },
+    "atbBookmarksSortAdd": {
+        "message": "Сорт. закладки по дате добавления"
+    },
+    "atbBookmarksFav": {
         "message": "Восстановить фавиконки"
     },
-    "bLoadsFaviconsT": {
-        "message": "Восстановить фавиконки закладок"
-    },
-    "bExtOptionMenuL": {
+    "atbExtOptionMenuL": {
         "message": "Меню дополнений"
     },
-    "bExtOptionMenuT": {
+    "atbExtOptionMenuT": {
         "message": "Меню дополнений"
     },
-    "bSoundMutedAllTabsL": {
+    "atbSoundMutedAllTabsL": {
         "message": "Управление звуком"
     },
-    "bSoundMutedAllTabsT": {
+    "atbSoundMutedAllTabsT": {
         "message": "Л: Переключить звук в выделенных вкладках\nShift+Л: Переключить звук во всех вкладках\nС: Закрыть другие вкладки с источником звука\nКМ: Регулировать уровень громкости звука медиа"
     },
     "openUChrmFiles": {
@@ -411,7 +423,7 @@
         "message": "Длительность до прерывания запроса в секундах"
     },
     "alertnotification": {
-        "message": "Уведомление о завершении поиска фавиконок для закладок"
+        "message": "Уведомление о завершении"
     },
     "addbookmarks": {
         "message": "Добавить или удалить закладки без подтверждения:"

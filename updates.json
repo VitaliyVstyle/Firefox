@@ -16,11 +16,11 @@
         "add_toolbar_buttons@vitaliy.com": {
             "updates": [
                 {
-                    "version": "2026.8.28",
+                    "version": "2026.10.13",
                     "update_link": "https://raw.githubusercontent.com/VitaliyVstyle/Firefox/refs/heads/main/Addons/add_toolbar_buttons/add_toolbar_buttons.xpi",
                     "applications": {
                         "gecko": {
-                            "strict_min_version": "117.0"
+                            "strict_min_version": "153.0"
                         }
                     }
                 }

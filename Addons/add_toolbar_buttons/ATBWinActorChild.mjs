@@ -5,7 +5,7 @@ const lazy = {
     },
     get linkPointerEvtStyle() {
         delete this.linkPointerEvtStyle;
-        return this.linkPointerEvtStyle = `data:text/css;charset=utf-8,${encodeURIComponent(`:any-link:not([href="#"]) { pointer-events: none !important; text-decoration: none !important; } * { user-select: text !important; }`)}`;
+        return this.linkPointerEvtStyle = `data:text/css;charset=utf-8,${encodeURIComponent(":any-link:not([href='#']) { pointer-events: none !important; text-decoration: none !important; } * { user-select: text !important; }")}`;
     },
 };
 export class ATBWinActorChild extends JSWindowActorChild {
@@ -90,7 +90,7 @@ export class ATBWinActorChild extends JSWindowActorChild {
             if (text.length === repl.length) return setEmail(node, text);
             var span = node.ownerDocument.createElement("span");
             span["innerHTML"] = repl;
-            for (let el of span.querySelectorAll("a.add__TextToLink[href]:not([href^='http']):not([href^='ftp'])"))
+            for (let el of span.querySelectorAll("a.add__TextToLink[href]:not([href^=http], [href^=ftp])"))
                 el.setAttribute("href", `http://${el.getAttribute("href")}`);
             node.replaceWith(span);
             var txtnode = Node.TEXT_NODE;
@@ -128,7 +128,7 @@ export class ATBWinActorChild extends JSWindowActorChild {
             var doc = elem.ownerDocument, skip = NodeFilter.FILTER_SKIP, accept = NodeFilter.FILTER_ACCEPT;
             var walker = doc.createTreeWalker(elem, NodeFilter.SHOW_ELEMENT, {
                 acceptNode(node) {
-                    if (!node.matches(":any-link:not([href='#']):not([href^='javascript'])") && !node.shadowRoot)
+                    if (!node.matches(":any-link:not([href='#'], [href^=javascript])") && !node.shadowRoot)
                         return skip;
                     return accept;
                 }
