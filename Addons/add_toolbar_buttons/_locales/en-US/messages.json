@@ -269,6 +269,9 @@
     "atbBookmarksMgrT": {
         "message": "Managing bookmarks"
     },
+    "atbBookmarksMgrSortT": {
+        "message": "R: Switch sorting type"
+    },
     "atbBookmarksSortName": {
         "message": "Sort bookmarks by name"
     },

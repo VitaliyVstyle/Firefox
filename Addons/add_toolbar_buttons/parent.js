@@ -829,6 +829,7 @@ animation-timing-function: step-start !important;`}
                     map.addListener(Symbol(), muim_2, "command", this.command.bind(add_bar_btns));
                     mugp_1.append(muim_2);
                     var muim_3 = doc.createXULElement("menuitem");
+                    muim_3.setAttribute("tooltiptext", atb_locale.localizeMessage("atbBookmarksMgrSortT"));
                     map.addListener(Symbol(), muim_3, "command", add_bar_btns.bookmarksSort.bind(add_bar_btns));
                     map.addListener(Symbol(), muim_3, "contextmenu", this.contextmenu.bind(add_bar_btns));
                     mugp_1.append(muim_3);
@@ -2331,14 +2332,10 @@ animation-timing-function: step-start !important;`}
                         if (doc) {
                             let lastlink, is16, is32, isany;
                             for (let link of doc.head.querySelectorAll("link[href][rel~=icon]")) {
-                                if (link.sizes.length === 1) {
-                                    let size = link.sizes[0];
-                                    if (/any/i.test(size))
-                                        isany = link;
-                                    else if (/32x32/i.test(size))
-                                        is32 = link;
-                                    else if (/16x16/i.test(size))
-                                        is16 = link;
+                                if (link.sizes.length) {
+                                    if (link.sizes.contains("any")) isany = link;
+                                    if (link.sizes.contains("32x32")) is32 = link;
+                                    if (link.sizes.contains("16x16")) is16 = link;
                                 }
                                 lastlink = link;
                             }

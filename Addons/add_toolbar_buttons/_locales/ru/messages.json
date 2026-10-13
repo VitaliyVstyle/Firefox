@@ -269,6 +269,9 @@
     "atbBookmarksMgrT": {
         "message": "Управление закладками"
     },
+    "atbBookmarksMgrSortT": {
+        "message": "П: Переключить тип сортировки"
+    },
     "atbBookmarksSortName": {
         "message": "Сорт. закладки по имени"
     },
