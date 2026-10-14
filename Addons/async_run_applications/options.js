@@ -1,5 +1,5 @@
 var _write = false;
-const handleClick = async ({target}) => {
+const handleClick = async ({ target }) => {
     if (_write || !/checkbox|button/.test(target.type)) return;
     _write = true;
     switch (target.className) {
@@ -45,7 +45,7 @@ const savePrefs = async prefs => {
 };
 const saveCheckbox = async (target, revers) => {
     var prefs = await browser.storage.local.get();
-    var {app_array} = prefs;
+    var { app_array } = prefs;
     var pref = app_array[Number(target.parentElement.dataset.index)];
     var prop = target.className;
     if (!revers === !target.checked) pref[prop] = true;
@@ -57,7 +57,7 @@ const saveUpDown = async (target, revers) => {
     var indsel = Number(target.parentElement.dataset.index);
     var indrep = !revers ? (indsel - 1) : (indsel + 1);
     var prefs = await browser.storage.local.get();
-    var {app_array} = prefs;
+    var { app_array } = prefs;
     var prefrep = app_array[indrep];
     if (!prefrep) return;
     app_array[indrep] = app_array[indsel];
@@ -75,7 +75,7 @@ const choosePath = async target => {
 };
 const deleteItem = async target => {
     var prefs = await browser.storage.local.get();
-    var {app_array} = prefs;
+    var { app_array } = prefs;
     app_array.splice(Number(target.parentElement.dataset.index), 1);
     await savePrefs(prefs);
     createSection("itemsInMenu", app_array);
@@ -86,7 +86,7 @@ const saveTextbox = async target => {
     if (!title || !path) return;
     var args = row.children[10].value, iconpath = row.children[11].value;
     var prefs = await browser.storage.local.get();
-    var {app_array} = prefs;
+    var { app_array } = prefs;
     var addpref = target.matches("#addItem :scope");
     var pref = !addpref ? app_array[Number(row.dataset.index)] : {};
     if (row.children[1].checked) pref.clipboard = true;
@@ -106,8 +106,8 @@ const iconsChange = async e => {
     if (_write) return;
     _write = true;
     var app_icons = e.target.checked;
-    await browser.storage.local.set({app_icons});
-    await browser.storage.session.set({app_icons});
+    await browser.storage.local.set({ app_icons });
+    await browser.storage.session.set({ app_icons });
     await browser.runtime.sendMessage(await browser.storage.local.get());
     _write = false;
 };
@@ -118,7 +118,7 @@ const createSection = (id, app_array) => {
         for (let child of children)
             child.remove();
     else if (!sec.onclick) sec.onclick = e => handleClick(e);
-    for (let [ind, {disable, clipboard, title, path, args, iconpath}] of app_array.entries()) {
+    for (let [ind, { disable, clipboard, title, path, args, iconpath }] of app_array.entries()) {
         let row = document.createElement("div");
         row.className = "row";
         row.setAttribute("data-index", ind);
@@ -169,8 +169,8 @@ const initOptions = async () => {
 const initLoad = () => {
     document.head.children[1].textContent = browser.i18n.getMessage("pageTitleOption");
     var locales = document.querySelectorAll("[data-locale]");
-    for (let l of locales)
-        l.textContent = browser.i18n.getMessage(`${l.dataset.locale}`);
+    for (let loc of locales)
+        loc.textContent = browser.i18n.getMessage(`${loc.dataset.locale}`);
     initOptions();
 };
 initLoad();

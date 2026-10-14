@@ -246,7 +246,7 @@ animation-timing-function: step-start !important;`}
                     trbn.id = this.id;
                     trbn.className = "toolbarbutton-1 chromeclass-toolbar-additional";
                     trbn.setAttribute("label", this.label);
-                    trbn.setAttribute("context", "");
+                    trbn.toggleAttribute("context", true);
                     trbn.setAttribute("tooltiptext", this.tooltiptext);
                     var image = add_bar_btns.permissions_default_image;
                     if (image !== null) {
@@ -279,12 +279,12 @@ animation-timing-function: step-start !important;`}
                     trbn.setAttribute("badged", "true");
                     trbn.setAttribute("constrain-size", "true");
                     trbn.setAttribute("label", this.label);
-                    trbn.setAttribute("context", "");
+                    trbn.toggleAttribute("context", true);
                     trbn.setAttribute("tooltiptext", this.tooltiptext);
-                    var image_animation_mode = add_bar_btns.image_animation_mode;
-                    if (image_animation_mode !== null) {
+                    var image = add_bar_btns.image_animation_mode;
+                    if (image !== null) {
                         trbn.setAttribute("activated", add_bar_btns.anim_css);
-                        trbn.setAttribute("badge", image_animation_mode.substring(0, 3));
+                        trbn.setAttribute("badge", image.substring(0, 3));
                         trbn.setAttribute("badgeStyle", "background: light-dark(oklch(62% 0.25 260), oklch(65% 0.25 260)); color: oklch(1 0 0); font-size: 10px; font-weight: normal; line-height: 10px; box-shadow: none; text-shadow: none; padding-block: 0 1px !important; padding-inline: 2px !important; min-width: 0 !important;");
                         trbn.onclick = e => {
                             switch (e.button) {
@@ -319,7 +319,7 @@ animation-timing-function: step-start !important;`}
                     trbn.id = this.id;
                     trbn.className = "toolbarbutton-1 chromeclass-toolbar-additional";
                     trbn.setAttribute("label", this.label);
-                    trbn.setAttribute("context", "");
+                    trbn.toggleAttribute("context", true);
                     trbn.setAttribute("tooltiptext", this.tooltiptext);
                     if (autoplay !== null) {
                         trbn.setAttribute("activated", autoplay);
@@ -349,7 +349,7 @@ animation-timing-function: step-start !important;`}
                     trbn.id = this.id;
                     trbn.className = "toolbarbutton-1 chromeclass-toolbar-additional";
                     trbn.setAttribute("label", this.label);
-                    trbn.setAttribute("context", "");
+                    trbn.toggleAttribute("context", true);
                     trbn.setAttribute("tooltiptext", this.tooltiptext);
                     var javascript = add_bar_btns.javascript_enabled;
                     if (javascript !== null) {
@@ -382,7 +382,7 @@ animation-timing-function: step-start !important;`}
                     trbn.setAttribute("badged", "true");
                     trbn.setAttribute("constrain-size", "true");
                     trbn.setAttribute("label", this.label);
-                    trbn.setAttribute("context", "");
+                    trbn.toggleAttribute("context", true);
                     trbn.setAttribute("tooltiptext", this.tooltiptext);
                     var cookieBehavior = add_bar_btns.network_cookie_cookieBehavior;
                     if (cookieBehavior !== null) {
@@ -444,9 +444,7 @@ animation-timing-function: step-start !important;`}
                     trbn_0.className = "toolbarbutton-1 atb-combined-buttons-toolbarbutton";
                     trbn_0.setAttribute("label", this.label);
                     trbn_0.setAttribute("tooltiptext", this.tooltiptext);
-                    trbn_0.setAttribute("context", "");
-                    var map = winWeakMap.get(doc.defaultView);
-                    map.addListener(Symbol(), trbn_0, "command", this.toggleTheProxy.bind(add_bar_btns));
+                    trbn_0.toggleAttribute("context", true);
                     trim.append(trbn_0);
                     var trbn_1 = doc.createXULElement("toolbarbutton");
                     trbn_1.id = "atb-toggle-proxy-menu";
@@ -454,13 +452,18 @@ animation-timing-function: step-start !important;`}
                     trbn_1.setAttribute("type", "menu");
                     trbn_1.setAttribute("label", "");
                     trbn_1.setAttribute("tooltiptext", atb_locale.localizeMessage("atbToggleProxyT"));
-                    trbn_1.setAttribute("context", "");
-                    map.addListener(Symbol(), trbn_1, "contextmenu", this.openProxyWin.bind(add_bar_btns));
+                    trbn_1.toggleAttribute("context", true);
                     var mupp = doc.createXULElement("menupopup");
                     mupp.id = "atb-toggle-proxy-popup";
-                    var sym = Symbol();
-                    map.addListener(sym, mupp, "popupshowing", this.buildMenu.bind(this, map, sym));
-                    trim.setAttribute("activated", add_bar_btns.network_proxy_type);
+                    var npt = add_bar_btns.network_proxy_type;
+                    if (npt !== null) {
+                        let sym = Symbol();
+                        let map = winWeakMap.get(doc.defaultView);
+                        map.addListener(Symbol(), trbn_0, "command", this.toggleTheProxy.bind(add_bar_btns));
+                        map.addListener(Symbol(), trbn_1, "contextmenu", this.openProxyWin.bind(add_bar_btns));
+                        map.addListener(sym, mupp, "popupshowing", this.buildMenu.bind(this, map, sym));
+                        trim.setAttribute("activated", npt);
+                    }
                     trbn_1.append(mupp);
                     trim.append(trbn_1);
                     return trim;
@@ -571,7 +574,7 @@ animation-timing-function: step-start !important;`}
                     trbn_0.className = "toolbarbutton-1 atb-combined-buttons-toolbarbutton";
                     trbn_0.setAttribute("label", this.label);
                     trbn_0.setAttribute("tooltiptext", this.tooltiptext);
-                    trbn_0.setAttribute("context", "");
+                    trbn_0.toggleAttribute("context", true);
                     var map = winWeakMap.get(doc.defaultView);
                     map.addListener(Symbol(), trbn_0, "click", this.btnClick.bind(add_bar_btns));
                     trim.append(trbn_0);
@@ -581,7 +584,7 @@ animation-timing-function: step-start !important;`}
                     trbn_1.setAttribute("type", "menu");
                     trbn_1.setAttribute("label", "");
                     trbn_1.setAttribute("tooltiptext", atb_locale.localizeMessage("atbUndoTabT0"));
-                    trbn_1.setAttribute("context", "");
+                    trbn_1.toggleAttribute("context", true);
                     map.addListener(Symbol(), trbn_1, "contextmenu", this.contextmenu.bind(add_bar_btns));
                     var mupp_0 = doc.createXULElement("menupopup");
                     mupp_0.id = "mupp-undo-tab-popup";
@@ -625,7 +628,7 @@ animation-timing-function: step-start !important;`}
                     muim_1.setAttribute("label", atb_locale.localizeMessage("atbUndoTabM1"));
                     map.addListener(Symbol(), muim_1, "command", e => {
                         e.stopPropagation();
-                        add_bar_btns.openSanitizeWin(e.view);
+                        e.view.Sanitizer.showUI(e.view);
                     });
                     mupp_0.append(muim_1);
                     var muim_2 = doc.createXULElement("menuitem");
@@ -746,7 +749,7 @@ animation-timing-function: step-start !important;`}
                     trbn_0.className = "toolbarbutton-1 atb-combined-buttons-toolbarbutton";
                     trbn_0.setAttribute("label", atb_locale.localizeMessage("atbBookmarkNopopL"));
                     trbn_0.setAttribute("tooltiptext", atb_locale.localizeMessage("atbBookmarkNopopT"));
-                    trbn_0.setAttribute("context", "");
+                    trbn_0.toggleAttribute("context", true);
                     var map = winWeakMap.get(doc.defaultView);
                     map.addListener(Symbol(), trbn_0, "click", this.btnClick.bind(add_bar_btns));
                     trim.append(trbn_0);
@@ -756,7 +759,7 @@ animation-timing-function: step-start !important;`}
                     trbn_1.setAttribute("type", "menu");
                     trbn_1.setAttribute("label", this.label);
                     trbn_1.setAttribute("tooltiptext", this.tooltiptext);
-                    trbn_1.setAttribute("context", "");
+                    trbn_1.toggleAttribute("context", true);
                     var mupp = doc.createXULElement("menupopup");
                     mupp.id = "atb-bookmarks-mgr-popup";
                     var sym = Symbol();
@@ -868,7 +871,7 @@ animation-timing-function: step-start !important;`}
                     trbn.id = this.id;
                     trbn.className = "toolbarbutton-1 chromeclass-toolbar-additional";
                     trbn.setAttribute("label", this.label);
-                    trbn.setAttribute("context", "");
+                    trbn.toggleAttribute("context", true);
                     trbn.setAttribute("tooltiptext", this.tooltiptext);
                     trbn.onclick = e => {
                         switch (e.button) {
@@ -896,13 +899,13 @@ animation-timing-function: step-start !important;`}
                     trbn.id = this.id;
                     trbn.className = "toolbarbutton-1 chromeclass-toolbar-additional";
                     trbn.setAttribute("label", this.label);
-                    trbn.setAttribute("context", "");
+                    trbn.toggleAttribute("context", true);
                     trbn.setAttribute("tooltiptext", this.tooltiptext);
                     trbn.onclick = e => {
                         switch (e.button) {
                             case 0:
                                 if (!e.shiftKey) add_bar_btns.closeAllTabs(e.view);
-                                else add_bar_btns.closeOtherTabs(e.view);
+                                else e.view.gBrowser.removeAllTabsBut(e.view.gBrowser.selectedTab);
                                 break;
                             case 1:
                                 add_bar_btns.closeOtherWindow(e.view);
@@ -925,7 +928,7 @@ animation-timing-function: step-start !important;`}
                     trbn.id = this.id;
                     trbn.className = "toolbarbutton-1 chromeclass-toolbar-additional";
                     trbn.setAttribute("label", this.label);
-                    trbn.setAttribute("context", "");
+                    trbn.toggleAttribute("context", true);
                     trbn.setAttribute("tooltiptext", this.tooltiptext);
                     trbn.onclick = e => {
                         switch (e.button) {
@@ -953,7 +956,7 @@ animation-timing-function: step-start !important;`}
                     trbn.id = this.id;
                     trbn.className = "toolbarbutton-1 chromeclass-toolbar-additional";
                     trbn.setAttribute("label", this.label);
-                    trbn.setAttribute("context", "");
+                    trbn.toggleAttribute("context", true);
                     trbn.setAttribute("tooltiptext", this.tooltiptext);
                     trbn.onclick = e => {
                         switch (e.button) {
@@ -982,7 +985,7 @@ animation-timing-function: step-start !important;`}
                     trbn.id = this.id;
                     trbn.className = "toolbarbutton-1 chromeclass-toolbar-additional";
                     trbn.setAttribute("label", this.label);
-                    trbn.setAttribute("context", "");
+                    trbn.toggleAttribute("context", true);
                     trbn.setAttribute("tooltiptext", this.tooltiptext);
                     trbn.onclick = e => {
                         var win = e.view;
@@ -1040,7 +1043,7 @@ animation-timing-function: step-start !important;`}
                 tooltiptext: atb_locale.localizeMessage("atbClearDataT"),
                 localized: false,
                 onCommand(e) {
-                    add_bar_btns.openSanitizeWin(e.view);
+                    e.view.Sanitizer.showUI(e.view);
                 }
             },
             {
@@ -1071,7 +1074,7 @@ animation-timing-function: step-start !important;`}
                     trbn.id = this.id;
                     trbn.className = "toolbarbutton-1 chromeclass-toolbar-additional";
                     trbn.setAttribute("label", this.label);
-                    trbn.setAttribute("context", "");
+                    trbn.toggleAttribute("context", true);
                     trbn.setAttribute("tooltiptext", this.tooltiptext);
                     trbn.onclick = e => {
                         var win = e.view, wn;
@@ -1138,7 +1141,7 @@ animation-timing-function: step-start !important;`}
                     trbn.id = this.id;
                     trbn.className = "toolbarbutton-1 chromeclass-toolbar-additional";
                     trbn.setAttribute("label", this.label);
-                    trbn.setAttribute("context", "");
+                    trbn.toggleAttribute("context", true);
                     trbn.setAttribute("tooltiptext", this.tooltiptext);
                     trbn.onclick = e => {
                         switch (e.button) {
@@ -1167,7 +1170,7 @@ animation-timing-function: step-start !important;`}
                     trbn.id = this.id;
                     trbn.className = "toolbarbutton-1 chromeclass-toolbar-additional";
                     trbn.setAttribute("label", this.label);
-                    trbn.setAttribute("context", "");
+                    trbn.toggleAttribute("context", true);
                     trbn.setAttribute("tooltiptext", this.tooltiptext);
                     trbn.onclick = e => {
                         switch (e.button) {
@@ -1195,7 +1198,7 @@ animation-timing-function: step-start !important;`}
                     trbn.id = this.id;
                     trbn.className = "toolbarbutton-1 chromeclass-toolbar-additional";
                     trbn.setAttribute("label", this.label);
-                    trbn.setAttribute("context", "");
+                    trbn.toggleAttribute("context", true);
                     trbn.setAttribute("tooltiptext", this.tooltiptext);
                     trbn.onclick = e => {
                         switch (e.button) {
@@ -1223,7 +1226,7 @@ animation-timing-function: step-start !important;`}
                     trbn.id = this.id;
                     trbn.className = "toolbarbutton-1 chromeclass-toolbar-additional";
                     trbn.setAttribute("label", this.label);
-                    trbn.setAttribute("context", "");
+                    trbn.toggleAttribute("context", true);
                     trbn.setAttribute("tooltiptext", this.tooltiptext);
                     trbn.onclick = e => {
                         switch (e.button) {
@@ -1252,7 +1255,7 @@ animation-timing-function: step-start !important;`}
                     trbn.id = this.id;
                     trbn.className = "toolbarbutton-1 chromeclass-toolbar-additional";
                     trbn.setAttribute("label", this.label);
-                    trbn.setAttribute("context", "");
+                    trbn.toggleAttribute("context", true);
                     trbn.setAttribute("tooltiptext", this.tooltiptext);
                     trbn.onclick = e => {
                         var dirs;
@@ -1308,7 +1311,7 @@ animation-timing-function: step-start !important;`}
                     trbn.id = this.id;
                     trbn.className = "toolbarbutton-1 chromeclass-toolbar-additional";
                     trbn.setAttribute("label", this.label);
-                    trbn.setAttribute("context", "");
+                    trbn.toggleAttribute("context", true);
                     trbn.setAttribute("tooltiptext", this.tooltiptext);
                     trbn.onclick = e => {
                         switch (e.button) {
@@ -1336,7 +1339,7 @@ animation-timing-function: step-start !important;`}
                     trbn.id = this.id;
                     trbn.className = "toolbarbutton-1 chromeclass-toolbar-additional";
                     trbn.setAttribute("label", this.label);
-                    trbn.setAttribute("context", "");
+                    trbn.toggleAttribute("context", true);
                     trbn.setAttribute("tooltiptext", this.tooltiptext);
                     trbn.onclick = e => {
                         switch (e.button) {
@@ -1373,7 +1376,7 @@ animation-timing-function: step-start !important;`}
                     trbn.id = this.id;
                     trbn.className = "toolbarbutton-1 chromeclass-toolbar-additional";
                     trbn.setAttribute("label", this.label);
-                    trbn.setAttribute("context", "");
+                    trbn.toggleAttribute("context", true);
                     trbn.setAttribute("tooltiptext", this.tooltiptext);
                     trbn.onclick = e => {
                         switch (e.button) {
@@ -1411,7 +1414,7 @@ animation-timing-function: step-start !important;`}
                     trbn.id = this.id;
                     trbn.className = "toolbarbutton-1 chromeclass-toolbar-additional";
                     trbn.setAttribute("label", this.label);
-                    trbn.setAttribute("context", "");
+                    trbn.toggleAttribute("context", true);
                     trbn.setAttribute("tooltiptext", this.tooltiptext);
                     trbn.onclick = e => {
                         switch (e.button) {
@@ -1439,7 +1442,7 @@ animation-timing-function: step-start !important;`}
                     trbn.id = this.id;
                     trbn.className = "toolbarbutton-1 chromeclass-toolbar-additional";
                     trbn.setAttribute("label", this.label);
-                    trbn.setAttribute("context", "");
+                    trbn.toggleAttribute("context", true);
                     trbn.setAttribute("tooltiptext", this.tooltiptext);
                     trbn.onclick = e => {
                         switch (e.button) {
@@ -1750,31 +1753,39 @@ animation-timing-function: step-start !important;`}
                     trbn.setAttribute("badge", (add_bar_btns.media_volume_scale * 100).toFixed());
                     trbn.setAttribute("badgeStyle", "background: light-dark(oklch(62% 0.25 260), oklch(65% 0.25 260)); color: oklch(1 0 0); font-size: 10px; font-weight: normal; line-height: 10px; box-shadow: none; text-shadow: none; padding-block: 0 1px !important; padding-inline: 2px !important; min-width: 0 !important;");
                     trbn.setAttribute("tooltiptext", this.tooltiptext);
-                    trbn.addEventListener("wheel", e => {
-                        add_bar_btns.setSoundVolumeValue(e);
-                    });
-                    trbn.onclick = e => {
-                        var win = e.view;
-                        switch (e.button) {
-                            case 0:
-                                if (!e.shiftKey) win.gBrowser.toggleMuteAudioOnMultiSelectedTabs(win.gBrowser.selectedTab);
-                                else {
-                                    let tabsToToggle;
-                                    if (win.gBrowser.selectedTab.activeMediaBlocked) tabsToToggle = win.gBrowser.visibleTabs.filter(tab => tab.activeMediaBlocked || tab.linkedBrowser.audioMuted);
-                                    else {
-                                        let tabMuted = win.gBrowser.selectedTab.linkedBrowser.audioMuted;
-                                        tabsToToggle = win.gBrowser.visibleTabs.filter(tab => (tab.linkedBrowser.audioMuted == tabMuted && !tab.activeMediaBlocked) || (tab.activeMediaBlocked && tabMuted));
-                                    }
-                                    for (let tab of tabsToToggle)
-                                        tab.toggleMuteAudio();
-                                }
-                                break;
-                            case 1:
-                                for (let tab of win.gBrowser.visibleTabs.filter(tab => !tab.selected && (tab.muted || tab.soundPlaying)))
-                                    win.gBrowser.removeTab(tab);
-                        }
-                    };
+                    var map = winWeakMap.get(doc.defaultView);
+                    map.addListener(Symbol(), trbn, "wheel", this.setSoundVolume.bind(add_bar_btns));
+                    map.addListener(Symbol(), trbn, "click", this.btnClick.bind(add_bar_btns));
                     return trbn;
+                },
+                btnClick(e) {
+                    var win = e.view;
+                    switch (e.button) {
+                        case 0:
+                            if (!e.shiftKey) win.gBrowser.toggleMuteAudioOnMultiSelectedTabs(win.gBrowser.selectedTab);
+                            else {
+                                let tabsToToggle;
+                                if (win.gBrowser.selectedTab.activeMediaBlocked) tabsToToggle = win.gBrowser.visibleTabs.filter(tab => tab.activeMediaBlocked || tab.linkedBrowser.audioMuted);
+                                else {
+                                    let tabMuted = win.gBrowser.selectedTab.linkedBrowser.audioMuted;
+                                    tabsToToggle = win.gBrowser.visibleTabs.filter(tab => (tab.linkedBrowser.audioMuted == tabMuted && !tab.activeMediaBlocked) || (tab.activeMediaBlocked && tabMuted));
+                                }
+                                for (let tab of tabsToToggle)
+                                    tab.toggleMuteAudio();
+                            }
+                            break;
+                        case 1:
+                            for (let tab of win.gBrowser.visibleTabs.filter(tab => !tab.selected && (tab.muted || tab.soundPlaying)))
+                                win.gBrowser.removeTab(tab);
+                    }
+                },
+                setSoundVolume(e) {
+                    var pref = "media.volume_scale", gpref = parseFloat(atb_ps.getCharPref(pref)), step = this.sound_volume_step;
+                    if (isNaN(gpref)) gpref = 0;
+                    var val = (e.deltaY < 0) ? (gpref + step) : (gpref - step);
+                    if (val < 0) val = 0;
+                    else if (val > 1) val = 1;
+                    atb_ps.setCharPref(pref, val.toFixed(2));
                 },
             },
         ];
@@ -1841,9 +1852,6 @@ animation-timing-function: step-start !important;`}
             win.gBrowser.removeTab(tab);
         });
     },
-    closeOtherTabs(win) {
-        win.gBrowser.removeAllTabsBut(win.gBrowser.selectedTab);
-    },
     closeOtherWindow(win) {
         for (let w of CustomizableUI.windows)
             if (w != win) w.close();
@@ -1899,9 +1907,6 @@ animation-timing-function: step-start !important;`}
         br.fixupAndLoadURIString(url, {
             triggeringPrincipal: Services.scriptSecurityManager.getSystemPrincipal()
         });
-    },
-    openSanitizeWin(win) {
-        win.Sanitizer.showUI(win);
     },
     readFromClipboard(win) {
         try {
@@ -2365,14 +2370,6 @@ animation-timing-function: step-start !important;`}
             if (results.length) favSearchPage(results.shift());
         };
         results.splice(0, maxrequests).map(favSearchPage);
-    },
-    setSoundVolumeValue(e) {
-        var pref = "media.volume_scale", gpref = parseFloat(atb_ps.getCharPref(pref)), step = this.sound_volume_step;
-        if (isNaN(gpref)) gpref = 0;
-        var val = (e.deltaY < 0) ? (gpref + step) : (gpref - step);
-        if (val < 0) val = 0;
-        else if (val > 1) val = 1;
-        atb_ps.setCharPref(pref, val.toFixed(2));
     },
     observe(subject, topic, pref) {
         ({
