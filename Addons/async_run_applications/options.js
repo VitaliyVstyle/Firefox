@@ -1,4 +1,5 @@
 var _write = false;
+const araObj = {};
 const handleClick = async ({ target }) => {
     if (_write || !/checkbox|button/.test(target.type)) return;
     _write = true;
@@ -46,7 +47,7 @@ const savePrefs = async prefs => {
 const saveCheckbox = async (target, revers) => {
     var prefs = await browser.storage.local.get();
     var { app_array } = prefs;
-    var pref = app_array[Number(target.parentElement.dataset.index)];
+    var pref = app_array[Number(target.closest(".row").dataset.index)];
     var prop = target.className;
     if (!revers === !target.checked) pref[prop] = true;
     else if (prop in pref) delete pref[prop];
@@ -87,9 +88,9 @@ const saveTextbox = async target => {
     var args = row.children[10].value, iconpath = row.children[11].value;
     var prefs = await browser.storage.local.get();
     var { app_array } = prefs;
-    var addpref = target.matches("#addItem :scope");
+    var addpref = target.matches("#header :scope");
     var pref = !addpref ? app_array[Number(row.dataset.index)] : {};
-    if (row.children[1].checked) pref.clipboard = true;
+    if (row.children[1].firstElementChild.checked) pref.clipboard = true;
     else if ("clipboard" in pref) delete pref.clipboard;
     pref.title = title;
     pref.path = path;
@@ -100,7 +101,7 @@ const saveTextbox = async target => {
     if (addpref) app_array.push(pref);
     await savePrefs(prefs);
     createSection("itemsInMenu", app_array);
-    createSection("addItem", [{ disable: false, clipboard: false, title: "", path: "", args: "", iconpath: "" }]);
+    createSection("header", [{ disable: false, clipboard: false, title: "", path: "", args: "", iconpath: "" }]);
 };
 const iconsChange = async e => {
     if (_write) return;
@@ -112,12 +113,12 @@ const iconsChange = async e => {
     _write = false;
 };
 const createSection = (id, app_array) => {
-    var sec = window[id] ||= document.querySelector(`#${id}`);
+    var sec = araObj[id] ||= document.querySelector(`#${id}`);
     var children = sec.querySelectorAll(":scope > .row");
     if (children.length)
         for (let child of children)
             child.remove();
-    else if (!sec.onclick) sec.onclick = e => handleClick(e);
+    else if (!sec.onclick) sec.onclick = handleClick;
     for (let [ind, { disable, clipboard, title, path, args, iconpath }] of app_array.entries()) {
         let row = document.createElement("div");
         row.className = "row";
@@ -143,8 +144,12 @@ function createItem(elm, val = "", cls, type) {
     item.type = type;
     if (type === "checkbox") {
         item.checked = !val;
+        item.toggleAttribute("checked", !val);
         item.autocomplete = "off";
         if (cls === "clipboard") item.title = "Clipboard";
+        let lab = document.createElement("label");
+        lab.append(item);
+        return lab;
     } else if (val !== null) {
         item.value = item.title = val;
         item.autocomplete = "off";
@@ -161,10 +166,11 @@ const initOptions = async () => {
         await browser.storage.local.set(prefs);
     }
     createSection("itemsInMenu", prefs.app_array);
-    createSection("addItem", [{ disable: false, clipboard: false, title: "", path: "", args: "", iconpath: "" }]);
+    createSection("header", [{ disable: false, clipboard: false, title: "", path: "", args: "", iconpath: "" }]);
     var iconsInMenu = document.querySelector("#iconsInMenu");
-    iconsInMenu.onchange = e => iconsChange(e);
+    iconsInMenu.onchange = iconsChange;
     iconsInMenu.checked = !!prefs.app_icons;
+    iconsInMenu.toggleAttribute("checked", !!prefs.app_icons);
 };
 const initLoad = () => {
     document.head.children[1].textContent = browser.i18n.getMessage("pageTitleOption");

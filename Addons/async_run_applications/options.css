@@ -1,44 +1,53 @@
-
 :root {
     font: message-box !important;
     margin: 0 !important;
     padding: 0 !important;
     min-height: 100% !important;
     width: 100% !important;
-    --v-background-color-root: #f4f4f7;
-    --v-color-root: #18181b;
-    --v-border-color: rgba(0, 0, 0, 0.25);
-    --v-decoration-color-warn: color-mix(in srgb, currentColor 10%, #f38725);
-    --v-decoration-color-error: color-mix(in srgb, currentColor 10%, #e31b5d);
-    --v-input-background-color: #ffffff;
-    --v-input-background-color-focus: #ffffff;
-    --v-button-background-color-hover: rgba(0, 0, 0, 0.1);
-    --v-button-background-color-active: rgba(0, 0, 0, 0.15);
-    --v-highlight-background-color: #0074e8;
-    --v-highlight-background-color-hover: #178bff;
-    --v-highlight-background-color-active: #0059e8;
-    --v-highlight-color: #ffffff;
-    --v-scrollbar-color: var(--v-highlight-background-color) #ffffff;
-    background: var(--v-background-color-root) !important;
-    color: var(--v-color-root) !important;
+    --v-root-background-color: oklch(97% 0.01 285);
+    --v-root-color: oklch(20% 0.01 285);
+    --v-border-color: oklch(75% 0.01 285);
+    --v-border-color-hover: oklch(67% 0.01 285);
+    --v-border-color-active: oklch(77% 0.01 285);
+    --v-warn-color: oklch(60% 0.2 57);
+    --v-error-color: oklch(50% 0.25 0);
+    --v-input-background-color: oklch(95% 0.01 285);
+    --v-input-background-color-focus: oklch(1 0 0);
+    --v-button-background-color-hover: oklch(0 0 0 / 0.1);
+    --v-button-background-color-active: oklch(0 0 0 / 0.15);
+    --v-accent-primary-color: oklch(62% 0.25 260);
+    --v-accent-primary-color-hover: oklch(50% 0.25 260);
+    --v-accent-primary-color-active: oklch(40% 0.25 260);
+    --v-accent-primary-text-color: oklch(1 0 0);
+    --v-scrollbar-color: var(--v-accent-primary-color) oklch(1 0 0);
+    background: var(--v-root-background-color) !important;
+    color: var(--v-root-color) !important;
     @media (prefers-color-scheme: dark) {
-        --v-background-color-root: #23232d;
-        --v-color-root: #f7f7fa;
-        --v-border-color: rgba(100, 100, 110, 0.5);
-        --v-input-background-color: #1b1b25;
-        --v-input-background-color-focus: #1b1b25;
-        --v-button-background-color-hover: rgba(255, 255, 255, 0.15);
-        --v-button-background-color-active: rgba(255, 255, 255, 0.1);
-        --v-scrollbar-color: var(--v-highlight-background-color) #000000;
+        --v-root-background-color: oklch(25% 0.02 285);
+        --v-root-color: oklch(97% 0.02 285);
+        --v-border-color: oklch(40% 0.01 285);
+        --v-border-color-hover: oklch(48% 0.01 285);
+        --v-border-color-active: oklch(38% 0.01 285);
+        --v-warn-color: oklch(80% 0.2 57);
+        --v-error-color: oklch(70% 0.25 0);
+        --v-input-background-color: oklch(23% 0.01 285);
+        --v-input-background-color-focus: oklch(23% 0.01 285);
+        --v-button-background-color-hover: oklch(1 0.01 285 / 0.15);
+        --v-button-background-color-active: oklch(1 0.01 285 / 0.1);
+        --v-accent-primary-color: oklch(65% 0.25 260);
+        --v-accent-primary-color-hover: oklch(72% 0.25 260);
+        --v-accent-primary-color-active: oklch(62% 0.25 260);
+        --v-scrollbar-color: var(--v-accent-primary-color) oklch(0 0 0);
     }
 }
 body {
+    display: flex !important;
+    flex-direction: column !important;
     font: inherit !important;
     margin: 0 !important;
     padding-inline: 10px !important;
-    padding-block-start: 0 !important;
-    padding-block-end: 10px !important;
-    width: 100% !important;
+    padding-block: 0 10px !important;
+    align-items: stretch !important;
     background: none !important;
     color: inherit !important;
     box-sizing: border-box !important;
@@ -47,38 +56,38 @@ body {
     scrollbar-width: thin !important;
     scrollbar-color: var(--v-scrollbar-color) !important;
 }
-p {
-    font-weight: bold !important;
-    line-height: 2rem !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    user-select: none !important;
-    text-align: start !important;
+div {
+    display: flex !important;
+    flex-direction: column !important;
 }
 ::selection {
-    background-color: var(--v-highlight-background-color) !important;
+    background-color: var(--v-accent-primary-color) !important;
     color: var(--v-highlight-color) !important;
 }
-#header {
-    position: sticky !important;
-    z-index: 7 !important;
-    inset-inline: 0 !important;
-    top: 0 !important;
-    background: var(--v-background-color-root, Field) !important;
-    color: var(--v-color-root, FieldText) !important;
-    padding-block: 10px !important;
-    padding-inline: 10px !important;
-    margin-inline: -10px !important;
-}
-#ownarguments {
-    font-weight: bold !important;
+.info {
     margin: 0 !important;
-    padding: 0 !important;
-    padding-inline-start: 2rem !important;
+    margin-block-start: 10px !important;
+    &>pre {
+        font-weight: bold !important;
+    }
 }
-.description {
-    font-weight: normal !important;
-    opacity: .8 !important;
+.listitem {
+    display: list-item !important;
+    list-style-type: square !important;
+    list-style-position: inside !important;
+}
+span {
+    min-height: max(24px, 1.5em) !important;
+    line-height: max(24px, 1.5em) !important;
+    &.topic {
+        font-weight: bold !important;
+        flex: 1 !important;
+        user-select: none !important;
+    }
+    &.description {
+        font-weight: normal !important;
+        opacity: .8 !important;
+    }
 }
 pre {
     font: inherit !important;
@@ -97,26 +106,25 @@ input, textarea, button {
     padding-inline: 2px !important;
     margin: 0 !important;
     height: auto !important;
-    min-height: 24px !important;
+    min-height: calc(max(22px, 1.5em) + 2px) !important;
+    line-height: max(22px, 1.5em) !important;
     box-shadow: none !important;
     border-radius: 0 !important;
     outline: none !important;
     outline-width: 0 !important;
+    resize: none !important;
+    white-space: pre !important;
+    scrollbar-width: none !important;
+    position: relative !important;
+    &:hover {
+        z-index: 2 !important;
+    }
     &:focus {
-        border-color: var(--v-highlight-background-color) !important;
+        z-index: 3 !important;
+        border-color: var(--v-accent-primary-color) !important;
         background-color: var(--v-input-background-color-focus) !important;
     }
-    &:is(textarea) {
-        resize: none !important;
-        white-space: pre !important;
-        scrollbar-width: none !important;
-        line-height: max(22px, 1.5em) !important;
-    }
-    &[type="text"] {
-        white-space: pre !important;
-        line-height: max(22px, 1.5em) !important;
-    }
-    &:is(button[type="button"]) {
+    &:is(button[type=button]) {
         width: 24px !important;
         height: 24px !important;
         padding: 0 !important;
@@ -147,8 +155,8 @@ input, textarea, button {
             background-image: url("svg/save.svg");
         }
         &.delete::before {
-            background-image: url("svg/delete.svg");
-            fill: var(--v-decoration-color-error);
+            background-image: url("svg/del.svg");
+            fill: var(--v-error-color);
         }
         &.expand::before {
             background-image: url("svg/expand.svg");
@@ -161,20 +169,36 @@ input, textarea, button {
             background-color: var(--v-button-background-color-active) !important;
         }
     }
-    &[type="checkbox"] {
+    &[type=checkbox] {
         min-height: 16px !important;
         height: 16px !important;
         min-width: 16px !important;
         width: 16px !important;
         padding: 0 !important;
-        margin-inline-end: 3px !important;
+        margin-inline-end: 4px !important;
         background-repeat: no-repeat !important;
         background-position: center !important;
         background-size: 16px !important;
+        -moz-context-properties: fill, fill-opacity, stroke;
+        fill: var(--v-accent-primary-text-color);
+        &:hover {
+            border-color: var(--v-border-color-hover) !important;
+        }
+        &:hover:active {
+            border-color: var(--v-border-color-active) !important;
+        }
         &:checked {
-            border-color: var(--v-highlight-background-color) !important;
-            background-color: var(--v-highlight-background-color) !important;
-            background-image: url("svg/checkbox.svg") !important;
+            border-color: var(--v-accent-primary-color) !important;
+            background-color: var(--v-accent-primary-color) !important;
+            background-image: url("./svg/checkbox.svg") !important;
+            &:hover {
+                border-color: var(--v-accent-primary-color-hover) !important;
+                background-color: var(--v-accent-primary-color-hover) !important;
+            }
+            &:hover:active {
+                border-color: var(--v-accent-primary-color-active) !important;
+                background-color: var(--v-accent-primary-color-active) !important;
+            }
         }
     }
 }
@@ -183,11 +207,24 @@ input, textarea, button {
     flex-direction: row !important;
     justify-content: stretch !important;
     align-items: start !important;
+    label {
+        display: flex !important;
+        flex-direction: row !important;
+        align-self: stretch !important;
+        align-items: start !important;
+        user-select: none !important;
+    }
+    &:not(:last-of-type) {
+        margin-block-end: -1px !important;
+    }
+    &>:is(.title, .path, button, textarea) {
+        margin-inline-end: -1px !important;
+    }
     .disable, .clipboard {
         margin-block: 4px !important;
         margin-inline-end: 3px !important;
     }
-    input[type="text"], textarea {
+    input[type=text], textarea {
         min-width: 15rem !important;
         flex-grow: 1 !important;
         overflow: clip !important;
@@ -198,7 +235,7 @@ input, textarea, button {
     }
     &[expand] {
         .expand::before {
-            transform: rotate(90deg) !important;
+            background-image: url("./svg/down.svg");
         }
         textarea {
             white-space: normal !important;
@@ -207,9 +244,15 @@ input, textarea, button {
         }
     }
 }
-#addItem {
+#header {
+    position: sticky !important;
+    z-index: 7 !important;
+    inset-inline: 0 !important;
+    inset-block-start: 0 !important;
+    background: var(--v-root-background-color, Field) !important;
+    color: var(--v-root-color, FieldText) !important;
+    padding-block: 10px !important;
     .addItem {
-        display: flex !important;
         flex-direction: row !important;
         flex-wrap: nowrap !important;
         align-items: center !important;
