@@ -143,12 +143,6 @@
     "atbPreferencesT": {
         "message": "Л: Відкрити налаштування Add Toolbar Buttons\nС: Відкрити налаштування браузера"
     },
-    "atbBookmarkNopopL": {
-        "message": "Швидка закладка"
-    },
-    "atbBookmarkNopopT": {
-        "message": "Л: Додати або видалити закладки без підтвердження\nС: Додати групу вкладок в закладки\nП: Відкрити менеджер Закладок"
-    },
     "atbSnapBackL": {
         "message": "Повний назад або вперед"
     },
@@ -269,8 +263,17 @@
     "atbBookmarksMgrT": {
         "message": "Управління закладками"
     },
+    "atbBookmarksMgrNopopL": {
+        "message": "Швидка закладка"
+    },
+    "atbBookmarksMgrNopopT": {
+        "message": "Л: Додати або видалити закладки без підтвердження\nС|П: Додати групу вкладок в закладки"
+    },
     "atbBookmarksMgrSortT": {
         "message": "П: Переключити тип сортування"
+    },
+    "atbBookmarksSortRev": {
+        "message": "Сорт. у зворотному порядку"
     },
     "atbBookmarksSortName": {
         "message": "Сорт. закладки на ім'я"

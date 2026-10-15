@@ -747,8 +747,8 @@ animation-timing-function: step-start !important;`}
                     var trbn_0 = doc.createXULElement("toolbarbutton");
                     trbn_0.id = "atb-bookmarks-mgr";
                     trbn_0.className = "toolbarbutton-1 atb-combined-buttons-toolbarbutton";
-                    trbn_0.setAttribute("label", atb_locale.localizeMessage("atbBookmarkNopopL"));
-                    trbn_0.setAttribute("tooltiptext", atb_locale.localizeMessage("atbBookmarkNopopT"));
+                    trbn_0.setAttribute("label", atb_locale.localizeMessage("atbBookmarksMgrNopopL"));
+                    trbn_0.setAttribute("tooltiptext", atb_locale.localizeMessage("atbBookmarksMgrNopopT"));
                     trbn_0.toggleAttribute("context", true);
                     var map = winWeakMap.get(doc.defaultView);
                     map.addListener(Symbol(), trbn_0, "click", this.btnClick.bind(add_bar_btns));
@@ -775,21 +775,33 @@ animation-timing-function: step-start !important;`}
                             this.bookmarkNoPopup(e.view);
                             break;
                         case 1:
-                            e.view.PlacesCommandHook.bookmarkTabs(e.view.gBrowser.selectedTabs);
-                            break;
                         case 2:
-                            e.view.PlacesCommandHook.showPlacesOrganizer("BookmarksMenu");
+                            e.view.PlacesCommandHook.bookmarkTabs(e.view.gBrowser.selectedTabs);
                     }
                 },
                 command(e) {
                     var im = e.target;
-                    im.replaceWith(im);
                     switch (im.dataset.id) {
+                        case "atb-bindex":
+                            im.replaceWith(im);
+                            this.atb_branch.setBoolPref("bookmarksindex", im.hasAttribute("checked"));
+                            break;
+                        case "atb-orgr":
+                            e.view.PlacesCommandHook.showPlacesOrganizer("BookmarksMenu");
+                            break;
                         case "atb-fav":
+                            im.replaceWith(im);
                             this.atb_branch.setBoolPref("alertnotification", im.hasAttribute("checked"));
                             break;
-                        case "atb-sort":
+                        case "atb-favsearch":
+                            this.favSearchStart();
+                            break;
+                        case "atb-asort":
+                            im.replaceWith(im);
                             this.atb_branch.setBoolPref("bookmarkssortrevers", im.hasAttribute("checked"));
+                            break;
+                        case "atb-bsort":
+                            this.bookmarksSort();
                     }
                 },
                 contextmenu(e) {
@@ -800,6 +812,7 @@ animation-timing-function: step-start !important;`}
                 popupshowing(e) {
                     var mupp = e.currentTarget;
                     var { atb_branch } = this;
+                    mupp.atb_bindex.toggleAttribute("checked", atb_branch.getBoolPref("bookmarksindex"));
                     mupp.atb_fav.toggleAttribute("checked", atb_branch.getBoolPref("alertnotification"));
                     mupp.atb_sort.toggleAttribute("checked", atb_branch.getBoolPref("bookmarkssortrevers"));
                     mupp.atb_sort.nextElementSibling.setAttribute("label", atb_locale.localizeMessage(["atbBookmarksSortName", "atbBookmarksSortLoc", "atbBookmarksSortAdd"][atb_branch.getIntPref("bookmarkssorttype")]));
@@ -812,14 +825,13 @@ animation-timing-function: step-start !important;`}
                     var muim_0 = doc.createXULElement("menuitem");
                     muim_0.setAttribute("type", "checkbox");
                     muim_0.setAttribute("closemenu", "none");
-                    muim_0.setAttribute("tooltiptext", atb_locale.localizeMessage("alertnotification"));
-                    muim_0.dataset.id = "atb-fav";
-                    mupp.atb_fav = muim_0;
-                    map.addListener(Symbol(), muim_0, "command", this.command.bind(add_bar_btns));
+                    muim_0.setAttribute("tooltiptext", atb_locale.localizeMessage("bookmarksindex"));
+                    muim_0.dataset.id = "atb-bindex";
+                    mupp.atb_bindex = muim_0;
                     mugp_0.append(muim_0);
                     var muim_1 = doc.createXULElement("menuitem");
-                    muim_1.setAttribute("label", atb_locale.localizeMessage("atbBookmarksFav"));
-                    map.addListener(Symbol(), muim_1, "command", add_bar_btns.favSearchStart.bind(add_bar_btns));
+                    muim_1.setAttribute("label", atb_locale.localizeMessage("atbBookmarksMgrT"));
+                    muim_1.dataset.id = "atb-orgr";
                     mugp_0.append(muim_1);
                     mupp.append(mugp_0);
                     var mugp_1 = doc.createXULElement("menugroup");
@@ -827,18 +839,31 @@ animation-timing-function: step-start !important;`}
                     muim_2.setAttribute("type", "checkbox");
                     muim_2.setAttribute("closemenu", "none");
                     muim_2.setAttribute("tooltiptext", atb_locale.localizeMessage("alertnotification"));
-                    muim_2.dataset.id = "atb-sort";
-                    mupp.atb_sort = muim_2;
-                    map.addListener(Symbol(), muim_2, "command", this.command.bind(add_bar_btns));
+                    muim_2.dataset.id = "atb-fav";
+                    mupp.atb_fav = muim_2;
                     mugp_1.append(muim_2);
                     var muim_3 = doc.createXULElement("menuitem");
-                    muim_3.setAttribute("tooltiptext", atb_locale.localizeMessage("atbBookmarksMgrSortT"));
-                    map.addListener(Symbol(), muim_3, "command", add_bar_btns.bookmarksSort.bind(add_bar_btns));
-                    map.addListener(Symbol(), muim_3, "contextmenu", this.contextmenu.bind(add_bar_btns));
+                    muim_3.setAttribute("label", atb_locale.localizeMessage("atbBookmarksFav"));
+                    muim_3.dataset.id = "atb-favsearch";
                     mugp_1.append(muim_3);
                     mupp.append(mugp_1);
+                    var mugp_2 = doc.createXULElement("menugroup");
+                    var muim_4 = doc.createXULElement("menuitem");
+                    muim_4.setAttribute("type", "checkbox");
+                    muim_4.setAttribute("closemenu", "none");
+                    muim_4.setAttribute("tooltiptext", atb_locale.localizeMessage("atbBookmarksSortRev"));
+                    muim_4.dataset.id = "atb-asort";
+                    mupp.atb_sort = muim_4;
+                    mugp_2.append(muim_4);
+                    var muim_5 = doc.createXULElement("menuitem");
+                    muim_5.setAttribute("tooltiptext", atb_locale.localizeMessage("atbBookmarksMgrSortT"));
+                    muim_5.dataset.id = "atb-bsort";
+                    map.addListener(Symbol(), muim_5, "contextmenu", this.contextmenu.bind(add_bar_btns));
+                    mugp_2.append(muim_5);
+                    mupp.append(mugp_2);
                     this.popupshowing.call(add_bar_btns, { currentTarget: mupp });
                     map.addListener(sym, mupp, "popupshowing", this.popupshowing.bind(add_bar_btns));
+                    map.addListener(Symbol(), mupp, "command", this.command.bind(add_bar_btns));
                 },
             },
             {

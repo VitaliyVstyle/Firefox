@@ -143,12 +143,6 @@
     "atbPreferencesT": {
         "message": "L: Open the Add Toolbar Buttons Settings\nM: Open the browser settings"
     },
-    "atbBookmarkNopopL": {
-        "message": "Quick Bookmark"
-    },
-    "atbBookmarkNopopT": {
-        "message": "L: Add or delete bookmarks without confirmation\nM: Add a group of tabs to bookmarks\nR: Open the Bookmarks Manager"
-    },
     "atbSnapBackL": {
         "message": "Full back or forward"
     },
@@ -269,8 +263,17 @@
     "atbBookmarksMgrT": {
         "message": "Managing bookmarks"
     },
+    "atbBookmarksMgrNopopL": {
+        "message": "Quick Bookmark"
+    },
+    "atbBookmarksMgrNopopT": {
+        "message": "L: Add or delete bookmarks without confirmation\nM|R: Add a group of tabs to bookmarks"
+    },
     "atbBookmarksMgrSortT": {
         "message": "R: Switch sorting type"
+    },
+    "atbBookmarksSortRev": {
+        "message": "Sort in reverse order"
     },
     "atbBookmarksSortName": {
         "message": "Sort bookmarks by name"
