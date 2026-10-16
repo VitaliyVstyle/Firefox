@@ -5,7 +5,7 @@
         fill: var(--toolbarbutton-icon-fill, currentColor) !important;
         toolbar & {
             margin-inline-end: 0 !important;
-            padding-inline: var(--toolbarbutton-outer-padding, 1px) 0 !important;
+            padding-inline: var(--toolbarbutton-padding-outer, 1px) 0 !important;
         }
     }
     &>.atb-combined-buttons-dropmarker {
@@ -13,7 +13,7 @@
         fill: var(--toolbarbutton-icon-fill, currentColor) !important;
         toolbar & {
             margin-inline-start: 0 !important;
-            padding-inline: 0 var(--toolbarbutton-outer-padding, 1px) !important;
+            padding-inline: 0 var(--toolbarbutton-padding-outer, 1px) !important;
         }
         .widget-overflow-list & {
             flex-grow: 0 !important;
@@ -195,8 +195,7 @@
 #atb-enlarge {
     list-style-image: url("resource://add_toolbar_buttons/svg/zoom-in.svg") !important;
 }
-#atb-sound-muted-all-tabs,
-#atb-sound-volume-tab {
+#atb-sound-muted-all-tabs {
     list-style-image: url("resource://add_toolbar_buttons/svg/sound.svg") !important;
 }
 #atb-combined-bookmarks-mgr {

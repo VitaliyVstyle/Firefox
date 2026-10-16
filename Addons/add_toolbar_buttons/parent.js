@@ -457,16 +457,23 @@ animation-timing-function: step-start !important;`}
                     mupp.id = "atb-toggle-proxy-popup";
                     var npt = add_bar_btns.network_proxy_type;
                     if (npt !== null) {
-                        let sym = Symbol();
+                        let sym = Symbol(), symb = Symbol();
                         let map = winWeakMap.get(doc.defaultView);
                         map.addListener(Symbol(), trbn_0, "command", this.toggleTheProxy.bind(add_bar_btns));
                         map.addListener(Symbol(), trbn_1, "contextmenu", this.openProxyWin.bind(add_bar_btns));
                         map.addListener(sym, mupp, "popupshowing", this.buildMenu.bind(this, map, sym));
+                        map.addListener(symb, trbn_1, "mousedown", this.setPosition.bind(this, map, symb, mupp));
                         trim.setAttribute("activated", npt);
                     }
                     trbn_1.append(mupp);
                     trim.append(trbn_1);
                     return trim;
+                },
+                setPosition(map, sym, mupp, e) {
+                    map.delListener(sym);
+                    var { left, width } = e.target.getBoundingClientRect();
+                    mupp.setAttribute("position", (width / 2 + left) < (e.view.innerWidth / 2) ? "after_start" : "after_end");
+                    mupp.setAttribute("flip", "both");
                 },
                 buildMenu(map, sym, e) {
                     map.delListener(sym);
@@ -586,13 +593,14 @@ animation-timing-function: step-start !important;`}
                     trbn_1.setAttribute("tooltiptext", atb_locale.localizeMessage("atbUndoTabT0"));
                     trbn_1.toggleAttribute("context", true);
                     map.addListener(Symbol(), trbn_1, "contextmenu", this.contextmenu.bind(add_bar_btns));
-                    var mupp_0 = doc.createXULElement("menupopup");
-                    mupp_0.id = "mupp-undo-tab-popup";
-                    mupp_0.setAttribute("tooltip", "bhTooltip");
-                    mupp_0.setAttribute("popupsinherittooltip", true);
-                    var sym = Symbol();
-                    map.addListener(sym, mupp_0, "popupshowing", this.buildMenu.bind(this, map, sym));
-                    trbn_1.append(mupp_0);
+                    var mupp = doc.createXULElement("menupopup");
+                    mupp.id = "mupp-undo-tab-popup";
+                    mupp.setAttribute("tooltip", "bhTooltip");
+                    mupp.setAttribute("popupsinherittooltip", true);
+                    var sym = Symbol(), symb = Symbol();
+                    map.addListener(sym, mupp, "popupshowing", this.buildMenu.bind(this, map, sym));
+                    map.addListener(symb, trbn_1, "mousedown", this.setPosition.bind(this, map, symb, mupp));
+                    trbn_1.append(mupp);
                     trim.append(trbn_1);
                     return trim;
                 },
@@ -608,6 +616,12 @@ animation-timing-function: step-start !important;`}
                 },
                 contextmenu(e) {
                     e.view.PlacesCommandHook.showPlacesOrganizer("History");
+                },
+                setPosition(map, sym, mupp, e) {
+                    map.delListener(sym);
+                    var { left, width } = e.target.getBoundingClientRect();
+                    mupp.setAttribute("position", (width / 2 + left) < (e.view.innerWidth / 2) ? "after_start" : "after_end");
+                    mupp.setAttribute("flip", "both");
                 },
                 buildMenu(map, sym, e) {
                     map.delListener(sym);
@@ -762,8 +776,9 @@ animation-timing-function: step-start !important;`}
                     trbn_1.toggleAttribute("context", true);
                     var mupp = doc.createXULElement("menupopup");
                     mupp.id = "atb-bookmarks-mgr-popup";
-                    var sym = Symbol();
+                    var sym = Symbol(), symb = Symbol();
                     map.addListener(sym, mupp, "popupshowing", this.buildMenu.bind(this, map, sym));
+                    map.addListener(symb, trbn_1, "mousedown", this.setPosition.bind(this, map, symb, mupp));
                     trbn_1.append(mupp);
                     trim.append(trbn_1);
                     return trim;
@@ -816,6 +831,12 @@ animation-timing-function: step-start !important;`}
                     mupp.atb_fav.toggleAttribute("checked", atb_branch.getBoolPref("alertnotification"));
                     mupp.atb_sort.toggleAttribute("checked", atb_branch.getBoolPref("bookmarkssortrevers"));
                     mupp.atb_sort.nextElementSibling.setAttribute("label", atb_locale.localizeMessage(["atbBookmarksSortName", "atbBookmarksSortLoc", "atbBookmarksSortAdd"][atb_branch.getIntPref("bookmarkssorttype")]));
+                },
+                setPosition(map, sym, mupp, e) {
+                    map.delListener(sym);
+                    var { left, width } = e.target.getBoundingClientRect();
+                    mupp.setAttribute("position", (width / 2 + left) < (e.view.innerWidth / 2) ? "after_start" : "after_end");
+                    mupp.setAttribute("flip", "both");
                 },
                 buildMenu(map, sym, e) {
                     map.delListener(sym);
@@ -1499,16 +1520,22 @@ animation-timing-function: step-start !important;`}
                     trbn.setAttribute("type", "menu");
                     var mupp = doc.createXULElement("menupopup");
                     mupp.id = `${this.id}-popup`;
-                    mupp.setAttribute("flip", "both");
-                    mupp.setAttribute("position", "after_end");
                     var map = winWeakMap.get(doc.defaultView);
                     map.addListener(Symbol(), mupp, "contextmenu", e => {
                         e.preventDefault();
                         e.stopPropagation();
                     });
                     map.addListener(Symbol(), mupp, "popupshowing", this.populateMenu.bind(this, map, this.id));
+                    var symb = Symbol();
+                    map.addListener(symb, trbn, "mousedown", this.setPosition.bind(this, map, symb, mupp));
                     trbn.append(mupp);
                     return trbn;
+                },
+                setPosition(map, sym, mupp, e) {
+                    map.delListener(sym);
+                    var { left, width } = e.target.getBoundingClientRect();
+                    mupp.setAttribute("position", (width / 2 + left) < (e.view.innerWidth / 2) ? "after_start" : "after_end");
+                    mupp.setAttribute("flip", "both");
                 },
                 async populateMenu(map, id, e) {
                     var addons = AddonManager.getAddonsByTypes(add_bar_btns.exceptions_type_listarr);
