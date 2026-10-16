@@ -1,16 +1,10 @@
 var atb_branch = "extensions.add_toolbar_buttons.", atb_ps, atb_ext, atb_uri, atb_locale;
 ChromeUtils.defineESModuleGetters(this, {
+    CustomizableUI: "moz-src:///browser/components/customizableui/CustomizableUI.sys.mjs",
     PlacesUtils: "resource://gre/modules/PlacesUtils.sys.mjs",
     AddonManager: "resource://gre/modules/AddonManager.sys.mjs",
     ExtensionParent: "resource://gre/modules/ExtensionParent.sys.mjs",
     NetUtil: "resource://gre/modules/NetUtil.sys.mjs",
-});
-ChromeUtils.defineLazyGetter(this, "CustomizableUI", () => {
-    try {
-        return ChromeUtils.importESModule("moz-src:///browser/components/customizableui/CustomizableUI.sys.mjs").CustomizableUI;
-    } catch {
-        return ChromeUtils.importESModule("resource:///modules/CustomizableUI.sys.mjs").CustomizableUI;
-    }
 });
 ChromeUtils.defineLazyGetter(this, "GlobalManager", () => ExtensionParent.GlobalManager);
 ChromeUtils.defineLazyGetter(this, "Timer", () => Components.Constructor("@mozilla.org/timer;1", "nsITimer"));
