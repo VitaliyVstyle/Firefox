@@ -1,4 +1,4 @@
-var atb_branch = "extensions.add_toolbar_buttons.", atb_ps, atb_ext, atb_uri, atb_locale;
+var atb_branch = "extensions.add_toolbar_buttons.", atb_ext, atb_uri, atb_locale, sprefs;
 ChromeUtils.defineESModuleGetters(this, {
     CustomizableUI: "moz-src:///browser/components/customizableui/CustomizableUI.sys.mjs",
     PlacesUtils: "resource://gre/modules/PlacesUtils.sys.mjs",
@@ -8,7 +8,7 @@ ChromeUtils.defineESModuleGetters(this, {
 });
 ChromeUtils.defineLazyGetter(this, "GlobalManager", () => ExtensionParent.GlobalManager);
 ChromeUtils.defineLazyGetter(this, "Timer", () => Components.Constructor("@mozilla.org/timer;1", "nsITimer"));
-var winWeakMap = new WeakMap();
+var wsMap = new Map();
 var gNextId = 0;
 var gTidMap = new Map();
 var setTimeout = (func, ms, ...args) => {
@@ -47,64 +47,85 @@ var add_bar_btns = {
         delete this.idnService;
         return this.idnService = Cc["@mozilla.org/network/idn-service;1"].getService(Ci.nsIIDNService);
     },
-    get atb_branch() {
-        delete this.atb_branch;
-        return this.atb_branch = atb_ps.getBranch(atb_branch);
+    get prefs() {
+        delete this.prefs;
+        return this.prefs = sprefs.getBranch(atb_branch);
     },
     get permissions_default_image() {
         delete this.permissions_default_image;
+        var pref = "permissions.default.image";
         try {
-            return this.permissions_default_image = atb_ps.getIntPref("permissions.default.image");
+            let gpref = this.permissions_default_image = sprefs.getIntPref(pref);
+            sprefs.addObserver(pref, this);
+            return gpref;
         } catch { }
         return this.permissions_default_image = null;
     },
     get javascript_enabled() {
         delete this.javascript_enabled;
+        var pref = "javascript.enabled";
         try {
-            return this.javascript_enabled = atb_ps.getBoolPref("javascript.enabled");
+            let gpref = this.javascript_enabled = sprefs.getBoolPref(pref);
+            sprefs.addObserver(pref, this);
+            return gpref;
         } catch { }
         return this.javascript_enabled = null;
     },
     get media_autoplay_default() {
         delete this.media_autoplay_default;
+        var pref = "media.autoplay.default";
         try {
-            return this.media_autoplay_default = atb_ps.getIntPref("media.autoplay.default");
+            let gpref = this.media_autoplay_default = sprefs.getIntPref(pref);
+            sprefs.addObserver(pref, this);
+            return gpref;
         } catch { }
         return this.media_autoplay_default = null;
     },
     get browser_zoom_full() {
         delete this.browser_zoom_full;
+        var pref = "browser.zoom.full";
         try {
-            return this.browser_zoom_full = atb_ps.getBoolPref("browser.zoom.full");
+            let gpref = this.browser_zoom_full = sprefs.getBoolPref(pref);
+            sprefs.addObserver(pref, this);
+            return gpref;
         } catch { }
         return this.browser_zoom_full = null;
     },
     get network_cookie_cookieBehavior() {
         delete this.network_cookie_cookieBehavior;
+        var pref = "network.cookie.cookieBehavior";
         try {
-            return this.network_cookie_cookieBehavior = atb_ps.getIntPref("network.cookie.cookieBehavior");
+            let gpref = this.network_cookie_cookieBehavior = sprefs.getIntPref(pref);
+            sprefs.addObserver(pref, this);
+            return gpref;
         } catch { }
         return this.network_cookie_cookieBehavior = null;
     },
     get network_proxy_type() {
         delete this.network_proxy_type;
+        var pref = "network.proxy.type";
         try {
-            return this.network_proxy_type = atb_ps.getIntPref("network.proxy.type");
+            let gpref = this.network_proxy_type = sprefs.getIntPref(pref);
+            sprefs.addObserver(pref, this);
+            return gpref;
         } catch { }
         return this.network_proxy_type = null;
     },
     get image_animation_mode() {
         delete this.image_animation_mode;
+        var pref = "image.animation_mode";
         try {
-            return this.image_animation_mode = atb_ps.getCharPref("image.animation_mode");
+            let gpref = this.image_animation_mode = sprefs.getCharPref(pref);
+            sprefs.addObserver(pref, this);
+            return gpref;
         } catch { }
         return this.image_animation_mode = null;
     },
     get anim_func() {
         delete this.anim_func;
-        return this.anim_func = this.atb_branch.getBoolPref("obs.animfunc");
+        return this.anim_func = this.prefs.getBoolPref("obs.animfunc");
     },
-    get animationCSS() {
+    get cssStr() {
         return `@namespace url("http://www.w3.org/1999/xhtml");
 @namespace svg url("http://www.w3.org/2000/svg");
 @-moz-document regexp("^(?:https?|ftp|file):.*") {
@@ -116,44 +137,44 @@ animation-timing-function: step-start !important;`}
 }
 }`;
     },
-    get anim_css() {
-        delete this.anim_css;
-        var _anim_css = this.atb_branch.getBoolPref("obs.animation");
-        this.cssFileToUserContent(this.animationCSS, _anim_css);
-        return this.anim_css = _anim_css;
+    get css_anim() {
+        delete this.css_anim;
+        var gpref = this.prefs.getBoolPref("obs.animation");
+        this.cssContent(this.cssStr, gpref);
+        return this.css_anim = gpref;
     },
     get show_version() {
         delete this.show_version;
-        return this.show_version = this.atb_branch.getBoolPref("obs.showversion");
+        return this.show_version = this.prefs.getBoolPref("obs.showversion");
     },
     get show_description() {
         delete this.show_description;
-        return this.show_description = this.atb_branch.getBoolPref("obs.showdescription");
+        return this.show_description = this.prefs.getBoolPref("obs.showdescription");
     },
     get user_permissions() {
         delete this.user_permissions;
-        return this.user_permissions = this.atb_branch.getBoolPref("obs.userpermissions");
+        return this.user_permissions = this.prefs.getBoolPref("obs.userpermissions");
     },
     get show_hidden() {
         delete this.show_hidden;
-        return this.show_hidden = this.atb_branch.getBoolPref("obs.showhidden");
+        return this.show_hidden = this.prefs.getBoolPref("obs.showhidden");
     },
     get show_disabled() {
         delete this.show_disabled;
-        return this.show_disabled = this.atb_branch.getBoolPref("obs.showdisabled");
+        return this.show_disabled = this.prefs.getBoolPref("obs.showdisabled");
     },
     get enabled_first() {
         delete this.enabled_first;
-        return this.enabled_first = this.atb_branch.getBoolPref("obs.enabledfirst");
+        return this.enabled_first = this.prefs.getBoolPref("obs.enabledfirst");
     },
     get exceptions_listset() {
         delete this.exceptions_listset;
-        var str = this.atb_branch.getStringPref("obs.exceptionslistset").trim();
+        var str = this.prefs.getStringPref("obs.exceptionslistset").trim();
         return this.exceptions_listset = new Set(str ? str.split(/\s+/) : []);
     },
     get exceptions_type_listarr() {
         delete this.exceptions_type_listarr;
-        var str = this.atb_branch.getStringPref("obs.exceptionstypelistarr").trim();
+        var str = this.prefs.getStringPref("obs.exceptionstypelistarr").trim();
         var arr = ["extension", "theme", "locale", "dictionary", "plugin", "mlmodel"];
         if (!str) return this.exceptions_type_listarr = arr;
         var set = new Set(str.split(/\s+/));
@@ -161,25 +182,30 @@ animation-timing-function: step-start !important;`}
     },
     get max_width_main_item() {
         delete this.max_width_main_item;
-        return this.max_width_main_item = this.atb_branch.getIntPref("obs.maxwidthmainitem");
+        return this.max_width_main_item = this.prefs.getIntPref("obs.maxwidthmainitem");
     },
     get max_height_popup() {
         delete this.max_height_popup;
-        return this.max_height_popup = this.atb_branch.getIntPref("obs.maxheightpopup");
+        return this.max_height_popup = this.prefs.getIntPref("obs.maxheightpopup");
     },
     get alert_timeout() {
         delete this.alert_timeout;
-        return this.alert_timeout = this.atb_branch.getIntPref("obs.alerttimeout") * 1000;
+        return this.alert_timeout = this.prefs.getIntPref("obs.alerttimeout") * 1000;
     },
     get media_volume_scale() {
         delete this.media_volume_scale;
-        let volume = parseFloat(atb_ps.getCharPref("media.volume_scale"));
-        if (isNaN(volume)) volume = 0;
-        return this.media_volume_scale = volume;
+        var pref = "media.volume_scale";
+        try {
+            let gpref = this.media_volume_scale = parseFloat(sprefs.getCharPref(pref));
+            if (isNaN(gpref)) gpref = 0;
+            sprefs.addObserver(pref, this);
+            return gpref;
+        } catch { }
+        return this.media_volume_scale = null;
     },
     get sound_volume_step() {
         delete this.sound_volume_step;
-        return this.sound_volume_step = this.atb_branch.getIntPref("obs.soundvolumestep") / 100;
+        return this.sound_volume_step = this.prefs.getIntPref("obs.soundvolumestep") / 100;
     },
     get SearchService() {
         delete this.SearchService;
@@ -192,7 +218,7 @@ animation-timing-function: step-start !important;`}
     init() {
         if (this.initialized) return;
         this.initialized = true;
-        var branch = atb_ps.getDefaultBranch(atb_branch);
+        var branch = sprefs.getDefaultBranch(atb_branch);
         branch.setBoolPref("newtab", false);
         branch.setBoolPref("doreload", false);
         branch.setBoolPref("alertnotification", true);
@@ -221,13 +247,10 @@ animation-timing-function: step-start !important;`}
         Services.io.getProtocolHandler("resource")
             .QueryInterface(Ci.nsIResProtocolHandler)
             .setSubstitution("add_toolbar_buttons", Services.io.newURI(atb_ext.resourceURL));
-        CustomizableUI.addListener(this);
         for (let win of CustomizableUI.windows)
             this.onWindowOpened(win);
-        this.obsprefs.forEach(pref => {
-            if (atb_ps.getPrefType(pref) !== atb_ps.PREF_INVALID) atb_ps.addObserver(pref, this);
-        });
-        atb_ps.addObserver("extensions.add_toolbar_buttons.obs.", this);
+        CustomizableUI.addListener(this);
+        sprefs.addObserver("extensions.add_toolbar_buttons.obs.", this);
         this.widgets = [
             {
                 id: "atb-image-toggle",
@@ -277,7 +300,7 @@ animation-timing-function: step-start !important;`}
                     trbn.setAttribute("tooltiptext", this.tooltiptext);
                     var image = add_bar_btns.image_animation_mode;
                     if (image !== null) {
-                        trbn.setAttribute("activated", add_bar_btns.anim_css);
+                        trbn.setAttribute("activated", add_bar_btns.css_anim);
                         trbn.setAttribute("badge", image.substring(0, 3));
                         trbn.setAttribute("badgeStyle", "background: light-dark(oklch(62% 0.25 260), oklch(65% 0.25 260)); color: oklch(1 0 0); font-size: 10px; font-weight: normal; line-height: 10px; box-shadow: none; text-shadow: none; padding-block: 0 1px !important; padding-inline: 2px !important; min-width: 0 !important;");
                         trbn.onclick = e => {
@@ -452,7 +475,7 @@ animation-timing-function: step-start !important;`}
                     var npt = add_bar_btns.network_proxy_type;
                     if (npt !== null) {
                         let sym = Symbol(), symb = Symbol();
-                        let map = winWeakMap.get(doc.defaultView);
+                        let map = wsMap.get(doc.defaultView);
                         map.addListener(Symbol(), trbn_0, "command", this.toggleTheProxy.bind(add_bar_btns));
                         map.addListener(Symbol(), trbn_1, "contextmenu", this.openProxyWin.bind(add_bar_btns));
                         map.addListener(sym, mupp, "popupshowing", this.buildMenu.bind(this, map, sym));
@@ -508,15 +531,15 @@ animation-timing-function: step-start !important;`}
                     mupp.append(muim_5);
                 },
                 toggleTheProxy(e) {
-                    var proxyState = atb_ps.getIntPref("network.proxy.type"),
-                        toggleproxy = this.atb_branch.getIntPref("toggleproxy"),
-                        toggleproxy2 = this.atb_branch.getIntPref("toggleproxy2");
-                    atb_ps.setIntPref("network.proxy.type", (proxyState == toggleproxy2) ? toggleproxy : toggleproxy2);
+                    var proxyState = sprefs.getIntPref("network.proxy.type"),
+                        toggleproxy = this.prefs.getIntPref("toggleproxy"),
+                        toggleproxy2 = this.prefs.getIntPref("toggleproxy2");
+                    sprefs.setIntPref("network.proxy.type", (proxyState == toggleproxy2) ? toggleproxy : toggleproxy2);
                     this.checkBrowserReload(e.view);
                 },
                 setProxyValue(e) {
                     e.stopPropagation();
-                    atb_ps.setIntPref("network.proxy.type", +e.target.getAttribute("value"));
+                    sprefs.setIntPref("network.proxy.type", +e.target.getAttribute("value"));
                     this.checkBrowserReload(e.view);
                 },
                 async openProxyWin(e) {
@@ -549,7 +572,7 @@ animation-timing-function: step-start !important;`}
                     w.focus();
                 },
                 popupshowing(e) {
-                    var proxyState = atb_ps.getIntPref("network.proxy.type"), popup = e.currentTarget;
+                    var proxyState = sprefs.getIntPref("network.proxy.type"), popup = e.currentTarget;
                     for (let item of popup.querySelectorAll("menuitem")) {
                         if (+item.getAttribute("value") === proxyState) {
                             item.toggleAttribute("checked", true);
@@ -576,7 +599,7 @@ animation-timing-function: step-start !important;`}
                     trbn_0.setAttribute("label", this.label);
                     trbn_0.setAttribute("tooltiptext", this.tooltiptext);
                     trbn_0.toggleAttribute("context", true);
-                    var map = winWeakMap.get(doc.defaultView);
+                    var map = wsMap.get(doc.defaultView);
                     map.addListener(Symbol(), trbn_0, "click", this.btnClick.bind(add_bar_btns));
                     trim.append(trbn_0);
                     var trbn_1 = doc.createXULElement("toolbarbutton");
@@ -609,6 +632,7 @@ animation-timing-function: step-start !important;`}
                     }
                 },
                 contextmenu(e) {
+                    if (e.target != e.currentTarget) return;
                     e.view.PlacesCommandHook.showPlacesOrganizer("History");
                 },
                 setPosition(map, sym, mupp, e) {
@@ -758,7 +782,7 @@ animation-timing-function: step-start !important;`}
                     trbn_0.setAttribute("label", atb_locale.localizeMessage("atbBookmarksMgrNopopL"));
                     trbn_0.setAttribute("tooltiptext", atb_locale.localizeMessage("atbBookmarksMgrNopopT"));
                     trbn_0.toggleAttribute("context", true);
-                    var map = winWeakMap.get(doc.defaultView);
+                    var map = wsMap.get(doc.defaultView);
                     map.addListener(Symbol(), trbn_0, "click", this.btnClick.bind(add_bar_btns));
                     trim.append(trbn_0);
                     var trbn_1 = doc.createXULElement("toolbarbutton");
@@ -793,38 +817,38 @@ animation-timing-function: step-start !important;`}
                     switch (im.dataset.id) {
                         case "atb-bindex":
                             im.replaceWith(im);
-                            this.atb_branch.setBoolPref("bookmarksindex", im.hasAttribute("checked"));
+                            this.prefs.setBoolPref("bookmarksindex", im.hasAttribute("checked"));
                             break;
                         case "atb-orgr":
                             e.view.PlacesCommandHook.showPlacesOrganizer("BookmarksMenu");
                             break;
                         case "atb-fav":
                             im.replaceWith(im);
-                            this.atb_branch.setBoolPref("alertnotification", im.hasAttribute("checked"));
+                            this.prefs.setBoolPref("alertnotification", im.hasAttribute("checked"));
                             break;
                         case "atb-favsearch":
                             this.favSearchStart();
                             break;
                         case "atb-asort":
                             im.replaceWith(im);
-                            this.atb_branch.setBoolPref("bookmarkssortrevers", im.hasAttribute("checked"));
+                            this.prefs.setBoolPref("bookmarkssortrevers", im.hasAttribute("checked"));
                             break;
                         case "atb-bsort":
                             this.bookmarksSort();
                     }
                 },
                 contextmenu(e) {
-                    var pref = [1, 2, 0][this.atb_branch.getIntPref("bookmarkssorttype")];
-                    this.atb_branch.setIntPref("bookmarkssorttype", pref);
+                    var pref = [1, 2, 0][this.prefs.getIntPref("bookmarkssorttype")];
+                    this.prefs.setIntPref("bookmarkssorttype", pref);
                     e.target.setAttribute("label", atb_locale.localizeMessage(["atbBookmarksSortName", "atbBookmarksSortLoc", "atbBookmarksSortAdd"][pref]));
                 },
                 popupshowing(e) {
                     var mupp = e.currentTarget;
-                    var { atb_branch } = this;
-                    mupp.atb_bindex.toggleAttribute("checked", atb_branch.getBoolPref("bookmarksindex"));
-                    mupp.atb_fav.toggleAttribute("checked", atb_branch.getBoolPref("alertnotification"));
-                    mupp.atb_sort.toggleAttribute("checked", atb_branch.getBoolPref("bookmarkssortrevers"));
-                    mupp.atb_sort.nextElementSibling.setAttribute("label", atb_locale.localizeMessage(["atbBookmarksSortName", "atbBookmarksSortLoc", "atbBookmarksSortAdd"][atb_branch.getIntPref("bookmarkssorttype")]));
+                    var { prefs } = this;
+                    mupp.atb_bindex.toggleAttribute("checked", prefs.getBoolPref("bookmarksindex"));
+                    mupp.atb_fav.toggleAttribute("checked", prefs.getBoolPref("alertnotification"));
+                    mupp.atb_sort.toggleAttribute("checked", prefs.getBoolPref("bookmarkssortrevers"));
+                    mupp.atb_sort.nextElementSibling.setAttribute("label", atb_locale.localizeMessage(["atbBookmarksSortName", "atbBookmarksSortLoc", "atbBookmarksSortAdd"][prefs.getIntPref("bookmarkssorttype")]));
                 },
                 setPosition(map, sym, mupp, e) {
                     map.delListener(sym);
@@ -1035,7 +1059,7 @@ animation-timing-function: step-start !important;`}
                                 break;
                             case 1:
                                 try {
-                                    atb_ps.getComplexValue("browser.download.lastDir", Ci.nsIFile).launch();
+                                    sprefs.getComplexValue("browser.download.lastDir", Ci.nsIFile).launch();
                                 } catch {
                                     Services.dirsvc.get("DfltDwnld", Ci.nsIFile).launch();
                                 }
@@ -1053,7 +1077,7 @@ animation-timing-function: step-start !important;`}
                                     });
                                 } else
                                     try {
-                                        atb_ps.getComplexValue("browser.download.lastDir", Ci.nsIFile).launch();
+                                        sprefs.getComplexValue("browser.download.lastDir", Ci.nsIFile).launch();
                                     } catch {
                                         Services.dirsvc.get("DfltDwnld", Ci.nsIFile).launch();
                                     }
@@ -1514,7 +1538,7 @@ animation-timing-function: step-start !important;`}
                     trbn.setAttribute("type", "menu");
                     var mupp = doc.createXULElement("menupopup");
                     mupp.id = `${this.id}-popup`;
-                    var map = winWeakMap.get(doc.defaultView);
+                    var map = wsMap.get(doc.defaultView);
                     map.addListener(Symbol(), mupp, "contextmenu", e => {
                         e.preventDefault();
                         e.stopPropagation();
@@ -1794,14 +1818,17 @@ animation-timing-function: step-start !important;`}
                     trbn.id = this.id;
                     trbn.className = "toolbarbutton-1 chromeclass-toolbar-additional badged-button";
                     trbn.setAttribute("label", this.label);
-                    trbn.setAttribute("badged", "true");
-                    trbn.setAttribute("constrain-size", "true");
-                    trbn.setAttribute("badge", (add_bar_btns.media_volume_scale * 100).toFixed());
-                    trbn.setAttribute("badgeStyle", "background: light-dark(oklch(62% 0.25 260), oklch(65% 0.25 260)); color: oklch(1 0 0); font-size: 10px; font-weight: normal; line-height: 10px; box-shadow: none; text-shadow: none; padding-block: 0 1px !important; padding-inline: 2px !important; min-width: 0 !important;");
                     trbn.setAttribute("tooltiptext", this.tooltiptext);
-                    var map = winWeakMap.get(doc.defaultView);
-                    map.addListener(Symbol(), trbn, "wheel", this.setSoundVolume.bind(add_bar_btns));
-                    map.addListener(Symbol(), trbn, "click", this.btnClick.bind(add_bar_btns));
+                    var mvs = add_bar_btns.media_volume_scale;
+                    if (mvs !== null) {
+                        trbn.setAttribute("badged", "true");
+                        trbn.setAttribute("constrain-size", "true");
+                        trbn.setAttribute("badge", (mvs * 100).toFixed());
+                        trbn.setAttribute("badgeStyle", "background: light-dark(oklch(62% 0.25 260), oklch(65% 0.25 260)); color: oklch(1 0 0); font-size: 10px; font-weight: normal; line-height: 10px; box-shadow: none; text-shadow: none; padding-block: 0 1px !important; padding-inline: 2px !important; min-width: 0 !important;");
+                        let map = wsMap.get(doc.defaultView);
+                        map.addListener(Symbol(), trbn, "wheel", this.setSoundVolume.bind(add_bar_btns));
+                        map.addListener(Symbol(), trbn, "click", this.btnClick.bind(add_bar_btns));
+                    }
                     return trbn;
                 },
                 btnClick(e) {
@@ -1826,12 +1853,12 @@ animation-timing-function: step-start !important;`}
                     }
                 },
                 setSoundVolume(e) {
-                    var pref = "media.volume_scale", gpref = parseFloat(atb_ps.getCharPref(pref)), step = this.sound_volume_step;
+                    var pref = "media.volume_scale", gpref = parseFloat(sprefs.getCharPref(pref)), step = this.sound_volume_step;
                     if (isNaN(gpref)) gpref = 0;
                     var val = (e.deltaY < 0) ? (gpref + step) : (gpref - step);
                     if (val < 0) val = 0;
                     else if (val > 1) val = 1;
-                    atb_ps.setCharPref(pref, val.toFixed(2));
+                    sprefs.setCharPref(pref, val.toFixed(2));
                 },
             },
         ];
@@ -1868,8 +1895,8 @@ animation-timing-function: step-start !important;`}
                 await bookmarks.insert({
                     url: Services.io.newURI(url),
                     title: (win.gBrowser.contentTitle || win.gBrowser.selectedTab.label || url),
-                    parentGuid: [() => bookmarks.menuGuid, () => bookmarks.toolbarGuid, () => bookmarks.unfiledGuid][this.atb_branch.getIntPref("bookmarksparentguid")](),
-                    index: (!this.atb_branch.getBoolPref("bookmarksindex") ? bookmarks.DEFAULT_INDEX : 0),
+                    parentGuid: [() => bookmarks.menuGuid, () => bookmarks.toolbarGuid, () => bookmarks.unfiledGuid][this.prefs.getIntPref("bookmarksparentguid")](),
+                    index: (!this.prefs.getBoolPref("bookmarksindex") ? bookmarks.DEFAULT_INDEX : 0),
                 });
             } catch { }
         else
@@ -1911,11 +1938,11 @@ animation-timing-function: step-start !important;`}
         win.gBrowser.removeAllTabsBut(this.addTab(win, win.BROWSER_NEW_TAB_URL));
     },
     prefToggleString(pref, next) {
-        var curindex = next.indexOf(atb_ps.getCharPref(pref)), maxindex = next.length - 1;
-        atb_ps.setCharPref(pref, next[(curindex == maxindex || curindex == -1) ? 0 : curindex + 1]);
+        var curindex = next.indexOf(sprefs.getCharPref(pref)), maxindex = next.length - 1;
+        sprefs.setCharPref(pref, next[(curindex == maxindex || curindex == -1) ? 0 : curindex + 1]);
     },
     prefToggleNumber(pref, next) {
-        atb_ps.setIntPref(pref, next[atb_ps.getIntPref(pref)]);
+        sprefs.setIntPref(pref, next[sprefs.getIntPref(pref)]);
     },
     viewPasswords(win) {
         var uri = this.convertToDisplayIDN(this.getBaseDomain(win, win.gBrowser.selectedBrowser.currentURI));
@@ -1935,9 +1962,9 @@ animation-timing-function: step-start !important;`}
         win.gBrowser.selectedTab = this.addTab(win, Url);
     },
     checkBrowserReload(win) {
-        if (this.atb_branch.getBoolPref("doreload")) win.document.querySelector("commandset#mainCommandSet > command[id='Browser:ReloadSkipCache']")?.doCommand();
+        if (this.prefs.getBoolPref("doreload")) win.document.querySelector("commandset#mainCommandSet > command[id='Browser:ReloadSkipCache']")?.doCommand();
     },
-    cssFileToUserContent(aCss, toggle) {
+    cssContent(aCss, toggle) {
         try {
             var sss = this.styleSS, url = Services.io.newURI("data:text/css;charset=utf-8," + encodeURIComponent(aCss));
             var sheetReg = sss.sheetRegistered(url, sss.USER_SHEET);
@@ -1946,7 +1973,7 @@ animation-timing-function: step-start !important;`}
         } catch (e) { console.error(e); }
     },
     loadURL(win, url, newtab = false, params = {}) {
-        if (newtab || this.atb_branch.getBoolPref("newtab")) win.gBrowser.selectedTab = this.addTab(win, url, params);
+        if (newtab || this.prefs.getBoolPref("newtab")) win.gBrowser.selectedTab = this.addTab(win, url, params);
         else this.loadUrlBrow(win.gBrowser.selectedBrowser, url);
     },
     loadUrlBrow(br, url) {
@@ -1976,10 +2003,10 @@ animation-timing-function: step-start !important;`}
         }, 100);
     },
     prefToggleStatus(pref) {
-        atb_ps.setBoolPref(pref, !atb_ps.getBoolPref(pref));
+        sprefs.setBoolPref(pref, !sprefs.getBoolPref(pref));
     },
     extensionPrefToggleStatus(pref) {
-        var branch = this.atb_branch;
+        var branch = this.prefs;
         branch.setBoolPref(pref, !branch.getBoolPref(pref));
     },
     getBaseDomain(win, uri) {
@@ -2096,8 +2123,8 @@ animation-timing-function: step-start !important;`}
     openClipboardConfigTab(win, clip = "", copy) {
         var filter = this.readFromClipboard(win), nowarn = false, pref = "browser.aboutConfig.showWarning";
         if (copy && clip != filter) this.clipboard.copyStringToClipboard(clip, Ci.nsIClipboard.kGlobalClipboard);
-        if (atb_ps.getBoolPref(pref, false)) {
-            atb_ps.setBoolPref(pref, false);
+        if (sprefs.getBoolPref(pref, false)) {
+            sprefs.setBoolPref(pref, false);
             nowarn = true;
         }
         win.gBrowser.getBrowserForTab(win.gBrowser.selectedTab = this.addTab(win, "about:config"))
@@ -2109,7 +2136,7 @@ animation-timing-function: step-start !important;`}
                     input.focus();
                     input.dispatchEvent(new doc.defaultView.Event("input", { bubbles: true }));
                 }
-                if (nowarn) setTimeout(() => atb_ps.setBoolPref(pref, true), 200);
+                if (nowarn) setTimeout(() => sprefs.setBoolPref(pref, true), 200);
             }, { once: true });
     },
     openSelectedConfigTab(win) {
@@ -2255,14 +2282,14 @@ animation-timing-function: step-start !important;`}
     async bookmarksSort() {
         if (this.bookMgrRun) return;
         this.bookMgrRun = true;
-        this.callWithEachWindow("atb-combined-bookmarks-mgr", { activated: false });
-        var rvs = this.atb_branch.getBoolPref("bookmarkssortrevers") ? -1 : 1;
+        this.callWindows("atb-combined-bookmarks-mgr", { activated: false });
+        var rvs = this.prefs.getBoolPref("bookmarkssortrevers") ? -1 : 1;
         var _rvs = -1 * rvs;
         var st = [
             ["title", "uri"],
             ["uri", "title"],
             ["dateAdded", "title"],
-        ][this.atb_branch.getIntPref("bookmarkssorttype")];
+        ][this.prefs.getIntPref("bookmarkssorttype")];
         var sort = async nodes => {
             var list = [], listor = [];
             for (let node of nodes) {
@@ -2289,12 +2316,12 @@ animation-timing-function: step-start !important;`}
         };
         await sort((await PlacesUtils.promiseBookmarksTree(PlacesUtils.bookmarks.rootGuid)).children);
         this.bookMgrRun = false;
-        this.callWithEachWindow("atb-combined-bookmarks-mgr", { activated: true });
+        this.callWindows("atb-combined-bookmarks-mgr", { activated: true });
     },
     async favSearchStart() {
         if (this.bookMgrRun) return;
         this.bookMgrRun = true;
-        this.callWithEachWindow("atb-combined-bookmarks-mgr", { activated: false });
+        this.callWindows("atb-combined-bookmarks-mgr", { activated: false });
         var urlsList = [];
         var convert = (node, url) => {
             if (node.children) node.children.map(convert);
@@ -2315,8 +2342,8 @@ animation-timing-function: step-start !important;`}
     },
     favComplete(favsuccesslength, favmaxlength) {
         this.bookMgrRun = false;
-        this.callWithEachWindow("atb-combined-bookmarks-mgr", { activated: true });
-        if (this.atb_branch.getBoolPref("alertnotification")) this.showAlert({ name: "atb-combined-bookmarks-mgr", title: atb_locale.localizeMessage("favComplete"), text: `${atb_locale.localizeMessage("favComplete0", [favsuccesslength, favmaxlength - favsuccesslength])}`, textClickable: true, requireInteraction: true });
+        this.callWindows("atb-combined-bookmarks-mgr", { activated: true });
+        if (this.prefs.getBoolPref("alertnotification")) this.showAlert({ name: "atb-combined-bookmarks-mgr", title: atb_locale.localizeMessage("favComplete"), text: `${atb_locale.localizeMessage("favComplete0", [favsuccesslength, favmaxlength - favsuccesslength])}`, textClickable: true, requireInteraction: true });
     },
     favSearchResults(results, _favmaxlength) {
         var favmaxlength = _favmaxlength = results.length;
@@ -2325,8 +2352,8 @@ animation-timing-function: step-start !important;`}
             this.favComplete(0, 0);
             return;
         }
-        var maxrequests = this.atb_branch.getIntPref("maxrequests");
-        var favmaxtimeout = this.atb_branch.getIntPref("maxtimeout") * 1000;
+        var maxrequests = this.prefs.getIntPref("maxrequests");
+        var favmaxtimeout = this.prefs.getIntPref("maxtimeout") * 1000;
         var { Uint8ClampedArray, Blob, FileReader, XMLHttpRequest } = this.global;
         var setFaviconForPage = async (siteURI, uri, type) => {
             var resolver = Promise.withResolvers();
@@ -2420,61 +2447,61 @@ animation-timing-function: step-start !important;`}
     observe(subject, topic, pref) {
         ({
             "extensions.add_toolbar_buttons.obs.animation": () => {
-                delete this.anim_css;
-                var anim_css = this.anim_css = atb_ps.getBoolPref(pref);
-                this.cssFileToUserContent(this.animationCSS, anim_css);
-                this.callWithEachWindow("atb-stop-animation", { activated: anim_css });
+                delete this.css_anim;
+                var css_anim = this.css_anim = sprefs.getBoolPref(pref);
+                this.cssContent(this.cssStr, css_anim);
+                this.callWindows("atb-stop-animation", { activated: css_anim });
             },
             "extensions.add_toolbar_buttons.obs.animfunc": () => {
-                this.cssFileToUserContent(this.animationCSS, true);
+                this.cssContent(this.cssStr, true);
                 delete this.anim_func;
-                this.anim_func = atb_ps.getBoolPref(pref);
-                if (!this.atb_branch.getBoolPref("obs.animation"))
-                    this.cssFileToUserContent(this.animationCSS, false);
+                this.anim_func = sprefs.getBoolPref(pref);
+                if (!this.prefs.getBoolPref("obs.animation"))
+                    this.cssContent(this.cssStr, false);
             },
             "extensions.add_toolbar_buttons.obs.showversion": () => {
                 delete this.show_version;
-                this.show_version = atb_ps.getBoolPref(pref);
+                this.show_version = sprefs.getBoolPref(pref);
             },
             "extensions.add_toolbar_buttons.obs.showdescription": () => {
                 delete this.show_description;
-                this.show_description = atb_ps.getBoolPref(pref);
+                this.show_description = sprefs.getBoolPref(pref);
             },
             "extensions.add_toolbar_buttons.obs.userpermissions": () => {
                 delete this.user_permissions;
-                this.user_permissions = atb_ps.getBoolPref(pref);
+                this.user_permissions = sprefs.getBoolPref(pref);
             },
             "extensions.add_toolbar_buttons.obs.showhidden": () => {
                 delete this.show_hidden;
-                this.show_hidden = atb_ps.getBoolPref(pref);
+                this.show_hidden = sprefs.getBoolPref(pref);
             },
             "extensions.add_toolbar_buttons.obs.showdisabled": () => {
                 delete this.show_disabled;
-                this.show_disabled = atb_ps.getBoolPref(pref);
+                this.show_disabled = sprefs.getBoolPref(pref);
             },
             "extensions.add_toolbar_buttons.obs.enabledfirst": () => {
                 delete this.enabled_first;
-                this.enabled_first = atb_ps.getBoolPref(pref);
+                this.enabled_first = sprefs.getBoolPref(pref);
             },
             "extensions.add_toolbar_buttons.obs.maxwidthmainitem": () => {
                 delete this.max_width_main_item;
-                this.max_width_main_item = atb_ps.getIntPref(pref);
+                this.max_width_main_item = sprefs.getIntPref(pref);
             },
             "extensions.add_toolbar_buttons.obs.maxheightpopup": () => {
                 delete this.max_height_popup;
-                this.max_height_popup = atb_ps.getIntPref(pref);
+                this.max_height_popup = sprefs.getIntPref(pref);
             },
             "extensions.add_toolbar_buttons.obs.alerttimeout": () => {
                 delete this.alert_timeout;
-                this.alert_timeout = atb_ps.getIntPref(pref) * 1000;
+                this.alert_timeout = sprefs.getIntPref(pref) * 1000;
             },
             "extensions.add_toolbar_buttons.obs.exceptionslistset": () => {
-                var str = atb_ps.getStringPref(pref).trim();
+                var str = sprefs.getStringPref(pref).trim();
                 delete this.exceptions_listset;
                 this.exceptions_listset = new Set(str ? str.split(/\s+/) : []);
             },
             "extensions.add_toolbar_buttons.obs.exceptionstypelistarr": () => {
-                var str = atb_ps.getStringPref(pref).trim();
+                var str = sprefs.getStringPref(pref).trim();
                 delete this.exceptions_type_listarr;
                 var arr = ["extension", "theme", "locale", "dictionary", "plugin", "mlmodel"];
                 if (!str) {
@@ -2486,50 +2513,49 @@ animation-timing-function: step-start !important;`}
             },
             "extensions.add_toolbar_buttons.obs.soundvolumestep": () => {
                 delete this.sound_volume_step;
-                this.sound_volume_step = atb_ps.getIntPref(pref) / 100;
+                this.sound_volume_step = sprefs.getIntPref(pref) / 100;
             },
             "media.volume_scale": () => {
                 delete this.media_volume_scale;
-                var volume = parseFloat(atb_ps.getCharPref(pref));
-                if (isNaN(volume))
-                    volume = 0;
-                this.media_volume_scale = volume;
-                this.callWithEachWindow("atb-sound-muted-all-tabs", { badge: (volume * 100).toFixed() });
+                var gpref = parseFloat(sprefs.getCharPref(pref));
+                if (isNaN(gpref)) gpref = 0;
+                this.media_volume_scale = gpref;
+                this.callWindows("atb-sound-muted-all-tabs", { badge: (gpref * 100).toFixed() });
             },
             "permissions.default.image": () => {
                 delete this.permissions_default_image;
-                var permissions_default_image = this.permissions_default_image = atb_ps.getIntPref(pref);
-                this.callWithEachWindow("atb-image-toggle", { activated: permissions_default_image });
+                var gpref = this.permissions_default_image = sprefs.getIntPref(pref);
+                this.callWindows("atb-image-toggle", { activated: gpref });
             },
             "image.animation_mode": () => {
                 delete this.image_animation_mode;
-                var image_animation_mode = this.image_animation_mode = atb_ps.getCharPref(pref);
-                this.callWithEachWindow("atb-stop-animation", { badge: image_animation_mode.substring(0, 3) });
+                var gpref = this.image_animation_mode = sprefs.getCharPref(pref);
+                this.callWindows("atb-stop-animation", { badge: gpref.substring(0, 3) });
             },
             "media.autoplay.default": () => {
                 delete this.media_autoplay_default;
-                var media_autoplay_default = this.media_autoplay_default = atb_ps.getIntPref(pref);
-                this.callWithEachWindow("atb-autoplay", { activated: media_autoplay_default });
+                var gpref = this.media_autoplay_default = sprefs.getIntPref(pref);
+                this.callWindows("atb-autoplay", { activated: gpref });
             },
             "javascript.enabled": () => {
                 delete this.javascript_enabled;
-                var javascript_enabled = this.javascript_enabled = atb_ps.getBoolPref(pref);
-                this.callWithEachWindow("atb-javascript", { activated: javascript_enabled });
+                var gpref = this.javascript_enabled = sprefs.getBoolPref(pref);
+                this.callWindows("atb-javascript", { activated: gpref });
             },
             "network.cookie.cookieBehavior": () => {
                 delete this.network_cookie_cookieBehavior;
-                var network_cookie_cookieBehavior = this.network_cookie_cookieBehavior = atb_ps.getIntPref(pref);
-                this.callWithEachWindow("atb-cookie-toggle", { badge: network_cookie_cookieBehavior, badgeStyle: `background: ${network_cookie_cookieBehavior !== 2 ? "light-dark(oklch(62% 0.25 260), oklch(65% 0.25 260))" : "light-dark(oklch(50% 0.25 0), oklch(70% 0.25 0))"}; color: oklch(1 0 0); font-size: 10px; font-weight: normal; line-height: 10px; box-shadow: none; text-shadow: none; padding-block: 0 1px !important; padding-inline: 2px !important; min-width: 0 !important;` });
+                var gpref = this.network_cookie_cookieBehavior = sprefs.getIntPref(pref);
+                this.callWindows("atb-cookie-toggle", { badge: gpref, badgeStyle: `background: ${gpref !== 2 ? "light-dark(oklch(62% 0.25 260), oklch(65% 0.25 260))" : "light-dark(oklch(50% 0.25 0), oklch(70% 0.25 0))"}; color: oklch(1 0 0); font-size: 10px; font-weight: normal; line-height: 10px; box-shadow: none; text-shadow: none; padding-block: 0 1px !important; padding-inline: 2px !important; min-width: 0 !important;` });
             },
             "browser.zoom.full": () => {
                 delete this.browser_zoom_full;
-                var browser_zoom_full = this.browser_zoom_full = atb_ps.getBoolPref(pref);
-                this.callWithEachWindow("atb-zoom-toggle", { activated: browser_zoom_full });
+                var gpref = this.browser_zoom_full = sprefs.getBoolPref(pref);
+                this.callWindows("atb-zoom-toggle", { activated: gpref });
             },
             "network.proxy.type": () => {
                 delete this.network_proxy_type;
-                var network_proxy_type = this.network_proxy_type = atb_ps.getIntPref(pref);
-                this.callWithEachWindow("atb-combined-toggle-proxy", { activated: network_proxy_type });
+                var gpref = this.network_proxy_type = sprefs.getIntPref(pref);
+                this.callWindows("atb-combined-toggle-proxy", { activated: gpref });
             },
         })[pref]?.();
     },
@@ -2543,67 +2569,53 @@ animation-timing-function: step-start !important;`}
     async onWindowOpened(win) {
         var type = win.windowUtils.USER_SHEET;
         var preload = this.stylePreload(type);
-        winWeakMap.set(win, {
-            eventListeners: new Map(),
-            addListener(key, elm, type, listener) {
-                elm.addEventListener(type, listener);
-                this.eventListeners.set(key, { elm, type, listener });
-            },
-            delListener(key) {
-                var { eventListeners } = this;
-                var getkey = eventListeners.get(key);
-                if (!getkey) return;
-                var { elm, type, listener } = getkey;
-                elm.removeEventListener(type, listener);
-                eventListeners.delete(key);
-            },
-        });
+        wsMap.set(win, new AddTBarBtns());
         win.windowUtils.addSheet(await preload, type);
     },
     async onWindowClosed(win) {
-        for (let { elm, type, listener } of winWeakMap.get(win).eventListeners.values())
+        for (let { elm, type, listener } of wsMap.get(win).listenersMap.values())
             elm.removeEventListener(type, listener);
-        winWeakMap.delete(win);
+        wsMap.delete(win);
         win.windowUtils.removeSheet(this.styleURI, win.windowUtils.USER_SHEET);
     },
-    callWithEachWindow(buttonID, atr) {
-        var getW = CustomizableUI.getWidget(buttonID);
-        if (getW.instances.length)
-            for (let { node } of getW.instances) {
+    callWindows(btnid, atr) {
+        var widget = CustomizableUI.getWidget(btnid);
+        if (widget.instances.length)
+            for (let { node } of widget.instances) {
                 if (!node) continue;
                 for (let a in atr)
                     node.setAttribute(a, atr[a]);
             }
         else
             for (let win of CustomizableUI.windows) {
-                let node = getW.forWindow(win).node;
+                let node = widget.forWindow(win).node;
                 if (!node) continue;
                 for (let a in atr)
                     node.setAttribute(a, atr[a]);
             }
     },
     getPref(name) {
-        var type = atb_ps.getPrefType(name);
+        var type = sprefs.getPrefType(name);
         switch (type) {
-            case atb_ps.PREF_BOOL:
-                return atb_ps.getBoolPref(name);
-            case atb_ps.PREF_INT:
-                return atb_ps.getIntPref(name);
-            case atb_ps.PREF_STRING:
-                return atb_ps.getStringPref(name);
+            case sprefs.PREF_BOOL:
+                return sprefs.getBoolPref(name);
+            case sprefs.PREF_INT:
+                return sprefs.getIntPref(name);
+            case sprefs.PREF_STRING:
+                return sprefs.getStringPref(name);
         }
     },
     setPref(name, value) {
-        var type = atb_ps.getPrefType(name);
+        var type = sprefs.getPrefType(name);
         switch (type) {
-            case atb_ps.PREF_BOOL:
-                atb_ps.setBoolPref(name, value);
+            case sprefs.PREF_BOOL:
+                sprefs.setBoolPref(name, value);
                 break;
-            case atb_ps.PREF_INT:
-                atb_ps.setIntPref(name, value);
+            case sprefs.PREF_INT:
+                sprefs.setIntPref(name, value);
                 break;
-            case atb_ps.PREF_STRING:
-                atb_ps.setStringPref(name, value);
+            case sprefs.PREF_STRING:
+                sprefs.setStringPref(name, value);
                 break;
         }
     },
@@ -2641,10 +2653,10 @@ animation-timing-function: step-start !important;`}
         if (!this.initialized) return;
         this.obsprefs.forEach(pref => {
             try {
-                if (atb_ps.getPrefType(pref) !== atb_ps.PREF_INVALID) atb_ps.removeObserver(pref, this);
+                sprefs.removeObserver(pref, this);
             } catch { }
         });
-        atb_ps.removeObserver("extensions.add_toolbar_buttons.obs.", this);
+        sprefs.removeObserver("extensions.add_toolbar_buttons.obs.", this);
         this.widgets.forEach(({ id }) => {
             try {
                 CustomizableUI.destroyWidget(id);
@@ -2660,12 +2672,27 @@ animation-timing-function: step-start !important;`}
         this.initialized = false;
     },
 };
+class AddTBarBtns {
+    listenersMap = new Map();
+    addListener(key, elm, type, listener) {
+        elm.addEventListener(type, listener);
+        this.listenersMap.set(key, { elm, type, listener });
+    }
+    delListener(key) {
+        var { listenersMap } = this;
+        var getkey = listenersMap.get(key);
+        if (!getkey) return;
+        var { elm, type, listener } = getkey;
+        elm.removeEventListener(type, listener);
+        listenersMap.delete(key);
+    }
+}
 var addToolbarButtons = class extends ExtensionAPI {
     onStartup() {
         atb_ext = this.extension;
         atb_uri = atb_ext.baseURI.spec;
         atb_locale = atb_ext.localeData;
-        atb_ps = Services.prefs;
+        sprefs = Services.prefs;
         add_bar_btns.init();
     }
     onShutdown(reason) {

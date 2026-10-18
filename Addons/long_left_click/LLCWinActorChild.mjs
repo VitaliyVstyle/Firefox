@@ -3,21 +3,21 @@ const lazy = {
         delete this.E10SUtils;
         return this.E10SUtils = ChromeUtils.importESModule("resource://gre/modules/E10SUtils.sys.mjs").E10SUtils;
     },
-    get extGetBranch() {
-        delete this.extGetBranch;
-        return this.extGetBranch = Services.prefs.getBranch("extensions.long_left_click.");
+    get prefs() {
+        delete this.prefs;
+        return this.prefs = Services.prefs.getBranch("extensions.long_left_click.");
     },
     get timeContent() {
         delete this.timeContent;
-        return this.timeContent = this.extGetBranch.getIntPref("timeContent");
+        return this.timeContent = this.prefs.getIntPref("timeContent");
     },
     get enableImages() {
         delete this.enableImages;
-        return this.enableImages = this.extGetBranch.getBoolPref("enableImages");
+        return this.enableImages = this.prefs.getBoolPref("enableImages");
     },
     get referrer() {
         delete this.referrer;
-        return this.referrer = this.extGetBranch.getBoolPref("referrer");
+        return this.referrer = this.prefs.getBoolPref("referrer");
     },
     get excludeTags() {
         delete this.excludeTags;
@@ -25,11 +25,11 @@ const lazy = {
     },
     get backgroundCnt() {
         delete this.backgroundCnt;
-        return this.backgroundCnt = this.extGetBranch.getBoolPref("backgroundCnt");
+        return this.backgroundCnt = this.prefs.getBoolPref("backgroundCnt");
     },
     get nextToCurrentCnt() {
         delete this.nextToCurrentCnt;
-        return this.nextToCurrentCnt = this.extGetBranch.getBoolPref("nextToCurrentCnt");
+        return this.nextToCurrentCnt = this.prefs.getBoolPref("nextToCurrentCnt");
     },
     get timer() {
         delete this.timer;
@@ -38,10 +38,10 @@ const lazy = {
 };
 export class LLCWinActorChild extends JSWindowActorChild {
     actorCreated() {
-        this.handle_ = this.handle.bind(this);
+        this.handle = this.handle.bind(this);
     }
     didDestroy() {
-        this.delListeners_?.();
+        this._delListeners?.();
     }
     receiveMessage({ name, data }) {
         return ({
@@ -49,12 +49,12 @@ export class LLCWinActorChild extends JSWindowActorChild {
             "LLCWinActor:enableImages": () => {
                 delete lazy.enableImages;
                 lazy.enableImages = data.img;
-                this.linkorImg = lazy.enableImages ? this.linkorImg_ : this.linkorImg__;
+                this.linkorImg = lazy.enableImages ? this._linkorImg : this.__linkorImg;
             },
             "LLCWinActor:timeContent": () => {
                 delete lazy.timeContent;
                 lazy.timeContent = data.time;
-                this.mousedown = lazy.timeContent > 50 ? this.mousedown_ : this.mousedown__;
+                this.mousedown = lazy.timeContent > 50 ? this._mousedown : this.__mousedown;
             },
             "LLCWinActor:referrer": () => {
                 delete lazy.referrer;
@@ -97,7 +97,7 @@ export class LLCWinActorChild extends JSWindowActorChild {
         this.sendAsyncMessage("LLCWinActor:mousedown", { backg: lazy.backgroundCnt, next: lazy.nextToCurrentCnt, link, ref, principal });
     }
     linkorImg(node, e) {
-        this.linkorImg = lazy.enableImages ? this.linkorImg_ : this.linkorImg__;
+        this.linkorImg = lazy.enableImages ? this._linkorImg : this.__linkorImg;
         this.linkorImg(node, e);
     }
     doLink(node, elmnode) {
@@ -110,7 +110,7 @@ export class LLCWinActorChild extends JSWindowActorChild {
         } while (node = node.flattenedTreeParentNode);
         return false;
     }
-    linkorImg_(node, e) {
+    _linkorImg(node, e) {
         if (lazy.excludeTags.has(node.localName)) return;
         var elmnode = Node.ELEMENT_NODE;
         if (this.doLink(node, elmnode)) return;
@@ -154,7 +154,7 @@ export class LLCWinActorChild extends JSWindowActorChild {
             }
         } while (node = node.flattenedTreeParentNode);
     }
-    linkorImg__(node) {
+    __linkorImg(node) {
         if (lazy.excludeTags.has(node.localName)) return;
         this.doLink(node, Node.ELEMENT_NODE);
     }
@@ -162,15 +162,15 @@ export class LLCWinActorChild extends JSWindowActorChild {
         e.preventDefault();
         e.stopPropagation();
         e.stopImmediatePropagation();
-        this.delListeners_ = null;
+        this._delListeners = null;
     }
     addListeners() {
-        this.contentWindow.addEventListener("click", this.handle_, { once: true, capture: true });
-        this.delListeners_ = this.delListeners;
+        this.contentWindow.addEventListener("click", this.handle, { once: true, capture: true });
+        this._delListeners = this.delListeners;
     }
     delListeners() {
-        this.contentWindow?.removeEventListener("click", this.handle_, { once: true, capture: true });
-        this.delListeners_ = null;
+        this.contentWindow?.removeEventListener("click", this.handle, { once: true, capture: true });
+        this._delListeners = null;
     }
     handleEvent(e) {
         this[e.type](e);
@@ -180,21 +180,21 @@ export class LLCWinActorChild extends JSWindowActorChild {
         lazy.timer.cancel();
     }
     dragstart(e) {
-        this.delListeners_?.();
+        this._delListeners?.();
         if (e.button) return;
         lazy.timer.cancel();
     }
     selectstart(e) {
-        this.delListeners_?.();
+        this._delListeners?.();
         if (e.button) return;
         lazy.timer.cancel();
     }
     mousedown(e) {
-        this.mousedown = lazy.timeContent > 50 ? this.mousedown_ : this.mousedown__;
+        this.mousedown = lazy.timeContent > 50 ? this._mousedown : this.__mousedown;
         this.mousedown(e);
     }
-    mousedown_(e) {
-        this.delListeners_?.();
+    _mousedown(e) {
+        this._delListeners?.();
         if (e.button) return;
         lazy.timer.cancel();
         if (e.shiftKey || e.altKey || e.ctrlKey) return;
@@ -202,8 +202,8 @@ export class LLCWinActorChild extends JSWindowActorChild {
         if (!node) return;
         lazy.timer.initWithCallback(() => this.linkorImg(node, e), lazy.timeContent, Ci.nsITimer.TYPE_ONE_SHOT);
     }
-    mousedown__(e) {
-        this.delListeners_?.();
+    __mousedown(e) {
+        this._delListeners?.();
         if (e.button) return;
         lazy.timer.cancel();
         if (e.shiftKey || e.altKey || e.ctrlKey) return;

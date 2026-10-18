@@ -30,7 +30,7 @@
         "message": "Toggle Cookies"
     },
     "atbCookieToggleT": {
-        "message": "0 - Allow all cookies\n1 - Block all cross-site cookies (may cause websites to break)\n2 - Block all cookies (will cause websites to break)\n3 - Block cookies from unvisited websites\n4 - Block cross-site tracking cookies\n5 - Isolate cross-site cookies\n\nL: Toggle Cookies\nShift+L: Delete cookies from the domain of the current page\nM: Delete cookies from the domain of the current page\nR: Managing cookies"
+        "message": "0 - Allow all cookies\n1 - Block all cross-site cookies (may cause websites to break)\n2 - Block all cookies (will cause websites to break)\n3 - Block cookies from unvisited websites\n4 - Block cross-site tracking cookies\n5 - Isolate cross-site cookies\n\nL: Toggle Cookies\nShift+L|M: Delete cookies from the domain of the current page\nR: Managing cookies"
     },
     "atbCookieToggleNdel": {
         "message": "Cookies for the current domain have been cleared!"
