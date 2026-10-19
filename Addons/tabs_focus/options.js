@@ -1,25 +1,23 @@
-function SaveForm() {
-    var inputs = document.querySelectorAll("[data-pref]"), arr = [];
-    for (let i of inputs) {
-        let pref = i.dataset.pref;
-        if (i.type === "checkbox") arr.push([pref, i.checked]);
-        else arr.push([pref, i.value]);
-    }
-    browser.TabsFocus.setPref(arr);
+const saveForm = () => {
+    var arr = [];
+    for (let inp of document.querySelectorAll("[data-pref]"))
+        arr.push([inp.dataset.pref, inp.type === "checkbox" ? inp.checked : (inp.type === "number" ? +inp.value : inp.value)]);
+    browser.TabsFocus.setPrefs(arr);
 }
-function initOptions() {
+const initOptions = async () => {
     document.head.children[1].textContent = browser.i18n.getMessage("pageTitleOption");
-    var locales = document.querySelectorAll("[data-locale]");
-    for (let l of locales)
-        l[l.value === undefined ? "textContent" : "value"] = browser.i18n.getMessage(`${l.dataset.locale}`);
-    var inputs = document.querySelectorAll("[data-pref]"), arr = [];
-    for (let i of inputs)
-        arr.push(i.dataset.pref);
-    browser.TabsFocus.getPref(arr).then(res => res.forEach(nv => {
-        var input = document.querySelector(`[data-pref="${nv[0]}"]`);
-        if (input.type === "checkbox") input.checked = nv[1];
-        else input.value = nv[1];
-    }));
-    document.querySelector("#saveform").onclick = () => SaveForm();
-}
+    for (let loc of document.querySelectorAll("[data-locale]"))
+        loc[(loc.value === undefined || loc.localName === "option") ? "textContent" : "value"] = browser.i18n.getMessage(`${loc.dataset.locale}`);
+    var arr = [];
+    for (let inp of document.querySelectorAll("[data-pref]"))
+        arr.push(inp.dataset.pref);
+    for (let nv of await browser.TabsFocus.getPrefs(arr)) {
+        let inp = document.querySelector(`[data-pref="${nv[0]}"]`);
+        if (inp.type === "checkbox") {
+            inp.checked = nv[1];
+            inp.toggleAttribute("checked", nv[1]);
+        } else inp.value = nv[1];
+    }
+    document.querySelector("#saveform").onclick = saveForm;
+};
 initOptions();

@@ -3,7 +3,7 @@
         "namespace": "TabsFocus",
         "functions": [
             {
-                "name": "getPref",
+                "name": "getPrefs",
                 "type": "function",
                 "async": true,
                 "parameters": [
@@ -14,7 +14,7 @@
                 ]
             },
             {
-                "name": "setPref",
+                "name": "setPrefs",
                 "type": "function",
                 "async": true,
                 "parameters": [

@@ -42,11 +42,11 @@
         "tabs_focus@vitaliy.com": {
             "updates": [
                 {
-                    "version": "2026.8.28",
+                    "version": "2026.10.19",
                     "update_link": "https://raw.githubusercontent.com/VitaliyVstyle/Firefox/refs/heads/main/Addons/tabs_focus/tabs_focus.xpi",
                     "applications": {
                         "gecko": {
-                            "strict_min_version": "117.0"
+                            "strict_min_version": "153.0"
                         }
                     }
                 }

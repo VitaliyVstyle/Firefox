@@ -1,18 +1,17 @@
-var PREF_BRANCH = "extensions.tabs_focus.", objectMap = new Map();
-ChromeUtils.defineLazyGetter(this, "windowTracker", () => ChromeUtils.importESModule("resource://gre/modules/ExtensionParent.sys.mjs")
-    .ExtensionParent.apiManager.global.windowTracker);
+var tf_branch = "extensions.tabs_focus.", wsMap = new Map();
+ChromeUtils.defineLazyGetter(this, "CustomizableUI", () => ChromeUtils.importESModule("moz-src:///browser/components/customizableui/CustomizableUI.sys.mjs").CustomizableUI);
 var tabs_focus = {
     delay: 150,
     returndelay: 50,
     previewmode: false,
     clickreloadtab: false,
     init() {
-        var branch = Services.prefs.getDefaultBranch(PREF_BRANCH);
+        var branch = Services.prefs.getDefaultBranch(tf_branch);
         branch.setIntPref("delay", 150);
         branch.setBoolPref("previewmode", false);
         branch.setIntPref("returndelay", 50);
         branch.setBoolPref("clickreloadtab", false);
-        var prefs = this.prefs = Services.prefs.getBranch(PREF_BRANCH);
+        var prefs = this.prefs = Services.prefs.getBranch(tf_branch);
         var delay = prefs.getIntPref("delay");
         if (delay < 10) prefs.setIntPref("delay", (delay = 150));
         this.delay = delay;
@@ -21,28 +20,22 @@ var tabs_focus = {
         this.returndelay = returndelay;
         this.previewmode = prefs.getBoolPref("previewmode");
         this.clickreloadtab = prefs.getBoolPref("clickreloadtab");
-        this.loadWin = this.loadWin.bind(this);
-        this.unloadWin = this.unloadWin.bind(this);
-        windowTracker.addOpenListener(this.loadWin);
-        this.eachWin(win => this.loadWin(win));
-        windowTracker.addCloseListener(this.unloadWin);
-        Services.prefs.addObserver(PREF_BRANCH, this);
+        this.callWindows(win => this.onWindowOpened(win));
+        CustomizableUI.addListener(this);
+        Services.prefs.addObserver(tf_branch, this);
     },
-    loadWin(win) {
-        var winId = windowTracker.getId(win);
-        var obj = new Tabsfocus(win);
-        objectMap.set(winId, obj);
+    onWindowOpened(win) {
+        wsMap.set(win, new TabsFs(win));
     },
-    unloadWin(win) {
-        var winId = windowTracker.getId(win);
-        objectMap.get(winId).unload(this.previewmode);
-        objectMap.delete(winId);
+    onWindowClosed(win) {
+        wsMap.get(win).unload(this.previewmode);
+        wsMap.delete(win);
     },
-    eachWin(func) {
-        for (let win of windowTracker.browserWindows())
+    callWindows(func) {
+        for (let win of CustomizableUI.windows)
             try {
                 func(win);
-            } catch(e) {
+            } catch (e) {
                 console.error(e);
             }
     },
@@ -61,7 +54,7 @@ var tabs_focus = {
             "extensions.tabs_focus.previewmode": () => {
                 var oldprevmode = this.previewmode;
                 var newprevmode = this.prefs.getBoolPref("previewmode");
-                for (let [winId, obj] of objectMap) {
+                for (let [win, obj] of wsMap) {
                     obj.unload(oldprevmode);
                     obj.load(newprevmode);
                 }
@@ -72,7 +65,7 @@ var tabs_focus = {
             }
         })[pref]?.();
     },
-    GetPref(name) {
+    getPref(name) {
         var type = Services.prefs.getPrefType(name);
         switch (type) {
             case Services.prefs.PREF_BOOL:
@@ -83,7 +76,7 @@ var tabs_focus = {
                 return Services.prefs.getStringPref(name);
         }
     },
-    SetPref(name, value) {
+    setPref(name, value) {
         var type = Services.prefs.getPrefType(name);
         switch (type) {
             case Services.prefs.PREF_BOOL:
@@ -98,13 +91,12 @@ var tabs_focus = {
         }
     },
     uninit() {
-        windowTracker.removeOpenListener(this.loadWin);
-        windowTracker.removeCloseListener(this.unloadWin);
-        this.eachWin(win => this.unloadWin(win));
-        Services.prefs.removeObserver(PREF_BRANCH, this);
+        CustomizableUI.removeListener(this);
+        this.callWindows(win => this.onWindowClosed(win));
+        Services.prefs.removeObserver(tf_branch, this);
     }
 };
-class Tabsfocus {
+class TabsFs {
     constructor(win) {
         this.tid = Cc["@mozilla.org/timer;1"].createInstance(Ci.nsITimer);
         this.type = this.tid.TYPE_ONE_SHOT;
@@ -114,7 +106,7 @@ class Tabsfocus {
         this.load(tabs_focus.previewmode);
     }
     load(pmode = false) {
-        var {tabs} = this;
+        var { tabs } = this;
         if (!pmode) {
             this.__onMouseIn = this.onMouseIn;
             this.__onMouseOut = this.onMouseOut;
@@ -139,7 +131,7 @@ class Tabsfocus {
         tabs.addEventListener("mousedown", this.__onMouseDown, true);
     }
     unload(pmode = false) {
-        var {tabs} = this;
+        var { tabs } = this;
         tabs.removeEventListener("mouseover", this.__onMouseIn);
         tabs.removeEventListener("mouseout", this.__onMouseOut);
         tabs.removeEventListener("mousedown", this.__onMouseDown, true);
@@ -192,8 +184,7 @@ class Tabsfocus {
         if (!this.tid.callback) this.pwTab = e.target;
     }
 }
-
-this.TabsFocus = class extends ExtensionAPI {
+var TabsFocus = class extends ExtensionAPI {
     onStartup() {
         tabs_focus.init();
     }
@@ -203,11 +194,11 @@ this.TabsFocus = class extends ExtensionAPI {
     getAPI() {
         return {
             TabsFocus: {
-                getPref(arr) {
-                    return arr.map(name => [name, tabs_focus.GetPref(name)]);
+                getPrefs(arr) {
+                    return arr.map(name => [name, tabs_focus.getPref(name)]);
                 },
-                setPref(arr) {
-                    arr.forEach(nv => tabs_focus.SetPref(nv[0], nv[1]));
+                setPrefs(arr) {
+                    arr.forEach(nv => tabs_focus.setPref(nv[0], nv[1]));
                 }
             }
         };
