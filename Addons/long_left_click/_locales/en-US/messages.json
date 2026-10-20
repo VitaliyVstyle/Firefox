@@ -24,7 +24,7 @@
         "message": "Send a referrer"
     },
     "enableImages": {
-        "message": "Process clicks on images"
+        "message": "Handle image clicks by default"
     },
     "enableChrome": {
         "message": "Enable \"long\" click for bookmarks, history"
@@ -39,6 +39,6 @@
         "message": "Clicks on images"
     },
     "cipTooltiptext": {
-        "message": "Switching clicks on images on the current page"
+        "message": "Toggle image click handling on the current page"
     }
 }

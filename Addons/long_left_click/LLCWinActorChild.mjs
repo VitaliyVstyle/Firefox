@@ -70,29 +70,26 @@ export class LLCWinActorChild extends JSWindowActorChild {
             },
         })[name]?.();
     }
-    openLink(node, link, urllink) {
-        var ref = null, principal = null;
-        if (urllink) {
-            let doc = node.ownerDocument;
-            if (typeof link === "object" && link.animVal) {
-                try {
-                    link = Services.io.newURI(link.animVal, null, Services.io.newURI(doc.baseURI)).spec;
-                } catch { return; }
-            }
-            if (lazy.referrer) {
-                try {
-                    ref = Cc["@mozilla.org/referrer-info;1"].createInstance(Ci.nsIReferrerInfo);
-                    if (HTMLAnchorElement.isInstance(node) ||
-                        HTMLAreaElement.isInstance(node) ||
-                        HTMLLinkElement.isInstance(node)) ref.initWithElement(node);
-                    else ref.initWithDocument(doc);
-                    ref = lazy.E10SUtils.serializeReferrerInfo(ref);
-                } catch { }
-            }
+    async openLink(node, link) {
+        var doc = node.ownerDocument, ref = null, principal = null;
+        if (typeof link === "object" && link.animVal) {
             try {
-                principal = lazy.E10SUtils.serializePrincipal(doc.nodePrincipal);
+                link = Services.io.newURI(link.animVal, null, Services.io.newURI(doc.baseURI)).spec;
+            } catch { return; }
+        }
+        if (lazy.referrer) {
+            try {
+                ref = Cc["@mozilla.org/referrer-info;1"].createInstance(Ci.nsIReferrerInfo);
+                if (HTMLAnchorElement.isInstance(node) ||
+                    HTMLAreaElement.isInstance(node) ||
+                    HTMLLinkElement.isInstance(node)) ref.initWithElement(node);
+                else ref.initWithDocument(doc);
+                ref = lazy.E10SUtils.serializeReferrerInfo(ref);
             } catch { }
         }
+        try {
+            principal = lazy.E10SUtils.serializePrincipal(doc.nodePrincipal);
+        } catch { }
         this.addListeners();
         this.sendAsyncMessage("LLCWinActor:mousedown", { backg: lazy.backgroundCnt, next: lazy.nextToCurrentCnt, link, ref, principal });
     }
@@ -104,7 +101,7 @@ export class LLCWinActorChild extends JSWindowActorChild {
         do {
             if (node.nodeType !== elmnode) continue;
             if (node.matches(":any-link")) {
-                if (!node.matches("[href='#'],[href^='javascript:'],[href^='addons:']")) this.openLink(node, node.href, true);
+                if (!node.matches("[href='#'],[href^='javascript:'],[href^='addons:']")) this.openLink(node, node.href);
                 return true;
             }
         } while (node = node.flattenedTreeParentNode);
@@ -139,7 +136,7 @@ export class LLCWinActorChild extends JSWindowActorChild {
             return;
         }
         if (HTMLCanvasElement.isInstance(node)) {
-            (async () => this.openLink(node, node.toDataURL()))();
+            this.openLink(node, node.toDataURL());
             return;
         }
         if (XULElement.isInstance(e.originalTarget)) return;
