@@ -1,0 +1,77 @@
+/**
+@UCF @param {"prop":"CssChrome","type":"USER_SHEET","disable":true} @UCF
+*/
+.ucf-combined-buttons {
+    margin-inline: 0 !important;
+    padding-inline: 0 !important;
+    &>.ucf-combined-buttons-toolbarbutton {
+        fill: var(--toolbarbutton-icon-fill, currentColor) !important;
+        toolbar & {
+            margin-inline-end: 0 !important;
+            padding-inline: var(--toolbarbutton-padding-outer, 1px) 0 !important;
+        }
+    }
+    &>.ucf-combined-buttons-dropmarker {
+        list-style-image: url("./dropmarker.svg") !important;
+        fill: var(--toolbarbutton-icon-fill, currentColor) !important;
+        toolbar & {
+            margin-inline-start: 0 !important;
+            padding-inline: 0 var(--toolbarbutton-padding-outer, 1px) !important;
+        }
+        .widget-overflow-list & {
+            flex-grow: 0 !important;
+        }
+        &>.toolbarbutton-icon {
+            min-width: 0 !important;
+            max-width: none !important;
+            width: 16px !important;
+            padding-inline: 0 !important;
+        }
+        &>.toolbarbutton-text,
+        toolbarpaletteitem[place="palette"] & {
+            display: none !important;
+        }
+    }
+}
+#ucf-combined-bookmarks-mgr {
+    &>.ucf-combined-buttons-toolbarbutton {
+        list-style-image: url("./icon.svg") !important;
+    }
+    &[activated="false"]>.toolbarbutton-1 {
+        fill: light-dark(oklch(50% 0.25 0), oklch(70% 0.25 0)) !important;
+    }
+}
+#ucf-bookmarks-mgr-popup {
+    &>menugroup {
+        display: flex !important;
+        flex-direction: row !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        &>menuitem {
+            max-width: unset !important;
+            margin-inline: 0 !important;
+            padding-inline-start: 0 !important;
+            flex: unset !important;
+            &[type=checkbox] {
+                padding-inline: 6px !important;
+                &>.menu-icon {
+                    margin-inline: 0 !important;
+                    display: revert !important;
+                }
+                &>label, &>.menu-accel-container {
+                    display: none !important;
+                }
+            }
+            &:not([type=checkbox]) {
+                flex: 1 !important;
+                &>.menu-icon {
+                    display: none !important;
+                    visibility: collapse !important;
+                }
+                &>.menu-text {
+                    padding-inline-start: 0 !important;
+                }
+            }
+        }
+    }
+}

@@ -263,13 +263,13 @@
     "atbBookmarksMgrT": {
         "message": "Managing bookmarks"
     },
-    "atbBookmarksMgrNopopL": {
+    "atbQuickBookmarkL": {
         "message": "Quick Bookmark"
     },
-    "atbBookmarksMgrNopopT": {
+    "atbQuickBookmarkT": {
         "message": "L: Add or delete bookmarks without confirmation\nM|R: Add a group of tabs to bookmarks"
     },
-    "atbBookmarksMgrSortT": {
+    "atbBookmarksSortT": {
         "message": "R: Switch sorting type"
     },
     "atbBookmarksSortRev": {
@@ -393,7 +393,7 @@
         "message": "Notification timer in seconds"
     },
     "toggleproxy": {
-        "message": "Proxy, toggle between selected modes:"
+        "message": "Toggle proxy:"
     },
     "toggleproxy0": {
         "message": "Direct connection, without proxy"
@@ -411,7 +411,7 @@
         "message": "Use the system proxy settings"
     },
     "tab_win_undo": {
-        "message": "Restore tabs and windows:"
+        "message": "Restore:"
     },
     "max_tabs_undo": {
         "message": "The number of closed tabs to restore (about:config)"
@@ -419,37 +419,34 @@
     "max_windows_undo": {
         "message": "The number of closed windows to restore (about:config)"
     },
-    "favicons": {
-        "message": "Restore bookmark favicons:"
+    "bookmarksmgr": {
+        "message": "Bookmarks:"
     },
-    "maxrequests": {
+    "favmaxrequests": {
         "message": "Maximum number of concurrent requests"
     },
-    "maxtimeout": {
+    "favmaxtimeout": {
         "message": "The duration before the request was interrupted in seconds"
     },
-    "alertnotification": {
+    "favshowalert": {
         "message": "Notification of completion"
     },
-    "addbookmarks": {
-        "message": "Add or delete bookmarks without confirmation:"
-    },
-    "bookmarksparentguid0": {
+    "quickbkparentguid0": {
         "message": "Bookmarks Menu"
     },
-    "bookmarksparentguid1": {
+    "quickbkparentguid1": {
         "message": "Bookmarks Toolbar"
     },
-    "bookmarksparentguid2": {
+    "quickbkparentguid2": {
         "message": "Other bookmarks"
     },
-    "bookmarksparentguid": {
+    "quickbkparentguid": {
         "message": "Folder for new bookmarks"
     },
-    "bookmarksindex": {
+    "quickbkindex": {
         "message": "Add to the beginning"
     },
-    "extensions": {
+    "addonstitle": {
         "message": "Add-ons:"
     },
     "showversion": {
@@ -476,7 +473,7 @@
     "maxheightpopup": {
         "message": "Maximum menu height, 0 - do not change"
     },
-    "exceptionslistset": {
+    "exceptionsidslistset": {
         "message": "Exceptions, ID's separated by a space:"
     },
     "exceptionstypelistarr": {

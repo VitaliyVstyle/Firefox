@@ -3,10 +3,11 @@
 @UCF @param {"prop":"JsAllChrome.DOMContentLoaded","ucfobj":true,"urlregxp":"^chrome:\\/\\/browser\\/content\\/preferences\\/dialogs\\/siteDataSettings\\.xhtml","disable":true} @UCF
 */
 (async (
-    id = "ucf-cookie-toggle-view",
+    id = "ucf-cookie-toggle",
     label = "Cookies",
-    tooltiptext = "L: Toggle Cookies\nShift+L: Delete cookies from the domain of the current page\nM: Delete cookies from the domain of the current page\nR: Managing cookies",
-    image = (size = "width='16' height='16'", view = "0 0 16 16") => `data:image/svg+xml;charset=utf-8,<svg xmlns='http://www.w3.org/2000/svg' ${size} viewBox='${view}'><path style='fill:none;stroke:context-fill oklch(50% 0.02 285);stroke-opacity:context-fill-opacity;stroke-width:1.1;stroke-linecap:round;stroke-linejoin:round;' d='M12.5 10.5v-1h-1v1h1m-4-4h1v1h-1v-1m0 7h1v-1h-1v1m-6-7h1v1h-1v-1m4 4v-1h-1v1h1m-3 3v-1h-1m3-9h1v1h-1v-1M8 .6C8 5 11 8 15.4 8c0 4-3.4 7.4-7.4 7.4S.6 12 .6 8 4 .6 8 .6M12.5 26.5v-1h-1v1h1m-4-4h1v1h-1v-1m0 7h1v-1h-1v1m-6-7h1v1h-1v-1m4 4v-1h-1v1h1m-3 3v-1h-1m3-9h1v1m2-3.5v.5h1V17m2 2.5v1h1v-1h-1m3.5 3h-.5v1h.5m-8.5-3h-1v-1M8 16.6c4 0 7.4 3.4 7.4 7.4S12 31.4 8 31.4.6 28 .6 24 4 16.6 8 16.6'/></svg>`,
+    tooltiptext = "0 - Allow all cookies\n1 - Block all cross-site cookies (may cause websites to break)\n2 - Block all cookies (will cause websites to break)\n3 - Block cookies from unvisited websites\n4 - Block cross-site tracking cookies\n5 - Isolate cross-site cookies\n\nL: Toggle Cookies\nShift+L|M: Delete cookies from the domain of the current page\nR: Managing cookies",
+    image = "chrome://ucf-url/content/data/cookiesButton/icon.svg",
+    imageURL = "chrome://ucf-url/content/data/cookiesButton/icon128.svg",
     message1 = "Cookies for the current domain have been cleared!",
     message2 = "Missing cookies from the current domain!",
     alertTimeout = 5000, // if > 0 then alerts are closed by timer
@@ -33,43 +34,37 @@
             this.ucf_gSiteDataSettings();
         }, intervalSDS);
     },
-    get image() {
-        Services.io.getProtocolHandler("resource")
-            .QueryInterface(Ci.nsIResProtocolHandler)
-            .setSubstitution(id, Services.io.newURI(image()));
-        Services.io.getProtocolHandler("resource")
-            .QueryInterface(Ci.nsIResProtocolHandler)
-            .setSubstitution(`${id}-0`, Services.io.newURI(`${image(undefined, "0 16 16 16")}`));
-        Services.prefs.addObserver(cookiePref, this);
-        delete this.image;
-        return this.image = `resource://${id}`;
-    },
-    get imageURL() {
-        delete this.imageURL;
-        return this.imageURL = image("width='96' height='96'");
+    get cookieBehavior() {
+        delete this.cookieBehavior;
+        var pref = "network.cookie.cookieBehavior";
+        try {
+            let gpref = this.cookieBehavior = Services.prefs.getIntPref(pref);
+            Services.prefs.addObserver(pref, this);
+            return gpref;
+        } catch { }
+        return this.cookieBehavior = null;
     },
     id, type: "custom", label, tooltiptext, defaultArea: "nav-bar", localized: false,
     onBuild(doc) {
         var btn = doc.createXULElement("toolbarbutton");
         btn.id = id;
-        btn.className = "toolbarbutton-1 chromeclass-toolbar-additional badged-button";
+        btn.className = "toolbarbutton-1 chromeclass-toolbar-additional";
+        btn.setAttribute("label", label);
+        btn.setAttribute("tooltiptext", tooltiptext);
         btn.setAttribute("badged", "true");
         btn.setAttribute("constrain-size", "true");
-        btn.setAttribute("label", label);
-        btn.setAttribute("context", "");
-        btn.setAttribute("tooltiptext", tooltiptext);
-        this.setStyle(btn);
-        btn.onclick = e => {
-            if (e.button === 0) {
-                if (!e.shiftKey) this.prefToggleNumber(cookiePref, [1, 2, 3, 4, 5, 0]);
-                else this.delCookies(doc.defaultView);
-            } else if (e.button === 1) this.delCookies(doc.defaultView);
-            else if (e.button === 2) {
-                e.preventDefault();
-                e.stopPropagation();
-                this.viewCookies(e);
-            }
-        };
+        btn.toggleAttribute("context", true);
+        var cb = this.cookieBehavior;
+        if (cb !== null) {
+            this.setStyle(btn, cb);
+            btn.onclick = e => {
+                if (e.button === 0) {
+                    if (!e.shiftKey) this.prefToggleNumber(cookiePref, [1, 2, 3, 4, 5, 0]);
+                    else this.delCookies(doc.defaultView);
+                } else if (e.button === 1) this.delCookies(doc.defaultView);
+                else if (e.button === 2) this.viewCookies(e);
+            };
+        }
         return btn;
     },
     JsBackground() {
@@ -93,33 +88,27 @@
         if (!confirmationSDS) Object.assign(gSiteDataSettings, Cu.evalInSandbox(`({${gSiteDataSettings.saveChanges}})`
             .replace(/if\s*\(\!SiteDataManager\.promptSiteDataRemoval\(window,\s*promptArg\)\)\s*\{[^\{]+?\}/, ""), sandboxWinSysPrincipal));
     },
-    setStyle(btn) {
-        var cookieBehavior = Services.prefs.getIntPref(cookiePref);
-        btn.style.cssText = `list-style-image:url("${this.image}${cookieBehavior === 0 ? "-0" : ""}");${cookieBehavior === 2 ? "fill:light-dark(oklch(50% 0.25 0), oklch(70% 0.25 0));" : ""}`;
-        btn.setAttribute("badge", cookieBehavior);
-        btn.setAttribute("badgeStyle", `background: ${cookieBehavior !== 2 ? "light-dark(oklch(62% 0.25 260), oklch(65% 0.25 260))" : "light-dark(oklch(50% 0.25 0), oklch(70% 0.25 0))"}; color: oklch(1 0 0); font-size: 10px; line-height: 10px; box-shadow: none; text-shadow: none; padding-block: 0 1px !important; padding-inline: 2px !important; min-width: 0 !important;`);
-    },
-    setBtnsStyle() {
-        for (let win of CustomizableUI.windows) {
-            let btn = this.widget.forWindow(win).node;
-            if (btn) this.setStyle(btn);
-        }
+    setStyle(btn, cb) {
+        btn.style.cssText = `list-style-image:url("${image}${cb === 0 ? "#0" : ""}");${cb === 2 ? "fill:light-dark(oklch(50% 0.25 0), oklch(70% 0.25 0));" : ""}`;
+        btn.setAttribute("badge", cb);
+        btn.setAttribute("badgeStyle", `background: ${cb !== 2 ? "light-dark(oklch(62% 0.25 260), oklch(65% 0.25 260))" : "light-dark(oklch(50% 0.25 0), oklch(70% 0.25 0))"}; color: oklch(1 0 0); font-size: 10px; font-weight: normal; line-height: 10px; box-shadow: none; text-shadow: none; padding-block: 0 1px !important; padding-inline: 2px !important; min-width: 0 !important;`);
     },
     observe() {
-        this.setBtnsStyle();
+        var cb = this.cookieBehavior = Services.prefs.getIntPref(cookiePref);
+        for (let win of CustomizableUI.windows) {
+            let btn = this.widget.forWindow(win).node;
+            if (btn) this.setStyle(btn, cb);
+        }
     },
-    delCookies(win) {
+    async delCookies(win) {
         if (!win.gIdentityHandler?._uriHasHost || win.gIdentityHandler._pageExtensionPolicy) return;
-        var { imageURL } = this;
-        win.SiteDataManager.hasSiteData(win.gIdentityHandler._uri.asciiHost).then(hasData => {
-            if (!hasData) {
-                UcfPrefs.showAlert({ name: id, imageURL, title: label, text: message2, silent: true, alertTimeout });
-                return;
-            }
-            var baseDomain = win.SiteDataManager.getBaseDomainFromHost(win.gIdentityHandler._uri.host);
-            if (!confirmation || win.SiteDataManager.promptSiteDataRemoval(win, [baseDomain])) win.SiteDataManager.remove(baseDomain).then(() =>
-                UcfPrefs.showAlert({ name: id, imageURL, title: label, text: message1, silent: true, alertTimeout }));
-        });
+        if (!(await win.SiteDataManager.hasSiteData(win.gIdentityHandler._uri.asciiHost))) {
+            UcfPrefs.showAlert({ name: id, imageURL, title: label, text: message2, silent: true, alertTimeout });
+            return;
+        }
+        var baseDomain = win.SiteDataManager.getBaseDomainFromHost(win.gIdentityHandler._uri.host);
+        if (!confirmation || win.SiteDataManager.promptSiteDataRemoval(win, [baseDomain])) win.SiteDataManager.remove(baseDomain).then(() =>
+            UcfPrefs.showAlert({ name: id, imageURL, title: label, text: message1, silent: true, alertTimeout }));
     },
     prefToggleNumber(pref, next) {
         Services.prefs.setIntPref(pref, next[Services.prefs.getIntPref(pref)]);
@@ -170,12 +159,12 @@
         }
     },
     filter(w = window) {
-        var filter = w.document.querySelector("#searchBox");
+        var filter = w.document.querySelector("moz-input-search");
         if (!filter) return;
-        if (w.ucf_gsitedatasettings._uriHasHost && !w.ucf_gsitedatasettings._pageExtensionPolicy)
-            filter.value = (filter.inputEl || {}).value = w.SiteDataManager.getBaseDomainFromHost(w.ucf_gsitedatasettings._uri.host);
-        else filter.value = (filter.inputEl || {}).value = "";
-        filter.dispatchEvent(new w.Event("input", { bubbles: true }));
+        var host = (w.ucf_gsitedatasettings._uriHasHost && !w.ucf_gsitedatasettings._pageExtensionPolicy)
+            ? w.SiteDataManager.getBaseDomainFromHost(w.ucf_gsitedatasettings._uri.host) : "";
+        filter.value = host;
+        filter.dispatchEvent(new CustomEvent("MozInputSearch:search", { detail: { query: host } }));
     },
     destructor() {
         if (this.hasinterval) clearInterval(this.getSetInterval);

@@ -29,7 +29,6 @@ var clearTimeout = id => {
 var add_bar_btns = {
     initialized: false,
     bookMgrRun: false,
-    bookmarksInsertRemove: false,
     registerActor: false,
     get clipboard() {
         delete this.clipboard;
@@ -167,10 +166,10 @@ animation-timing-function: step-start !important;`}
         delete this.enabled_first;
         return this.enabled_first = this.prefs.getBoolPref("obs.enabledfirst");
     },
-    get exceptions_listset() {
-        delete this.exceptions_listset;
-        var str = this.prefs.getStringPref("obs.exceptionslistset").trim();
-        return this.exceptions_listset = new Set(str ? str.split(/\s+/) : []);
+    get exceptions_ids_listset() {
+        delete this.exceptions_ids_listset;
+        var str = this.prefs.getStringPref("obs.exceptionsidslistset").trim();
+        return this.exceptions_ids_listset = new Set(str ? str.split(/\s+/) : []);
     },
     get exceptions_type_listarr() {
         delete this.exceptions_type_listarr;
@@ -221,9 +220,6 @@ animation-timing-function: step-start !important;`}
         var branch = sprefs.getDefaultBranch(atb_branch);
         branch.setBoolPref("newtab", false);
         branch.setBoolPref("doreload", false);
-        branch.setBoolPref("alertnotification", true);
-        branch.setBoolPref("bookmarksindex", false);
-        branch.setBoolPref("bookmarkssortrevers", false);
         branch.setBoolPref("obs.animation", true);
         branch.setBoolPref("obs.animfunc", false);
         branch.setBoolPref("obs.showversion", true);
@@ -237,12 +233,15 @@ animation-timing-function: step-start !important;`}
         branch.setIntPref("obs.alerttimeout", 0);
         branch.setIntPref("toggleproxy", 5);
         branch.setIntPref("toggleproxy2", 0);
-        branch.setIntPref("maxrequests", 50);
-        branch.setIntPref("maxtimeout", 30);
-        branch.setIntPref("bookmarksparentguid", 0);
-        branch.setIntPref("bookmarkssorttype", 0);
+        branch.setBoolPref("favshowalert", true);
+        branch.setIntPref("favmaxrequests", 50);
+        branch.setIntPref("favmaxtimeout", 30);
+        branch.setIntPref("quickbkparentguid", 0);
+        branch.setBoolPref("quickbkindex", false);
+        branch.setBoolPref("bookssortrevers", false);
+        branch.setIntPref("bookssorttype", 0);
         branch.setIntPref("obs.soundvolumestep", 2);
-        branch.setStringPref("obs.exceptionslistset", "");
+        branch.setStringPref("obs.exceptionsidslistset", "");
         branch.setStringPref("obs.exceptionstypelistarr", "");
         Services.io.getProtocolHandler("resource")
             .QueryInterface(Ci.nsIResProtocolHandler)
@@ -779,8 +778,8 @@ animation-timing-function: step-start !important;`}
                     var trbn_0 = doc.createXULElement("toolbarbutton");
                     trbn_0.id = "atb-bookmarks-mgr";
                     trbn_0.className = "toolbarbutton-1 atb-combined-buttons-toolbarbutton";
-                    trbn_0.setAttribute("label", atb_locale.localizeMessage("atbBookmarksMgrNopopL"));
-                    trbn_0.setAttribute("tooltiptext", atb_locale.localizeMessage("atbBookmarksMgrNopopT"));
+                    trbn_0.setAttribute("label", atb_locale.localizeMessage("atbQuickBookmarkL"));
+                    trbn_0.setAttribute("tooltiptext", atb_locale.localizeMessage("atbQuickBookmarkT"));
                     trbn_0.toggleAttribute("context", true);
                     var map = wsMap.get(doc.defaultView);
                     map.addListener(Symbol(), trbn_0, "click", this.btnClick.bind(add_bar_btns));
@@ -805,7 +804,7 @@ animation-timing-function: step-start !important;`}
                     if (this.bookMgrRun) return;
                     switch (e.button) {
                         case 0:
-                            this.bookmarkNoPopup(e.view);
+                            this.quickBook(e.view);
                             break;
                         case 1:
                         case 2:
@@ -817,38 +816,38 @@ animation-timing-function: step-start !important;`}
                     switch (im.dataset.id) {
                         case "atb-bindex":
                             im.replaceWith(im);
-                            this.prefs.setBoolPref("bookmarksindex", im.hasAttribute("checked"));
+                            this.prefs.setBoolPref("quickbkindex", im.hasAttribute("checked"));
                             break;
                         case "atb-orgr":
                             e.view.PlacesCommandHook.showPlacesOrganizer("BookmarksMenu");
                             break;
                         case "atb-fav":
                             im.replaceWith(im);
-                            this.prefs.setBoolPref("alertnotification", im.hasAttribute("checked"));
+                            this.prefs.setBoolPref("favshowalert", im.hasAttribute("checked"));
                             break;
                         case "atb-favsearch":
                             this.favSearchStart();
                             break;
                         case "atb-asort":
                             im.replaceWith(im);
-                            this.prefs.setBoolPref("bookmarkssortrevers", im.hasAttribute("checked"));
+                            this.prefs.setBoolPref("bookssortrevers", im.hasAttribute("checked"));
                             break;
                         case "atb-bsort":
                             this.bookmarksSort();
                     }
                 },
                 contextmenu(e) {
-                    var pref = [1, 2, 0][this.prefs.getIntPref("bookmarkssorttype")];
-                    this.prefs.setIntPref("bookmarkssorttype", pref);
+                    var pref = [1, 2, 0][this.prefs.getIntPref("bookssorttype")];
+                    this.prefs.setIntPref("bookssorttype", pref);
                     e.target.setAttribute("label", atb_locale.localizeMessage(["atbBookmarksSortName", "atbBookmarksSortLoc", "atbBookmarksSortAdd"][pref]));
                 },
                 popupshowing(e) {
                     var mupp = e.currentTarget;
                     var { prefs } = this;
-                    mupp.atb_bindex.toggleAttribute("checked", prefs.getBoolPref("bookmarksindex"));
-                    mupp.atb_fav.toggleAttribute("checked", prefs.getBoolPref("alertnotification"));
-                    mupp.atb_sort.toggleAttribute("checked", prefs.getBoolPref("bookmarkssortrevers"));
-                    mupp.atb_sort.nextElementSibling.setAttribute("label", atb_locale.localizeMessage(["atbBookmarksSortName", "atbBookmarksSortLoc", "atbBookmarksSortAdd"][prefs.getIntPref("bookmarkssorttype")]));
+                    mupp.atb_bindex.toggleAttribute("checked", prefs.getBoolPref("quickbkindex"));
+                    mupp.atb_fav.toggleAttribute("checked", prefs.getBoolPref("favshowalert"));
+                    mupp.atb_sort.toggleAttribute("checked", prefs.getBoolPref("bookssortrevers"));
+                    mupp.atb_sort.nextElementSibling.setAttribute("label", atb_locale.localizeMessage(["atbBookmarksSortName", "atbBookmarksSortLoc", "atbBookmarksSortAdd"][prefs.getIntPref("bookssorttype")]));
                 },
                 setPosition(map, sym, mupp, e) {
                     map.delListener(sym);
@@ -864,7 +863,7 @@ animation-timing-function: step-start !important;`}
                     var muim_0 = doc.createXULElement("menuitem");
                     muim_0.setAttribute("type", "checkbox");
                     muim_0.setAttribute("closemenu", "none");
-                    muim_0.setAttribute("tooltiptext", atb_locale.localizeMessage("bookmarksindex"));
+                    muim_0.setAttribute("tooltiptext", atb_locale.localizeMessage("quickbkindex"));
                     muim_0.dataset.id = "atb-bindex";
                     mupp.atb_bindex = muim_0;
                     mugp_0.append(muim_0);
@@ -877,7 +876,7 @@ animation-timing-function: step-start !important;`}
                     var muim_2 = doc.createXULElement("menuitem");
                     muim_2.setAttribute("type", "checkbox");
                     muim_2.setAttribute("closemenu", "none");
-                    muim_2.setAttribute("tooltiptext", atb_locale.localizeMessage("alertnotification"));
+                    muim_2.setAttribute("tooltiptext", atb_locale.localizeMessage("favshowalert"));
                     muim_2.dataset.id = "atb-fav";
                     mupp.atb_fav = muim_2;
                     mugp_1.append(muim_2);
@@ -895,7 +894,7 @@ animation-timing-function: step-start !important;`}
                     mupp.atb_sort = muim_4;
                     mugp_2.append(muim_4);
                     var muim_5 = doc.createXULElement("menuitem");
-                    muim_5.setAttribute("tooltiptext", atb_locale.localizeMessage("atbBookmarksMgrSortT"));
+                    muim_5.setAttribute("tooltiptext", atb_locale.localizeMessage("atbBookmarksSortT"));
                     muim_5.dataset.id = "atb-bsort";
                     map.addListener(Symbol(), muim_5, "contextmenu", this.contextmenu.bind(add_bar_btns));
                     mugp_2.append(muim_5);
@@ -1558,7 +1557,7 @@ animation-timing-function: step-start !important;`}
                 async populateMenu(map, id, e) {
                     var addons = AddonManager.getAddonsByTypes(add_bar_btns.exceptions_type_listarr);
                     var popup = e.currentTarget, doc = e.view.document;
-                    var exceptions_listset = add_bar_btns.exceptions_listset,
+                    var exceptions_ids_listset = add_bar_btns.exceptions_ids_listset,
                         enabled_first = add_bar_btns.enabled_first,
                         show_disabled = add_bar_btns.show_disabled,
                         show_hidden = add_bar_btns.show_hidden,
@@ -1632,7 +1631,7 @@ animation-timing-function: step-start !important;`}
                     (await addons).filter(a => !a.getResourceURI?.().spec.startsWith("resource://search-extensions/")).sort((a, b) =>
                         (`${(enabled_first ? a.isActive ? "0" : "1" : "")}${a.type || ""}${a.name.toLowerCase()}` > `${(enabled_first ? b.isActive ? "0" : "1" : "")}${b.type || ""}${b.name.toLowerCase()}`) ? 1 : -1
                     ).forEach(addon => {
-                        if (!exceptions_listset.has(addon.id) &&
+                        if (!exceptions_ids_listset.has(addon.id) &&
                             (!addon.hidden || show_hidden) &&
                             (addon.isActive || show_disabled)) {
                             let extension = GlobalManager.extensionMap.get(addon.id);
@@ -1884,9 +1883,9 @@ animation-timing-function: step-start !important;`}
             else this.showAlert({ name, title: filename, text: atb_locale.localizeMessage("openUChrmFiles"), alertTimeout: this.alert_timeout });
         } catch { }
     },
-    async bookmarkNoPopup(win) {
-        if (this.bookmarksInsertRemove) return;
-        this.bookmarksInsertRemove = true;
+    async quickBook(win) {
+        if (this.bookMgrRun) return;
+        this.bookMgrRun = true;
         var { bookmarks } = PlacesUtils;
         var url = win.gBrowser.selectedBrowser.currentURI.spec;
         var array = await bookmarks.search({ url });
@@ -1895,15 +1894,15 @@ animation-timing-function: step-start !important;`}
                 await bookmarks.insert({
                     url: Services.io.newURI(url),
                     title: (win.gBrowser.contentTitle || win.gBrowser.selectedTab.label || url),
-                    parentGuid: [() => bookmarks.menuGuid, () => bookmarks.toolbarGuid, () => bookmarks.unfiledGuid][this.prefs.getIntPref("bookmarksparentguid")](),
-                    index: (!this.prefs.getBoolPref("bookmarksindex") ? bookmarks.DEFAULT_INDEX : 0),
+                    parentGuid: [() => bookmarks.menuGuid, () => bookmarks.toolbarGuid, () => bookmarks.unfiledGuid][this.prefs.getIntPref("quickbkparentguid")](),
+                    index: (!this.prefs.getBoolPref("quickbkindex") ? bookmarks.DEFAULT_INDEX : 0),
                 });
             } catch { }
         else
             try {
                 await bookmarks.remove(array);
             } catch { }
-        this.bookmarksInsertRemove = false;
+        this.bookMgrRun = false;
     },
     closeStartTabs(win) {
         var ctab = win.gBrowser.selectedTab, tabs;
@@ -2175,9 +2174,9 @@ animation-timing-function: step-start !important;`}
         w.focus();
         var filter = w.document.querySelector("#searchBox");
         if (!filter) return;
-        filter.value = (filter.inputEl || {}).value = this.getBaseDomain(win, win.gBrowser.selectedBrowser.currentURI);
-        filter.focus();
-        filter.dispatchEvent(new w.Event("input", { bubbles: true }));
+        var host = this.getBaseDomain(win, win.gBrowser.selectedBrowser.currentURI);
+        filter.value = host;
+        filter.dispatchEvent(new CustomEvent("MozInputSearch:search", { detail: { query: host } }));
     },
     _registerActor() {
         if (this.registerActor) return;
@@ -2283,13 +2282,13 @@ animation-timing-function: step-start !important;`}
         if (this.bookMgrRun) return;
         this.bookMgrRun = true;
         this.callWindows("atb-combined-bookmarks-mgr", { activated: false });
-        var rvs = this.prefs.getBoolPref("bookmarkssortrevers") ? -1 : 1;
+        var rvs = this.prefs.getBoolPref("bookssortrevers") ? -1 : 1;
         var _rvs = -1 * rvs;
         var st = [
             ["title", "uri"],
             ["uri", "title"],
             ["dateAdded", "title"],
-        ][this.prefs.getIntPref("bookmarkssorttype")];
+        ][this.prefs.getIntPref("bookssorttype")];
         var sort = async nodes => {
             var list = [], listor = [];
             for (let node of nodes) {
@@ -2343,7 +2342,7 @@ animation-timing-function: step-start !important;`}
     favComplete(favsuccesslength, favmaxlength) {
         this.bookMgrRun = false;
         this.callWindows("atb-combined-bookmarks-mgr", { activated: true });
-        if (this.prefs.getBoolPref("alertnotification")) this.showAlert({ name: "atb-combined-bookmarks-mgr", title: atb_locale.localizeMessage("favComplete"), text: `${atb_locale.localizeMessage("favComplete0", [favsuccesslength, favmaxlength - favsuccesslength])}`, textClickable: true, requireInteraction: true });
+        if (this.prefs.getBoolPref("favshowalert")) this.showAlert({ name: "atb-combined-bookmarks-mgr", title: atb_locale.localizeMessage("favComplete"), text: `${atb_locale.localizeMessage("favComplete0", [favsuccesslength, favmaxlength - favsuccesslength])}`, textClickable: true, requireInteraction: true });
     },
     favSearchResults(results, _favmaxlength) {
         var favmaxlength = _favmaxlength = results.length;
@@ -2352,8 +2351,8 @@ animation-timing-function: step-start !important;`}
             this.favComplete(0, 0);
             return;
         }
-        var maxrequests = this.prefs.getIntPref("maxrequests");
-        var favmaxtimeout = this.prefs.getIntPref("maxtimeout") * 1000;
+        var favmaxrequests = this.prefs.getIntPref("favmaxrequests");
+        var favmaxtimeout = this.prefs.getIntPref("favmaxtimeout") * 1000;
         var { Uint8ClampedArray, Blob, FileReader, XMLHttpRequest } = this.global;
         var setFaviconForPage = async (siteURI, uri, type) => {
             var resolver = Promise.withResolvers();
@@ -2442,7 +2441,7 @@ animation-timing-function: step-start !important;`}
             }
             if (results.length) favSearchPage(results.shift());
         };
-        results.splice(0, maxrequests).map(favSearchPage);
+        results.splice(0, favmaxrequests).map(favSearchPage);
     },
     observe(subject, topic, pref) {
         ({
@@ -2495,10 +2494,10 @@ animation-timing-function: step-start !important;`}
                 delete this.alert_timeout;
                 this.alert_timeout = sprefs.getIntPref(pref) * 1000;
             },
-            "extensions.add_toolbar_buttons.obs.exceptionslistset": () => {
+            "extensions.add_toolbar_buttons.obs.exceptionsidslistset": () => {
                 var str = sprefs.getStringPref(pref).trim();
-                delete this.exceptions_listset;
-                this.exceptions_listset = new Set(str ? str.split(/\s+/) : []);
+                delete this.exceptions_ids_listset;
+                this.exceptions_ids_listset = new Set(str ? str.split(/\s+/) : []);
             },
             "extensions.add_toolbar_buttons.obs.exceptionstypelistarr": () => {
                 var str = sprefs.getStringPref(pref).trim();
@@ -2569,7 +2568,7 @@ animation-timing-function: step-start !important;`}
     async onWindowOpened(win) {
         var type = win.windowUtils.USER_SHEET;
         var preload = this.stylePreload(type);
-        wsMap.set(win, new AddTBarBtns());
+        wsMap.set(win, new WinClass());
         win.windowUtils.addSheet(await preload, type);
     },
     async onWindowClosed(win) {
@@ -2672,7 +2671,7 @@ animation-timing-function: step-start !important;`}
         this.initialized = false;
     },
 };
-class AddTBarBtns {
+class WinClass {
     listenersMap = new Map();
     addListener(key, elm, type, listener) {
         elm.addEventListener(type, listener);

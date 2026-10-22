@@ -107,7 +107,7 @@ export var UcfPrefs = {
     get showAlert() {
         delete this.showAlert;
         var { alertsService } = this;
-        var Notification = Components.Constructor("@mozilla.org/alert-notification;1", "nsIAlertNotification");
+        var Alert = Components.Constructor("@mozilla.org/alert-notification;1", "nsIAlertNotification");
         var Timer = Components.Constructor("@mozilla.org/timer;1", "nsITimer");
         var gNextId = 1;
         var gTidMap = new Map();
@@ -127,64 +127,27 @@ export var UcfPrefs = {
             gTidMap.get(id).cancel();
             gTidMap.delete(id);
         };
-        if ("initWithObject" in new Notification()) {
-            if ("fetchDecodedImage" in ChromeUtils) return this.showAlert = async (opts = {}, obs) => {
-                if (opts.imageURL && !opts.image) {
-                    try {
-                        let uri = Services.io.newURI(opts.imageURL);
-                        let channel = Services.io.newChannelFromURI(uri, null, Services.scriptSecurityManager.getSystemPrincipal(), null, Ci.nsILoadInfo.SEC_ALLOW_CROSS_ORIGIN_SEC_CONTEXT_IS_NULL, Ci.nsIContentPolicy.TYPE_IMAGE);
-                        channel.loadInfo.allowDeprecatedSystemRequests = true;
-                        opts.image = await ChromeUtils.fetchDecodedImage(uri, channel);
-                    } catch { opts.imageURL = undefined; }
-                }
-                var alert = new Notification();
-                var alertTimeout = opts.name && opts.alertTimeout;
-                if (alertTimeout) {
-                    opts.requireInteraction = true;
-                    if (gIdMap.has(opts.name)) {
-                        clearTimeout(gIdMap.get(opts.name));
-                        gIdMap.delete(opts.name);
-                    }
-                }
-                alert.initWithObject(opts);
-                alertsService.showAlert(alert, obs);
-                if (alertTimeout) gIdMap.set(opts.name, setTimeout(() => {
-                    alertsService.closeAlert(opts.name);
+        return this.showAlert = async (opts = {}, obs) => {
+            if (opts.imageURL && !opts.image) try {
+                let uri = Services.io.newURI(opts.imageURL);
+                let channel = Services.io.newChannelFromURI(uri, null, Services.scriptSecurityManager.getSystemPrincipal(), null, Ci.nsILoadInfo.SEC_ALLOW_CROSS_ORIGIN_SEC_CONTEXT_IS_NULL, Ci.nsIContentPolicy.TYPE_IMAGE);
+                channel.loadInfo.allowDeprecatedSystemRequests = true;
+                opts.image = await ChromeUtils.fetchDecodedImage(uri, channel);
+            } catch { opts.imageURL = undefined; }
+            var alert = new Alert();
+            var alertTimeout = opts.name && opts.alertTimeout;
+            if (alertTimeout) {
+                opts.requireInteraction = true;
+                if (gIdMap.has(opts.name)) {
+                    clearTimeout(gIdMap.get(opts.name));
                     gIdMap.delete(opts.name);
-                }, alertTimeout));
-            };
-            return this.showAlert = async (opts = {}, obs) => {
-                var alert = new Notification();
-                var alertTimeout = opts.name && opts.alertTimeout;
-                if (alertTimeout) {
-                    opts.requireInteraction = true;
-                    if (gIdMap.has(opts.name)) {
-                        clearTimeout(gIdMap.get(opts.name));
-                        gIdMap.delete(opts.name);
-                    }
                 }
-                alert.initWithObject(opts);
-                alertsService.showAlert(alert, obs);
-                if (alertTimeout) gIdMap.set(opts.name, setTimeout(() => {
-                    alertsService.closeAlert(opts.name);
-                    gIdMap.delete(opts.name);
-                }, alertTimeout));
-            };
-        }
-        return this.showAlert = async ({ name, imageURL, title, text, textClickable, cookie, dir, lang, data, principal, inPrivateBrowsing, requireInteraction, silent, vibrate = [], actions, opaqueRelaunchData, alertTimeout } = {}, obs) => {
-            var alert = new Notification();
-            alertTimeout = name && alertTimeout;
-            if (alertTimeout && gIdMap.has(name)) {
-                clearTimeout(gIdMap.get(name));
-                gIdMap.delete(name);
             }
-            alert.init(name, imageURL, title, text, textClickable, cookie, dir, lang, data, principal, inPrivateBrowsing, (alertTimeout ? true : requireInteraction), silent, vibrate);
-            if (actions) alert.actions = actions;
-            if (opaqueRelaunchData) alert.opaqueRelaunchData = opaqueRelaunchData;
+            alert.initWithObject(opts);
             alertsService.showAlert(alert, obs);
-            if (alertTimeout) gIdMap.set(name, setTimeout(() => {
-                alertsService.closeAlert(name);
-                gIdMap.delete(name);
+            if (alertTimeout) gIdMap.set(opts.name, setTimeout(() => {
+                alertsService.closeAlert(opts.name);
+                gIdMap.delete(opts.name);
             }, alertTimeout));
         };
     },

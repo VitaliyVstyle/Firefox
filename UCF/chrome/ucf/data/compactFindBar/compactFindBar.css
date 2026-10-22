@@ -2,30 +2,18 @@
 @UCF @param {"prop":"CssChrome","type":"USER_SHEET","disable":true} @UCF
 */
 :root {
-    --v-findbar-flex-row-reverse: 1;
-    /* 0 or 1 - findbar on the left or right */
-    --v-findbar-inset-block-start: 1;
-    /* 0 or 1 - findbar on the bottom or top */
-    --v-findbar-margin-end: 15px;
-    /* scrollbar indent */
-    --v-findbar-duration: 150ms;
-    /* animation duration */
-    --v-findbar-toolbarbutton-padding-inner: 0;
-    /* 0 or for example 3px - button size and input field */
-    --v-findbar-toolbarbutton-padding-outer: 0;
-    /* 0 or for example 1px - indentation for buttons */
-    --v-findbar-toolbarbutton-border-radius: 0;
-    /* 0 or for example 3px - button rounding radius */
-    --v-findbar-border-radius: 0;
-    /* 0 or for example 3px - findbar rounding radius */
-    --v-findbar-textbox-radius: 0;
-    /* 0 or for example 3px - input field rounding radius */
-    --v-findbar-textbox-width: 15em;
-    /* input field width */
-    --v-findbar-toolbarbutton-icon-display: 1;
-    /* 0 or 1 - icons on buttons */
-    --v-findbar-toolbarbutton-text-display: 0;
-    /* 0 or 1 - text on buttons */
+    --v-findbar-flex-row-reverse: 1; /* 0 or 1 - findbar on the left or right */
+    --v-findbar-inset-block-start: 1; /* 0 or 1 - findbar on the bottom or top */
+    --v-findbar-margin-end: 15px; /* scrollbar indent */
+    --v-findbar-duration: 150ms; /* animation duration */
+    --v-findbar-toolbarbutton-padding-inner: 0; /* 0 or for example 3px - button size and input field */
+    --v-findbar-toolbarbutton-padding-outer: 0; /* 0 or for example 1px - indentation for buttons */
+    --v-findbar-toolbarbutton-border-radius: 0; /* 0 or for example 3px - button rounding radius */
+    --v-findbar-border-radius: 0; /* 0 or for example 3px - findbar rounding radius */
+    --v-findbar-textbox-radius: 0; /* 0 or for example 3px - input field rounding radius */
+    --v-findbar-textbox-width: 15em; /* input field width */
+    --v-findbar-toolbarbutton-icon-display: 1; /* 0 or 1 - icons on buttons */
+    --v-findbar-toolbarbutton-text-display: 0; /* 0 or 1 - text on buttons */
     --v-findbar-highlight-icon: url("./findbar-highlight.svg");
     --v-findbar-case-sensitive-icon: url("./findbar-case-sensitive.svg");
     --v-findbar-match-diacritics-icon: url("./findbar-match-diacritics.svg");

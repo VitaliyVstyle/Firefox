@@ -72,39 +72,36 @@
       </label>
     </div>
     <div class="groupbox">
-      <div class="title" data-locale="favicons"></div>
+      <div class="title" data-locale="bookmarksmgr"></div>
       <label class="text-input mblock">
         <input type="number" autocomplete="off" min="1" max="9999" style="width:4em"
-          data-pref="extensions.add_toolbar_buttons.maxrequests" />
-        <span data-locale="maxrequests"></span>
+          data-pref="extensions.add_toolbar_buttons.favmaxrequests" />
+        <span data-locale="favmaxrequests"></span>
       </label>
       <label class="text-input">
         <input type="number" autocomplete="off" min="1" max="9999" style="width:4em"
-          data-pref="extensions.add_toolbar_buttons.maxtimeout" />
-        <span data-locale="maxtimeout"></span>
+          data-pref="extensions.add_toolbar_buttons.favmaxtimeout" />
+        <span data-locale="favmaxtimeout"></span>
       </label>
       <label>
-        <input type="checkbox" autocomplete="off" data-pref="extensions.add_toolbar_buttons.alertnotification" />
-        <span data-locale="alertnotification"></span>
+        <input type="checkbox" autocomplete="off" data-pref="extensions.add_toolbar_buttons.favshowalert" />
+        <span data-locale="favshowalert"></span>
       </label>
-    </div>
-    <div class="groupbox">
-      <div class="title" data-locale="addbookmarks"></div>
       <div class="select">
-        <select data-pref="extensions.add_toolbar_buttons.bookmarksparentguid">
-          <option value="0" data-locale="bookmarksparentguid0"></option>
-          <option value="1" data-locale="bookmarksparentguid1"></option>
-          <option value="2" data-locale="bookmarksparentguid2"></option>
+        <select data-pref="extensions.add_toolbar_buttons.quickbkparentguid">
+          <option value="0" data-locale="quickbkparentguid0"></option>
+          <option value="1" data-locale="quickbkparentguid1"></option>
+          <option value="2" data-locale="quickbkparentguid2"></option>
         </select>
-        <span data-locale="bookmarksparentguid"></span>
+        <span data-locale="quickbkparentguid"></span>
       </div>
       <label>
-        <input type="checkbox" autocomplete="off" data-pref="extensions.add_toolbar_buttons.bookmarksindex" />
-        <span data-locale="bookmarksindex"></span>
+        <input type="checkbox" autocomplete="off" data-pref="extensions.add_toolbar_buttons.quickbkindex" />
+        <span data-locale="quickbkindex"></span>
       </label>
     </div>
     <div class="groupbox">
-      <div class="title" data-locale="extensions"></div>
+      <div class="title" data-locale="addonstitle"></div>
       <label>
         <input type="checkbox" autocomplete="off" data-pref="extensions.add_toolbar_buttons.obs.showversion" />
         <span data-locale="showversion"></span>
@@ -139,10 +136,10 @@
           data-pref="extensions.add_toolbar_buttons.obs.maxheightpopup" />
         <span data-locale="maxheightpopup"></span>
       </label>
-      <div class="title" data-locale="exceptionslistset"></div>
+      <div class="title" data-locale="exceptionsidslistset"></div>
       <div class="textarea">
         <textarea rows="3" autocomplete="off" spellcheck="false"
-          data-pref="extensions.add_toolbar_buttons.obs.exceptionslistset"></textarea>
+          data-pref="extensions.add_toolbar_buttons.obs.exceptionsidslistset"></textarea>
       </div>
       <div class="title" data-locale="exceptionstypelistarr"></div>
       <div class="textarea">

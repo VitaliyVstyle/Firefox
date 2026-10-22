@@ -47,23 +47,22 @@ export class autoCopyButtonChild extends JSWindowActorChild {
         if (this.disabled) return;
         this.selectstart = () => { };
         this.tid = null;
-        this.win = this.contentWindow;
-        (this.sel = this.document.getSelection())?.addSelectionListener(this.listener = { notifySelectionChanged: this.changed.bind(this) });
+        (this.sel = this.document.getSelection())?.addSelectionListener(this.listener = {
+            notifySelectionChanged: this.changed.bind(this),
+        });
     }
     pagehide() {
         this.sel?.removeSelectionListener(this.listener);
     }
     changed(doc, sel, reason) {
-        if (this.disabled || this.win.clearTimeout(this.tid) || !lazy.reasons.has(reason) || !(sel = sel.toString().trim())) return;
-        this.tid = this.win.setTimeout(() => {
+        if (this.disabled || this.contentWindow.clearTimeout(this.tid) || !lazy.reasons.has(reason) || !(sel = sel.toString().trim())) return;
+        this.tid = this.contentWindow.setTimeout(() => {
             if (lazy.copyToClipboard) lazy.clipboard.copyStringToClipboard(sel, Ci.nsIClipboard.kGlobalClipboard);
             if (lazy.copyToSearchbar) this.sendAsyncMessage("autoCopyButton:setSearch", { sel });
             if (!lazy.blink) return;
-            var sc = this.docShell.QueryInterface(Ci.nsIInterfaceRequestor)
-                .getInterface(Ci.nsISelectionDisplay)
-                .QueryInterface(Ci.nsISelectionController);
+            var sc = this.docShell.QueryInterface(Ci.nsIInterfaceRequestor).getInterface(Ci.nsISelectionDisplay).QueryInterface(Ci.nsISelectionController);
             this.repaint(sc, sc.SELECTION_OFF);
-            this.win.setTimeout(() => this.repaint(sc, sc.SELECTION_ON), lazy.blinkDuration);
+            this.contentWindow.setTimeout(() => this.repaint(sc, sc.SELECTION_ON), lazy.blinkDuration);
         }, lazy.copyStart);
     }
     repaint(sc, disp) {
@@ -97,11 +96,10 @@ export class autoCopyButtonParent extends JSWindowActorParent {
                     case 1:
                     case 2:
                         let { browsingContext } = view.gBrowser.selectedBrowser;
-                        browsingContext.currentWindowGlobal.getActor("autoCopyButton")
-                            .sendQuery("autoCopyButton:getToggle").then(disabled => {
-                                disabled = !disabled;
-                                this.sendMessage(view, "autoCopyButton:Toggle", { disabled }, true);
-                            });
+                        browsingContext.currentWindowGlobal.getActor("autoCopyButton").sendQuery("autoCopyButton:getToggle").then(disabled => {
+                            disabled = !disabled;
+                            this.sendMessage(view, "autoCopyButton:Toggle", { disabled }, true);
+                        });
                 }
             },
             setFill(btn, disabled) {
@@ -109,8 +107,7 @@ export class autoCopyButtonParent extends JSWindowActorParent {
                 else btn.style.removeProperty("fill");
             },
             sendMessage(win, message, data, selected = false) {
-                data.selected = selected;
-                var browsers = !selected ? win.gBrowser.browsers : [win.gBrowser.selectedBrowser];
+                var browsers = !(data.selected = selected) ? win.gBrowser.browsers : [win.gBrowser.selectedBrowser];
                 for (let browser of browsers) {
                     let contextsToVisit = [browser.browsingContext];
                     while (contextsToVisit.length) {
@@ -150,7 +147,7 @@ export class autoCopyButtonParent extends JSWindowActorParent {
         if (name !== "autoCopyButton:setSearch") return
         var doc = this.browsingContext.top.embedderElement.ownerDocument;
         for (let bar of doc.querySelectorAll("#search-container > [id^=searchbar]")) {
-            if (bar._observer && bar.search) bar.search(`? ${data.sel}`, { startQuery: lazy.startQuery });
+            if ((bar._observersAdded || bar._observer) && bar.search) bar.search(`? ${data.sel}`, { startQuery: lazy.startQuery });
             else if (bar._initialized && bar.openSuggestionsPanel) {
                 bar.value = data.sel;
                 if (lazy.startQuery) bar.openSuggestionsPanel();

@@ -263,13 +263,13 @@
     "atbBookmarksMgrT": {
         "message": "Управління закладками"
     },
-    "atbBookmarksMgrNopopL": {
+    "atbQuickBookmarkL": {
         "message": "Швидка закладка"
     },
-    "atbBookmarksMgrNopopT": {
+    "atbQuickBookmarkT": {
         "message": "Л: Додати або видалити закладки без підтвердження\nС|П: Додати групу вкладок в закладки"
     },
-    "atbBookmarksMgrSortT": {
+    "atbBookmarksSortT": {
         "message": "П: Переключити тип сортування"
     },
     "atbBookmarksSortRev": {
@@ -288,7 +288,7 @@
         "message": "Відновити фавіконки"
     },
     "atbExtOptionMenuL": {
-        "message": "Меню доповнень"
+        "message": "Доповнення"
     },
     "atbExtOptionMenuT": {
         "message": "Меню доповнень"
@@ -393,7 +393,7 @@
         "message": "Таймер сповіщень у секундах"
     },
     "toggleproxy": {
-        "message": "Проксі, перемикання між вибраними режимами:"
+        "message": "Переключити проксі:"
     },
     "toggleproxy0": {
         "message": "Пряме підключення, без проксі"
@@ -411,7 +411,7 @@
         "message": "Використовувати системні налаштування проксі"
     },
     "tab_win_undo": {
-        "message": "Відновити вкладки та вікна:"
+        "message": "Відновити:"
     },
     "max_tabs_undo": {
         "message": "Кількість закритих вкладок для відновлення (about:config)"
@@ -419,37 +419,34 @@
     "max_windows_undo": {
         "message": "Кількість закритих вікон для відновлення (about:config)"
     },
-    "favicons": {
-        "message": "Відновити фавіконки закладок:"
+    "bookmarksmgr": {
+        "message": "Закладки:"
     },
-    "maxrequests": {
+    "favmaxrequests": {
         "message": "Максимальна кількість паралельних запитів"
     },
-    "maxtimeout": {
+    "favmaxtimeout": {
         "message": "Тривалість до переривання запиту в секундах"
     },
-    "alertnotification": {
+    "favshowalert": {
         "message": "Повідомлення про завершення"
     },
-    "addbookmarks": {
-        "message": "Додати або видалити закладки без підтвердження:"
-    },
-    "bookmarksparentguid0": {
+    "quickbkparentguid0": {
         "message": "Меню закладок"
     },
-    "bookmarksparentguid1": {
+    "quickbkparentguid1": {
         "message": "Панель закладок"
     },
-    "bookmarksparentguid2": {
+    "quickbkparentguid2": {
         "message": "Інші закладки"
     },
-    "bookmarksparentguid": {
+    "quickbkparentguid": {
         "message": "Папка для нових закладок"
     },
-    "bookmarksindex": {
+    "quickbkindex": {
         "message": "Додавати в початок"
     },
-    "extensions": {
+    "addonstitle": {
         "message": "Доповнення:"
     },
     "showversion": {
@@ -476,7 +473,7 @@
     "maxheightpopup": {
         "message": "Максимальна висота меню, 0 - не змінювати"
     },
-    "exceptionslistset": {
+    "exceptionsidslistset": {
         "message": "Винятки, ID'S через пробіл:"
     },
     "exceptionstypelistarr": {

@@ -1,0 +1,104 @@
+/**
+@UCF @param {"prop":"CssChrome","type":"USER_SHEET","disable":true} @UCF
+*/
+#ucf-ext-option-menu {
+    list-style-image: url("./icon.svg") !important;
+}
+#ucf-ext-option-menu-popup {
+    &>menugroup {
+        display: flex !important;
+        flex-direction: row !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        &:hover {
+            background-color: oklch(from currentColor l c h / 0.1);
+            border-radius: var(--menuitem-border-radius, calc(var(--panel-border-radius, 0px) / 2));
+        }
+        &>menuitem {
+            max-width: unset !important;
+            fill: currentColor;
+            fill-opacity: .8;
+            margin-inline: 0 !important;
+            padding-inline: 6px !important;
+            flex: unset !important;
+            &:not([iname=main], [iname=manager], [iname=debugging]) {
+                flex: 0 !important;
+                &>.menu-icon {
+                    margin-inline: 0 !important;
+                }
+                &>label, &>.menu-accel-container {
+                    display: none !important;
+                }
+            }
+            &[iname=manager], &[iname=debugging] {
+                max-width: 0 !important;
+                min-width: calc(100% / 2) !important;
+            }
+            &[iname=toogle]>.menu-icon {
+                display: revert !important;
+            }
+            &[iname=main] {
+                padding-inline: 0 !important;
+                flex: 1 !important;
+                max-width: var(--v-max-width-item) !important;
+                --menuitem-icon: url("./icon.svg") !important;
+                &>.menu-icon {
+                    margin-inline-start: 0 !important;
+                }
+                &:not([image])>.menu-icon {
+                    content: var(--menuitem-icon) !important;
+                }
+                &::after {
+                    display: flex !important;
+                    content: "" !important;
+                    height: 8px !important;
+                    width: 8px !important;
+                    border-radius: 4px !important;
+                    background-color: transparent !important;
+                    opacity: 1 !important;
+                }
+            }
+            &[iname=uninstall] {
+                fill: light-dark(oklch(50% 0.25 0), oklch(70% 0.25 0)) !important;
+                &[disabled]:not([disabled=false]) {
+                    opacity: .4 !important;
+                }
+            }
+            &[disabled]:not([disabled=false]) {
+                opacity: .6 !important;
+            }
+        }
+        &.ucf-type-dictionary>menuitem[iname=main]::after {
+            background-color: light-dark(oklch(50% 0.25 0), oklch(70% 0.25 0)) !important;
+        }
+        &.ucf-type-locale>menuitem[iname=main]::after {
+            background-color: light-dark(oklch(76% 0.17 160), oklch(83% 0.17 160)) !important;
+        }
+        &.ucf-type-theme>menuitem[iname=main]::after {
+            background-color: light-dark(oklch(60% 0.2 57), oklch(80% 0.2 57)) !important;
+        }
+        &.ucf-type-plugin>menuitem[iname=main]::after {
+            background-color: light-dark(oklch(62% 0.25 260), oklch(65% 0.25 260)) !important;
+        }
+        &.ucf-type-mlmodel>menuitem[iname=main]::after {
+            background-color: light-dark(oklch(60% 0.17 315), oklch(76% 0.17 315)) !important;
+        }
+        &.ucf-system>menuitem[iname=main]>label {
+            text-decoration: underline !important;
+            text-decoration-style: dotted !important;
+        }
+        &.ucf-warning>menuitem[iname=main]>label {
+            text-decoration: underline !important;
+            text-decoration-style: dotted !important;
+            text-decoration-color: light-dark(oklch(60% 0.2 57), oklch(80% 0.2 57)) !important;
+        }
+        &.ucf-error>menuitem[iname=main]>label {
+            text-decoration: line-through !important;
+            text-decoration-style: solid !important;
+            text-decoration-color: light-dark(oklch(50% 0.25 0), oklch(70% 0.25 0)) !important;
+        }
+        &.ucf-options>menuitem[iname=opts] {
+            fill: light-dark(oklch(62% 0.25 260), oklch(65% 0.25 260)) !important;
+        }
+    }
+}

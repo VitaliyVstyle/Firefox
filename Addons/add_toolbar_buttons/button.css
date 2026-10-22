@@ -285,6 +285,9 @@
                 &>.menu-icon {
                     margin-inline-start: 0 !important;
                 }
+                &:not([image])>.menu-icon {
+                    content: var(--menuitem-icon) !important;
+                }
                 &::after {
                     display: flex !important;
                     content: "" !important;

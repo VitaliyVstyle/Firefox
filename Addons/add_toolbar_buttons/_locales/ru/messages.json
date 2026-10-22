@@ -263,13 +263,13 @@
     "atbBookmarksMgrT": {
         "message": "Управление закладками"
     },
-    "atbBookmarksMgrNopopL": {
+    "atbQuickBookmarkL": {
         "message": "Быстрая закладка"
     },
-    "atbBookmarksMgrNopopT": {
+    "atbQuickBookmarkT": {
         "message": "Л: Добавить или удалить закладки без подтверждения\nС|П: Добавить группу вкладок в закладки"
     },
-    "atbBookmarksMgrSortT": {
+    "atbBookmarksSortT": {
         "message": "П: Переключить тип сортировки"
     },
     "atbBookmarksSortRev": {
@@ -288,7 +288,7 @@
         "message": "Восстановить фавиконки"
     },
     "atbExtOptionMenuL": {
-        "message": "Меню дополнений"
+        "message": "Дополнения"
     },
     "atbExtOptionMenuT": {
         "message": "Меню дополнений"
@@ -393,7 +393,7 @@
         "message": "Таймер уведомлений в секундах"
     },
     "toggleproxy": {
-        "message": "Прокси, переключение между выбранными режимами:"
+        "message": "Переключить прокси:"
     },
     "toggleproxy0": {
         "message": "Прямое подключение, без прокси"
@@ -411,7 +411,7 @@
         "message": "Использовать системные настройки прокси"
     },
     "tab_win_undo": {
-        "message": "Восстановить вкладки и окна:"
+        "message": "Восстановить:"
     },
     "max_tabs_undo": {
         "message": "Количество закрытых вкладок для восстановления (about:config)"
@@ -419,37 +419,34 @@
     "max_windows_undo": {
         "message": "Количество закрытых окон для восстановления (about:config)"
     },
-    "favicons": {
-        "message": "Восстановить фавиконки закладок:"
+    "bookmarksmgr": {
+        "message": "Закладки:"
     },
-    "maxrequests": {
+    "favmaxrequests": {
         "message": "Максимальное количество параллельных запросов"
     },
-    "maxtimeout": {
+    "favmaxtimeout": {
         "message": "Длительность до прерывания запроса в секундах"
     },
-    "alertnotification": {
+    "favshowalert": {
         "message": "Уведомление о завершении"
     },
-    "addbookmarks": {
-        "message": "Добавить или удалить закладки без подтверждения:"
-    },
-    "bookmarksparentguid0": {
+    "quickbkparentguid0": {
         "message": "Меню закладок"
     },
-    "bookmarksparentguid1": {
+    "quickbkparentguid1": {
         "message": "Панель закладок"
     },
-    "bookmarksparentguid2": {
+    "quickbkparentguid2": {
         "message": "Другие закладки"
     },
-    "bookmarksparentguid": {
+    "quickbkparentguid": {
         "message": "Папка для новых закладок"
     },
-    "bookmarksindex": {
+    "quickbkindex": {
         "message": "Добавлять в начало"
     },
-    "extensions": {
+    "addonstitle": {
         "message": "Дополнения:"
     },
     "showversion": {
@@ -476,7 +473,7 @@
     "maxheightpopup": {
         "message": "Максимальная высота меню, 0 - не изменять"
     },
-    "exceptionslistset": {
+    "exceptionsidslistset": {
         "message": "Исключения, ID's через пробел:"
     },
     "exceptionstypelistarr": {
