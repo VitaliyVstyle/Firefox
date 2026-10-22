@@ -6,40 +6,24 @@
     id = "placesContext_openInTabsPending",
     label = "Open in Tabs Pending",
     image = "chrome://browser/skin/tabs.svg",
-    propertiesPending = `
-text-decoration-line: underline !important;
-text-decoration-style: dotted !important;
-text-decoration-color: currentColor !important;
-text-decoration-thickness: 2px !important;
-text-decoration-skip-ink: none !important;
-text-underline-offset: .2em !important;
-opacity: .5 !important;
-`,
 ) => ({
     init() {
-        var elm = document.querySelector("#placesContext > [id='placesContext_openLinks:tabs']");
+        var elm = document.querySelector("#placesContext > [id=\"placesContext_openLinks:tabs\"]");
         if (!elm) return;
         var item = document.createXULElement("menuitem");
         item.id = id;
         item.label = label;
-        if (image) item.className = "menuitem-iconic";
         item.setAttribute("selection-type", "any");
         item.setAttribute("node-type", "query|folder|link|separator");
+        if (image) {
+            item.className = "menuitem-iconic";
+            item.style.cssText = `--menuitem-icon:url("${image}");-moz-context-properties:fill;fill:currentColor;`;
+        }
         var desc = Object.getOwnPropertyDescriptor(XULElement.prototype, "hidden");
         var popup = elm.parentElement;
         desc.set = this.hidden.bind(item, popup, desc.set);
         Object.defineProperty(item, "hidden", desc);
         item.onclick = this.open.bind(this, popup);
-        var style = `data:text/css;charset=utf-8,${encodeURIComponent(`
-${image ? `#placesContext > #${id} {
---menuitem-icon: url("${image}") !important;
-list-style-image: var(--menuitem-icon) !important;
--moz-context-properties: fill !important;
-fill: currentColor !important;
-}` : ""}
-${propertiesPending ? `:root[windowtype="navigator:browser"] .tabbrowser-tab:not([selected],[multiselected])[pending] .tab-label {${propertiesPending}}` : ""}
-`)}`;
-        windowUtils.loadSheetUsingURIString(style, windowUtils.USER_SHEET);
         elm.after(item);
     },
     hidden({ triggerNode: tn, _view: vw }, set, val) {
@@ -78,14 +62,6 @@ ${propertiesPending ? `:root[windowtype="navigator:browser"] .tabbrowser-tab:not
         };
         if (insertAfterCurrent) params.index = params.tabIndex = (gb.selectedTab.index ?? gb.selectedTab._tPos);
         var first = true;
-        var getFavicon = ("getFaviconForPage" in PlacesUtils.favicons)
-            ? url => PlacesUtils.favicons.getFaviconForPage(url, 32)
-            : url => new Promise(resolve => PlacesUtils.favicons.getFaviconDataForPage(url, (uri, len, data, type) => {
-                if (!len) return resolve();
-                var reader = new FileReader();
-                reader.onloadend = () => resolve({ dataURI: { spec: reader.result } });
-                reader.readAsDataURL(new Blob([new Uint8Array(data)], { type }));
-            }, 32));
         for (let { uri, title } of items) {
             if (insertAfterCurrent) params.index = params.tabIndex += 1;
             let state = {
@@ -95,7 +71,7 @@ ${propertiesPending ? `:root[windowtype="navigator:browser"] .tabbrowser-tab:not
                 lastAccessed: 0,
                 entries: [{ url: uri, title, triggeringPrincipal_base64: win.E10SUtils.SERIALIZED_SYSTEMPRINCIPAL }]
             };
-            let image = await getFavicon(Services.io.newURI(uri));
+            let image = await PlacesUtils.favicons.getFaviconForPage(Services.io.newURI(uri), 32);
             if (image) state.image = image.dataURI.spec;
             let tab = gb.addTrustedTab(uri, params);
             win.SessionStore.setTabState(tab, state);
