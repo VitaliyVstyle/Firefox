@@ -14,6 +14,7 @@
     --v-findbar-textbox-width: 15em; /* input field width */
     --v-findbar-toolbarbutton-icon-display: 1; /* 0 or 1 - icons on buttons */
     --v-findbar-toolbarbutton-text-display: 0; /* 0 or 1 - text on buttons */
+    --v-findbar-closebutton-display: 1; /* 0 or 1 - close button */
     --v-findbar-highlight-icon: url("./findbar-highlight.svg");
     --v-findbar-case-sensitive-icon: url("./findbar-case-sensitive.svg");
     --v-findbar-match-diacritics-icon: url("./findbar-match-diacritics.svg");
@@ -120,6 +121,9 @@
                     flex-direction: row-reverse !important;
                     padding-inline: 0 calc(2 * (var(--toolbarbutton-padding-inner) + var(--toolbarbutton-padding-outer)) + 16px) !important;
                 }
+                @container style(--v-findbar-closebutton-display: 0) {
+                    padding-inline: 0 !important;
+                }
                 &>hbox {
                     display: flex !important;
                     flex-direction: row !important;
@@ -190,6 +194,9 @@
                 }
                 @container style(--v-findbar-flex-row-reverse: 0) {
                     margin-inline-end: calc(-1 * (2 * var(--toolbarbutton-padding-inner) + var(--toolbarbutton-padding-outer) + 17px)) !important;
+                }
+                @container style(--v-findbar-closebutton-display: 0) {
+                    display: none !important;
                 }
             }
             &>:is(.findbar-container, toolbarbutton.findbar-closebutton) {

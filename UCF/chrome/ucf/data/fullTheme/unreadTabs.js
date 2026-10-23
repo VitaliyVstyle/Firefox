@@ -9,7 +9,7 @@
         window.gReduceMotionOverride = false;
     },
     handleEvent({ target }) {
-        if (target.hasAttribute("notselectedsinceload")) target.toggleAttribute("notselectedsinceload", false);
+        if (target.hasAttribute("notselectedsinceload")) target.removeAttribute("notselectedsinceload");
     },
     destructor() {
         gBrowser.tabContainer.removeEventListener("TabSelect", this);
