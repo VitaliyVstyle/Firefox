@@ -1,8 +1,8 @@
 /**
 @UCF @param {"prop":"JsChrome.load","ucfobj":true} @UCF
 */
-(async () => ({
-    timer: null,
+({
+    tid: null,
     async init() {
         setUnloadMap(Symbol("specialwidgets"), this.destructor, this);
         gNavToolbox.addEventListener("customizationready", this);
@@ -11,8 +11,8 @@
         this[e.type](e);
     },
     customizationchange() {
-        clearTimeout(this.timer);
-        this.timer = setTimeout(() => {
+        clearTimeout(this.tid);
+        this.tid = setTimeout(() => {
             this.createSpecialWidgets();
         }, 1000);
     },
@@ -27,13 +27,17 @@
     customizationready() {
         this.maybeCreateSW = true;
         this.createSpecialWidgets();
-        this.custContainer = document.querySelector("#customization-container");
-        this.custContainer.addEventListener("command", this);
+        (this.custContainer = document.querySelector("#customization-container")).addEventListener("command", this);
+        setUnloadMap(this.symbol = Symbol(), this.removeListeners, this);
         gNavToolbox.addEventListener("customizationchange", this);
         gNavToolbox.addEventListener("customizationending", this);
     },
     customizationending() {
+        getDelUnloadMap(this.symbol, true);
         this.maybeCreateSW = false;
+        this.removeListeners();
+    },
+    removeListeners() {
         this.custContainer.removeEventListener("command", this);
         gNavToolbox.removeEventListener("customizationchange", this);
         gNavToolbox.removeEventListener("customizationending", this);
@@ -42,25 +46,18 @@
         if (!this.maybeCreateSW) return;
         this.maybeCreateSW = false;
         let fragment = document.createDocumentFragment();
-        if (this.findSpecialWidgets("spring")) {
-            let spring = CustomizableUI.createSpecialWidget("spring", document);
-            fragment.append(gCustomizeMode.wrapToolbarItem(spring, "palette"));
-        }
-        if (this.findSpecialWidgets("spacer")) {
-            let spacer = CustomizableUI.createSpecialWidget("spacer", document);
-            fragment.append(gCustomizeMode.wrapToolbarItem(spacer, "palette"));
-        }
-        if (this.findSpecialWidgets("separator")) {
-            let separator = CustomizableUI.createSpecialWidget("separator", document);
-            fragment.append(gCustomizeMode.wrapToolbarItem(separator, "palette"));
-        }
+        if (this.notSW("spring"))
+            fragment.append(gCustomizeMode.wrapToolbarItem(CustomizableUI.createSpecialWidget("spring", document), "palette"));
+        if (this.notSW("spacer"))
+            fragment.append(gCustomizeMode.wrapToolbarItem(CustomizableUI.createSpecialWidget("spacer", document), "palette"));
+        if (this.notSW("separator"))
+            fragment.append(gCustomizeMode.wrapToolbarItem(CustomizableUI.createSpecialWidget("separator", document), "palette"));
         gCustomizeMode.visiblePalette.append(fragment);
     },
-    findSpecialWidgets(string) {
-        if (!gCustomizeMode.visiblePalette.querySelector(`toolbar${string}[id^="customizableui-special-${string}"]`)) return true;
-        return false;
+    notSW(string) {
+        return !(gCustomizeMode.visiblePalette.querySelector(`toolbar${string}[id^="customizableui-special-${string}"]`));
     },
     destructor() {
         gNavToolbox.removeEventListener("customizationready", this);
     },
-}).init())();
+}).init();

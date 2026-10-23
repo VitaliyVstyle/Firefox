@@ -1,8 +1,8 @@
 /**
 @UCF @param {"prop":"JsChrome.load","ucfobj":true,"disable":true} @UCF
 */
-(async () => ({
-    init() {
+({
+    async init() {
         var panel = this.panel = DownloadsPanel.panel;
         if (!panel) return;
         setUnloadMap(Symbol("cleardownloadsbutton"), this.destructor, this);
@@ -60,4 +60,4 @@
     onDownloadRemoved() {
         if (!this.btn.disabled) this.setbutton();
     },
-}).init())();
+}).init();

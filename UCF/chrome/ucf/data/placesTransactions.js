@@ -11,8 +11,7 @@
     imageRedo = "chrome://browser/skin/forward.svg",
 ) => ({
     init() {
-        var sep = this.sep = document.querySelector("#placesContext > #placesContext_deleteSeparator");
-        if (!sep) return;
+        if (!(this.sep = document.querySelector("#placesContext > #placesContext_deleteSeparator"))) return;
         this.createItem(labelUndo, tooltipUndo, imageUndo, "undo", "topUndoEntry", true);
         this.createItem(labelRedo, tooltipRedo, imageRedo, "redo", "topRedoEntry", false);
     },
@@ -23,7 +22,7 @@
         item.tooltipText = tooltip;
         if (image) {
             item.className = "menuitem-iconic";
-            item.style.cssText = `--menuitem-icon:url("${image}");list-style-image:url("${image}");-moz-context-properties:fill;fill:currentColor;`;
+            item.style.cssText = `--menuitem-icon:url("${image}");-moz-context-properties:fill;fill:currentColor;`;
         }
         item.setAttribute("selection-type", "single|none");
         item.setAttribute("node-type", "link_bookmark|folder");

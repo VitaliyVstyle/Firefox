@@ -1,8 +1,8 @@
 /**
 @UCF @param {"prop":"JsChrome.load","ucfobj":true,"disable":true} @UCF
 */
-(async () => ({
-    init() {
+({
+    async init() {
         var tabs = this.tabs = gBrowser.tabContainer;
         if (!tabs) return;
         setUnloadMap(Symbol("rightClikCloseTab"), this.destructor, this);
@@ -21,4 +21,4 @@
     destructor() {
         this.tabs.removeEventListener("contextmenu", this, true);
     },
-}).init())();
+}).init();

@@ -4,47 +4,47 @@
 (async (
     delay = 3000, // Delayed hide
 ) => ({
-    timer: null,
+    tid: null,
     init() {
         gBrowser.tabpanels.addEventListener("findbaropen", this);
         window.addEventListener("keydown", this, true);
         setUnloadMap(Symbol(), this.destructor, this);
     },
-    close: class {
+    TabClose: class {
         constructor(e) {
-            this.timer = null;
+            this.tid = null;
             var findbar = this.findbar = e.target;
             var parent = this.parent = findbar.parentElement;
-            setUnloadMap(this.symbol = Symbol(), this.removeListeners, this);
+            setUnloadMap(this.symbol = Symbol(), this.destructor, this);
             parent.addEventListener("findbarclose", this);
             parent.addEventListener("mousedown", this);
             (this.tab = gBrowser.getTabForBrowser(findbar._browser)).addEventListener("TabClose", this);
         }
-        removeListeners() {
+        destructor() {
             this.parent.removeEventListener("findbarclose", this);
             this.parent.removeEventListener("mousedown", this);
             this.tab.removeEventListener("TabClose", this);
         }
         handleEvent(e) {
-            clearTimeout(this.timer);
+            clearTimeout(this.tid);
             if (e.type === "mousedown") {
                 if (e.target.closest?.("findbar") == this.findbar) return;
-                this.timer = setTimeout(() => {
-                    this.removeListeners();
+                this.tid = setTimeout(() => {
+                    this.destructor();
                     getDelUnloadMap(this.symbol, true);
                     if (!this.findbar.hidden) this.findbar.close();
                 }, delay);
                 return;
             }
-            this.removeListeners();
+            this.destructor();
             getDelUnloadMap(this.symbol, true);
         }
     },
     keydown(e) {
         if (e.getModifierState("Control") && e.code === "KeyF" && !e.altKey && !e.shiftKey) {
-            if (this.timer !== null) return e.preventDefault();
-            this.timer = setTimeout(() => {
-                this.timer = null;
+            if (this.tid !== null) return e.preventDefault();
+            this.tid = setTimeout(() => {
+                this.tid = null;
             }, 1000);
             if (window.gFindBarInitialized && !gFindBar.hidden) {
                 e.preventDefault();
@@ -53,7 +53,7 @@
         }
     },
     findbaropen(e) {
-        new this.close(e);
+        new this.TabClose(e);
     },
     handleEvent(e) {
         this[e.type](e);
