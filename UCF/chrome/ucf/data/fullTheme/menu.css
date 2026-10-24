@@ -222,7 +222,7 @@
         }
         #context-navigation {
             &:not([hidden]) {
-                background: none !important;
+                background-color: transparent !important;
                 border: none !important;
                 box-shadow: none !important;
                 padding: 0 !important;
@@ -285,7 +285,9 @@
         &>#appMenu-fxa-label2 {
             order: -1 !important;
             margin: 0 !important;
-            margin-inline-end: var(--v-icons-label-padding-inline) !important;
+        }
+        &>#appMenu-fxa-text {
+            margin-inline-start: var(--v-icons-label-padding-inline) !important;
         }
     }
     #appMenu-popup {
