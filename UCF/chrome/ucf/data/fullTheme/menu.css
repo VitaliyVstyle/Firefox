@@ -7,7 +7,7 @@
     :root {
         --v-menupopup-item-min-height: 24px;
         --v-panel-item-min-height: 24px;
-        --v-menupopup-text-inline-start: 4px;
+        --v-menupopup-label-inline: 4px;
         --panel-color: FieldText;
         --panel-text-color: FieldText;
         --panel-background: Field;
@@ -109,6 +109,11 @@
         #trustpanel-header-section {
             padding-block-end: 0 !important;
         }
+        moz-button {
+            --button-border: none !important;
+            --button-padding: 0 var(--v-menupopup-label-inline) !important;
+            --button-min-height: var(--v-panel-item-min-height) !important;
+        }
     }
     menupopup {
         --panel-padding-block: 0px !important;
@@ -147,7 +152,7 @@
             appearance: none !important;
             padding: 0 !important;
             margin: 0 !important;
-            padding-inline-start: var(--v-menupopup-text-inline-start) !important;
+            padding-inline-start: var(--v-menupopup-label-inline) !important;
         }
         .contentSelectDropdown-ingroup .menu-text {
             margin-inline-start: 16px !important;
@@ -248,7 +253,7 @@
     /* icons in menu --> */
     :root {
         --v-icons-fill-opacity: .8;
-        --v-icons-text-padding-inline-start: 4px;
+        --v-icons-label-padding-inline: 4px;
     }
     menupopup {
         menu, menuitem {
@@ -257,48 +262,51 @@
             fill-opacity: var(--v-icons-fill-opacity);
         }
     }
-    panelview .subviewbutton {
-        -moz-context-properties: fill, fill-opacity, stroke !important;
-        fill: currentColor;
-    }
-    panelview .subviewbutton>.toolbarbutton-icon {
-        fill-opacity: var(--v-icons-fill-opacity);
-        height: 16px;
-        width: 16px;
-    }
-    panelview :is(.subviewbutton, .subviewbutton-iconic, .addon-banner-item)>.toolbarbutton-text {
-        padding-inline-start: var(--v-icons-text-padding-inline-start) !important;
+    panelview {
+        .subviewbutton {
+            -moz-context-properties: fill, fill-opacity, stroke !important;
+            fill: currentColor;
+        }
+        .subviewbutton>.toolbarbutton-icon {
+            fill-opacity: var(--v-icons-fill-opacity);
+            height: 16px;
+            width: 16px;
+        }
+        :is(.subviewbutton, .subviewbutton-iconic, .addon-banner-item)>.toolbarbutton-text {
+            padding-inline-start: var(--v-icons-label-padding-inline) !important;
+        }
     }
     #appMenu-zoom-controls {
         margin: var(--panel-menuitem-margin, 0) !important;
     }
-    #appMenu-fxa-status2:not([fxastatus]) {
-        padding-inline: 0 !important;
+    #appMenu-fxa-status2 {
+        &>#appMenu-nova-fxa-label,
+        &>#appMenu-fxa-label,
+        &>#appMenu-fxa-label2 {
+            order: -1 !important;
+            margin: 0 !important;
+            margin-inline-end: var(--v-icons-label-padding-inline) !important;
+        }
     }
-    #appMenu-fxa-status2:not([fxastatus])>#appMenu-fxa-label,
-    #appMenu-fxa-status2:not([fxastatus])>#appMenu-fxa-label2 {
-        padding: var(--panel-menuitem-padding, var(--v-icons-text-padding-inline-start)) !important;
-        order: -1 !important;
-        margin: 0 !important;
-        margin-inline-end: var(--v-icons-text-padding-inline-start) !important;
-    }
-    #appMenu-popup :is(.addon-banner-item, .panel-banner-item)>.toolbarbutton-icon {
-        margin: 0 !important;
-        order: 1 !important;
-    }
-    #appMenu-popup :is(.addon-banner-item, .panel-banner-item) {
-        padding: var(--panel-menuitem-padding, var(--v-icons-text-padding-inline-start)) !important;
-        margin: var(--panel-menuitem-margin, 0) !important;
-        margin-block: 0 4px !important;
-    }
-    #appMenu-popup :is(.addon-banner-item, .panel-banner-item)>.toolbarbutton-text {
-        margin-inline: 0 !important;
-        padding-inline: var(--v-icons-text-padding-inline-start) !important;
-    }
-    #appMenu-popup .addon-banner-item>.toolbarbutton-icon {
-        display: inline-flex !important;
-        width: 16px !important;
-        height: 16px !important;
+    #appMenu-popup {
+        :is(.addon-banner-item, .panel-banner-item) {
+            padding: var(--panel-menuitem-padding, var(--v-icons-label-padding-inline)) !important;
+            margin: var(--panel-menuitem-margin, 0) !important;
+            margin-block: 0 4px !important;
+            &>.toolbarbutton-text {
+                margin-inline: 0 !important;
+                padding-inline: var(--v-icons-label-padding-inline) !important;
+            }
+            &>.toolbarbutton-icon {
+                margin: 0 !important;
+                order: 1 !important;
+            }
+        }
+        .addon-banner-item>.toolbarbutton-icon {
+            display: inline-flex !important;
+            width: 16px !important;
+            height: 16px !important;
+        }
     }
     #goOfflineMenuitem:not([checked=""], [checked=true]) {
         &>.menu-icon {
@@ -420,7 +428,7 @@
         display: inline-block;
         height: 16px;
         width: 16px;
-        margin-inline-end: var(--v-icons-text-padding-inline-start) !important;
+        margin-inline-end: var(--v-icons-label-padding-inline) !important;
         background-size: 16px;
         background-repeat: no-repeat;
         background-image: var(--avatar-image-url, url("./svg/user-idle.svg"));
@@ -548,6 +556,9 @@
     }
     #appmenu-edit-pdf-button {
         list-style-image: url("./svg/pdf.svg");
+    }
+    #appMenu-tab-groups-button {
+        list-style-image: url("./svg/groups-tab.svg");
     }
     toolbarbutton.subviewbutton[key="key_aboutProcesses"] {
         list-style-image: url("./svg/tool-profiler.svg");
@@ -1622,6 +1633,7 @@
         }
     }
     #context-add-engine,
+    #menu_searchTabs,
     #menu_find,
     #BMB_searchBookmarks,
     #menu_searchBookmarks,
