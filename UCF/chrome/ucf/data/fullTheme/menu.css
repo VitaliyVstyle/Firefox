@@ -608,6 +608,7 @@
     #appMenu_help_reportSiteIssue {
         list-style-image: url("./svg/warning.svg");
     }
+    #appMenu_help_reportBrokenSite,
     #appMenu_menu_HelpPopup_reportPhishingtoolmenu,
     #appMenu-report-broken-site-button {
         list-style-image: url("./svg/dialog-warning.svg");
@@ -1156,6 +1157,9 @@
     #sidebar-context-menu-customize-sidebar,
     #toolbar-context-customize-sidebar,
     #menu_preferences,
+    menuitem[data-l10n-id="user-context-manage-containers"],
+    menuitem[data-l10n-id="user-context-manage-containers2"],
+    #new-tab-button-popup>menuseparator:last-of-type+menuitem+menuitem,
     #blockedPopupOptions menuitem#blockedPopupEdit {
         &>.menu-icon {
             visibility: visible !important;
@@ -1554,6 +1558,9 @@
     #menu_newUserContext,
     #context_reopenInContainer,
     #context-openlinkinusercontext-menu,
+    menuitem[data-l10n-id="user-context-add-container"],
+    menuitem[data-l10n-id="user-context-add-container2"],
+    #new-tab-button-popup>menuseparator:last-of-type+menuitem,
     menuitem[command="Browser:OpenAboutContainers"] {
         &>.menu-icon {
             visibility: visible !important;
