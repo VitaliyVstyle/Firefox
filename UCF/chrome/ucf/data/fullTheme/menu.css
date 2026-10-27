@@ -1588,12 +1588,6 @@
             content: url("./svg/tab-pending.svg");
         }
     }
-    menuitem[data-usercontextid="0"] {
-        &>.menu-icon {
-            visibility: visible !important;
-            content: url("./svg/dialog-cancel.svg");
-        }
-    }
     #menu_savePage,
     #context-savelink,
     #context-savepage,
@@ -1818,6 +1812,7 @@
         }
     }
     #context_addNote,
+    menuitem[data-usercontextid="0"],
     menuitem[data-l10n-id="page-action-add-to-urlbar"],
     menuitem.customize-context-addToToolbar {
         &>.menu-icon {

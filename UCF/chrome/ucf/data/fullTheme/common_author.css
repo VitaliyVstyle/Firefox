@@ -3,16 +3,19 @@
 @UCF @param {"prop":"CssContent","type":"AUTHOR_SHEET","disable":true} @UCF
 */
 :root {
-    --v-accent-primary-color: oklch(65% 0.25 260);
-    --v-accent-primary-text-color: oklch(1 0 0);
+    --v-selection-text-color: oklch(1 0 0);
+    --v-selection-color: oklch(62% 0.25 260);
+    @media (prefers-color-scheme: dark) {
+        --v-selection-color: oklch(65% 0.25 260);
+    }
 }
 ::selection {
-    background-color: var(--v-accent-primary-color);
-    color: var(--v-accent-primary-text-color);
+    background-color: var(--v-selection-color);
+    color: var(--v-selection-text-color);
 }
 @-moz-document url-prefix("chrome:") {
     ::selection {
-        background-color: var(--lwt-toolbar-field-highlight, var(--v-accent-primary-color)) !important;
-        color: var(--lwt-toolbar-field-highlight-text, var(--v-accent-primary-text-color)) !important;
+        background-color: var(--lwt-toolbar-field-highlight, var(--v-selection-color)) !important;
+        color: var(--lwt-toolbar-field-highlight-text, var(--v-selection-text-color)) !important;
     }
 }
