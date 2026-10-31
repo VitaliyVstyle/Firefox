@@ -497,8 +497,16 @@
     #appMenu-save-file-button2 {
         list-style-image: url("./svg/document-save.svg");
     }
+    toolbarbutton.subviewbutton[command="Browser:OpenAboutContainers"],
     #appMenu-settings-button {
         list-style-image: url("./svg/settings.svg");
+    }
+    #allTabsMenu-containerTabsButton,
+    toolbarbutton.subviewbutton[command="Browser:AddContainer"] {
+        list-style-image: url("./svg/multiaccountcontainer.svg");
+    }
+    #allTabsMenu-viewAllTabs {
+        list-style-image: url("./svg/firefox-view.svg");
     }
     #appmenu-abouttranslations-button,
     #appMenu-translate-button {
@@ -621,6 +629,9 @@
     #appMenu-create-profile-button,
     #appMenu-empty-profiles-button {
         list-style-image: url("./svg/profiles.svg");
+    }
+    #allTabsMenu-searchTabs {
+        list-style-image: url("./svg/search-tabs.svg");
     }
     #menu_newClassicWindow,
     #menu_newAIWindow,
@@ -813,6 +824,7 @@
             content: url("./svg/edit-paste-in-place.svg");
         }
     }
+    menuitem[data-l10n-id="clear-search-history"],
     menuitem[data-l10n-id="page-action-remove-extension"],
     menuitem[data-l10n-id="toolbar-context-menu-remove-extension"],
     menuitem[command="downloadsCmd_clearList"],
@@ -1636,7 +1648,6 @@
         }
     }
     #context-add-engine,
-    #menu_searchTabs,
     #menu_find,
     #BMB_searchBookmarks,
     #menu_searchBookmarks,
@@ -1646,6 +1657,12 @@
         &>.menu-icon {
             visibility: visible !important;
             content: url("./svg/search.svg");
+        }
+    }
+    #menu_searchTabs {
+        &>.menu-icon {
+            visibility: visible !important;
+            content: url("./svg/search-tabs.svg");
         }
     }
     #context-keywordfield {

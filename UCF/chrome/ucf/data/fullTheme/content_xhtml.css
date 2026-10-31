@@ -3,7 +3,7 @@
 */
 @-moz-document regexp("^(?:about:(?!blank|srcdoc|newtab|home|devtools-toolbox|reader|mozilla)|chrome:\/\/(?!devtools\/|extensions\/)).*") {
     :root {
-        --v-content-page-background-image: light-dark(url("./svg/bg_light_ff.svg"), url("./svg/bg_dark_ff.svg"));
+        --v-content-page-background-image: light-dark(url("./svg/bg_light.svg"), url("./svg/bg_dark.svg"));
         background-color: light-dark(var(--color-white), var(--color-black));
         color: light-dark(var(--color-black), var(--color-white));
         background-image: var(--v-content-page-background-image) !important;
@@ -290,49 +290,5 @@
 @-moz-document media-document(image) {
     :root {
         background: oklch(23% 0.02 285) !important;
-    }
-}
-@-moz-document regexp("^moz-extension:\/\/.*\/new_tab_page\.html") {
-    :root {
-        background-image: url("./svg/bg_light_ff.svg") !important;
-        background-position: center bottom !important;
-        background-repeat: no-repeat !important;
-        background-size: cover !important;
-        --v-page-background-color: oklch(94% 0.03 297) !important;
-        @media (prefers-color-scheme: dark) {
-            background-image: url("./svg/bg_dark_ff.svg") !important;
-            --v-page-background-color: oklch(24% 0.07 297) !important;
-        }
-        --v-thumb-font-size-larger-1024: 1.25em !important;
-        --v-thumb-font-size-larger-1280: 1.5em !important;
-        --v-thumb-font-size-larger-1600: 1.75em !important;
-        --v-thumb-font-size-larger-1920: 2em !important;
-        --v-thumb-font-size-larger-2560: 2.25em !important;
-        --v-thumb-font-size-larger-3840: 2.25em !important;
-        &[tabcount="history"] {
-            --v-thumb-max-width-1024: 119px !important;
-            --v-thumb-min-height-1024: 59px !important;
-            --v-thumb-columns-1024: 8 !important;
-            --v-thumb-max-width-1280: 134px !important;
-            --v-thumb-min-height-1280: 67px !important;
-            --v-thumb-columns-1280: 8 !important;
-            --v-thumb-font-size-larger-1280: 1.25em !important;
-            --v-thumb-max-width-1600: 149px !important;
-            --v-thumb-min-height-1600: 74px !important;
-            --v-thumb-columns-1600: 8 !important;
-            --v-thumb-font-size-larger-1600: 1.5em !important;
-            --v-thumb-max-width-1920: 164px !important;
-            --v-thumb-min-height-1920: 82px !important;
-            --v-thumb-columns-1920: 8 !important;
-            --v-thumb-font-size-larger-1920: 1.75em !important;
-            --v-thumb-max-width-2560: 171px !important;
-            --v-thumb-min-height-2560: 85px !important;
-            --v-thumb-columns-2560: 8 !important;
-            --v-thumb-font-size-larger-2560: 2em !important;
-            --v-thumb-max-width-3840: 171px !important;
-            --v-thumb-min-height-3840: 85px !important;
-            --v-thumb-columns-3840: 12 !important;
-            --v-thumb-font-size-larger-3840: 2.25em !important;
-        }
     }
 }

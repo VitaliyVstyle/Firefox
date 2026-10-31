@@ -4,53 +4,69 @@
     padding: 0 !important;
     min-height: 100% !important;
     width: 100% !important;
-    --v-background-color-root: #f4f4f7;
-    --v-color-root: #18181b;
-    --v-border-color: rgba(0, 0, 0, 0.25);
-    --v-decoration-color-error: color-mix(in srgb, currentColor 10%, #e31b5d);
-    --v-input-background-color: #ffffff;
-    --v-input-background-color-focus: #ffffff;
-    --v-button-background-color: rgba(0, 0, 0, 0.05);
-    --v-button-background-color-hover: rgba(0, 0, 0, 0.1);
-    --v-button-background-color-active: rgba(0, 0, 0, 0.15);
-    --v-highlight-background-color: #0074e8;
-    --v-highlight-background-color-hover: #178bff;
-    --v-highlight-background-color-active: #0059e8;
-    --v-highlight-color: #ffffff;
-    --v-scrollbar-color: var(--v-highlight-background-color) #ffffff;
-    background: var(--v-background-color-root) !important;
-    color: var(--v-color-root) !important;
+    --v-root-background-color: oklch(97% 0.01 285);
+    --v-root-color: oklch(20% 0.01 285);
+    --v-border-color: oklch(75% 0.01 285);
+    --v-border-color-hover: oklch(67% 0.01 285);
+    --v-border-color-active: oklch(77% 0.01 285);
+    --v-warn-color: oklch(60% 0.2 57);
+    --v-error-color: oklch(50% 0.25 0);
+    --v-input-background-color: oklch(95% 0.01 285);
+    --v-input-background-color-focus: oklch(1 0 0);
+    --v-button-background-color: oklch(0 0 0 / 0.05);
+    --v-button-background-color-hover: oklch(0 0 0 / 0.1);
+    --v-button-background-color-active: oklch(0 0 0 / 0.15);
+    --v-accent-primary-color: oklch(62% 0.25 260);
+    --v-accent-primary-color-hover: oklch(50% 0.25 260);
+    --v-accent-primary-color-active: oklch(40% 0.25 260);
+    --v-accent-primary-text-color: oklch(1 0 0);
+    --v-scrollbar-color: var(--v-accent-primary-color) oklch(1 0 0);
+    background: var(--v-root-background-color) !important;
+    color: var(--v-root-color) !important;
     @media (prefers-color-scheme: dark) {
-        --v-background-color-root: #23232d;
-        --v-color-root: #f7f7fa;
-        --v-border-color: rgba(100, 100, 110, 0.5);
-        --v-input-background-color: #1b1b25;
-        --v-input-background-color-focus: #1b1b25;
-        --v-button-background-color: rgba(255, 255, 255, 0.05);
-        --v-button-background-color-hover: rgba(255, 255, 255, 0.15);
-        --v-button-background-color-active: rgba(255, 255, 255, 0.1);
-        --v-scrollbar-color: var(--v-highlight-background-color) #000000;
+        --v-root-background-color: oklch(25% 0.02 285);
+        --v-root-color: oklch(97% 0.02 285);
+        --v-border-color: oklch(40% 0.01 285);
+        --v-border-color-hover: oklch(48% 0.01 285);
+        --v-border-color-active: oklch(38% 0.01 285);
+        --v-warn-color: oklch(80% 0.2 57);
+        --v-error-color: oklch(70% 0.25 0);
+        --v-input-background-color: oklch(23% 0.01 285);
+        --v-input-background-color-focus: oklch(23% 0.01 285);
+        --v-button-background-color: oklch(1 0.01 285 / 0.05);
+        --v-button-background-color-hover: oklch(1 0.01 285 / 0.15);
+        --v-button-background-color-active: oklch(1 0.01 285 / 0.1);
+        --v-accent-primary-color: oklch(65% 0.25 260);
+        --v-accent-primary-color-hover: oklch(72% 0.25 260);
+        --v-accent-primary-color-active: oklch(62% 0.25 260);
+        --v-scrollbar-color: var(--v-accent-primary-color) oklch(0 0 0);
     }
 }
 body {
+    display: flex !important;
+    flex-direction: column !important;
     font: inherit !important;
-    position: relative !important;
-    min-width: 40em !important;
-    max-width: max-content !important;
-    margin-inline: auto !important;
-    margin-block: 0 !important;
-    padding: 10px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    align-items: center !important;
     background: none !important;
     color: inherit !important;
     box-sizing: border-box !important;
+}
+div {
+    display: flex !important;
+    flex-direction: column !important;
+}
+#content {
+    padding: 10px !important;
 }
 :root, body, textarea {
     scrollbar-width: thin !important;
     scrollbar-color: var(--v-scrollbar-color) !important;
 }
 ::selection {
-    background-color: var(--v-highlight-background-color) !important;
-    color: var(--v-highlight-color) !important;
+    background-color: var(--v-accent-primary-color) !important;
+    color: var(--v-accent-primary-text-color) !important;
 }
 input,
 textarea,
@@ -65,22 +81,34 @@ select {
     padding-block: 0 !important;
     padding-inline: 2px !important;
     height: auto !important;
-    min-height: 24px !important;
+    min-height: calc(max(22px, 1.5em) + 2px) !important;
+    line-height: max(22px, 1.5em) !important;
     box-shadow: none !important;
     border-radius: 0 !important;
     outline: none !important;
+    outline-width: 0 !important;
     box-sizing: border-box !important;
-    &[type="number"],
-    &[type="checkbox"] {
+    white-space: pre !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    position: relative !important;
+    &:hover {
+        z-index: 2 !important;
+    }
+    &:focus {
+        z-index: 3 !important;
+    }
+    &[type=number],
+    &[type=checkbox] {
         margin-inline-end: 3px !important;
     }
-    &[type="number"],
-    &[type="text"],
+    &[type=number],
+    &[type=text],
     &:is(textarea) {
         white-space: pre !important;
         line-height: max(22px, 1.5em) !important;
     }
-    &[type="number"] {
+    &[type=number] {
         appearance: textfield !important;
     }
     &:is(select) {
@@ -96,70 +124,73 @@ select {
     &:is(textarea) {
         resize: none !important;
     }
-    &[type="number"]:focus,
-    &[type="checkbox"]:focus,
-    &[type="text"]:focus,
+    &[type=number]:focus,
+    &[type=checkbox]:focus,
+    &[type=text]:focus,
     &:is(textarea):focus {
-        border-color: var(--v-highlight-background-color) !important;
+        border-color: var(--v-accent-primary-color) !important;
         background-color: var(--v-input-background-color-focus) !important;
     }
-    &[type="number"]:-moz-ui-invalid {
-        border-color: var(--v-decoration-color-error) !important;
+    &[type=number]:-moz-ui-invalid {
+        border-color: var(--v-error-color) !important;
+        z-index: 2 !important;
     }
-    &[type="checkbox"] {
+    &[type=checkbox] {
         min-height: 16px !important;
         height: 16px !important;
         min-width: 16px !important;
         width: 16px !important;
         padding: 0 !important;
+        margin-inline-end: 4px !important;
         background-repeat: no-repeat !important;
         background-position: center !important;
         background-size: 16px !important;
-        &:checked {
-            border-color: var(--v-highlight-background-color) !important;
-            background-color: var(--v-highlight-background-color) !important;
-            background-image: url("checkbox.svg") !important;
-        }
-    }
-    .controls > &[type="button"] {
-        color: var(--v-highlight-background-color-hover) !important;
-        font-weight: bold !important;
-        background: none !important;
-        border: none !important;
-        border-bottom: 1px dotted !important;
-        margin-inline: 5px !important;
-        margin-block: 0 !important;
-        padding: 0 !important;
-        height: auto !important;
-        min-height: 1.5em !important;
-        line-height: 1.5em !important;
-        outline: none !important;
-        &:first-child {
-            margin-inline-start: 0 !important;
-        }
-        &:last-child {
-            margin-inline-end: 0 !important;
-        }
-        &:focus, &:hover {
-            border-bottom-style: solid !important;
-            background: none !important;
+        -moz-context-properties: fill, fill-opacity, stroke;
+        fill: var(--v-accent-primary-text-color);
+        &:hover {
+            border-color: var(--v-border-color-hover) !important;
         }
         &:hover:active {
-            color: var(--v-highlight-background-color-active) !important;
-            border-bottom-style: solid !important;
-            background: none !important;
+            border-color: var(--v-border-color-active) !important;
+        }
+        &:checked {
+            border-color: var(--v-accent-primary-color) !important;
+            background-color: var(--v-accent-primary-color) !important;
+            background-image: url("./checkbox.svg") !important;
+            &:hover {
+                border-color: var(--v-accent-primary-color-hover) !important;
+                background-color: var(--v-accent-primary-color-hover) !important;
+            }
+            &:hover:active {
+                border-color: var(--v-accent-primary-color-active) !important;
+                background-color: var(--v-accent-primary-color-active) !important;
+            }
         }
     }
 }
 .title {
-    margin-block: 3px !important;
+    min-height: max(22px, 1.5em) !important;
+    line-height: max(22px, 1.5em) !important;
+    padding-inline: 3px !important;
+    padding-block: 2px !important;
     font-weight: bold !important;
+}
+span {
+    min-height: max(22px, 1.5em) !important;
+    line-height: max(22px, 1.5em) !important;
+    user-select: none !important;
 }
 .groupbox {
     margin-inline: 0 !important;
-    margin-block: 7px !important;
+    margin-block: 0 -1px !important;
     outline: 1px solid var(--v-border-color) !important;
-    outline-offset: 3px !important;
+    outline-offset: -1px !important;
+}
+.mblock {
+    margin-block-end: -1px !important;
+}
+.minline {
+    margin-inline-end: -1px !important;
 }
 label, .select {
     display: flex !important;
@@ -169,16 +200,48 @@ label, .select {
 }
 #header {
     display: flex !important;
+    flex-direction: row !important;
     align-items: end !important;
     justify-content: space-between !important;
     flex-wrap: nowrap !important;
-    margin-bottom: 10px !important;
+    margin-block-end: 10px !important;
 }
 .controls {
     display: flex !important;
+    flex-direction: row !important;
     flex-wrap: nowrap !important;
     user-select: none !important;
     align-items: center !important;
+    &:not(:last-of-type) {
+        margin-inline-end: 16px !important;
+    }
+    input[type=button] {
+        color: var(--v-accent-primary-color) !important;
+        font-weight: bold !important;
+        background: none !important;
+        border: none !important;
+        border-block-end: 1px dotted !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        height: auto !important;
+        min-height: max(22px, 1.5em) !important;
+        line-height: max(22px, 1.5em) !important;
+        outline: none !important;
+        outline-width: 0 !important;
+        &:not(:last-of-type) {
+            margin-inline-end: 8px !important;
+        }
+        &:hover {
+            color: var(--v-accent-primary-color-hover) !important;
+            border-block-end-color: solid !important;
+            background: none !important;
+        }
+        &:hover:active {
+            color: var(--v-accent-primary-color-active) !important;
+            border-block-end-color: solid !important;
+            background: none !important;
+        }
+    }
 }
 .textarea {
     display: flex !important;
@@ -200,7 +263,7 @@ fieldset {
 }
 .gridinput {
     grid-area: a !important;
-    &:not(:checked) + .gridlabel + .gridfieldset {
+    &:not(:checked)+.gridlabel+.gridfieldset {
         opacity: .5 !important;
         pointer-events: none !important;
     }
