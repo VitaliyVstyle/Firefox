@@ -557,14 +557,16 @@ animation-timing-function: step-start !important;`}
                         let sm = xs.getValue(url, id, "sizemode");
                         w = win.openDialog(url, type, `chrome, dialog=no, all, ${(sx && sy) ? `screenX=${sx = Number(sx)}, screenY=${sy = Number(sy)}` : "centerscreen"}, width=${sw}, height=${sh}`);
                         w.opener = { gSubDialog: { _dialogs: [] } };
-                        await new Promise(resolve => w.windowRoot.addEventListener("MozUpdateWindowPos", resolve, { once: true }));
-                        if (sm === "maximized") w.maximize();
-                        else w.moveResize(sx ?? w.screenX, sy ?? w.screenY, sw, sh);
+                        let resize = new Promise(resolve => w.windowRoot.addEventListener("resize", resolve, { once: true }));
+                        await new Promise(resolve => w.windowRoot.addEventListener("DOMDocElementInserted", resolve, { once: true }));
                         let docElt = w.document.documentElement;
                         docElt.id = id;
                         docElt.setAttribute("persist", "screenX screenY width height sizemode lastSelected");
                         docElt.setAttribute("type", "prefwindow");
                         docElt.setAttribute("windowtype", type);
+                        await resize;
+                        if (sm === "maximized") w.maximize();
+                        else w.moveResize(sx ?? w.screenX, sy ?? w.screenY, sw, sh);
                     }
                     w.focus();
                 },
@@ -2162,13 +2164,15 @@ animation-timing-function: step-start !important;`}
             let sh = Number(xs.getValue(url, id, "height") || "500");
             let sm = xs.getValue(url, id, "sizemode");
             w = win.openDialog(url, type, `chrome, dialog=no, all, ${(sx && sy) ? `screenX=${sx = Number(sx)}, screenY=${sy = Number(sy)}` : "centerscreen"}, width=${sw}, height=${sh}`);
-            await new Promise(resolve => w.windowRoot.addEventListener("MozUpdateWindowPos", resolve, { once: true }));
-            if (sm === "maximized") w.maximize();
-            else w.moveResize(sx ?? w.screenX, sy ?? w.screenY, sw, sh);
+            let resize = new Promise(resolve => w.windowRoot.addEventListener("resize", resolve, { once: true }));
+            await new Promise(resolve => w.windowRoot.addEventListener("DOMDocElementInserted", resolve, { once: true }));
             let docElt = w.document.documentElement;
             docElt.id = id;
             docElt.setAttribute("persist", "screenX screenY width height sizemode");
             docElt.setAttribute("windowtype", type);
+            await resize;
+            if (sm === "maximized") w.maximize();
+            else w.moveResize(sx ?? w.screenX, sy ?? w.screenY, sw, sh);
         }
         w.focus();
         var filter = w.document.querySelector("#searchBox");
