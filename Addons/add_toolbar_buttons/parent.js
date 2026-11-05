@@ -545,28 +545,26 @@ animation-timing-function: step-start !important;`}
                     e.stopPropagation();
                     if (e.target != e.currentTarget) return;
                     var win = e.view;
-                    var type = "aTaB:ProxyWin";
+                    var type = "atb:ProxyWin";
                     var w = Services.wm.getMostRecentWindow(type);
                     if (!w) {
-                        let url = "chrome://browser/content/preferences/dialogs/connection.xhtml", id = "ConnectionsWin";
                         let { xulStore: xs } = Services;
-                        let sx = +xs.getValue(url, id, "screenX") || xs.setValue(url, id, "screenX", 1) || 1;
-                        let sy = +xs.getValue(url, id, "screenY") || xs.setValue(url, id, "screenY", 1) || 1;
-                        let wh = +xs.getValue(url, id, "width") || xs.setValue(url, id, "width", 600) || 600;
-                        let ht = +xs.getValue(url, id, "height") || xs.setValue(url, id, "height", 600) || 600;
+                        let url = "chrome://browser/content/preferences/dialogs/connection.xhtml", id = "atbProxyWin";
+                        let sx = xs.getValue(url, id, "screenX") || null;
+                        let sy = xs.getValue(url, id, "screenY") || null;
+                        let sw = Number(xs.getValue(url, id, "width") || "600");
+                        let sh = Number(xs.getValue(url, id, "height") || "600");
                         let sm = xs.getValue(url, id, "sizemode");
-                        w = win.openDialog(url, type, `chrome,dialog=no,resizable,screenX=${sx},screenY=${sy},width=${wh},height=${ht}`);
-                        w.opener = win;
-                        w.opener.gSubDialog = {
-                            _dialogs: []
-                        };
-                        if (sm === "maximized") w.windowRoot.addEventListener("MozUpdateWindowPos", () => w.maximize(), { once: true, capture: true });
-                        await new Promise(resolve => w.windowRoot.addEventListener("DOMContentLoaded", resolve, { once: true }));
-                        let docEl = w.document.documentElement;
-                        docEl.id = id;
-                        docEl.setAttribute("type", "prefwindow");
-                        docEl.setAttribute("windowtype", type);
-                        docEl.setAttribute("persist", "screenX screenY width height sizemode lastSelected");
+                        w = win.openDialog(url, type, `chrome, dialog=no, all, ${(sx && sy) ? `screenX=${sx = Number(sx)}, screenY=${sy = Number(sy)}` : "centerscreen"}, width=${sw}, height=${sh}`);
+                        w.opener = { gSubDialog: { _dialogs: [] } };
+                        await new Promise(resolve => w.windowRoot.addEventListener("MozUpdateWindowPos", resolve, { once: true }));
+                        if (sm === "maximized") w.maximize();
+                        else w.moveResize(sx ?? w.screenX, sy ?? w.screenY, sw, sh);
+                        let docElt = w.document.documentElement;
+                        docElt.id = id;
+                        docElt.setAttribute("persist", "screenX screenY width height sizemode lastSelected");
+                        docElt.setAttribute("type", "prefwindow");
+                        docElt.setAttribute("windowtype", type);
                     }
                     w.focus();
                 },
@@ -2152,31 +2150,32 @@ animation-timing-function: step-start !important;`}
         });
     },
     async viewCookies(win) {
-        var type = "Browser:SiteDataSettings";
+        var type = "atb:SiteData";
         var w = Services.wm.getMostRecentWindow(type);
         if (!w) {
             await win.SiteDataManager.updateSites();
-            let url = "chrome://browser/content/preferences/dialogs/siteDataSettings.xhtml", id = "SiteDataSettingsDialog";
             let { xulStore: xs } = Services;
-            let sx = +xs.getValue(url, id, "screenX") || xs.setValue(url, id, "screenX", 1) || 1;
-            let sy = +xs.getValue(url, id, "screenY") || xs.setValue(url, id, "screenY", 1) || 1;
-            let wh = +xs.getValue(url, id, "width") || xs.setValue(url, id, "width", 600) || 600;
-            let ht = +xs.getValue(url, id, "height") || xs.setValue(url, id, "height", 500) || 500;
+            let url = "chrome://browser/content/preferences/dialogs/siteDataSettings.xhtml", id = "atbSiteData";
+            let sx = xs.getValue(url, id, "screenX") || null;
+            let sy = xs.getValue(url, id, "screenY") || null;
+            let sw = Number(xs.getValue(url, id, "width") || "600");
+            let sh = Number(xs.getValue(url, id, "height") || "500");
             let sm = xs.getValue(url, id, "sizemode");
-            w = win.openDialog(url, type, `chrome,dialog=no,resizable,screenX=${sx},screenY=${sy},width=${wh},height=${ht}`);
-            if (sm === "maximized") w.windowRoot.addEventListener("MozUpdateWindowPos", () => w.maximize(), { once: true, capture: true });
-            await new Promise(resolve => w.windowRoot.addEventListener("DOMContentLoaded", resolve, { once: true }));
-            let docEl = w.document.documentElement;
-            docEl.id = id;
-            docEl.setAttribute("windowtype", type);
-            docEl.setAttribute("persist", "screenX screenY width height sizemode");
+            w = win.openDialog(url, type, `chrome, dialog=no, all, ${(sx && sy) ? `screenX=${sx = Number(sx)}, screenY=${sy = Number(sy)}` : "centerscreen"}, width=${sw}, height=${sh}`);
+            await new Promise(resolve => w.windowRoot.addEventListener("MozUpdateWindowPos", resolve, { once: true }));
+            if (sm === "maximized") w.maximize();
+            else w.moveResize(sx ?? w.screenX, sy ?? w.screenY, sw, sh);
+            let docElt = w.document.documentElement;
+            docElt.id = id;
+            docElt.setAttribute("persist", "screenX screenY width height sizemode");
+            docElt.setAttribute("windowtype", type);
         }
         w.focus();
         var filter = w.document.querySelector("#searchBox");
         if (!filter) return;
         var host = this.getBaseDomain(win, win.gBrowser.selectedBrowser.currentURI);
         filter.value = host;
-        filter.dispatchEvent(new CustomEvent("MozInputSearch:search", { detail: { query: host } }));
+        filter.dispatchEvent(new w.CustomEvent("MozInputSearch:search", { detail: { query: host } }));
     },
     _registerActor() {
         if (this.registerActor) return;

@@ -302,9 +302,9 @@ const ucf = {
                         if (e.button == 0) UcfPrefs.openHavingURI(win, !e.shiftKey ? prefsInfo : "about:ucf-url-data", true);
                         else if (e.button == 1) UcfPrefs.openHavingURI(win, "about:config", true);
                         else if (e.button == 2) {
-                            let prefwin = Services.wm.getMostRecentWindow("ucf_prefs:window");
+                            let prefwin = Services.wm.getMostRecentWindow("ucf:PrefsWin");
                             if (prefwin) prefwin.focus();
-                            else win.openDialog(`${chromeUrl}prefs_win.xhtml`, "ucf_prefs:window", "centerscreen,resizable,dialog=no");
+                            else win.openDialog(`${chromeUrl}prefs_win.xhtml`, "ucf:PrefsWin", "chrome, dialog=no, all, centerscreen");
                         }
                     });
                     btn.style.setProperty("list-style-image", `url("${chromeUrl}svg/prefs.svg")`, "important");

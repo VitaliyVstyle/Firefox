@@ -62,7 +62,7 @@ div {
 }
 ::selection {
     background-color: var(--v-accent-primary-color) !important;
-    color: var(--v-highlight-color) !important;
+    color: var(--v-accent-primary-text-color) !important;
 }
 .info {
     margin: 0 !important;
