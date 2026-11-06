@@ -1,0 +1,1 @@
+override chrome://ucf-url/content/data/cookiesButton/siteDataSettings.xhtml chrome://browser/content/preferences/dialogs/siteDataSettings.xhtml
