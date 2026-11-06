@@ -210,6 +210,20 @@ animation-timing-function: step-start !important;`}
         delete this.SearchService;
         return this.SearchService = (Services.search ?? ChromeUtils.importESModule("moz-src:///toolkit/components/search/SearchService.sys.mjs").SearchService);
     },
+    get aomStartup() {
+        delete this.aomStartup;
+        return this.aomStartup = Cc["@mozilla.org/addons/addon-manager-startup;1"].getService(Ci.amIAddonManagerStartup);
+    },
+    get chromeUrls() {
+        delete this.chromeUrls;
+        var cookies = "chrome://atb-url/content/siteDataSettings.xhtml";
+        var proxy = "chrome://atb-url/content/connection.xhtml";
+        this.chromeOverride = this.aomStartup.registerChrome(this.manifestURI, [
+            ["override", cookies, "chrome://browser/content/preferences/dialogs/siteDataSettings.xhtml"],
+            ["override", proxy, "chrome://browser/content/preferences/dialogs/connection.xhtml"],
+        ]);
+        return this.chromeUrls = { cookies, proxy };
+    },
     obsprefs: [
         "permissions.default.image", "image.animation_mode", "javascript.enabled", "media.autoplay.default",
         "media.volume_scale", "browser.zoom.full", "network.cookie.cookieBehavior", "network.proxy.type"
@@ -243,9 +257,9 @@ animation-timing-function: step-start !important;`}
         branch.setIntPref("obs.soundvolumestep", 2);
         branch.setStringPref("obs.exceptionsidslistset", "");
         branch.setStringPref("obs.exceptionstypelistarr", "");
-        Services.io.getProtocolHandler("resource")
-            .QueryInterface(Ci.nsIResProtocolHandler)
-            .setSubstitution("add_toolbar_buttons", Services.io.newURI(atb_ext.resourceURL));
+        this.chromeHandle = this.aomStartup.registerChrome(this.manifestURI = Services.io.newURI("manifest.json", null, atb_ext.rootURI), [
+            ["content", "atb-url", "./"]
+        ]);
         for (let win of CustomizableUI.windows)
             this.onWindowOpened(win);
         CustomizableUI.addListener(this);
@@ -545,15 +559,15 @@ animation-timing-function: step-start !important;`}
                     e.stopPropagation();
                     if (e.target != e.currentTarget) return;
                     var win = e.view;
-                    var type = "atb:ProxyWin";
+                    var type = "atb:Proxy";
                     var w = Services.wm.getMostRecentWindow(type);
                     if (!w) {
                         let { xulStore: xs } = Services;
-                        let url = "chrome://browser/content/preferences/dialogs/connection.xhtml", id = "atbProxyWin";
+                        let url = this.chromeUrls.proxy, id = "atbProxy";
                         let sx = xs.getValue(url, id, "screenX") || null;
                         let sy = xs.getValue(url, id, "screenY") || null;
-                        let sw = Number(xs.getValue(url, id, "width") || "600");
-                        let sh = Number(xs.getValue(url, id, "height") || "600");
+                        let sw = Number(xs.getValue(url, id, "width") || "750");
+                        let sh = Number(xs.getValue(url, id, "height") || "700");
                         let sm = xs.getValue(url, id, "sizemode");
                         w = win.openDialog(url, type, `chrome, dialog=no, all, ${(sx && sy) ? `screenX=${sx = Number(sx)}, screenY=${sy = Number(sy)}` : "centerscreen"}, width=${sw}, height=${sh}`);
                         w.opener = { gSubDialog: { _dialogs: [] } };
@@ -1582,12 +1596,12 @@ animation-timing-function: step-start !important;`}
                         locale_am = atb_locale.localizeMessage("locale_am"),
                         locale_amup = atb_locale.localizeMessage("locale_amup"),
                         locale_dbg = atb_locale.localizeMessage("locale_dbg");
-                    var img_addons = "resource://add_toolbar_buttons/svg/addons.svg",
-                        img_opts = "resource://add_toolbar_buttons/svg/preferences.svg",
-                        img_copy = "resource://add_toolbar_buttons/svg/copy.svg",
-                        img_open = "resource://add_toolbar_buttons/svg/user-home.svg",
-                        img_view = "resource://add_toolbar_buttons/svg/view.svg",
-                        img_unins = "resource://add_toolbar_buttons/svg/uninstall.svg";
+                    var img_addons = "chrome://atb-url/content/svg/addons.svg",
+                        img_opts = "chrome://atb-url/content/svg/preferences.svg",
+                        img_copy = "chrome://atb-url/content/svg/copy.svg",
+                        img_open = "chrome://atb-url/content/svg/user-home.svg",
+                        img_view = "chrome://atb-url/content/svg/view.svg",
+                        img_unins = "chrome://atb-url/content/svg/uninstall.svg";
                     var addonsMap = new Map();
                     var createGroup = (addon, extension) => {
                         var groop = doc.createXULElement("menugroup");
@@ -2157,11 +2171,11 @@ animation-timing-function: step-start !important;`}
         if (!w) {
             await win.SiteDataManager.updateSites();
             let { xulStore: xs } = Services;
-            let url = "chrome://browser/content/preferences/dialogs/siteDataSettings.xhtml", id = "atbSiteData";
+            let url = this.chromeUrls.cookies, id = "atbSiteData";
             let sx = xs.getValue(url, id, "screenX") || null;
             let sy = xs.getValue(url, id, "screenY") || null;
-            let sw = Number(xs.getValue(url, id, "width") || "600");
-            let sh = Number(xs.getValue(url, id, "height") || "500");
+            let sw = Number(xs.getValue(url, id, "width") || "700");
+            let sh = Number(xs.getValue(url, id, "height") || "550");
             let sm = xs.getValue(url, id, "sizemode");
             w = win.openDialog(url, type, `chrome, dialog=no, all, ${(sx && sy) ? `screenX=${sx = Number(sx)}, screenY=${sy = Number(sy)}` : "centerscreen"}, width=${sw}, height=${sh}`);
             let resize = new Promise(resolve => w.windowRoot.addEventListener("resize", resolve, { once: true }));
@@ -2185,7 +2199,7 @@ animation-timing-function: step-start !important;`}
         if (this.registerActor) return;
         ChromeUtils.registerWindowActor("ATBWinActor", {
             child: {
-                esModuleURI: "resource://add_toolbar_buttons/ATBWinActorChild.mjs",
+                esModuleURI: "chrome://atb-url/content/ATBWinActorChild.mjs",
             },
             allFrames: true,
             safeForUntrustedWebProcess: true,
@@ -2564,7 +2578,7 @@ animation-timing-function: step-start !important;`}
     async stylePreload(type) {
         this.stylePreload = async () => this._stylePreload;
         return this._stylePreload = (async () => {
-            this.styleURI = Services.io.newURI("resource://add_toolbar_buttons/button.css");
+            this.styleURI = Services.io.newURI("chrome://atb-url/content/button.css");
             return this._stylePreload = await this.styleSS.preloadSheetAsync(this.styleURI, type);
         })();
     },
@@ -2623,7 +2637,7 @@ animation-timing-function: step-start !important;`}
     },
     async showAlert() {
         var alertsService = Cc["@mozilla.org/alerts-service;1"].getService(Ci.nsIAlertsService);
-        var defopts = { imageURL: "resource://add_toolbar_buttons/svg/icon_large.svg", silent: true };
+        var defopts = { imageURL: "chrome://atb-url/content/svg/icon_large.svg", silent: true };
         var notification = Components.Constructor("@mozilla.org/alert-notification;1", "nsIAlertNotification");
         var gIdMap = new Map();
         try {
@@ -2667,9 +2681,10 @@ animation-timing-function: step-start !important;`}
         CustomizableUI.removeListener(this);
         for (let win of CustomizableUI.windows)
             this.onWindowClosed(win);
-        Services.io.getProtocolHandler("resource")
-            .QueryInterface(Ci.nsIResProtocolHandler)
-            .setSubstitution("add_toolbar_buttons", null);
+        this.chromeHandle.destruct();
+        this.chromeHandle = null;
+        this.chromeOverride?.destruct();
+        this.chromeOverride = null;
         if (this.registerActor) ChromeUtils.unregisterWindowActor("ATBWinActor");
         this.initialized = false;
     },

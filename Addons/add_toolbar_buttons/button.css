@@ -9,7 +9,7 @@
         }
     }
     &>.atb-combined-buttons-dropmarker {
-        list-style-image: url("resource://add_toolbar_buttons/svg/buttons-for-toolbars-menu.svg") !important;
+        list-style-image: url("chrome://atb-url/content/svg/buttons-for-toolbars-menu.svg") !important;
         fill: var(--toolbarbutton-icon-fill, currentColor) !important;
         toolbar & {
             margin-inline-start: 0 !important;
@@ -31,131 +31,131 @@
     }
 }
 #atb-find-bar {
-    list-style-image: url("resource://add_toolbar_buttons/svg/find-bar.svg") !important;
+    list-style-image: url("chrome://atb-url/content/svg/find-bar.svg") !important;
 }
 #atb-clear-bar {
-    list-style-image: url("resource://add_toolbar_buttons/svg/textfield-magnify.svg") !important;
+    list-style-image: url("chrome://atb-url/content/svg/textfield-magnify.svg") !important;
     fill: light-dark(oklch(50% 0.25 0), oklch(70% 0.25 0)) !important;
 }
 #atb-close-other-tabs {
-    list-style-image: url("resource://add_toolbar_buttons/svg/close-other-tabs.svg") !important;
+    list-style-image: url("chrome://atb-url/content/svg/close-other-tabs.svg") !important;
     fill: light-dark(oklch(50% 0.25 0), oklch(70% 0.25 0)) !important;
 }
 #atb-close-all-tabs {
-    list-style-image: url("resource://add_toolbar_buttons/svg/tab-close-all.svg") !important;
+    list-style-image: url("chrome://atb-url/content/svg/tab-close-all.svg") !important;
     fill: light-dark(oklch(50% 0.25 0), oklch(70% 0.25 0)) !important;
 }
 #atb-about-config {
-    list-style-image: url("resource://add_toolbar_buttons/svg/preferences.svg") !important;
+    list-style-image: url("chrome://atb-url/content/svg/preferences.svg") !important;
 }
 #atb-about-about {
-    list-style-image: url("resource://add_toolbar_buttons/svg/about-about.svg") !important;
+    list-style-image: url("chrome://atb-url/content/svg/about-about.svg") !important;
 }
 #atb-about-downloads {
-    list-style-image: url("resource://add_toolbar_buttons/svg/about-downloads.svg") !important;
+    list-style-image: url("chrome://atb-url/content/svg/about-downloads.svg") !important;
 }
 #atb-clear-data {
-    list-style-image: url("resource://add_toolbar_buttons/svg/clear-data.svg") !important;
+    list-style-image: url("chrome://atb-url/content/svg/clear-data.svg") !important;
 }
 #atb-preferences {
-    list-style-image: url("resource://add_toolbar_buttons/svg/preferences.svg") !important;
+    list-style-image: url("chrome://atb-url/content/svg/preferences.svg") !important;
     fill: light-dark(oklch(62% 0.25 260), oklch(65% 0.25 260)) !important;
 }
 #atb-bottom-page {
-    list-style-image: url("resource://add_toolbar_buttons/svg/bottom-page.svg") !important;
+    list-style-image: url("chrome://atb-url/content/svg/bottom-page.svg") !important;
 }
 #atb-image-toggle {
-    list-style-image: url("resource://add_toolbar_buttons/svg/image-toggle.svg") !important;
+    list-style-image: url("chrome://atb-url/content/svg/image-toggle.svg") !important;
 }
 #atb-image-toggle[activated="2"] {
     fill: light-dark(oklch(50% 0.25 0), oklch(70% 0.25 0)) !important;
 }
 #atb-saveas {
-    list-style-image: url("resource://add_toolbar_buttons/svg/saveas.svg") !important;
+    list-style-image: url("chrome://atb-url/content/svg/saveas.svg") !important;
 }
 #atb-snap-back {
-    list-style-image: url("resource://add_toolbar_buttons/svg/snap-back.svg") !important;
+    list-style-image: url("chrome://atb-url/content/svg/snap-back.svg") !important;
 }
 #atb-snap-back:-moz-locale-dir(rtl)>.toolbarbutton-icon {
     transform: scaleX(-1) !important;
 }
 #atb-top-page {
-    list-style-image: url("resource://add_toolbar_buttons/svg/top-page.svg") !important;
+    list-style-image: url("chrome://atb-url/content/svg/top-page.svg") !important;
 }
 #atb-restart-app {
-    list-style-image: url("resource://add_toolbar_buttons/svg/restart-app.svg") !important;
+    list-style-image: url("chrome://atb-url/content/svg/restart-app.svg") !important;
     fill: light-dark(oklch(60% 0.2 57), oklch(80% 0.2 57)) !important;
 }
 #atb-stop-animation {
-    list-style-image: url("resource://add_toolbar_buttons/svg/stop-animation.svg") !important;
+    list-style-image: url("chrome://atb-url/content/svg/stop-animation.svg") !important;
 }
 #atb-stop-animation[activated="false"] {
-    list-style-image: url("resource://add_toolbar_buttons/svg/stop-animation.svg#false") !important;
+    list-style-image: url("chrome://atb-url/content/svg/stop-animation.svg#false") !important;
 }
 #atb-newtab {
-    list-style-image: url("resource://add_toolbar_buttons/svg/tab-new-background.svg") !important;
+    list-style-image: url("chrome://atb-url/content/svg/tab-new-background.svg") !important;
 }
 #atb-paste-and-go {
-    list-style-image: url("resource://add_toolbar_buttons/svg/go-jump-locationbar.svg") !important;
+    list-style-image: url("chrome://atb-url/content/svg/go-jump-locationbar.svg") !important;
 }
 #atb-copy-and-go {
-    list-style-image: url("resource://add_toolbar_buttons/svg/copy-and-go.svg") !important;
+    list-style-image: url("chrome://atb-url/content/svg/copy-and-go.svg") !important;
 }
 #atb-copy-and-go:-moz-locale-dir(rtl)>.toolbarbutton-icon {
     transform: scaleX(-1) !important;
 }
 #atb-pass-words {
-    list-style-image: url("resource://add_toolbar_buttons/svg/dialog-password.svg") !important;
+    list-style-image: url("chrome://atb-url/content/svg/dialog-password.svg") !important;
 }
 #atb-profilefolder {
-    list-style-image: url("resource://add_toolbar_buttons/svg/user-home.svg") !important;
+    list-style-image: url("chrome://atb-url/content/svg/user-home.svg") !important;
 }
 #atb-down-page {
-    list-style-image: url("resource://add_toolbar_buttons/svg/down-page.svg") !important;
+    list-style-image: url("chrome://atb-url/content/svg/down-page.svg") !important;
 }
 #atb-up-page {
-    list-style-image: url("resource://add_toolbar_buttons/svg/up-page.svg") !important;
+    list-style-image: url("chrome://atb-url/content/svg/up-page.svg") !important;
 }
 #atb-javascript {
-    list-style-image: url("resource://add_toolbar_buttons/svg/javascript.svg") !important;
+    list-style-image: url("chrome://atb-url/content/svg/javascript.svg") !important;
 }
 #atb-javascript[activated="false"] {
     fill: light-dark(oklch(50% 0.25 0), oklch(70% 0.25 0)) !important;
 }
 #atb-autoplay {
-    list-style-image: url("resource://add_toolbar_buttons/svg/autoplay.svg") !important;
+    list-style-image: url("chrome://atb-url/content/svg/autoplay.svg") !important;
 }
 #atb-autoplay[activated="false"],
 #atb-autoplay[activated="5"] {
-    list-style-image: url("resource://add_toolbar_buttons/svg/autoplay.svg#5") !important;
+    list-style-image: url("chrome://atb-url/content/svg/autoplay.svg#5") !important;
 }
 #atb-autoplay[activated="1"] {
-    list-style-image: url("resource://add_toolbar_buttons/svg/autoplay.svg#1") !important;
+    list-style-image: url("chrome://atb-url/content/svg/autoplay.svg#1") !important;
 }
 #atb-cookie-toggle {
-    list-style-image: url("resource://add_toolbar_buttons/svg/cookie.svg") !important;
+    list-style-image: url("chrome://atb-url/content/svg/cookie.svg") !important;
 }
 #atb-cookie-toggle[badge="0"] {
-    list-style-image: url("resource://add_toolbar_buttons/svg/cookie.svg#0") !important;
+    list-style-image: url("chrome://atb-url/content/svg/cookie.svg#0") !important;
 }
 #atb-cookie-toggle[badge="2"] {
     fill: light-dark(oklch(50% 0.25 0), oklch(70% 0.25 0)) !important;
 }
 #atb-zoom-toggle {
-    list-style-image: url("resource://add_toolbar_buttons/svg/zoom-text.svg") !important;
+    list-style-image: url("chrome://atb-url/content/svg/zoom-text.svg") !important;
 }
 #atb-zoom-toggle[activated="false"] {
-    list-style-image: url("resource://add_toolbar_buttons/svg/zoom-text.svg#false") !important;
+    list-style-image: url("chrome://atb-url/content/svg/zoom-text.svg#false") !important;
 }
 #atb-undo-tab {
-    list-style-image: url("resource://add_toolbar_buttons/svg/undo-tab.svg") !important;
+    list-style-image: url("chrome://atb-url/content/svg/undo-tab.svg") !important;
     &:-moz-locale-dir(rtl)>.toolbarbutton-icon {
         transform: scaleX(-1) !important;
     }
 }
 #atb-combined-toggle-proxy {
     &>.atb-combined-buttons-toolbarbutton {
-        list-style-image: url("resource://add_toolbar_buttons/svg/world-network.svg") !important;
+        list-style-image: url("chrome://atb-url/content/svg/world-network.svg") !important;
     }
     &[activated="0"]>.toolbarbutton-1 {
         fill: light-dark(oklch(50% 0.25 0), oklch(70% 0.25 0)) !important;
@@ -171,43 +171,43 @@
     }
 }
 #atb-toggle-styles {
-    list-style-image: url("resource://add_toolbar_buttons/svg/css.svg") !important;
+    list-style-image: url("chrome://atb-url/content/svg/css.svg") !important;
 }
 #atb-open-console {
-    list-style-image: url("resource://add_toolbar_buttons/svg/console.svg") !important;
+    list-style-image: url("chrome://atb-url/content/svg/console.svg") !important;
 }
 #atb-text-to-link {
-    list-style-image: url("resource://add_toolbar_buttons/svg/text-to-link.svg") !important;
+    list-style-image: url("chrome://atb-url/content/svg/text-to-link.svg") !important;
 }
 #atb-addons-manager {
-    list-style-image: url("resource://add_toolbar_buttons/svg/addons.svg") !important;
+    list-style-image: url("chrome://atb-url/content/svg/addons.svg") !important;
     fill: light-dark(oklch(76% 0.17 160), oklch(83% 0.17 160)) !important;
 }
 #atb-open-file {
-    list-style-image: url("resource://add_toolbar_buttons/svg/open.svg") !important;
+    list-style-image: url("chrome://atb-url/content/svg/open.svg") !important;
 }
 #atb-saveas {
-    list-style-image: url("resource://add_toolbar_buttons/svg/saveas.svg") !important;
+    list-style-image: url("chrome://atb-url/content/svg/saveas.svg") !important;
 }
 #atb-reduce {
-    list-style-image: url("resource://add_toolbar_buttons/svg/zoom-out.svg") !important;
+    list-style-image: url("chrome://atb-url/content/svg/zoom-out.svg") !important;
 }
 #atb-enlarge {
-    list-style-image: url("resource://add_toolbar_buttons/svg/zoom-in.svg") !important;
+    list-style-image: url("chrome://atb-url/content/svg/zoom-in.svg") !important;
 }
 #atb-sound-muted-all-tabs {
-    list-style-image: url("resource://add_toolbar_buttons/svg/sound.svg") !important;
+    list-style-image: url("chrome://atb-url/content/svg/sound.svg") !important;
 }
 #atb-combined-bookmarks-mgr {
     &>.atb-combined-buttons-toolbarbutton {
-        list-style-image: url("resource://add_toolbar_buttons/svg/bookmarks-mgr.svg") !important;
+        list-style-image: url("chrome://atb-url/content/svg/bookmarks-mgr.svg") !important;
     }
     &[activated="false"]>.toolbarbutton-1 {
         fill: light-dark(oklch(50% 0.25 0), oklch(70% 0.25 0)) !important;
     }
 }
 #atb-ext-option-menu {
-    list-style-image: url("resource://add_toolbar_buttons/svg/addons.svg") !important;
+    list-style-image: url("chrome://atb-url/content/svg/addons.svg") !important;
 }
 #atb-bookmarks-mgr-popup {
     &>menugroup {
@@ -280,7 +280,7 @@
                 padding-inline: 0 !important;
                 flex: 1 !important;
                 max-width: var(--v-max-width-item) !important;
-                --menuitem-icon: url("resource://add_toolbar_buttons/svg/addons.svg") !important;
+                --menuitem-icon: url("chrome://atb-url/content/svg/addons.svg") !important;
                 list-style-image: var(--menuitem-icon) !important;
                 &>.menu-icon {
                     margin-inline-start: 0 !important;
