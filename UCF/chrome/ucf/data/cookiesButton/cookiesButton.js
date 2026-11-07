@@ -24,9 +24,13 @@
     },
     get chromeUrl() {
         delete this.chromeUrl;
-        Components.manager.QueryInterface(Ci.nsIComponentRegistrar).autoRegister(Cc["@mozilla.org/chrome/chrome-registry;1"].getService(Ci.nsIChromeRegistry)
-            .convertChromeURL(Services.io.newURI("chrome://ucf-url/content/data/cookiesButton/cookiesButton.manifest")).QueryInterface(Ci.nsIFileURL).file);
-        return this.chromeUrl = "chrome://ucf-url/content/data/cookiesButton/siteDataSettings.xhtml";
+        var cookies = "chrome://ucf-url/content/data/cookiesButton/siteDataSettings.xhtml";
+        this.chromeOverride = Cc["@mozilla.org/addons/addon-manager-startup;1"].getService(Ci.amIAddonManagerStartup)
+            .registerChrome(Services.io.newFileURI(Cc["@mozilla.org/chrome/chrome-registry;1"].getService(Ci.nsIChromeRegistry)
+                .convertChromeURL(Services.io.newURI("chrome://ucf-url/content/data/cookiesButton/chrome.manifest")).QueryInterface(Ci.nsIFileURL).file), [
+                ["override", cookies, "chrome://browser/content/preferences/dialogs/siteDataSettings.xhtml"],
+            ]);
+        return this.chromeUrl = cookies;
     },
     id, type: "custom", label, tooltiptext, defaultArea: "nav-bar", localized: false,
     onBuild(doc) {
