@@ -15,6 +15,10 @@ var lgltck = {
         delete this.timer;
         return this.timer = Cc["@mozilla.org/timer;1"].createInstance(Ci.nsITimer);
     },
+    get aomStartup() {
+        delete this.aomStartup;
+        return this.aomStartup = Cc["@mozilla.org/addons/addon-manager-startup;1"].getService(Ci.amIAddonManagerStartup);
+    },
     init() {
         var branch = Services.prefs.getDefaultBranch(llc_branch);
         branch.setBoolPref("enableChrome", true);
@@ -56,15 +60,15 @@ var lgltck = {
         wsMap.delete(win);
     },
     async registerContent() {
-        Services.io.getProtocolHandler("resource")
-            .QueryInterface(Ci.nsIResProtocolHandler)
-            .setSubstitution("long_left_click", Services.io.newURI(extension.resourceURL));
+        this.chromeHandle = this.aomStartup.registerChrome(Services.io.newURI("manifest.json", null, extension.rootURI), [
+            ["content", "llc-url", "./"]
+        ]);
         ChromeUtils.registerWindowActor("LLCWinActor", {
             parent: {
-                esModuleURI: "resource://long_left_click/LLCWinActorParent.mjs",
+                esModuleURI: "chrome://llc-url/content/LLCWinActorParent.mjs",
             },
             child: {
-                esModuleURI: "resource://long_left_click/LLCWinActorChild.mjs",
+                esModuleURI: "chrome://llc-url/content/LLCWinActorChild.mjs",
                 events: {
                     mousedown: { capture: true },
                     mouseup: { capture: true },
@@ -83,7 +87,7 @@ var lgltck = {
             localized: false,
             defaultArea: CustomizableUI.AREA_NAVBAR,
             onCreated(btn) {
-                btn.style.setProperty("list-style-image", 'url("resource://long_left_click/svg/long-click.svg")', "important");
+                btn.style.setProperty("list-style-image", 'url("chrome://llc-url/content/svg/long-click.svg")', "important");
             },
             async onCommand(e) {
                 if (lgltck.runningclick) return;
@@ -97,9 +101,8 @@ var lgltck = {
     async unregisterContent() {
         ChromeUtils.unregisterWindowActor("LLCWinActor");
         CustomizableUI.destroyWidget("llc-image-page");
-        Services.io.getProtocolHandler("resource")
-            .QueryInterface(Ci.nsIResProtocolHandler)
-            .setSubstitution("long_left_click", null);
+        this.chromeHandle.destruct();
+        this.chromeHandle = null;
     },
     callWindows(func) {
         for (let win of CustomizableUI.windows)
