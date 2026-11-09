@@ -2,7 +2,7 @@ ChromeUtils.defineLazyGetter(this, "FilePath", () => Components.Constructor("@mo
 ChromeUtils.defineLazyGetter(this, "ProcessInit", () => Components.Constructor("@mozilla.org/process/util;1", Ci.nsIProcess, "init"));
 
 this.AsyncRunApp = class extends ExtensionAPI {
-    getAPI({extension}) {
+    getAPI({ extension }) {
         return {
             AsyncRunApp: {
                 get ProfD() {
@@ -17,7 +17,7 @@ this.AsyncRunApp = class extends ExtensionAPI {
                         return this.DfltDwnld = Services.dirsvc.get("Desk", Ci.nsIFile).path;
                     }
                 },
-                async runApp({path, args = "", clipboard, lastfpdir}, info, tab) {
+                async runApp({ path, args = "", clipboard, lastfpdir }, info, tab) {
                     try {
                         let file = new FilePath(path);
                         if (!file.exists()) return;
@@ -62,7 +62,7 @@ this.AsyncRunApp = class extends ExtensionAPI {
                             process.runwAsync(args, args.length);
                             if (fpdir && (lastfpdir !== fpdir)) return fpdir;
                         } else file.launch();
-                    } catch (e) {console.warn(e);}
+                    } catch (e) { console.warn(e); }
                 },
                 filePicker(winid, str, mode = "modeOpen", lastfpdir) {
                     return new Promise(resolve => {
@@ -94,7 +94,7 @@ this.AsyncRunApp = class extends ExtensionAPI {
                     var trans = Cc["@mozilla.org/widget/transferable;1"].createInstance(Ci.nsITransferable);
                     trans.init(extension.windowManager.get(winid).window.docShell.QueryInterface(Ci.nsILoadContext));
                     trans.addDataFlavor("text/plain");
-                    var {clipboard} = Services, data = {}, url = "";
+                    var { clipboard } = Services, data = {}, url = "";
                     clipboard.getData(trans, clipboard.kGlobalClipboard);
                     trans.getTransferData("text/plain", data);
                     if (data.value) url = data.value.QueryInterface(Ci.nsISupportsString).data.trim();

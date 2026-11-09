@@ -158,7 +158,11 @@ function createItem(elm, val = "", cls, type) {
     }
     return item;
 };
-const initOptions = async () => {
+(async () => {
+    document.head.children[1].textContent = browser.i18n.getMessage("pageTitleOption");
+    var locales = document.querySelectorAll("[data-locale]");
+    for (let loc of locales)
+        loc.textContent = browser.i18n.getMessage(`${loc.dataset.locale}`);
     var prefs = await browser.storage.local.get();
     if (Object.keys(prefs).length !== 2) {
         prefs.app_array ??= [];
@@ -171,12 +175,4 @@ const initOptions = async () => {
     iconsInMenu.onchange = iconsChange;
     iconsInMenu.checked = !!prefs.app_icons;
     iconsInMenu.toggleAttribute("checked", !!prefs.app_icons);
-};
-const initLoad = () => {
-    document.head.children[1].textContent = browser.i18n.getMessage("pageTitleOption");
-    var locales = document.querySelectorAll("[data-locale]");
-    for (let loc of locales)
-        loc.textContent = browser.i18n.getMessage(`${loc.dataset.locale}`);
-    initOptions();
-};
-initLoad();
+})();

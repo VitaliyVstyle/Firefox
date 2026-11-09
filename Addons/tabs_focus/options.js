@@ -4,7 +4,7 @@ const saveForm = () => {
         arr.push([inp.dataset.pref, inp.type === "checkbox" ? inp.checked : (inp.type === "number" ? +inp.value : inp.value)]);
     browser.TabsFocus.setPrefs(arr);
 }
-const initOptions = async () => {
+(async () => {
     document.head.children[1].textContent = browser.i18n.getMessage("pageTitleOption");
     for (let loc of document.querySelectorAll("[data-locale]"))
         loc[(loc.value === undefined || loc.localName === "option") ? "textContent" : "value"] = browser.i18n.getMessage(`${loc.dataset.locale}`);
@@ -19,5 +19,4 @@ const initOptions = async () => {
         } else inp.value = nv[1];
     }
     document.querySelector("#saveform").onclick = saveForm;
-};
-initOptions();
+})();

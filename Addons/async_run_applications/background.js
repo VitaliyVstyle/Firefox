@@ -58,7 +58,8 @@ browser.runtime.onStartup.addListener(handleStartup);
 browser.runtime.onMessage.addListener(handleMessage);
 browser.runtime.onSuspend.addListener(handleSuspend);
 browser.menus.onClicked.addListener(handleClicked);
-browser.storage.session.get().then(async prefs => {
+(async () => {
+    var prefs = await browser.storage.session.get();
     if ("app_array" in prefs) {
         if (prefs.app_array.length) _menuCreated = true;
         return;
@@ -69,4 +70,4 @@ browser.storage.session.get().then(async prefs => {
     });
     browser.storage.session.set(prefs);
     updateMenus(prefs);
-});
+})();

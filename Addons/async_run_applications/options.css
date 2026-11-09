@@ -143,23 +143,23 @@ input, textarea, button {
             fill: currentColor;
         }
         &.up::before {
-            background-image: url("svg/up.svg");
+            background-image: url("./svg/up.svg");
         }
         &.down::before {
-            background-image: url("svg/down.svg");
+            background-image: url("./svg/down.svg");
         }
         &.choose::before {
-            background-image: url("svg/choose.svg");
+            background-image: url("./svg/choose.svg");
         }
         &.save::before {
-            background-image: url("svg/save.svg");
+            background-image: url("./svg/save.svg");
         }
         &.delete::before {
-            background-image: url("svg/del.svg");
+            background-image: url("./svg/del.svg");
             fill: var(--v-error-color);
         }
         &.expand::before {
-            background-image: url("svg/expand.svg");
+            background-image: url("./svg/expand.svg");
         }
         &:hover {
             border-color: var(--v-border-color) !important;
