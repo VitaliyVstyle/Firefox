@@ -7,6 +7,7 @@
     --button-background-color: oklch(from currentColor l c h / 0.12) !important;
     --button-background-color-hover: oklch(from currentColor l c h / 0.2) !important;
     --button-background-color-active: oklch(from currentColor l c h / 0.1) !important;
+    --button-border-color: oklch(from currentColor l c h / 0.25) !important;
     --error-text-color: oklch(70% 0.3 0) !important;
     --input-color: oklch(77% 0.02 285) !important;
     --input-error-border-color: var(--error-text-color) !important;
