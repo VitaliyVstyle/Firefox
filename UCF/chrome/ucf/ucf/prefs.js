@@ -80,7 +80,7 @@ const openFileOrDir = async (file, ppath, pargs) => {
         process.runwAsync(args, args.length);
     } else file.launch();
 };
-const initOptions = () => {
+(() => {
     var l10n = UcfPrefs.getDOMLocalization("ucf/locales", "prefs.ftl");
     l10n.connectRoot(document.documentElement);
     l10n.translateRoots();
@@ -101,5 +101,4 @@ const initOptions = () => {
         Services.obs.removeObserver(Change, UcfPrefs.TOPIC_PREFS);
         l10n.disconnectRoot(document.documentElement);
     }, { once: true });
-};
-initOptions();
+})();

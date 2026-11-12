@@ -109,11 +109,6 @@
         #trustpanel-header-section {
             padding-block-end: 0 !important;
         }
-        moz-button {
-            --button-border: none !important;
-            --button-padding: 0 var(--v-menupopup-label-inline) !important;
-            --button-min-height: var(--v-panel-item-min-height) !important;
-        }
     }
     menupopup {
         --panel-padding-block: 0px !important;
