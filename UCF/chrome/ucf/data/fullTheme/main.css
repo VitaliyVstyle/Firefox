@@ -60,6 +60,7 @@
     --urlbar-input-container-border-width: 1px !important;
     --urlbar-input-container-border-width-breakout: 1px !important;
     --urlbar-component-gap: 0px !important;
+    --urlbar-basic-component-size: auto !important;
     --identity-box-margin-inline: 4px !important;
     --urlbarView-padding: 0px !important;
     --urlbarView-results-padding: 0px !important;
@@ -525,6 +526,9 @@ findbar {
                 height: auto !important;
                 align-self: stretch !important;
             }
+            #notification-popup-box {
+                height: auto !important;
+            }
         }
         .urlbar-go-button,
         .search-go-button {
@@ -626,6 +630,9 @@ findbar {
     }
     .urlbar-input {
         line-height: calc(var(--urlbar-height) - 2 * var(--urlbar-input-container-border-width)) !important;
+    }
+    #userContext-icons {
+        --border-radius-circle: var(--border-radius-large);
     }
 }
 #PopupAutoComplete>richlistbox {
